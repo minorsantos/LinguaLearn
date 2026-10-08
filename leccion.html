@@ -26,7 +26,12 @@
     }
   </script>
 </head>
-<body class="lesson-canvas">
+<body class="lesson-canvas preload-theme">
+  <script>
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
 
   <!-- BARRA DE ACCESIBILIDAD SUPERIOR (WCAG 2.2 AAA) -->
   <aside class="accessibility-topbar canvas-topbar-warm py-1 anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">

@@ -26,7 +26,12 @@
     }
   </script>
 </head>
-<body class="community-canvas">
+<body class="community-canvas preload-theme">
+  <script>
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
 
   <!-- BARRA SUPERIOR DE ACCESIBILIDAD CON VIDRIO ESMERILADO CÁLIDO -->
   <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">

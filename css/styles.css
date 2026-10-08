@@ -4958,3 +4958,13 @@ body.dark-mode:not(.page-inicio) .filter-chip-btn.active {
               inset 0 1px 3px rgba(255, 255, 255, 0.15) !important;
   color: #ffffff !important;
 }
+
+/* Prevenir transiciones en la carga de la página */
+body.preload-theme,
+body.preload-theme * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}

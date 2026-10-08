@@ -202,7 +202,12 @@
     }
   </style>
 </head>
-<body class="page-inicio">
+<body class="page-inicio preload-theme">
+  <script>
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
 
   <!-- BARRA DISCRETA DE ACCESIBILIDAD UNIVERSAL (WCAG 2.2 AAA) -->
   <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">

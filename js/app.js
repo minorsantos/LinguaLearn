@@ -620,6 +620,11 @@
 
   // Inicializar al cargar
   document.addEventListener('DOMContentLoaded', () => {
+  // Remover preload-theme despues de la primera carga para permitir transiciones
+  setTimeout(() => {
+    document.body.classList.remove('preload-theme');
+  }, 100);
+
     syncHeaderStats();
     setupAuthForms();
     setupPageTransitions();

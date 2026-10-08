@@ -84,7 +84,12 @@
     }
   </style>
 </head>
-<body class="subscription-canvas">
+<body class="subscription-canvas preload-theme">
+  <script>
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
 
   <!-- BARRA SUPERIOR DE ACCESIBILIDAD CON VIDRIO ESMERILADO CÁLIDO -->
   <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">
