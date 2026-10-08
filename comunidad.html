@@ -702,6 +702,95 @@
     </div>
   </div>
 
+  
+  <!-- MODAL DE VIDEOCONFERENCIA CON IA (NUEVA SALA) -->
+  <div class="modal fade" id="modal-ai-videoroom" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content card-custom test-card-glass border-0" style="background: rgba(246, 240, 228, 0.95) !important;">
+        <div class="modal-header border-0 pb-2 px-4 mt-3">
+          <div class="d-flex align-items-center gap-3">
+            <span class="badge bg-primary px-3 py-2 rounded-pill small fw-bold">
+              <span class="pulse-live-dot" style="background-color: white;"></span> SALA DE APRENDIZAJE IA
+            </span>
+            <h2 class="h5 modal-title fw-bold text-dark" id="ai-videoroom-title">Conversación Abierta</h2>
+          </div>
+          <button type="button" class="btn btn-outline-danger rounded-pill fw-bold px-4" id="btn-leave-ai-room">
+            <i class="bi bi-box-arrow-right me-1"></i> Salir de la sala
+          </button>
+        </div>
+
+        <div class="modal-body p-4 d-flex flex-column" style="overflow-y: hidden;">
+          <div class="row h-100 g-4">
+            <!-- Columna Izquierda: Videoconferencia (Avatar grande) -->
+            <div class="col-lg-8 h-100 d-flex flex-column">
+              <div class="flex-grow-1 position-relative rounded-4 overflow-hidden shadow-sm d-flex justify-content-center align-items-center" style="background: linear-gradient(135deg, #1a2a3a, #101924);">
+                <!-- Avatar de IA -->
+                <div class="text-center">
+                  <div class="position-relative d-inline-block mb-3">
+                    <img src="https://ui-avatars.com/api/?name=IA&background=0D8ABC&color=fff&size=128" alt="LinguaBot" class="rounded-circle border border-4 border-primary shadow-lg" width="160" height="160" style="object-fit: cover;">
+                    <div id="ai-speaking-indicator" class="position-absolute bottom-0 end-0 bg-primary rounded-circle d-none" style="width: 32px; height: 32px; padding: 6px;">
+                      <div class="audio-waves-container w-100 h-100" style="min-height: auto; align-items: center;">
+                        <span class="audio-wave-bar bg-white mx-1" style="width: 2px; height: 100%;"></span>
+                        <span class="audio-wave-bar bg-white mx-1" style="width: 2px; height: 60%;"></span>
+                        <span class="audio-wave-bar bg-white mx-1" style="width: 2px; height: 80%;"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <h3 class="h4 text-white fw-bold mb-1">LinguaBot IA</h3>
+                  <div class="text-white-50 small"><i class="bi bi-robot"></i> Asistente de Aprendizaje</div>
+                </div>
+                
+                <!-- Tu cámara (simulada) -->
+                <div class="position-absolute bottom-0 end-0 m-4 rounded-3 overflow-hidden shadow" style="width: 200px; height: 150px; background: #000; border: 2px solid rgba(255,255,255,0.2);">
+                  <div class="w-100 h-100 d-flex justify-content-center align-items-center bg-secondary">
+                    <i class="bi bi-person-video2 text-white fs-1 opacity-50"></i>
+                    <div class="position-absolute bottom-0 start-0 m-2 badge bg-dark bg-opacity-75">Tú</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Controles de videoconferencia -->
+              <div class="d-flex justify-content-center gap-3 mt-4">
+                <button class="btn btn-secondary rounded-circle p-3 shadow" style="width: 64px; height: 64px;" id="ai-btn-camera">
+                  <i class="bi bi-camera-video-off fs-4"></i>
+                </button>
+                <button class="btn btn-primary rounded-circle p-3 shadow" style="width: 64px; height: 64px;" id="ai-btn-mic" title="Presiona para hablar">
+                  <i class="bi bi-mic-fill fs-4" id="ai-mic-icon"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Columna Derecha: Chat y Ejercicios -->
+            <div class="col-lg-4 h-100 d-flex flex-column">
+              <div class="card-custom dashboard-card-glass flex-grow-1 d-flex flex-column overflow-hidden h-100 border-0 shadow-sm">
+                <!-- Chat History -->
+                <div class="flex-grow-1 p-3 overflow-auto" id="ai-chat-history" style="background: rgba(255,255,255,0.5);">
+                  <!-- Mensaje inicial -->
+                  <div class="d-flex align-items-start gap-2 mb-3">
+                    <img src="https://ui-avatars.com/api/?name=IA&background=0D8ABC&color=fff" width="32" class="rounded-circle">
+                    <div class="bg-white p-2 px-3 rounded-3 shadow-sm text-dark small" style="border-top-left-radius: 0;">
+                      ¡Hola! Soy LinguaBot. He creado esta sala para ti. ¿De qué te gustaría hablar o qué te gustaría aprender hoy?
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Input de chat -->
+                <div class="p-3 bg-white border-top">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="ai-chat-input" placeholder="Escribe un mensaje o usa el micro...">
+                    <button class="btn btn-primary" id="ai-btn-send-chat">
+                      <i class="bi bi-send-fill"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- PIE DE PÁGINA ACCESIBLE -->
   <footer class="footer-accessible dashboard-footer-warm anim-cascade stagger-9">
     <div class="container-xl">
@@ -991,8 +1080,9 @@
         const modalCreateEl = bootstrap.Modal.getInstance(document.getElementById('modal-create-room'));
         if (modalCreateEl) modalCreateEl.hide();
 
-        document.getElementById('modalAudioRoomLabel').textContent = title;
-        modalAudioEl.show();
+        document.getElementById('ai-videoroom-title').textContent = title;
+        const aiModal = new bootstrap.Modal(document.getElementById('modal-ai-videoroom'));
+        aiModal.show();
       });
 
     })();
