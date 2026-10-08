@@ -4968,3 +4968,6 @@ body.preload-theme * {
   -o-transition: none !important;
   transition: none !important;
 }
+
+.dashed-border { border-style: dashed !important; border-width: 2px !important; }
+

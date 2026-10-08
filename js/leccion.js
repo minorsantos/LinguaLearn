@@ -7,95 +7,86 @@
 
 (function () {
   'use strict';
+let LESSON_EXERCISES = [];
 
-  // Banco de 5 ejercicios variados con ilustraciones y vocabulario contextual
-  const LESSON_EXERCISES = [
+  const POOL_EXERCISES = [
     {
-      id: 1,
-      word: 'apple',
-      wordDisplay: 'apple',
-      ipa: "/'æp.əl/",
-      category: 'Alimentos y Frutas · Vocabulario Esencial',
-      instruction: 'Selecciona la palabra correcta:',
-      image: 'assets/apple_vector.png',
-      imageAlt: 'Ilustración vectorial de una manzana roja fresca con hoja verde',
-      options: [
-        { text: 'casa', iconLeft: 'sphinx', iconRight: 'pagoda', isCorrect: false },
-        { text: 'manzana', iconLeft: 'pagoda', iconRight: 'apple', isCorrect: true },
-        { text: 'perro', iconLeft: 'taco', iconRight: 'taco', isCorrect: false }
-      ],
-      explanation: '¡Excelente! "Apple" /\'æp.əl/ significa manzana en español. Sustantivo contable fundamental.',
-      phraseSample: 'An apple a day keeps the doctor away.'
+      id: 1, type: 'multiple_choice', wordDisplay: 'apple',
+      instruction: 'Selecciona la traducción correcta para:',
+      image: 'assets/apple_vector.png', imageAlt: 'Manzana roja',
+      options: [{text:'casa',isCorrect:false}, {text:'manzana',isCorrect:true}, {text:'perro',isCorrect:false}],
+      explanation: '¡Excelente! "Apple" significa manzana en español.', phraseSample: 'An apple a day keeps the doctor away.'
     },
     {
-      id: 2,
-      word: 'coffee',
-      wordDisplay: 'coffee',
-      ipa: "/'kɒf.i/",
-      category: 'Cafetería & Encuentros Urbanos',
-      instruction: 'Selecciona la palabra correcta para la bebida:',
-      image: 'assets/leccion_coffee.jpg',
-      imageAlt: 'Taza de café humeante en tono terracota y crema',
+      id: 2, type: 'image_grid', wordDisplay: 'coffee',
+      instruction: 'Selecciona la imagen que representa:',
       options: [
-        { text: 'té', iconLeft: 'pagoda', iconRight: 'sphinx', isCorrect: false },
-        { text: 'café', iconLeft: 'taco', iconRight: 'apple', isCorrect: true },
-        { text: 'jugo', iconLeft: 'sphinx', iconRight: 'pagoda', isCorrect: false }
+        {image:'assets/leccion_airplane.jpg', text:'airplane', isCorrect:false},
+        {image:'assets/leccion_coffee.jpg', text:'coffee', isCorrect:true},
+        {image:'assets/leccion_book.jpg', text:'book', isCorrect:false},
+        {image:'assets/leccion_dog.jpg', text:'dog', isCorrect:false}
       ],
-      explanation: '¡Muy bien! "Coffee" /\'kɒf.i/ es la infusión aromática más popular en cafeterías europeas.',
-      phraseSample: 'Could I please order a fresh cup of coffee?'
+      explanation: '¡Muy bien! "Coffee" es café.', phraseSample: 'I need a cup of coffee.'
     },
     {
-      id: 3,
-      word: 'airplane',
-      wordDisplay: 'airplane',
-      ipa: "/'eə.pleɪn/",
-      category: 'Viajes, Rutas & Globe Navigator',
+      id: 3, type: 'unscramble', wordDisplay: 'Frase desordenada',
+      instruction: 'Ordena las palabras para formar la frase: "Yo leo un libro"',
+      words: ['read', 'book', 'I', 'a'], correctOrder: ['I', 'read', 'a', 'book'],
+      explanation: '¡Perfecto! El orden es Sujeto + Verbo + Artículo + Sustantivo.', phraseSample: 'I read a book.'
+    },
+    {
+      id: 4, type: 'match_pairs', wordDisplay: 'Pares',
+      instruction: 'Une la palabra en inglés con su traducción:',
+      pairs: [{en:'dog', es:'perro'}, {en:'cat', es:'gato'}, {en:'bird', es:'pájaro'}, {en:'fish', es:'pez'}],
+      explanation: '¡Brillante! Has unido todos los pares correctamente.', phraseSample: 'A loyal dog is a great friend.'
+    },
+    {
+      id: 5, type: 'multiple_choice', wordDisplay: 'airplane',
       instruction: '¿Cuál es el medio de transporte mostrado?:',
-      image: 'assets/leccion_airplane.jpg',
-      imageAlt: 'Avión de pasajeros surcando el cielo en estilo de viaje',
-      options: [
-        { text: 'avión', iconLeft: 'sphinx', iconRight: 'pagoda', isCorrect: true },
-        { text: 'tren', iconLeft: 'taco', iconRight: 'taco', isCorrect: false },
-        { text: 'barco', iconLeft: 'pagoda', iconRight: 'apple', isCorrect: false }
-      ],
-      explanation: '¡Perfecto! "Airplane" /\'eə.pleɪn/ es el transporte aéreo para conectar destinos en Globe Navigator.',
-      phraseSample: 'The airplane will depart directly for Rome at noon.'
+      image: 'assets/leccion_airplane.jpg', imageAlt: 'Avión de pasajeros',
+      options: [{text:'avión',isCorrect:true}, {text:'tren',isCorrect:false}, {text:'barco',isCorrect:false}],
+      explanation: '¡Maravilloso! "Airplane" es avión.', phraseSample: 'The airplane departs at noon.'
     },
     {
-      id: 4,
-      word: 'book',
-      wordDisplay: 'book',
-      ipa: "/bʊk/",
-      category: 'Educación & Hábitos de Estudio',
-      instruction: 'Selecciona la palabra correcta para el objeto:',
-      image: 'assets/leccion_book.jpg',
-      imageAlt: 'Libro abierto encuadernado con marcapáginas',
-      options: [
-        { text: 'mesa', iconLeft: 'taco', iconRight: 'pagoda', isCorrect: false },
-        { text: 'pluma', iconLeft: 'sphinx', iconRight: 'taco', isCorrect: false },
-        { text: 'libro', iconLeft: 'pagoda', iconRight: 'apple', isCorrect: true }
-      ],
-      explanation: '¡Brillante! "Book" /bʊk/ representa la lectura y el hábito de inmersión diaria de 5 minutos.',
-      phraseSample: 'I love reading an English book every evening.'
+      id: 6, type: 'unscramble', wordDisplay: 'Frase desordenada',
+      instruction: 'Ordena las palabras para formar la frase: "El perro corre rápido"',
+      words: ['fast', 'The', 'runs', 'dog'], correctOrder: ['The', 'dog', 'runs', 'fast'],
+      explanation: '¡Excelente! Estructura básica completada.', phraseSample: 'The dog runs fast.'
     },
     {
-      id: 5,
-      word: 'dog',
-      wordDisplay: 'dog',
-      ipa: "/dɒɡ/",
-      category: 'Compañía & Vida Diaria',
-      instruction: '¿Qué animal de compañía es el que ves?:',
-      image: 'assets/leccion_dog.jpg',
-      imageAlt: 'Cachorro amigable y sonriente en tonos terracota',
+      id: 7, type: 'image_grid', wordDisplay: 'dog',
+      instruction: 'Selecciona la imagen correspondiente a:',
       options: [
-        { text: 'gato', iconLeft: 'sphinx', iconRight: 'taco', isCorrect: false },
-        { text: 'perro', iconLeft: 'pagoda', iconRight: 'apple', isCorrect: true },
-        { text: 'pájaro', iconLeft: 'taco', iconRight: 'pagoda', isCorrect: false }
+        {image:'assets/leccion_dog.jpg', text:'dog', isCorrect:true},
+        {image:'assets/leccion_book.jpg', text:'book', isCorrect:false},
+        {image:'assets/apple_vector.png', text:'apple', isCorrect:false},
+        {image:'assets/leccion_coffee.jpg', text:'coffee', isCorrect:false}
       ],
-      explanation: '¡Maravilloso! "Dog" /dɒɡ/ es el sustantivo correcto para perro. ¡Has completado los 5 retos!',
-      phraseSample: 'A loyal dog makes the best companion on any adventure.'
+      explanation: '¡Muy bien! "Dog" es perro.', phraseSample: 'My dog is very playful.'
+    },
+    {
+      id: 8, type: 'match_pairs', wordDisplay: 'Pares',
+      instruction: 'Encuentra los opuestos:',
+      pairs: [{en:'hot', es:'frío'}, {en:'big', es:'pequeño'}, {en:'fast', es:'lento'}], 
+      // Wait, pairs should match meaning for consistency, not opposites unless we change instructions.
+      // Let's do normal pairs.
+      pairs: [{en:'apple', es:'manzana'}, {en:'book', es:'libro'}, {en:'coffee', es:'café'}, {en:'airplane', es:'avión'}],
+      explanation: '¡Increíble memoria! Completaste todos los pares.', phraseSample: 'I drink coffee while reading a book.'
     }
   ];
+
+  function initLesson() {
+    // Escoger 5 ejercicios aleatorios
+    const shuffled = [...POOL_EXERCISES].sort(() => Math.random() - 0.5);
+    LESSON_EXERCISES = shuffled.slice(0, 5);
+    
+    loadUserDataFromStorage();
+    renderCurrentExercise();
+    setupGlobalEvents();
+  }
+
+  // Banco de 5 ejercicios variados con ilustraciones y vocabulario contextual
+  
 
   // Estado reactivo de la lección
   let currentExerciseIndex = 0;
@@ -208,11 +199,7 @@
   }
 
   // Carga e inicialización de la lección
-  function initLesson() {
-    loadUserDataFromStorage();
-    renderCurrentExercise();
-    setupGlobalEvents();
-  }
+  
 
   function loadUserDataFromStorage() {
     if (window.LinguaApp && window.LinguaApp.getUser) {
@@ -230,12 +217,19 @@
   }
 
   // Renderiza el ejercicio actual en pantalla
+  
+  let unscrambleSelected = [];
+  let matchedPairs = [];
+  let currentPairSelection = { en: null, es: null };
+
   function renderCurrentExercise() {
     const ex = LESSON_EXERCISES[currentExerciseIndex];
     selectedOptionIndex = -1;
     hasEvaluated = false;
+    unscrambleSelected = [];
+    matchedPairs = [];
+    currentPairSelection = { en: null, es: null };
 
-    // Progreso
     const total = LESSON_EXERCISES.length;
     const currentNum = currentExerciseIndex + 1;
     const pct = (currentNum / total) * 100;
@@ -245,136 +239,226 @@
     if (progressFill) progressFill.style.width = `${pct}%`;
     if (progressCount) progressCount.textContent = `${currentNum}/${total}`;
 
-    // Título de instrucción
     const instructionEl = document.getElementById('lesson-instruction-text');
     if (instructionEl) instructionEl.textContent = ex.instruction;
 
-    // Dibujo central y palabra
-    const drawingImg = document.getElementById('lesson-drawing-img');
-    if (drawingImg) {
-      drawingImg.src = ex.image;
-      drawingImg.alt = ex.imageAlt;
-    }
+    const container = document.getElementById('dynamic-exercise-container');
+    if (!container) return;
+    container.innerHTML = '';
 
-    const wordEl = document.getElementById('lesson-word-text');
-    if (wordEl) {
-      wordEl.innerHTML = `
-        <span>${ex.wordDisplay}</span>
-        <button type="button" class="btn-speaker-mini ms-1" id="btn-speaker-active" aria-label="Escuchar pronunciación de ${ex.wordDisplay}">
-          <i class="bi bi-volume-up-fill"></i>
-        </button>
-      `;
-      const btnSpeaker = document.getElementById('btn-speaker-active');
-      if (btnSpeaker) {
-        btnSpeaker.addEventListener('click', () => speak(ex.word, 0.95));
-      }
-    }
-
-    // Grid de 3 opciones del prototipo
-    const optionsContainer = document.getElementById('lesson-options-container');
-    if (optionsContainer) {
-      optionsContainer.innerHTML = '';
-      ex.options.forEach((opt, idx) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `lesson-option-button anim-cascade stagger-${idx + 1}`;
-        btn.setAttribute('data-option-idx', idx);
-        btn.setAttribute('aria-pressed', 'false');
-
-        btn.innerHTML = `
-          ${getCultureIconSvg(opt.iconLeft)}
-          <span class="opt-text">${opt.text}</span>
-          ${getCultureIconSvg(opt.iconRight)}
-        `;
-
-        btn.addEventListener('click', function (e) {
-          handleOptionSelection(idx, btn, e);
-        });
-
-        optionsContainer.appendChild(btn);
-      });
-    }
-
-    // Botón de Responder
     const btnResponder = document.getElementById('btn-lesson-responder');
     if (btnResponder) {
       btnResponder.disabled = true;
-      btnResponder.innerHTML = `<span>Responder</span>`;
-      btnResponder.className = 'btn-lesson-responder';
+      btnResponder.querySelector('span').textContent = 'Responder';
+      btnResponder.classList.remove('btn-success', 'btn-danger');
+      btnResponder.classList.add('btn-primary-custom');
     }
+    
+    document.getElementById('lesson-feedback-sheet')?.classList.add('d-none');
 
-    // Ocultar feedback drawer si estaba activo
-    const feedbackSheet = document.getElementById('lesson-feedback-sheet');
-    if (feedbackSheet) feedbackSheet.classList.add('d-none');
+    const wordHeader = document.createElement('div');
+    wordHeader.className = 'lesson-word-text anim-cascade stagger-5 mb-4';
+    wordHeader.innerHTML = `<span>${ex.wordDisplay}</span>`;
+    if (ex.wordDisplay !== 'Frase desordenada' && ex.wordDisplay !== 'Pares') {
+      wordHeader.innerHTML += `<button type="button" class="btn-speaker-mini ms-2" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('${ex.wordDisplay}'))"><i class="bi bi-volume-up-fill"></i></button>`;
+    }
+    container.appendChild(wordHeader);
+
+    if (ex.type === 'multiple_choice') {
+      const imgContainer = document.createElement('div');
+      imgContainer.className = 'lesson-halo-card mb-4 mx-auto';
+      imgContainer.innerHTML = `<img src="${ex.image}" alt="${ex.imageAlt}" class="lesson-drawing-img">`;
+      container.appendChild(imgContainer);
+
+      const grid = document.createElement('div');
+      grid.className = 'lesson-options-grid';
+      ex.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'card-option-choice lesson-option-button flex-column p-3';
+        btn.innerHTML = `<span class="fw-bold">${opt.text}</span>`;
+        btn.onclick = () => selectOption(idx, grid);
+        grid.appendChild(btn);
+      });
+      container.appendChild(grid);
+    } 
+    else if (ex.type === 'image_grid') {
+      const grid = document.createElement('div');
+      grid.className = 'row g-3 justify-content-center';
+      ex.options.forEach((opt, idx) => {
+        const col = document.createElement('div');
+        col.className = 'col-6 col-md-5';
+        const btn = document.createElement('button');
+        btn.className = 'card-option-choice lesson-option-button w-100 p-2 d-flex flex-column align-items-center h-100';
+        btn.innerHTML = `<img src="${opt.image}" class="img-fluid rounded mb-2" style="max-height:100px; object-fit:cover;"><span>${opt.text}</span>`;
+        btn.onclick = () => selectOption(idx, grid);
+        col.appendChild(btn);
+        grid.appendChild(col);
+      });
+      container.appendChild(grid);
+    }
+    else if (ex.type === 'unscramble') {
+      const dropZone = document.createElement('div');
+      dropZone.className = 'p-3 mb-4 rounded border dashed-border d-flex flex-wrap gap-2 align-items-center justify-content-center bg-light';
+      dropZone.style.minHeight = '60px';
+      dropZone.id = 'unscramble-dropzone';
+      
+      const wordBank = document.createElement('div');
+      wordBank.className = 'd-flex flex-wrap gap-2 justify-content-center';
+      wordBank.id = 'unscramble-wordbank';
+
+      const shuffled = [...ex.words].sort(() => Math.random() - 0.5);
+      shuffled.forEach(w => {
+        const chip = document.createElement('button');
+        chip.className = 'btn btn-outline-primary rounded-pill fw-bold';
+        chip.textContent = w;
+        chip.onclick = function() {
+          if (this.parentElement.id === 'unscramble-wordbank') {
+            dropZone.appendChild(this);
+            unscrambleSelected.push(w);
+          } else {
+            wordBank.appendChild(this);
+            unscrambleSelected = unscrambleSelected.filter(val => val !== w);
+          }
+          if (btnResponder) btnResponder.disabled = unscrambleSelected.length !== ex.words.length;
+        };
+        wordBank.appendChild(chip);
+      });
+
+      container.appendChild(dropZone);
+      container.appendChild(wordBank);
+    }
+    else if (ex.type === 'match_pairs') {
+      const grid = document.createElement('div');
+      grid.className = 'row g-4';
+      
+      const colEn = document.createElement('div');
+      colEn.className = 'col-6 d-flex flex-column gap-2';
+      const colEs = document.createElement('div');
+      colEs.className = 'col-6 d-flex flex-column gap-2';
+
+      const enWords = [...ex.pairs].sort(() => Math.random() - 0.5);
+      const esWords = [...ex.pairs].sort(() => Math.random() - 0.5);
+
+      enWords.forEach(p => {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-outline-primary py-3 fw-bold';
+        btn.textContent = p.en;
+        btn.onclick = function() {
+          if (matchedPairs.includes(p.en)) return;
+          Array.from(colEn.children).forEach(c => c.classList.remove('active', 'btn-primary'));
+          this.classList.add('active', 'btn-primary');
+          currentPairSelection.en = p.en;
+          checkMatchPair(grid);
+        };
+        colEn.appendChild(btn);
+      });
+
+      esWords.forEach(p => {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-outline-secondary py-3 fw-bold';
+        btn.textContent = p.es;
+        btn.onclick = function() {
+          if (matchedPairs.includes(p.es)) return;
+          Array.from(colEs.children).forEach(c => c.classList.remove('active', 'btn-secondary'));
+          this.classList.add('active', 'btn-secondary');
+          currentPairSelection.es = p.es;
+          checkMatchPair(grid);
+        };
+        colEs.appendChild(btn);
+      });
+
+      grid.appendChild(colEn);
+      grid.appendChild(colEs);
+      container.appendChild(grid);
+    }
   }
 
-  // Manejo de la selección de opción con animación del puntero
-  function handleOptionSelection(idx, buttonEl, event) {
+  function checkMatchPair(grid) {
+    if (currentPairSelection.en && currentPairSelection.es) {
+      const ex = LESSON_EXERCISES[currentExerciseIndex];
+      const correctPair = ex.pairs.find(p => p.en === currentPairSelection.en);
+      
+      if (correctPair && correctPair.es === currentPairSelection.es) {
+        matchedPairs.push(currentPairSelection.en);
+        matchedPairs.push(currentPairSelection.es);
+        
+        const activeBtns = grid.querySelectorAll('.active');
+        activeBtns.forEach(b => {
+          b.classList.remove('active', 'btn-primary', 'btn-secondary');
+          b.classList.add('btn-success', 'disabled');
+          b.disabled = true;
+        });
+        
+        if (matchedPairs.length === ex.pairs.length * 2) {
+          const btnResponder = document.getElementById('btn-lesson-responder');
+          if (btnResponder) btnResponder.disabled = false;
+        }
+      } else {
+        const activeBtns = grid.querySelectorAll('.active');
+        activeBtns.forEach(b => {
+          b.classList.remove('active', 'btn-primary', 'btn-secondary');
+          b.classList.add('btn-danger');
+          setTimeout(() => {
+            b.classList.remove('btn-danger');
+          }, 500);
+        });
+      }
+      currentPairSelection = { en: null, es: null };
+    }
+  }
+
+  function selectOption(idx, grid) {
+    if (hasEvaluated) return;
+    selectedOptionIndex = idx;
+    Array.from(grid.querySelectorAll('button')).forEach(b => b.classList.remove('selected', 'border-primary'));
+    grid.children[idx].classList.add('selected', 'border-primary');
+    
+    const btnResponder = document.getElementById('btn-lesson-responder');
+    if (btnResponder) btnResponder.disabled = false;
+  }
+
+  function evaluateAnswer() {
     if (hasEvaluated) return;
 
-    selectedOptionIndex = idx;
-    playSound('click');
-
-    // Quitar selección previa de todos los botones
-    const allButtons = document.querySelectorAll('.lesson-option-button');
-    allButtons.forEach((btn) => {
-      btn.classList.remove('selected');
-      btn.setAttribute('aria-pressed', 'false');
-      const badge = btn.querySelector('.pointer-selection-badge');
-      if (badge) badge.remove();
-    });
-
-    // Activar botón seleccionado
-    buttonEl.classList.add('selected');
-    buttonEl.setAttribute('aria-pressed', 'true');
-
-    // =========================================================================
-    // ANIMACIÓN DEL PUNTERO AL SELECCIONAR CUALQUIERA DE LAS OPCIONES
-    // =========================================================================
-    // 1. Efecto onda expansiva desde el punto exacto de clic del usuario
-    const rect = buttonEl.getBoundingClientRect();
-    const ripple = document.createElement('span');
-    ripple.className = 'pointer-click-ripple';
-
-    const clickX = event ? (event.clientX - rect.left) : (rect.width / 2);
-    const clickY = event ? (event.clientY - rect.top) : (rect.height / 2);
-    const size = Math.max(rect.width, rect.height);
-
-    ripple.style.width = ripple.style.height = `${size}px`;
-    ripple.style.left = `${clickX - size / 2}px`;
-    ripple.style.top = `${clickY - size / 2}px`;
-    buttonEl.appendChild(ripple);
-
-    setTimeout(() => {
-      if (ripple.parentNode) ripple.parentNode.removeChild(ripple);
-    }, 600);
-
-    // 2. Indicador flotante animado de puntero sobre la opción
-    const pointerBadge = document.createElement('span');
-    pointerBadge.className = 'pointer-selection-badge';
-    pointerBadge.innerHTML = `<i class="bi bi-check2"></i>`;
-    pointerBadge.title = 'Opción seleccionada';
-    buttonEl.appendChild(pointerBadge);
-
-    // Habilitar botón de responder
-    const btnResponder = document.getElementById('btn-lesson-responder');
-    if (btnResponder) {
-      btnResponder.disabled = false;
-    }
-  }
-
-  // Evaluación de la respuesta seleccionada
-  function evaluateAnswer() {
-    if (selectedOptionIndex < 0) return;
     const ex = LESSON_EXERCISES[currentExerciseIndex];
-    const isCorrect = ex.options[selectedOptionIndex].isCorrect;
+    let isCorrect = false;
+
+    if (ex.type === 'multiple_choice' || ex.type === 'image_grid') {
+      isCorrect = ex.options[selectedOptionIndex].isCorrect;
+      const grid = document.querySelector('.lesson-options-grid') || document.querySelector('.row.g-3');
+      const buttons = grid.querySelectorAll('button.lesson-option-button');
+      
+      if (isCorrect) {
+        buttons[selectedOptionIndex].classList.add('bg-success-subtle', 'border-success', 'border-2');
+      } else {
+        buttons[selectedOptionIndex].classList.add('bg-danger-subtle', 'border-danger', 'border-2');
+        const correctIdx = ex.options.findIndex(o => o.isCorrect);
+        buttons[correctIdx].classList.add('bg-success-subtle', 'border-success', 'border-2');
+      }
+    } 
+    else if (ex.type === 'unscramble') {
+      isCorrect = unscrambleSelected.join(' ') === ex.correctOrder.join(' ');
+      const dropzone = document.getElementById('unscramble-dropzone');
+      if (isCorrect) dropzone.classList.add('border-success', 'bg-success-subtle');
+      else dropzone.classList.add('border-danger', 'bg-danger-subtle');
+    }
+    else if (ex.type === 'match_pairs') {
+      isCorrect = true;
+    }
+
     hasEvaluated = true;
 
     const feedbackSheet = document.getElementById('lesson-feedback-sheet');
     const feedbackTitle = document.getElementById('lesson-feedback-title');
     const feedbackText = document.getElementById('lesson-feedback-text');
     const feedbackIcon = document.getElementById('lesson-feedback-icon');
+    
     const btnResponder = document.getElementById('btn-lesson-responder');
+    if (btnResponder) {
+      btnResponder.querySelector('span').textContent = 'Continuar';
+      btnResponder.classList.remove('btn-primary-custom');
+      btnResponder.classList.add(isCorrect ? 'btn-success' : 'btn-danger');
+    }
 
     if (isCorrect) {
       playSound('correct');
@@ -385,42 +469,32 @@
         feedbackSheet.className = 'lesson-feedback-sheet correct p-4 mb-4';
         feedbackSheet.classList.remove('d-none');
       }
-      if (feedbackIcon) feedbackIcon.innerHTML = `<i class="bi bi-check-circle-fill text-success fs-3"></i>`;
-      if (feedbackTitle) feedbackTitle.innerHTML = `<span class="text-success fw-bold">¡Excelente respuesta! +15 XP</span>`;
-      if (feedbackText) {
-        feedbackText.innerHTML = `
-          <div>${ex.explanation}</div>
-          <div class="small text-secondary mt-1"><em>"${ex.phraseSample}"</em></div>
-        `;
+      if (feedbackTitle) {
+        feedbackTitle.className = 'h5 mb-1 text-success';
+        feedbackTitle.textContent = '¡Correcto!';
       }
+      if (feedbackIcon) feedbackIcon.innerHTML = '<div class="lesson-feedback-icon-circle bg-success-subtle text-success"><i class="bi bi-check-lg"></i></div>';
     } else {
       playSound('error');
-      lives = Math.max(1, lives - 1);
+      lives--;
       updateTopStats();
 
-      const correctOpt = ex.options.find(o => o.isCorrect);
       if (feedbackSheet) {
-        feedbackSheet.className = 'lesson-feedback-sheet error p-4 mb-4';
+        feedbackSheet.className = 'lesson-feedback-sheet incorrect p-4 mb-4';
         feedbackSheet.classList.remove('d-none');
       }
-      if (feedbackIcon) feedbackIcon.innerHTML = `<i class="bi bi-x-circle-fill text-danger fs-3"></i>`;
-      if (feedbackTitle) feedbackTitle.innerHTML = `<span class="text-danger fw-bold">Solución correcta: "${correctOpt ? correctOpt.text : ''}"</span>`;
-      if (feedbackText) {
-        feedbackText.innerHTML = `
-          <div>${ex.explanation}</div>
-          <div class="small text-secondary mt-1">No te preocupes, el aprendizaje adaptativo afianza la memoria a través del error.</div>
-        `;
+      if (feedbackTitle) {
+        feedbackTitle.className = 'h5 mb-1 text-danger';
+        feedbackTitle.textContent = 'Incorrecto';
       }
+      if (feedbackIcon) feedbackIcon.innerHTML = '<div class="lesson-feedback-icon-circle bg-danger-subtle text-danger"><i class="bi bi-x-lg"></i></div>';
     }
-
-    // Botón cambia a "Continuar"
-    if (btnResponder) {
-      btnResponder.innerHTML = `<span>Continuar</span> <i class="bi bi-arrow-right"></i>`;
-      btnResponder.className = 'btn-lesson-responder';
+    
+    if (feedbackText) {
+      feedbackText.innerHTML = `<strong>${ex.explanation}</strong><br><span class="text-muted mt-1 d-block">${ex.phraseSample}</span>`;
     }
   }
 
-  // Avanza al siguiente ejercicio o finaliza la lección
   function nextStep() {
     if (currentExerciseIndex < LESSON_EXERCISES.length - 1) {
       currentExerciseIndex++;
