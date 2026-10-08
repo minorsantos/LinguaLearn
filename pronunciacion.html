@@ -487,8 +487,10 @@
         playPhraseAudio(activePlaybackSpeed);
       });
 
+      let currentTranscript = null;
+
       // 4. DESGLOSE FONÉTICO PALABRA POR PALABRA ACTUALIZADO DINÁMICAMENTE
-      function renderWordTokens(phraseObj) {
+      function renderWordTokens(phraseObj, isEvaluated = false) {
         if (!wordsContainer) return;
         wordsContainer.innerHTML = '';
 
@@ -496,11 +498,14 @@
         let orangeTipFound = null;
 
         phraseObj.words.forEach((w, idx) => {
-          totalScore += w.score;
+          let score = isEvaluated && w.dynamicScore !== undefined ? w.dynamicScore : w.score;
+          let status = isEvaluated && w.dynamicStatus !== undefined ? w.dynamicStatus : w.status;
+          
+          totalScore += score;
           const token = document.createElement('span');
-          const isGreen = w.status === 'green';
+          const isGreen = status === 'green';
           token.className = `word-feedback-token ${isGreen ? 'word-token-green' : 'word-token-orange'}`;
-          token.setAttribute('title', `Precisión: ${w.score}% (Click para escuchar y ver tip)`);
+          token.setAttribute('title', `Precisión: ${score}% (Click para escuchar y ver tip)`);
           token.innerHTML = `${w.text} ${isGreen ? '<i class="bi bi-check small"></i>' : '<i class="bi bi-exclamation-circle small"></i>'}`;
 
           if (!isGreen && !orangeTipFound) {
@@ -524,6 +529,8 @@
         // Mostrar tip de la palabra con más oportunidad de mejora
         if (orangeTipFound) {
           updatePhoneticTip(orangeTipFound);
+        } else if (phraseObj.words.length > 0) {
+          updatePhoneticTip(phraseObj.words[0]);
         }
       }
 
@@ -553,7 +560,7 @@
         if (progressPctEl) progressPctEl.textContent = `${pct}% completado`;
         if (progressBarEl) progressBarEl.style.width = `${pct}%`;
 
-        renderWordTokens(p);
+        renderWordTokens(p, false);
       }
 
       // 6. TOGGLE DE TRADUCCIÓN
@@ -569,6 +576,32 @@
         }
       });
 
+      // Distancia de Levenshtein para comparar pronunciación vs target
+      function levenshteinDistance(s1, s2) {
+          if (s1.length === 0) return s2.length;
+          if (s2.length === 0) return s1.length;
+          const matrix = [];
+          for (let i = 0; i <= s2.length; i++) {
+              matrix[i] = [i];
+          }
+          for (let j = 0; j <= s1.length; j++) {
+              matrix[0][j] = j;
+          }
+          for (let i = 1; i <= s2.length; i++) {
+              for (let j = 1; j <= s1.length; j++) {
+                  if (s2.charAt(i - 1) === s1.charAt(j - 1)) {
+                      matrix[i][j] = matrix[i - 1][j - 1];
+                  } else {
+                      matrix[i][j] = Math.min(
+                          matrix[i - 1][j - 1] + 1,
+                          Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
+                      );
+                  }
+              }
+          }
+          return matrix[s2.length][s1.length];
+      }
+
       // 7. EVALUACIÓN DE PRONUNCIACIÓN INTERACTIVA CON RECONOCIMIENTO DE VOZ
       function initSpeechRecognition() {
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -579,12 +612,13 @@
           recognition.interimResults = false;
 
           recognition.onresult = function (event) {
-            const transcript = event.results[0][0].transcript;
-            evaluatePronunciationResult(transcript);
+            currentTranscript = event.results[0][0].transcript;
+            console.log("Transcripción de usuario:", currentTranscript);
           };
 
-          recognition.onerror = function () {
-            evaluatePronunciationResult(null);
+          recognition.onerror = function (e) {
+            console.warn("Error en reconocimiento de voz:", e.error);
+            currentTranscript = null;
           };
 
           recognition.onend = function () {
@@ -595,34 +629,62 @@
 
       function evaluatePronunciationResult(userTranscript) {
         const p = PHRASES[currentIndex];
-        let evaluatedScore = 90;
-
+        let evaluatedScore = 0;
+        
         if (userTranscript) {
-          // Comparar palabras coincidentes
-          const targetWords = p.en.toLowerCase().replace(/[!?,.]/g, '').split(' ');
           const spokenWords = userTranscript.toLowerCase().replace(/[!?,.]/g, '').split(' ');
-          let matches = 0;
+          let totalScoreAcc = 0;
 
-          targetWords.forEach(w => {
-            if (spokenWords.includes(w)) matches++;
+          p.words.forEach((w) => {
+            let cleanW = w.text.toLowerCase().replace(/[!?,.]/g, '');
+            let minDistance = 999;
+            
+            spokenWords.forEach(sw => {
+               let dist = levenshteinDistance(cleanW, sw);
+               if (dist < minDistance) minDistance = dist;
+            });
+            
+            let wordScore = 100;
+            if (minDistance > 0) {
+               let maxLength = Math.max(cleanW.length, 1);
+               let matchPct = Math.max(0, 1 - (minDistance / maxLength));
+               wordScore = Math.round(matchPct * 100);
+            }
+            
+            w.dynamicScore = wordScore;
+            if (wordScore >= 80) {
+               w.dynamicStatus = 'green';
+            } else {
+               w.dynamicStatus = 'orange';
+            }
+            totalScoreAcc += wordScore;
           });
 
-          const matchRatio = matches / targetWords.length;
-          evaluatedScore = Math.min(100, Math.max(78, Math.round(matchRatio * 96) + 4));
+          evaluatedScore = Math.round(totalScoreAcc / p.words.length);
         } else {
-          // Simulación acústica realista
-          evaluatedScore = Math.floor(88 + Math.random() * 8);
+           evaluatedScore = 0;
+           p.words.forEach((w) => {
+               w.dynamicScore = 0;
+               w.dynamicStatus = 'orange';
+           });
         }
+
+        renderWordTokens(p, true);
 
         if (lblAccuracyPct) lblAccuracyPct.textContent = `${evaluatedScore}%`;
         if (svgScoreCircle) svgScoreCircle.setAttribute('stroke-dasharray', `${evaluatedScore}, 100`);
 
         statusText.textContent = `¡Pronunciación evaluada: ${evaluatedScore}%!`;
-        statusSub.textContent = evaluatedScore >= 90 ? '¡Excelente dicción y ritmo natural!' : 'Buen intento. Revisa las palabras en naranja para pulir el fonema.';
+        if (userTranscript) {
+          statusSub.textContent = evaluatedScore >= 90 ? '¡Excelente dicción y ritmo natural!' : (evaluatedScore >= 70 ? 'Buen intento. Revisa las palabras en naranja para pulir el fonema.' : 'Podría mejorar. ¡Sigue practicando!');
+        } else {
+          statusSub.textContent = 'No pudimos escucharte bien. ¡Verifica tu micrófono e intenta de nuevo!';
+        }
       }
 
       function startRecording() {
         isRecording = true;
+        currentTranscript = null;
         btnRecord.classList.add('recording');
         micIcon.className = 'bi bi-stop-fill';
         statusText.textContent = 'Escuchando tu voz... (Pronuncia la frase)';
@@ -632,7 +694,9 @@
 
         try {
           if (recognition) recognition.start();
-        } catch (e) {}
+        } catch (e) {
+          console.error(e);
+        }
       }
 
       function stopRecording() {
@@ -640,7 +704,7 @@
         btnRecord.classList.remove('recording');
         micIcon.className = 'bi bi-mic-fill';
         statusText.textContent = '¡Grabación completada!';
-        statusSub.textContent = 'Calculando porcentaje de precisión con IA...';
+        statusSub.textContent = 'Calculando porcentaje de precisión real...';
         audioWaves.classList.remove('recording');
 
         try {
@@ -649,9 +713,9 @@
 
         setTimeout(() => {
           feedbackCard.style.opacity = '1';
-          evaluatePronunciationResult(null);
+          evaluatePronunciationResult(currentTranscript);
           feedbackCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 500);
+        }, 800);
       }
 
       function toggleRecording() {
