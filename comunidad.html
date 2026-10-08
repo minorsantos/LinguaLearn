@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaLearn - Comunidad y Práctica Social</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Estilos Personalizados y Nuevas Pantallas -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/nuevas_pantallas.css">
+  <script>
+    if (localStorage.getItem('lingua_theme_reset_warm') !== 'true') {
+      localStorage.setItem('lingua_theme', 'light');
+      localStorage.setItem('lingua_theme_reset_warm', 'true');
+    }
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (document.body) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark-mode'));
+      }
+    }
+  </script>
+</head>
+<body class="community-canvas">
+
+  <!-- BARRA SUPERIOR DE ACCESIBILIDAD CON VIDRIO ESMERILADO CÁLIDO -->
+  <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">
+    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2 py-1">
+      <div class="d-flex align-items-center gap-3">
+        <span class="d-inline-flex align-items-center gap-1 fw-bold" style="color: #243828;">
+          <i class="bi bi-person-wheelchair text-primary"></i> Accesibilidad
+        </span>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
+          <i class="bi bi-moon-stars-fill"></i> <span class="darkmode-text">Modo Oscuro</span>
+        </button>
+        <span class="opacity-50">|</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Ajuste de tipografía">
+          <button type="button" class="btn-font-decrease font-size-control-btn" style="color: #4a3e30;" aria-label="Disminuir tamaño">A-</button>
+          <button type="button" class="btn-font-increase font-size-control-btn" style="color: #4a3e30;" aria-label="Aumentar tamaño">A+</button>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-sm btn-link text-decoration-none dropdown-toggle p-0" style="color: #4a3e30;" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-translate"></i> Español (ES)
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item active" href="#">Español (ES)</a></li>
+            <li><a class="dropdown-item" href="#">English (US)</a></li>
+          </ul>
+        </div>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn btn-sm btn-link text-decoration-none p-0" style="color: #4a3e30;" data-bs-toggle="modal" data-bs-target="#modal-shortcuts">
+          <i class="bi bi-keyboard"></i> Atajos [Alt + 1-5]
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- NAVBAR PRINCIPAL CON TONO MARFIL CÁLIDO ESMERILADO -->
+  <header class="main-navbar canvas-navbar-warm sticky-top shadow-sm anim-cascade-down stagger-2">
+    <div class="container-xl">
+      <nav class="navbar navbar-expand-lg p-0" aria-label="Navegación principal">
+        <a class="brand-logo-container" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <span class="brand-name">LinguaLearn</span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-label="Menú principal">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="test-diagnostico.html">Test Diagnóstico</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="dashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="leccion.html">Lección Activa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="pronunciacion.html">Pronunciación</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom active" aria-current="page" href="comunidad.html">Comunidad</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="suscripcion.html">Suscripción</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="soporte.html">Soporte</a>
+            </li>
+          </ul>
+
+          <!-- BARRA DE ESTADO DE USUARIO: MI PERFIL, RACHA Y XP EN UNA SOLA LÍNEA CON MENÚ HACIA ABAJO -->
+          <div class="header-user-status-bar d-flex align-items-center gap-2 gap-md-3 flex-nowrap ms-lg-3">
+            <div class="header-stat-pill streak flex-shrink-0" title="Racha activa">
+              <i class="bi bi-fire"></i> <span class="stat-streak-val">5 días</span>
+            </div>
+            <div class="header-stat-pill xp flex-shrink-0" title="Experiencia acumulada">
+              <i class="bi bi-lightning-charge-fill"></i> <span class="stat-xp-val">120 XP</span>
+            </div>
+            <div class="dropdown header-profile-dropdown flex-shrink-0">
+              <button class="header-profile-btn dropdown-toggle d-flex align-items-center gap-2" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" title="Menú de perfil y cerrar sesión">
+                <div class="position-relative">
+                  <img src="assets/sofia.jpg" alt="Foto de perfil de Sofia Martinez" class="header-avatar-img">
+                  <span class="avatar-online-dot"></span>
+                </div>
+                <span class="header-profile-name fw-semibold small user-display-name">Mi Perfil</span>
+                <i class="bi bi-chevron-down small text-secondary"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 card-custom test-card-glass p-2 mt-2" aria-labelledby="dropdownUserMenu" style="min-width: 240px; z-index: 9999;">
+                <li class="px-3 py-2 border-bottom mb-1">
+                  <div class="fw-bold text-dark text-truncate user-display-name">Sofia Martinez</div>
+                  <div class="small text-secondary text-truncate" style="font-size: 0.775rem;">sofia.martinez@universidad.edu</div>
+                  <div class="badge bg-primary-subtle text-primary mt-1 user-level-badge" style="font-size: 0.7rem;">Nivel A2 - Básico Activo</div>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="perfil.html">
+                    <i class="bi bi-person-circle text-primary"></i> <span>Mi Perfil y Logros</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="dashboard.html">
+                    <i class="bi bi-speedometer2 text-success"></i> <span>Mi Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="suscripcion.html">
+                    <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider my-1"></li>
+                <li>
+                  <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
+                    <i class="bi bi-box-arrow-right fs-6"></i> <span>Cerrar Sesión</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="py-4 py-md-5" id="main-content">
+    <div class="container-xl">
+
+      <!-- ENCABEZADO DE COMUNIDAD -->
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 anim-cascade stagger-3">
+        <div>
+          <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold mb-2">
+            <i class="bi bi-people-fill me-1"></i> Espacio Colaborativo Global
+          </span>
+          <h1 class="h3 fw-bold mb-1">Comunidad y Práctica Lingüística</h1>
+          <p class="text-secondary small mb-0">
+            Conecta con otros estudiantes en salas de conversación en vivo, comparte dudas cotidianas y sube en la liga semanal.
+          </p>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#modal-create-room">
+            <i class="bi bi-plus-circle me-1"></i> Crear Nueva Sala
+          </button>
+        </div>
+      </div>
+
+      <!-- DISTRIBUCIÓN PRINCIPAL EN 2 COLUMNAS (8 COLS SALAS & MURO + 4 COLS LEADERBOARD) -->
+      <div class="row g-4">
+        
+        <!-- COLUMNA IZQUIERDA: SALAS DE CONVERSACIÓN Y MURO DE PRÁCTICA (8 COLS) -->
+        <div class="col-lg-8">
+          
+          <!-- SECCIÓN 1: SALAS DE CONVERSACIÓN EN VIVO -->
+          <div class="card-custom test-card-glass p-4 mb-4 anim-cascade stagger-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+              <h2 class="h5 fw-bold mb-0">
+                <i class="bi bi-broadcast text-danger me-2"></i> Salas de Conversación en Vivo
+              </h2>
+              <span class="small text-secondary">
+                <span class="pulse-live-dot me-1"></span> 18 estudiantes conversando ahora
+              </span>
+            </div>
+
+            <!-- FILTROS POR NIVEL Y TEMA -->
+            <div class="d-flex flex-wrap gap-2 mb-4">
+              <span class="small fw-bold align-self-center me-1 opacity-75">Nivel:</span>
+              <button type="button" class="filter-chip-btn active" data-filter-level="all">Todos</button>
+              <button type="button" class="filter-chip-btn" data-filter-level="A1-A2">A1 - A2 (Inicial)</button>
+              <button type="button" class="filter-chip-btn" data-filter-level="B1-B2">B1 - B2 (Intermedio)</button>
+
+              <span class="small fw-bold align-self-center ms-md-3 me-1 opacity-75">Tema:</span>
+              <button type="button" class="filter-chip-btn active" data-filter-topic="all">Todos</button>
+              <button type="button" class="filter-chip-btn" data-filter-topic="Viajes">✈️ Viajes</button>
+              <button type="button" class="filter-chip-btn" data-filter-topic="Trabajo">💼 Trabajo</button>
+              <button type="button" class="filter-chip-btn" data-filter-topic="Café">☕ Café</button>
+            </div>
+
+            <!-- GRID DE TARJETAS DE SALAS -->
+            <div class="row g-3" id="rooms-grid">
+              
+              <!-- SALA 1: CAFÉ & SMALL TALK -->
+              <div class="col-md-6 room-item" data-level="A1-A2" data-topic="Café">
+                <div class="room-live-card h-100">
+                  <div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill px-2 py-1 small">
+                        ☕ Café & Cotidiano
+                      </span>
+                      <span class="badge bg-success-subtle text-success small">
+                        <span class="pulse-live-dot"></span> EN VIVO
+                      </span>
+                    </div>
+                    <h3 class="h6 fw-bold mb-1">Morning Coffee & Small Talk</h3>
+                    <p class="small text-secondary mb-3">
+                      Practica ordenar en cafeterías, hablar de tu rutina y hacer preguntas sencillas sin presión.
+                    </p>
+                    <div class="d-flex align-items-center justify-content-between text-secondary small mb-3">
+                      <span><i class="bi bi-person-fill"></i> Nivel: <strong>A1 - A2</strong></span>
+                      <span><i class="bi bi-people"></i> <strong>4 / 6</strong> en sala</span>
+                    </div>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-secondary-custom w-100 py-2 small fw-bold btn-join-room" data-room-title="Morning Coffee & Small Talk" data-room-topic="Café">
+                      <i class="bi bi-mic-fill me-1"></i> Unirse a la Sala
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SALA 2: ENTREVISTA & TRABAJO -->
+              <div class="col-md-6 room-item" data-level="B1-B2" data-topic="Trabajo">
+                <div class="room-live-card h-100">
+                  <div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="badge bg-primary-subtle text-primary rounded-pill px-2 py-1 small">
+                        💼 Trabajo & Negocios
+                      </span>
+                      <span class="badge bg-success-subtle text-success small">
+                        <span class="pulse-live-dot"></span> EN VIVO
+                      </span>
+                    </div>
+                    <h3 class="h6 fw-bold mb-1">Job Interview & Workplace English</h3>
+                    <p class="small text-secondary mb-3">
+                      Simulación de preguntas de entrevistas, presentación personal y vocabulario formal de oficina.
+                    </p>
+                    <div class="d-flex align-items-center justify-content-between text-secondary small mb-3">
+                      <span><i class="bi bi-person-fill"></i> Nivel: <strong>B1 - B2</strong></span>
+                      <span><i class="bi bi-people"></i> <strong>3 / 5</strong> en sala</span>
+                    </div>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-secondary-custom w-100 py-2 small fw-bold btn-join-room" data-room-title="Job Interview & Workplace English" data-room-topic="Trabajo">
+                      <i class="bi bi-mic-fill me-1"></i> Unirse a la Sala
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SALA 3: VIAJES & AEROPUERTOS -->
+              <div class="col-md-6 room-item" data-level="A1-A2" data-topic="Viajes">
+                <div class="room-live-card h-100">
+                  <div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="badge bg-info-subtle text-info-emphasis rounded-pill px-2 py-1 small">
+                        ✈️ Viajes & Aventuras
+                      </span>
+                      <span class="badge bg-success-subtle text-success small">
+                        <span class="pulse-live-dot"></span> EN VIVO
+                      </span>
+                    </div>
+                    <h3 class="h6 fw-bold mb-1">Travel Stories & Airport Tips</h3>
+                    <p class="small text-secondary mb-3">
+                      Aprende a pasar por migraciones, pedir direcciones en ciudades extranjeras y relatar anécdotas.
+                    </p>
+                    <div class="d-flex align-items-center justify-content-between text-secondary small mb-3">
+                      <span><i class="bi bi-person-fill"></i> Nivel: <strong>A1 - A2</strong></span>
+                      <span><i class="bi bi-people"></i> <strong>5 / 6</strong> en sala</span>
+                    </div>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-secondary-custom w-100 py-2 small fw-bold btn-join-room" data-room-title="Travel Stories & Airport Tips" data-room-topic="Viajes">
+                      <i class="bi bi-mic-fill me-1"></i> Unirse a la Sala
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SALA 4: PRONUNCIACIÓN Y DEBATE AMIGABLE -->
+              <div class="col-md-6 room-item" data-level="B1-B2" data-topic="Café">
+                <div class="room-live-card h-100">
+                  <div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <span class="badge bg-secondary-subtle text-secondary rounded-pill px-2 py-1 small">
+                        ☕ Café & Cultura
+                      </span>
+                      <span class="badge bg-success-subtle text-success small">
+                        <span class="pulse-live-dot"></span> EN VIVO
+                      </span>
+                    </div>
+                    <h3 class="h6 fw-bold mb-1">Debates: Tech, Films & Daily Life</h3>
+                    <p class="small text-secondary mb-3">
+                      Debates dinámicos sobre cine y tecnología con feedback constructivo de pronunciación.
+                    </p>
+                    <div class="d-flex align-items-center justify-content-between text-secondary small mb-3">
+                      <span><i class="bi bi-person-fill"></i> Nivel: <strong>B1 - B2</strong></span>
+                      <span><i class="bi bi-people"></i> <strong>4 / 6</strong> en sala</span>
+                    </div>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-secondary-custom w-100 py-2 small fw-bold btn-join-room" data-room-title="Debates: Tech, Films & Daily Life" data-room-topic="Café">
+                      <i class="bi bi-mic-fill me-1"></i> Unirse a la Sala
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SECCIÓN 2: MURO DE PRÁCTICA LINGÜÍSTICA (FEED & RETOS) -->
+          <div class="card-custom test-card-glass p-4 anim-cascade stagger-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h2 class="h5 fw-bold mb-0">
+                <i class="bi bi-chat-heart text-primary me-2"></i> Muro de Práctica e Intercambio
+              </h2>
+              <span class="small text-secondary">Publica dudas o responde retos</span>
+            </div>
+
+            <!-- Formulario de Publicación de Sofia -->
+            <div class="p-3 test-container-inset rounded-4 mb-4">
+              <div class="d-flex align-items-start gap-2 mb-2">
+                <img src="assets/sofia.jpg" alt="Sofia Martinez" class="rounded-circle border" width="40" height="40" style="object-fit: cover;">
+                <div class="flex-grow-1">
+                  <textarea class="form-control border-0 bg-transparent" id="post-textarea" rows="2" placeholder="¿Tienes una duda en inglés o quieres proponer un reto de conversación hoy, Sofia?"></textarea>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2 border-top">
+                <div class="d-flex gap-2">
+                  <select class="form-select form-select-sm" id="post-topic-select" style="max-width: 150px;">
+                    <option value="#RetoDelDía">#RetoDelDía</option>
+                    <option value="#Gramática">#Gramática</option>
+                    <option value="#Vocabulario">#Vocabulario</option>
+                    <option value="#Pronunciación">#Pronunciación</option>
+                  </select>
+                </div>
+                <button type="button" class="btn btn-primary-custom btn-sm rounded-pill px-3" id="btn-submit-post">
+                  <i class="bi bi-send-fill me-1"></i> Publicar
+                </button>
+              </div>
+            </div>
+
+            <!-- Feed de Publicaciones -->
+            <div class="d-flex flex-column gap-3" id="practice-feed-list">
+              
+              <!-- POST 1: RETO DEL DÍA -->
+              <div class="p-3 rounded-4 bg-white bg-opacity-50 border anim-pop-in">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <div class="p-2 bg-warning-subtle text-warning-emphasis rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;">
+                      <i class="bi bi-trophy-fill"></i>
+                    </div>
+                    <div>
+                      <strong class="small text-dark">Reto Oficial LinguaLearn</strong>
+                      <div class="text-secondary small" style="font-size: 0.75rem;">Hace 2 horas · Nivel A1 - B1</div>
+                    </div>
+                  </div>
+                  <span class="badge bg-warning text-dark">#RetoDelDía</span>
+                </div>
+                <p class="small mb-2 fw-medium">
+                  🌟 <em>"Describe what you usually have for breakfast using at least 3 adjectives (e.g., hot, fresh, delicious)!"</em>
+                </p>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <button type="button" class="btn btn-sm btn-light border rounded-pill py-1 px-3 btn-speak-text" data-speak="Describe what you usually have for breakfast using at least three adjectives!">
+                    <i class="bi bi-volume-up-fill text-primary"></i> <span class="small">Escuchar Reto</span>
+                  </button>
+                </div>
+                <div class="d-flex align-items-center gap-3 pt-2 border-top small text-secondary">
+                  <button class="btn btn-sm btn-link text-decoration-none text-secondary p-0 btn-like-counter">
+                    <i class="bi bi-heart text-danger"></i> <span>28 me gusta</span>
+                  </button>
+                  <span><i class="bi bi-chat"></i> 14 respuestas</span>
+                  <a href="#" class="ms-auto text-primary text-decoration-none fw-semibold">Responder</a>
+                </div>
+              </div>
+
+              <!-- POST 2: DUDA DE ESTUDIANTE -->
+              <div class="p-3 rounded-4 bg-white bg-opacity-50 border anim-pop-in">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="assets/apple_vector.png" alt="Camila Chen" class="rounded-circle border" width="36" height="36" style="object-fit: cover;">
+                    <div>
+                      <strong class="small text-dark">Camila Chen</strong>
+                      <div class="text-secondary small" style="font-size: 0.75rem;">Hace 4 horas · Pregunta de Vocabulario</div>
+                    </div>
+                  </div>
+                  <span class="badge bg-primary-subtle text-primary">#Vocabulario</span>
+                </div>
+                <p class="small mb-2">
+                  ¿Cuál es la diferencia más natural entre decir <em>"I listen to music"</em> y <em>"I hear music"</em>? Siempre me confundo cuando hablo de fondo.
+                </p>
+                <div class="p-2 px-3 rounded-3 bg-light border small text-dark mb-2">
+                  <strong class="text-success"><i class="bi bi-check-circle-fill"></i> Respuesta destacada:</strong> 
+                  <em>"Listen"</em> requiere atención voluntaria (como disfrutar una canción favorita), mientras que <em>"hear"</em> es simplemente percibir un sonido sin planearlo (un ruido en la calle).
+                </div>
+                <div class="d-flex align-items-center gap-3 pt-2 border-top small text-secondary">
+                  <button class="btn btn-sm btn-link text-decoration-none text-secondary p-0 btn-like-counter">
+                    <i class="bi bi-heart text-danger"></i> <span>19 me gusta</span>
+                  </button>
+                  <span><i class="bi bi-chat"></i> 6 comentarios</span>
+                  <a href="#" class="ms-auto text-primary text-decoration-none fw-semibold">Responder</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- COLUMNA DERECHA: TABLA DE CLASIFICACIÓN / LEADERBOARD (4 COLS) -->
+        <div class="col-lg-4">
+          <div class="card-custom test-card-glass p-4 sticky-top anim-cascade stagger-6" style="top: 90px;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h2 class="h5 fw-bold mb-0">
+                <i class="bi bi-trophy text-warning me-2"></i> Ranking Semanal
+              </h2>
+              <span class="badge bg-warning-subtle text-warning-emphasis">Liga Plata</span>
+            </div>
+            <div class="small text-secondary mb-3">
+              <i class="bi bi-clock-history"></i> Termina en: <strong>2 días, 14 horas</strong>
+            </div>
+
+            <!-- PODIO VISUAL TOP 3 -->
+            <div class="podium-container">
+              
+              <!-- #2 PLATA -->
+              <div class="podium-step podium-step-2">
+                <div class="podium-avatar-wrapper">
+                  <img src="assets/cafe.jpg" alt="Camila Chen" class="podium-avatar-img">
+                </div>
+                <div class="small fw-bold text-truncate" style="max-width: 80px; margin: 0 auto;">Camila C.</div>
+                <div class="small text-muted">160 XP</div>
+                <div class="podium-pillar pillar-silver">
+                  <span class="fs-4">🥈</span>
+                  <span class="small">#2</span>
+                </div>
+              </div>
+
+              <!-- #1 ORO -->
+              <div class="podium-step podium-step-1">
+                <div class="podium-avatar-wrapper">
+                  <span class="podium-crown">👑</span>
+                  <img src="assets/student_hero.jpg" alt="Mateo Silva" class="podium-avatar-img" style="width: 68px; height: 68px; border-color: #f59e0b;">
+                </div>
+                <div class="small fw-bold text-truncate" style="max-width: 90px; margin: 0 auto;">Mateo S.</div>
+                <div class="small text-warning-emphasis fw-bold">185 XP</div>
+                <div class="podium-pillar pillar-gold">
+                  <span class="fs-3">🥇</span>
+                  <span class="small">#1</span>
+                </div>
+              </div>
+
+              <!-- #3 BRONCE -->
+              <div class="podium-step podium-step-3">
+                <div class="podium-avatar-wrapper">
+                  <img src="assets/desk_coffee.jpg" alt="Lucas Torres" class="podium-avatar-img">
+                </div>
+                <div class="small fw-bold text-truncate" style="max-width: 80px; margin: 0 auto;">Lucas T.</div>
+                <div class="small text-muted">145 XP</div>
+                <div class="podium-pillar pillar-bronze">
+                  <span class="fs-4">🥉</span>
+                  <span class="small">#3</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- ZONA DE ASCENSO -->
+            <div class="alert alert-success py-1 px-2 small mb-3 text-center border-0" style="font-size: 0.775rem;">
+              <i class="bi bi-arrow-up-circle-fill"></i> Los 3 primeros ascienden a la <strong>Liga Oro</strong>
+            </div>
+
+            <!-- LISTA DE POSICIONES RESTANTES CON SOFIA MARTINEZ DESTACADA -->
+            <div class="d-flex flex-column gap-2 mb-3">
+              
+              <!-- #4 SOFIA MARTINEZ (TÚ) -->
+              <div class="p-2 px-3 d-flex align-items-center justify-content-between leaderboard-row-you">
+                <div class="d-flex align-items-center gap-2">
+                  <strong class="fs-5 text-warning-emphasis">4</strong>
+                  <img src="assets/sofia.jpg" alt="Sofia Martinez" class="rounded-circle border" width="36" height="36" style="object-fit: cover;">
+                  <div>
+                    <strong class="small d-block">Sofia Martinez (Tú)</strong>
+                    <span class="small text-secondary"><i class="bi bi-fire text-danger"></i> 5 días de racha</span>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <strong class="text-primary">120 XP</strong>
+                  <div class="small text-success" style="font-size: 0.7rem;">+25 XP hoy</div>
+                </div>
+              </div>
+
+              <!-- #5 DIEGO MORALES -->
+              <div class="p-2 px-3 d-flex align-items-center justify-content-between rounded-3 bg-light border">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="fw-bold text-secondary">5</span>
+                  <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width:32px; height:32px; font-size: 0.75rem;">DM</div>
+                  <div>
+                    <span class="small fw-semibold">Diego Morales</span>
+                  </div>
+                </div>
+                <span class="small fw-bold text-secondary">110 XP</span>
+              </div>
+
+              <!-- #6 VALERIA RUIZ -->
+              <div class="p-2 px-3 d-flex align-items-center justify-content-between rounded-3 bg-light border">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="fw-bold text-secondary">6</span>
+                  <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width:32px; height:32px; font-size: 0.75rem;">VR</div>
+                  <div>
+                    <span class="small fw-semibold">Valeria Ruiz</span>
+                  </div>
+                </div>
+                <span class="small fw-bold text-secondary">95 XP</span>
+              </div>
+
+              <!-- #7 ANDRÉS GÓMEZ -->
+              <div class="p-2 px-3 d-flex align-items-center justify-content-between rounded-3 bg-light border">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="fw-bold text-secondary">7</span>
+                  <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width:32px; height:32px; font-size: 0.75rem;">AG</div>
+                  <div>
+                    <span class="small fw-semibold">Andrés Gómez</span>
+                  </div>
+                </div>
+                <span class="small fw-bold text-secondary">80 XP</span>
+              </div>
+
+            </div>
+
+            <!-- TIP MOTIVACIONAL -->
+            <div class="p-2 rounded-3 bg-light border text-center small text-secondary">
+              <i class="bi bi-lightning-charge text-warning"></i> ¡Completa una práctica de voz hoy y sube al podio de honor!
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL DE SALA DE AUDIO EN VIVO INTERACTIVA -->
+  <div class="modal fade" id="modal-audio-room" tabindex="-1" aria-labelledby="modalAudioRoomLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content card-custom test-card-glass border-0 p-3">
+        <div class="modal-header border-0 pb-2">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-success-subtle text-success small">
+              <span class="pulse-live-dot"></span> EN VIVO
+            </span>
+            <h2 class="h5 modal-title fw-bold" id="modalAudioRoomLabel">Morning Coffee & Small Talk</h2>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar sala" id="btn-leave-room"></button>
+        </div>
+
+        <div class="modal-body py-3">
+          <!-- Escenario de Hablantes con Avatares y Ondas -->
+          <div class="p-4 test-container-inset rounded-4 mb-4 text-center">
+            <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap mb-3">
+              
+              <!-- Anfitrión Hablando -->
+              <div class="text-center position-relative">
+                <div class="position-relative d-inline-block">
+                  <img src="assets/student_hero.jpg" alt="Host" class="rounded-circle border border-3 border-success shadow" width="72" height="72" style="object-fit: cover;">
+                  <span class="badge bg-success position-absolute bottom-0 end-0 rounded-circle p-1" title="Micrófono activo">
+                    <i class="bi bi-mic-fill text-white" style="font-size: 0.75rem;"></i>
+                  </span>
+                </div>
+                <div class="small fw-bold mt-1 text-dark">Mateo (Host)</div>
+                <span class="badge bg-primary-subtle text-primary" style="font-size: 0.7rem;">Hablando...</span>
+              </div>
+
+              <!-- Sofia (Tú) -->
+              <div class="text-center position-relative">
+                <div class="position-relative d-inline-block">
+                  <img src="assets/sofia.jpg" alt="Sofia" class="rounded-circle border border-3 border-primary shadow" width="72" height="72" style="object-fit: cover;">
+                  <span class="badge bg-secondary position-absolute bottom-0 end-0 rounded-circle p-1" id="badge-my-mic" title="Micrófono silenciado">
+                    <i class="bi bi-mic-mute-fill text-white" style="font-size: 0.75rem;"></i>
+                  </span>
+                </div>
+                <div class="small fw-bold mt-1 text-dark">Sofia Martinez (Tú)</div>
+                <span class="badge bg-secondary-subtle text-secondary" id="badge-my-status" style="font-size: 0.7rem;">Oyente</span>
+              </div>
+
+              <!-- Participante 3 -->
+              <div class="text-center position-relative">
+                <div class="position-relative d-inline-block">
+                  <img src="assets/desk_coffee.jpg" alt="Lucas" class="rounded-circle border shadow" width="72" height="72" style="object-fit: cover;">
+                  <span class="badge bg-secondary position-absolute bottom-0 end-0 rounded-circle p-1">
+                    <i class="bi bi-mic-mute-fill text-white" style="font-size: 0.75rem;"></i>
+                  </span>
+                </div>
+                <div class="small fw-bold mt-1 text-dark">Lucas T.</div>
+                <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.7rem;">Oyente</span>
+              </div>
+
+              <!-- Participante 4 -->
+              <div class="text-center position-relative">
+                <div class="position-relative d-inline-block">
+                  <img src="assets/cafe.jpg" alt="Camila" class="rounded-circle border shadow" width="72" height="72" style="object-fit: cover;">
+                  <span class="badge bg-secondary position-absolute bottom-0 end-0 rounded-circle p-1">
+                    <i class="bi bi-mic-mute-fill text-white" style="font-size: 0.75rem;"></i>
+                  </span>
+                </div>
+                <div class="small fw-bold mt-1 text-dark">Camila C.</div>
+                <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.7rem;">Oyente</span>
+              </div>
+
+            </div>
+
+            <div class="small text-secondary">
+              <i class="bi bi-info-circle me-1"></i> Consejo de moderación: Habla con naturalidad, no tengas miedo a equivocarte; todos estamos aprendiendo juntos.
+            </div>
+          </div>
+
+          <!-- Barra de Controles de la Sala -->
+          <div class="d-flex justify-content-center align-items-center gap-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-3" id="btn-toggle-mic">
+              <i class="bi bi-mic-mute-fill me-1"></i> <span id="lbl-toggle-mic">Activar Micrófono</span>
+            </button>
+            <button type="button" class="btn btn-outline-warning rounded-pill px-3" id="btn-raise-hand">
+              <span>✋</span> Levantar la Mano
+            </button>
+            <button type="button" class="btn btn-outline-danger rounded-pill px-3" data-bs-dismiss="modal">
+              <i class="bi bi-door-open me-1"></i> Salir de la Sala
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PARA CREAR SALA -->
+  <div class="modal fade" id="modal-create-room" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom test-card-glass border-0 p-3">
+        <div class="modal-header border-0 pb-0">
+          <h2 class="h5 modal-title fw-bold"><i class="bi bi-plus-circle text-primary me-2"></i> Crear Sala de Conversación</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body py-3">
+          <div class="mb-3">
+            <label for="room-title-input" class="form-label small fw-bold">Título de la Sala:</label>
+            <input type="text" class="form-control" id="room-title-input" placeholder="Ej. Weekend Plans & Chill Talk">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label for="room-level-select" class="form-label small fw-bold">Nivel Recomendado:</label>
+              <select class="form-select" id="room-level-select">
+                <option value="A1-A2">A1 - A2 (Inicial)</option>
+                <option value="B1-B2" selected>B1 - B2 (Intermedio)</option>
+                <option value="C1-C2">C1 - C2 (Avanzado)</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="room-topic-select" class="form-label small fw-bold">Tema Principal:</label>
+              <select class="form-select" id="room-topic-select">
+                <option value="Café">☕ Café & Cotidiano</option>
+                <option value="Viajes">✈️ Viajes</option>
+                <option value="Trabajo">💼 Trabajo</option>
+                <option value="Cultura">🎬 Cultura & Ocio</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="room-desc-input" class="form-label small fw-bold">Descripción u Objetivo de la Sala:</label>
+            <textarea class="form-control" id="room-desc-input" rows="2" placeholder="Describe brevemente de qué tratará la charla..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-secondary-custom rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary-custom rounded-pill" id="btn-confirm-create-room">
+            Crear y Abrir Sala
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA ACCESIBLE -->
+  <footer class="footer-accessible dashboard-footer-warm anim-cascade stagger-9">
+    <div class="container-xl">
+      <div class="row align-items-center g-3">
+        <div class="col-md-6 d-flex align-items-center gap-2">
+          <div class="brand-icon" style="width: 24px; height: 24px; font-size: 0.8rem;">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <strong class="text-dark">LinguaLearn Comunidad</strong>
+          <span class="text-muted small ms-2">Entorno seguro y empático para practicar conversación real.</span>
+        </div>
+        <div class="col-md-6 text-md-end d-flex flex-wrap justify-content-md-end gap-3 small">
+          <a href="soporte.html"><i class="bi bi-question-circle"></i> Centro de Ayuda</a>
+          <a href="suscripcion.html"><i class="bi bi-gem"></i> Planes Pro</a>
+          <a href="#"><i class="bi bi-shield-check"></i> Reglas de Convivencia</a>
+          <a href="#">Privacidad</a>
+        </div>
+      </div>
+      <div class="text-center text-muted small mt-4 pt-3 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+        © 2024 LinguaLearn. Diseñado bajo estándares WCAG 2.2 AAA.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scripts de la Aplicación -->
+  <script src="js/fireflies.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- LÓGICA DE INTERACCIÓN DE COMUNIDAD -->
+  <script>
+    (function () {
+      'use strict';
+
+      // 1. Filtros por Nivel y Tema
+      const filterBtns = document.querySelectorAll('.filter-chip-btn');
+      const roomCards = document.querySelectorAll('.room-item');
+
+      let activeLevel = 'all';
+      let activeTopic = 'all';
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+          const filterLevel = this.getAttribute('data-filter-level');
+          const filterTopic = this.getAttribute('data-filter-topic');
+
+          if (filterLevel !== null) {
+            document.querySelectorAll('[data-filter-level]').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            activeLevel = filterLevel;
+          }
+
+          if (filterTopic !== null) {
+            document.querySelectorAll('[data-filter-topic]').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            activeTopic = filterTopic;
+          }
+
+          // Aplicar filtrado
+          roomCards.forEach(card => {
+            const cardLevel = card.getAttribute('data-level');
+            const cardTopic = card.getAttribute('data-topic');
+
+            const matchLevel = (activeLevel === 'all' || cardLevel === activeLevel);
+            const matchTopic = (activeTopic === 'all' || cardTopic === activeTopic);
+
+            if (matchLevel && matchTopic) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // 2. Unirse a Sala de Audio
+      const modalAudioEl = new bootstrap.Modal(document.getElementById('modal-audio-room'));
+      document.querySelectorAll('.btn-join-room').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const title = this.getAttribute('data-room-title');
+          document.getElementById('modalAudioRoomLabel').textContent = title;
+          modalAudioEl.show();
+        });
+      });
+
+      // 3. Controles en Sala: Micrófono y Levantar Mano
+      let isMicActive = false;
+      const btnToggleMic = document.getElementById('btn-toggle-mic');
+      const lblToggleMic = document.getElementById('lbl-toggle-mic');
+      const badgeMyMic = document.getElementById('badge-my-mic');
+      const badgeMyStatus = document.getElementById('badge-my-status');
+
+      btnToggleMic.addEventListener('click', function () {
+        isMicActive = !isMicActive;
+        if (isMicActive) {
+          this.className = 'btn btn-success rounded-pill px-3';
+          this.innerHTML = '<i class="bi bi-mic-fill me-1"></i> Silenciar Micrófono';
+          badgeMyMic.className = 'badge bg-success position-absolute bottom-0 end-0 rounded-circle p-1';
+          badgeMyMic.innerHTML = '<i class="bi bi-mic-fill text-white" style="font-size: 0.75rem;"></i>';
+          badgeMyStatus.className = 'badge bg-success-subtle text-success';
+          badgeMyStatus.textContent = 'Micrófono activo';
+        } else {
+          this.className = 'btn btn-outline-secondary rounded-pill px-3';
+          this.innerHTML = '<i class="bi bi-mic-mute-fill me-1"></i> Activar Micrófono';
+          badgeMyMic.className = 'badge bg-secondary position-absolute bottom-0 end-0 rounded-circle p-1';
+          badgeMyMic.innerHTML = '<i class="bi bi-mic-mute-fill text-white" style="font-size: 0.75rem;"></i>';
+          badgeMyStatus.className = 'badge bg-secondary-subtle text-secondary';
+          badgeMyStatus.textContent = 'Oyente';
+        }
+      });
+
+      const btnRaiseHand = document.getElementById('btn-raise-hand');
+      let isHandRaised = false;
+      btnRaiseHand.addEventListener('click', function () {
+        isHandRaised = !isHandRaised;
+        if (isHandRaised) {
+          this.className = 'btn btn-warning text-dark rounded-pill px-3';
+          this.innerHTML = '<span>✋</span> Mano Levantada';
+          badgeMyStatus.className = 'badge bg-warning-subtle text-warning-emphasis';
+          badgeMyStatus.textContent = 'Pidió hablar ✋';
+        } else {
+          this.className = 'btn btn-outline-warning rounded-pill px-3';
+          this.innerHTML = '<span>✋</span> Levantar la Mano';
+          badgeMyStatus.className = 'badge bg-secondary-subtle text-secondary';
+          badgeMyStatus.textContent = isMicActive ? 'Micrófono activo' : 'Oyente';
+        }
+      });
+
+      // 4. Publicar en el Muro con Respuesta Automática del Asistente de IA (LinguaBot)
+      const btnSubmitPost = document.getElementById('btn-submit-post');
+      const postTextarea = document.getElementById('post-textarea');
+      const postTopicSelect = document.getElementById('post-topic-select');
+      const feedList = document.getElementById('practice-feed-list');
+
+      function generateAiReply(userText, tag) {
+        const lower = userText.toLowerCase();
+        let replyText = '';
+        let speechText = '';
+
+        if (lower.includes('diferencia') || lower.includes('versus') || lower.includes('vs') || lower.includes('cuándo') || lower.includes('cuando')) {
+          replyText = `¡Excelente duda lingüística! Para diferenciarlos con claridad: recuerda que en inglés el contexto pragmático define la elección. Por ejemplo, en acciones deliberadas usamos el término activo y para percepciones espontáneas el receptivo. Escucha la muestra nativa recomendada:`;
+          speechText = "Pay close attention to the natural context of the conversation.";
+        } else if (tag === '#RetoDelDía' || lower.includes('breakfast') || lower.includes('desayuno') || lower.includes('reto')) {
+          replyText = `🌟 ¡Fantástica participación en el reto! Has utilizado adjetivos bien articulados y la estructura sintáctica es sólida. Un giro nativo muy común para complementar es:`;
+          speechText = "It was absolutely delicious and freshly prepared this morning!";
+        } else if (lower.includes('pronunciar') || lower.includes('pronunciación') || lower.includes('pronounce') || tag === '#Pronunciación') {
+          replyText = `🗣️ ¡Muy buen punto fonético! El secreto está en conectar suavemente las consonantes finales con la vocal siguiente (linking words) sin pausas abruptas:`;
+          speechText = "Connect your words smoothly to sound more natural and fluent.";
+        } else if (lower.includes('gramática') || lower.includes('grammar') || lower.includes('verbo') || lower.includes('tiempo')) {
+          replyText = `📘 ¡Gran consulta sintáctica! Recuerda que la concordancia de tiempo verbal debe mantenerse constante en toda la cláusula para proyectar máxima claridad:`;
+          speechText = "Keep your verb tenses consistent throughout the whole sentence.";
+        } else {
+          replyText = `💡 ¡Gran aporte para la comunidad! Tu redacción transmite la idea de forma clara. Una expresión complementaria muy usada por hablantes nativos es:`;
+          speechText = "That is a wonderful and natural way to practice your daily English!";
+        }
+
+        return { replyText, speechText };
+      }
+
+      btnSubmitPost.addEventListener('click', function () {
+        const text = postTextarea.value.trim();
+        if (!text) {
+          alert('Por favor escribe algo antes de publicar.');
+          return;
+        }
+        const tag = postTopicSelect.value;
+        const currentUser = (window.LinguaApp && window.LinguaApp.getUser()) ? window.LinguaApp.getUser() : { name: 'Sofia Martinez', avatar: 'assets/sofia.jpg' };
+
+        const postId = 'post-' + Date.now();
+        const newPost = document.createElement('div');
+        newPost.id = postId;
+        newPost.className = 'p-3 rounded-4 bg-white bg-opacity-75 border anim-pop-in mb-3';
+        newPost.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <img src="${currentUser.avatar || 'assets/sofia.jpg'}" alt="${currentUser.name}" class="rounded-circle border" width="36" height="36" style="object-fit: cover;">
+              <div>
+                <strong class="small text-dark">${currentUser.name}</strong>
+                <div class="text-secondary small" style="font-size: 0.75rem;">Hace unos instantes · Estudiante</div>
+              </div>
+            </div>
+            <span class="badge bg-primary-subtle text-primary">${tag}</span>
+          </div>
+          <p class="small mb-2 fw-medium text-dark">${text}</p>
+          <div class="d-flex align-items-center gap-3 pt-2 border-top small text-secondary">
+            <button class="btn btn-sm btn-link text-decoration-none text-secondary p-0 btn-like-counter">
+              <i class="bi bi-heart text-danger"></i> <span>1 me gusta</span>
+            </button>
+            <span class="comment-count-label"><i class="bi bi-chat"></i> 1 respuesta</span>
+            <button type="button" class="btn btn-sm btn-link text-primary text-decoration-none fw-semibold p-0 ms-auto btn-toggle-reply-box">
+              Responder
+            </button>
+          </div>
+
+          <!-- Indicador de procesamiento del Asistente de IA -->
+          <div class="ai-typing-indicator mt-3 p-2 px-3 rounded-3 bg-light border small text-secondary">
+            <span class="spinner-border spinner-border-sm text-primary me-2" role="status"></span>
+            <strong>LinguaBot IA</strong> está analizando tu duda para darte una respuesta personalizada...
+          </div>
+        `;
+        feedList.prepend(newPost);
+        postTextarea.value = '';
+
+        // Otorgar XP al estudiante por participar
+        if (window.LinguaApp) {
+          window.LinguaApp.addXP(10);
+          window.LinguaApp.showToast('¡+10 XP por tu publicación en la comunidad!', 'success');
+        }
+
+        // RESPUESTA AUTOMÁTICA DEL ASISTENTE DE IA TRAS 1.2 SEGUNDOS
+        setTimeout(() => {
+          const indicator = newPost.querySelector('.ai-typing-indicator');
+          if (indicator) {
+            const aiData = generateAiReply(text, tag);
+            const replyContainer = document.createElement('div');
+            replyContainer.className = 'mt-3 p-3 rounded-3 test-container-inset border anim-pop-in';
+            replyContainer.innerHTML = `
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="p-1 px-2 bg-primary text-white rounded-pill small fw-bold" style="font-size: 0.75rem;">
+                    <i class="bi bi-robot me-1"></i> LinguaBot IA
+                  </div>
+                  <span class="badge bg-success-subtle text-success small border border-success-subtle">
+                    <span class="pulse-live-dot" style="width:7px; height:7px;"></span> Respuesta Oficial
+                  </span>
+                </div>
+                <span class="text-secondary small" style="font-size: 0.72rem;">Ahora mismo</span>
+              </div>
+              <div class="small text-dark mb-2">
+                ${aiData.replyText}
+              </div>
+              <div class="p-2 px-3 rounded-3 bg-white border small fw-semibold text-primary mb-2 d-flex justify-content-between align-items-center">
+                <span>“${aiData.speechText}”</span>
+                <button type="button" class="btn btn-sm btn-light border rounded-pill py-0 px-2 btn-speak-text" data-speak="${aiData.speechText}">
+                  <i class="bi bi-volume-up-fill text-primary"></i> <span class="small">Escuchar</span>
+                </button>
+              </div>
+              <div class="small text-secondary" style="font-size: 0.75rem;">
+                <i class="bi bi-stars text-warning me-1"></i> Asistencia automática generada para potenciar tu fluidez comunicativa.
+              </div>
+            `;
+            indicator.replaceWith(replyContainer);
+
+            // Enlazar evento de audio al nuevo botón
+            replyContainer.querySelector('.btn-speak-text')?.addEventListener('click', function () {
+              const speakText = this.getAttribute('data-speak');
+              if ('speechSynthesis' in window) {
+                const utt = new SpeechSynthesisUtterance(speakText);
+                utt.lang = 'en-US';
+                window.speechSynthesis.speak(utt);
+              }
+            });
+          }
+        }, 1200);
+      });
+
+      // 5. Síntesis de voz en los posts
+      document.querySelectorAll('.btn-speak-text').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const text = this.getAttribute('data-speak');
+          if ('speechSynthesis' in window) {
+            const utt = new SpeechSynthesisUtterance(text);
+            utt.lang = 'en-US';
+            window.speechSynthesis.speak(utt);
+          }
+        });
+      });
+
+      // 6. Contadores de Like
+      document.addEventListener('click', function (e) {
+        const likeBtn = e.target.closest('.btn-like-counter');
+        if (likeBtn) {
+          const countSpan = likeBtn.querySelector('span');
+          let current = parseInt(countSpan.textContent, 10) || 0;
+          current++;
+          countSpan.textContent = `${current} me gusta`;
+          likeBtn.querySelector('i').className = 'bi bi-heart-fill text-danger';
+        }
+      });
+
+      // 7. Crear sala
+      const btnConfirmCreateRoom = document.getElementById('btn-confirm-create-room');
+      btnConfirmCreateRoom.addEventListener('click', function () {
+        const title = document.getElementById('room-title-input').value.trim() || 'Conversación Abierta';
+        const modalCreateEl = bootstrap.Modal.getInstance(document.getElementById('modal-create-room'));
+        if (modalCreateEl) modalCreateEl.hide();
+
+        document.getElementById('modalAudioRoomLabel').textContent = title;
+        modalAudioEl.show();
+      });
+
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaLearn - Centro de Ayuda y Soporte</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Estilos Personalizados y Nuevas Pantallas -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/nuevas_pantallas.css">
+  <script>
+    if (localStorage.getItem('lingua_theme_reset_warm') !== 'true') {
+      localStorage.setItem('lingua_theme', 'light');
+      localStorage.setItem('lingua_theme_reset_warm', 'true');
+    }
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (document.body) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark-mode'));
+      }
+    }
+  </script>
+</head>
+<body class="support-canvas">
+
+  <!-- BARRA SUPERIOR DE ACCESIBILIDAD CON VIDRIO ESMERILADO CÁLIDO -->
+  <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">
+    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2 py-1">
+      <div class="d-flex align-items-center gap-3">
+        <span class="d-inline-flex align-items-center gap-1 fw-bold" style="color: #243828;">
+          <i class="bi bi-person-wheelchair text-primary"></i> Accesibilidad
+        </span>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
+          <i class="bi bi-moon-stars-fill"></i> <span class="darkmode-text">Modo Oscuro</span>
+        </button>
+        <span class="opacity-50">|</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Ajuste de tipografía">
+          <button type="button" class="btn-font-decrease font-size-control-btn" style="color: #4a3e30;" aria-label="Disminuir tamaño">A-</button>
+          <button type="button" class="btn-font-increase font-size-control-btn" style="color: #4a3e30;" aria-label="Aumentar tamaño">A+</button>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-sm btn-link text-decoration-none dropdown-toggle p-0" style="color: #4a3e30;" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-translate"></i> Español (ES)
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item active" href="#">Español (ES)</a></li>
+            <li><a class="dropdown-item" href="#">English (US)</a></li>
+          </ul>
+        </div>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn btn-sm btn-link text-decoration-none p-0" style="color: #4a3e30;" data-bs-toggle="modal" data-bs-target="#modal-shortcuts">
+          <i class="bi bi-keyboard"></i> Atajos [Alt + 1-5]
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- NAVBAR PRINCIPAL CON TONO MARFIL CÁLIDO ESMERILADO -->
+  <header class="main-navbar canvas-navbar-warm sticky-top shadow-sm anim-cascade-down stagger-2">
+    <div class="container-xl">
+      <nav class="navbar navbar-expand-lg p-0" aria-label="Navegación principal">
+        <a class="brand-logo-container" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <span class="brand-name">LinguaLearn</span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-label="Menú principal">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="test-diagnostico.html">Test Diagnóstico</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="dashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="leccion.html">Lección Activa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="pronunciacion.html">Pronunciación</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="comunidad.html">Comunidad</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="suscripcion.html">Suscripción</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom active" aria-current="page" href="soporte.html">Soporte</a>
+            </li>
+          </ul>
+
+          <!-- BARRA DE ESTADO DE USUARIO: MI PERFIL, RACHA Y XP EN UNA SOLA LÍNEA CON MENÚ HACIA ABAJO -->
+          <div class="header-user-status-bar d-flex align-items-center gap-2 gap-md-3 flex-nowrap ms-lg-3">
+            <div class="header-stat-pill streak flex-shrink-0" title="Racha activa">
+              <i class="bi bi-fire"></i> <span class="stat-streak-val">5 días</span>
+            </div>
+            <div class="header-stat-pill xp flex-shrink-0" title="Experiencia acumulada">
+              <i class="bi bi-lightning-charge-fill"></i> <span class="stat-xp-val">120 XP</span>
+            </div>
+            <div class="dropdown header-profile-dropdown flex-shrink-0">
+              <button class="header-profile-btn dropdown-toggle d-flex align-items-center gap-2" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" title="Menú de perfil y cerrar sesión">
+                <div class="position-relative">
+                  <img src="assets/sofia.jpg" alt="Foto de perfil de Sofia Martinez" class="header-avatar-img">
+                  <span class="avatar-online-dot"></span>
+                </div>
+                <span class="header-profile-name fw-semibold small user-display-name">Mi Perfil</span>
+                <i class="bi bi-chevron-down small text-secondary"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 card-custom test-card-glass p-2 mt-2" aria-labelledby="dropdownUserMenu" style="min-width: 240px; z-index: 9999;">
+                <li class="px-3 py-2 border-bottom mb-1">
+                  <div class="fw-bold text-dark text-truncate user-display-name">Sofia Martinez</div>
+                  <div class="small text-secondary text-truncate" style="font-size: 0.775rem;">sofia.martinez@universidad.edu</div>
+                  <div class="badge bg-primary-subtle text-primary mt-1 user-level-badge" style="font-size: 0.7rem;">Nivel A2 - Básico Activo</div>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="perfil.html">
+                    <i class="bi bi-person-circle text-primary"></i> <span>Mi Perfil y Logros</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="dashboard.html">
+                    <i class="bi bi-speedometer2 text-success"></i> <span>Mi Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="suscripcion.html">
+                    <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider my-1"></li>
+                <li>
+                  <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
+                    <i class="bi bi-box-arrow-right fs-6"></i> <span>Cerrar Sesión</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="py-4 py-md-5" id="main-content">
+    <div class="container-xl" style="max-width: 960px;">
+
+      <!-- HERO CENTRAL DE BÚSQUEDA -->
+      <div class="text-center mb-5 anim-cascade stagger-3">
+        <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold mb-2">
+          <i class="bi bi-patch-question-fill me-1"></i> Asistencia Inmediata y Empática
+        </span>
+        <h1 class="display-6 fw-bold mb-3">¿En qué podemos ayudarte, Sofia?</h1>
+        <p class="text-secondary mx-auto mb-4" style="max-width: 600px;">
+          Encuentra soluciones rápidas para tu cuenta, pagos en Soles (Yape/Plin/Culqi), calibración del micrófono y ajustes de accesibilidad.
+        </p>
+
+        <!-- BARRA DESTACADA DE BÚSQUEDA CON FILTRADO EN VIVO -->
+        <div class="support-search-box mx-auto" style="max-width: 680px;">
+          <i class="bi bi-search fs-5 text-secondary"></i>
+          <input type="text" class="support-search-input" id="support-search-input" placeholder="Escribe tu duda (ej. Yape, micrófono, certificados, reembolso)..." aria-label="Buscar en el centro de ayuda">
+          <button type="button" class="btn btn-primary-custom btn-sm rounded-pill px-3" id="btn-clear-search">
+            Buscar
+          </button>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           4 TARJETAS DE TEMAS Y ACCESOS DIRECTOS
+           ========================================================================= -->
+      <div class="row g-3 mb-5 anim-cascade stagger-4" id="categories-row">
+        
+        <!-- TEMA 1: CUENTA Y PAGOS -->
+        <div class="col-md-3 col-sm-6 category-col" data-cat="pagos">
+          <div class="support-category-card">
+            <div class="p-3 bg-warning-subtle text-warning-emphasis rounded-circle mb-3 fs-3">
+              <i class="bi bi-credit-card-2-front"></i>
+            </div>
+            <h2 class="h6 fw-bold mb-1">Cuenta y Pagos Perú</h2>
+            <p class="small text-secondary mb-0">Yape, Plin, Culqi, facturas SUNAT y cancelación.</p>
+          </div>
+        </div>
+
+        <!-- TEMA 2: PROBLEMAS EN EJERCICIOS Y AUDIO -->
+        <div class="col-md-3 col-sm-6 category-col" data-cat="ejercicios">
+          <div class="support-category-card">
+            <div class="p-3 bg-primary-subtle text-primary rounded-circle mb-3 fs-3">
+              <i class="bi bi-mic"></i>
+            </div>
+            <h2 class="h6 fw-bold mb-1">Problemas en Ejercicios</h2>
+            <p class="small text-secondary mb-0">Micrófono, audio lento, calibración y racha.</p>
+          </div>
+        </div>
+
+        <!-- TEMA 3: ACCESIBILIDAD Y CONFIGURACIÓN -->
+        <div class="col-md-3 col-sm-6 category-col" data-cat="accesibilidad">
+          <div class="support-category-card">
+            <div class="p-3 bg-success-subtle text-success rounded-circle mb-3 fs-3">
+              <i class="bi bi-person-wheelchair"></i>
+            </div>
+            <h2 class="h6 fw-bold mb-1">Accesibilidad</h2>
+            <p class="small text-secondary mb-0">Modo oscuro, tamaño de fuentes A-/A+ y atajos.</p>
+          </div>
+        </div>
+
+        <!-- TEMA 4: CERTIFICADOS Y PROGRESO -->
+        <div class="col-md-3 col-sm-6 category-col" data-cat="progreso">
+          <div class="support-category-card">
+            <div class="p-3 bg-info-subtle text-info-emphasis rounded-circle mb-3 fs-3">
+              <i class="bi bi-award"></i>
+            </div>
+            <h2 class="h6 fw-bold mb-1">Certificados y Progreso</h2>
+            <p class="small text-secondary mb-0">Niveles CEFR, ligas, puntos XP y diplomas.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- =========================================================================
+           SECCIÓN FAQ: ACORDEÓN INTERACTIVO ACCESIBLE
+           ========================================================================= -->
+      <div class="card-custom test-card-glass p-4 p-md-5 mb-5 anim-cascade stagger-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="h4 fw-bold mb-0">
+            <i class="bi bi-question-circle text-primary me-2"></i> Preguntas Más Frecuentes (FAQ)
+          </h2>
+          <span class="small text-secondary" id="faq-counter-label">5 respuestas disponibles</span>
+        </div>
+
+        <div class="accordion support-accordion" id="faqAccordion">
+          
+          <!-- FAQ 1 -->
+          <div class="accordion-item faq-item" data-keywords="yape plin pago suscripcion plan soles activar activacion">
+            <h3 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                ¿Cómo pago con Yape o Plin y en cuánto tiempo se activa mi plan Pro?
+              </button>
+            </h3>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-secondary small">
+                Para pagar con <strong>Yape</strong> o <strong>Plin</strong>, ingresa a la pantalla de <a href="suscripcion.html" class="fw-bold text-primary">Suscripción</a>, escanea el código QR oficial de LinguaLearn Perú S.A.C. (o yapea al número 987 654 321) y digita tu código de aprobación de 6 dígitos. La validación se realiza en tiempo real y tu cuenta se activa de forma instantánea sin esperas.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="accordion-item faq-item" data-keywords="microfono audio voz hablar ejercicios permiso chrome edge">
+            <h3 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                ¿Qué hago si mi micrófono no detecta mi voz en los ejercicios de pronunciación?
+              </button>
+            </h3>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-secondary small">
+                Asegúrate de conceder permisos de micrófono en tu navegador:
+                <ol class="mt-2 mb-2 ps-3">
+                  <li>Haz clic en el icono de candado o configuración junto a la barra de direcciones (URL).</li>
+                  <li>Verifica que la opción <strong>Micrófono</strong> esté configurada en <em>Permitir</em>.</li>
+                  <li>Comprueba que no tengas otra aplicación (como Zoom o Meet) utilizando el micrófono en segundo plano.</li>
+                </ol>
+                Si el problema persiste, puedes usar el botón de prueba en la vista de <a href="pronunciacion.html" class="fw-bold text-primary">Pronunciación</a>.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="accordion-item faq-item" data-keywords="reembolso devolucion garantia 7 dias cancelar cancelar dinero">
+            <h3 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                ¿Cómo funciona la garantía de reembolso de 7 días?
+              </button>
+            </h3>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-secondary small">
+                En LinguaLearn ofrecemos una <strong>garantía de satisfacción incondicional de 7 días</strong>. Si dentro de los primeros 7 días posteriores a tu pago consideras que la plataforma no cumple tus expectativas, puedes solicitar la devolución del 100% de tu dinero directamente desde este Centro de Ayuda abriendo un ticket con el asunto "Solicitud de Reembolso". No hacemos preguntas ni cobramos comisiones de retiro.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="accordion-item faq-item" data-keywords="boleta factura ruc sunat comprobante pdf descargar">
+            <h3 class="accordion-header" id="headingFour">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                ¿Emiten boleta o factura electrónica autorizada por SUNAT?
+              </button>
+            </h3>
+            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-secondary small">
+                Sí. Todas las transacciones realizadas a través de Culqi, Yape, Plin o PagoEfectivo emiten automáticamente su <strong>Boleta o Factura Electrónica</strong> autorizada por la SUNAT a nombre de LinguaLearn Perú S.A.C. (RUC 20609841231). Puedes descargar el PDF de tu comprobante en cualquier momento desde tu perfil o al finalizar el checkout.
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="accordion-item faq-item" data-keywords="certificado mcer cefr nivel progreso a1 a2 b1 b2 c1 diploma validez">
+            <h3 class="accordion-header" id="headingFive">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                ¿Cómo obtengo mi certificado internacional de nivel CEFR?
+              </button>
+            </h3>
+            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+              <div class="accordion-body text-secondary small">
+                Al completar satisfactoriamente todas las unidades de un nivel específico (ej. A2 o B1) y superar la evaluación de diagnóstico final con más del 80% de precisión, se generará tu <strong>Certificado Digital Verificado con código QR único</strong>, avalado según el Marco Común Europeo de Referencia para las Lenguas (MCER). Podrás añadirlo a tu perfil de LinkedIn o imprimirlo en alta resolución.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           SECCIÓN DE CONTACTO DIRECTO: CREAR TICKET O CHAT LINGUABOT
+           ========================================================================= -->
+      <div class="row g-4 anim-cascade stagger-6 mb-4">
+        
+        <!-- CONTACTO 1: CREAR TICKET DE SOPORTE -->
+        <div class="col-md-6">
+          <div class="card-custom test-card-glass p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="p-3 bg-primary-subtle text-primary rounded-4 fs-3">
+                  <i class="bi bi-ticket-perforated"></i>
+                </div>
+                <div>
+                  <h3 class="h5 fw-bold mb-0">Crear Ticket de Soporte</h3>
+                  <div class="small text-secondary">Respuesta promedio en menos de 2 horas</div>
+                </div>
+              </div>
+              <p class="small text-secondary mb-4">
+                Si experimentas una incidencia técnica o tienes consultas sobre tu cuenta, nuestro equipo humano te atenderá con gusto.
+              </p>
+            </div>
+            <div>
+              <button type="button" class="btn btn-secondary-custom w-100 py-2 fw-bold" data-bs-toggle="modal" data-bs-target="#modal-ticket">
+                <i class="bi bi-pencil-square me-1"></i> Abrir Ticket de Ayuda
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTACTO 2: CHAT ASISTENTE LINGUABOT -->
+        <div class="col-md-6">
+          <div class="card-custom test-card-glass p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="p-3 bg-success-subtle text-success rounded-4 fs-3">
+                  <i class="bi bi-chat-dots-fill"></i>
+                </div>
+                <div>
+                  <h3 class="h5 fw-bold mb-0">Chat en Vivo con LinguaBot</h3>
+                  <div class="small text-success fw-semibold"><span class="pulse-live-dot"></span> Asistente IA 24/7 disponible</div>
+                </div>
+              </div>
+              <p class="small text-secondary mb-4">
+                Conversa al instante con nuestro asistente virtual inteligente para resolver dudas sobre cursos, ejercicios y pagos en segundos.
+              </p>
+            </div>
+            <div>
+              <button type="button" class="btn btn-primary-custom w-100 py-2 fw-bold" data-bs-toggle="modal" data-bs-target="#modal-chat-linguabot">
+                <i class="bi bi-robot me-1"></i> Iniciar Chat de Asistencia
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL: CREAR TICKET DE SOPORTE -->
+  <div class="modal fade" id="modal-ticket" tabindex="-1" aria-labelledby="modalTicketLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom test-card-glass border-0 p-3">
+        <div class="modal-header border-0 pb-0">
+          <h2 class="h5 modal-title fw-bold" id="modalTicketLabel"><i class="bi bi-ticket-detailed text-primary me-2"></i> Nuevo Ticket de Reporte</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body py-3">
+          <div class="mb-3">
+            <label for="ticket-cat-select" class="form-label small fw-bold">Categoría:</label>
+            <select class="form-select" id="ticket-cat-select">
+              <option value="Pagos y Suscripción (Perú)">Pagos y Suscripción (Perú)</option>
+              <option value="Problemas con Micrófono / Audio">Problemas con Micrófono / Audio</option>
+              <option value="Certificados y Progreso">Certificados y Progreso</option>
+              <option value="Accesibilidad">Accesibilidad</option>
+              <option value="Otro">Otro asunto</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="ticket-subject-input" class="form-label small fw-bold">Asunto:</label>
+            <input type="text" class="form-control" id="ticket-subject-input" placeholder="Ej. Mi comprobante de pago con Yape">
+          </div>
+          <div class="mb-3">
+            <label for="ticket-desc-input" class="form-label small fw-bold">Descripción detallada:</label>
+            <textarea class="form-control" id="ticket-desc-input" rows="3" placeholder="Explícanos qué sucedió para ayudarte de inmediato..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-secondary-custom rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary-custom rounded-pill" id="btn-submit-ticket">
+            Enviar Ticket
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRMACIÓN DE TICKET EXITOSO -->
+  <div class="modal fade" id="modal-ticket-success" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom test-card-glass border-0 p-4 text-center">
+        <div class="display-4 text-success mb-2">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <h3 class="h5 fw-bold mb-2">¡Ticket Generado con Éxito!</h3>
+        <p class="text-secondary small mb-3">
+          Hemos recibido tu solicitud y nuestro equipo te responderá a tu correo electrónico registrado.
+        </p>
+        <div class="p-3 test-container-inset rounded-3 mb-3">
+          <div class="small text-secondary">Código de seguimiento:</div>
+          <strong class="fs-4 text-primary" id="lbl-generated-ticket">#TK-4819</strong>
+        </div>
+        <button type="button" class="btn btn-primary-custom rounded-pill w-100" data-bs-dismiss="modal">
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CHAT EN VIVO CON LINGUABOT -->
+  <div class="modal fade" id="modal-chat-linguabot" tabindex="-1" aria-labelledby="modalChatLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom test-card-glass border-0 p-3">
+        <div class="modal-header border-0 pb-2">
+          <div class="d-flex align-items-center gap-2">
+            <div class="p-2 bg-primary text-white rounded-circle fs-5">
+              <i class="bi bi-robot"></i>
+            </div>
+            <div>
+              <h2 class="h6 modal-title fw-bold mb-0" id="modalChatLabel">LinguaBot Asistente</h2>
+              <span class="small text-success"><span class="pulse-live-dot"></span> En línea para ayudarte</span>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar chat"></button>
+        </div>
+
+        <div class="modal-body p-0">
+          <!-- Historial de Conversación -->
+          <div class="linguabot-chat-box" id="chat-messages-container">
+            <div class="chat-bubble-bot">
+              ¡Hola Sofia! 👋 Soy LinguaBot, tu asistente de soporte. ¿En qué puedo orientarte hoy? Puedes preguntarme sobre tus pagos en soles, cómo calibrar tu micrófono o cómo funciona la racha.
+            </div>
+          </div>
+
+          <!-- Caja de Entrada del Chat -->
+          <div class="p-3 border-top">
+            <div class="input-group">
+              <input type="text" class="form-control" id="chat-user-input" placeholder="Escribe tu mensaje aquí..." aria-label="Escribe tu mensaje">
+              <button class="btn btn-primary-custom" type="button" id="btn-send-chat">
+                <i class="bi bi-send-fill"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA ACCESIBLE -->
+  <footer class="footer-accessible dashboard-footer-warm anim-cascade stagger-7">
+    <div class="container-xl">
+      <div class="row align-items-center g-3">
+        <div class="col-md-6 d-flex align-items-center gap-2">
+          <div class="brand-icon" style="width: 24px; height: 24px; font-size: 0.8rem;">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <strong class="text-dark">LinguaLearn Soporte</strong>
+          <span class="text-muted small ms-2">Atención accesible bajo lineamientos de transparencia y calidez.</span>
+        </div>
+        <div class="col-md-6 text-md-end d-flex flex-wrap justify-content-md-end gap-3 small">
+          <a href="suscripcion.html"><i class="bi bi-gem"></i> Planes y Pagos</a>
+          <a href="comunidad.html"><i class="bi bi-people"></i> Comunidad</a>
+          <a href="#">Términos y Privacidad</a>
+          <a href="#">Libro de Reclamaciones</a>
+        </div>
+      </div>
+      <div class="text-center text-muted small mt-4 pt-3 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+        © 2024 LinguaLearn Perú S.A.C. Diseñado bajo estándares WCAG 2.2 AAA.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scripts de la Aplicación -->
+  <script src="js/fireflies.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- LÓGICA DE BÚSQUEDA EN VIVO, TICKETS Y CHATBOT -->
+  <script>
+    (function () {
+      'use strict';
+
+      // 1. Filtrado en Vivo del Buscador Central
+      const searchInput = document.getElementById('support-search-input');
+      const faqItems = document.querySelectorAll('.faq-item');
+      const counterLabel = document.getElementById('faq-counter-label');
+
+      searchInput.addEventListener('input', function () {
+        const query = this.value.trim().toLowerCase();
+        let matches = 0;
+
+        faqItems.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          const keywords = item.getAttribute('data-keywords') || '';
+
+          if (!query || text.includes(query) || keywords.includes(query)) {
+            item.style.display = 'block';
+            matches++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        counterLabel.textContent = `${matches} resultado${matches === 1 ? '' : 's'} encontrado${matches === 1 ? '' : 's'}`;
+      });
+
+      // 2. Click en categorías para filtrar FAQ
+      document.querySelectorAll('.category-col').forEach(col => {
+        col.addEventListener('click', function () {
+          const cat = this.getAttribute('data-cat');
+          if (cat === 'pagos') searchInput.value = 'pago';
+          if (cat === 'ejercicios') searchInput.value = 'microfono';
+          if (cat === 'accesibilidad') searchInput.value = 'oscuro';
+          if (cat === 'progreso') searchInput.value = 'certificado';
+          searchInput.dispatchEvent(new Event('input'));
+          document.getElementById('faqAccordion').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // 3. Crear Ticket de Soporte
+      const btnSubmitTicket = document.getElementById('btn-submit-ticket');
+      btnSubmitTicket.addEventListener('click', function () {
+        const subject = document.getElementById('ticket-subject-input').value.trim();
+        const desc = document.getElementById('ticket-desc-input').value.trim();
+
+        if (!subject || !desc) {
+          alert('Por favor completa el asunto y la descripción de tu solicitud.');
+          return;
+        }
+
+        const randomNum = Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('lbl-generated-ticket').textContent = `#TK-${randomNum}`;
+
+        const modalTicket = bootstrap.Modal.getInstance(document.getElementById('modal-ticket'));
+        if (modalTicket) modalTicket.hide();
+
+        const modalSuccess = new bootstrap.Modal(document.getElementById('modal-ticket-success'));
+        modalSuccess.show();
+
+        document.getElementById('ticket-subject-input').value = '';
+        document.getElementById('ticket-desc-input').value = '';
+      });
+
+      // 4. Chat Asistente LinguaBot
+      const btnSendChat = document.getElementById('btn-send-chat');
+      const chatInput = document.getElementById('chat-user-input');
+      const chatContainer = document.getElementById('chat-messages-container');
+
+      function sendMessage() {
+        const userMsg = chatInput.value.trim();
+        if (!userMsg) return;
+
+        // Mensaje de Sofia
+        const userBubble = document.createElement('div');
+        userBubble.className = 'chat-bubble-user';
+        userBubble.textContent = userMsg;
+        chatContainer.appendChild(userBubble);
+        chatInput.value = '';
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        // Respuesta simulada inteligente de LinguaBot
+        setTimeout(() => {
+          const botBubble = document.createElement('div');
+          botBubble.className = 'chat-bubble-bot';
+
+          const lower = userMsg.toLowerCase();
+          if (lower.includes('yape') || lower.includes('plin') || lower.includes('pago')) {
+            botBubble.textContent = 'Puedes pagar en soles con Yape o Plin desde la pestaña Suscripción. Una vez transferido, ingresa tu código de 6 dígitos para activación instantánea.';
+          } else if (lower.includes('micrófono') || lower.includes('audio') || lower.includes('voz')) {
+            botBubble.textContent = 'Para activar el micrófono, haz clic en el candado junto a la URL del navegador y asegúrate de permitir el acceso. ¡Puedes probarlo ahora en la vista de Pronunciación!';
+          } else if (lower.includes('reembolso') || lower.includes('devolución')) {
+            botBubble.textContent = 'Cuentas con 7 días de garantía incondicional. Puedes abrir un ticket y te devolveremos el 100% de tu dinero sin preguntas.';
+          } else {
+            botBubble.textContent = '¡Entendido! He registrado tu consulta. También puedes consultar nuestro acordeón de preguntas frecuentes o abrir un ticket de soporte para asistencia humana.';
+          }
+
+          chatContainer.appendChild(botBubble);
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 800);
+      }
+
+      btnSendChat.addEventListener('click', sendMessage);
+      chatInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+    })();
+  </script>
+</body>
+</html>

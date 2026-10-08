@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaLearn - Evaluación Diagnóstica Inicial</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Estilos Personalizados y Accesibilidad -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/nuevas_pantallas.css">
+  <script>
+    if (localStorage.getItem('lingua_theme_reset_warm') !== 'true') {
+      localStorage.setItem('lingua_theme', 'light');
+      localStorage.setItem('lingua_theme_reset_warm', 'true');
+    }
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (document.body) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark-mode'));
+      }
+    }
+  </script>
+</head>
+<body class="test-evaluation-canvas">
+
+  <!-- BARRA SUPERIOR DE ACCESIBILIDAD CON VIDRIO ESMERILADO CÁLIDO -->
+  <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">
+    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2 py-1">
+      <div class="d-flex align-items-center gap-3">
+        <span class="d-inline-flex align-items-center gap-1 fw-bold" style="color: #243828;">
+          <i class="bi bi-person-wheelchair text-primary"></i> Accesibilidad
+        </span>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
+          <i class="bi bi-moon-stars-fill"></i> <span class="darkmode-text">Modo Oscuro</span>
+        </button>
+        <span class="opacity-50">|</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Ajuste de tipografía">
+          <button type="button" class="btn-font-decrease font-size-control-btn" style="color: #4a3e30;" aria-label="Disminuir tamaño">A-</button>
+          <button type="button" class="btn-font-increase font-size-control-btn" style="color: #4a3e30;" aria-label="Aumentar tamaño">A+</button>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-sm btn-link text-decoration-none dropdown-toggle p-0" style="color: #4a3e30;" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-translate"></i> Español (ES)
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item active" href="#">Español (ES)</a></li>
+            <li><a class="dropdown-item" href="#">English (US)</a></li>
+          </ul>
+        </div>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn btn-sm btn-link text-decoration-none p-0" style="color: #4a3e30;" data-bs-toggle="modal" data-bs-target="#modal-shortcuts">
+          <i class="bi bi-keyboard"></i> Atajos [Alt + 1-5]
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- NAVBAR PRINCIPAL CON TONO MARFIL CÁLIDO ESMERILADO -->
+  <header class="main-navbar canvas-navbar-warm sticky-top shadow-sm anim-cascade-down stagger-2">
+    <div class="container-xl">
+      <nav class="navbar navbar-expand-lg p-0" aria-label="Navegación principal">
+        <a class="brand-logo-container" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <span class="brand-name">LinguaLearn</span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom active" aria-current="page" href="test-diagnostico.html">Test Diagnóstico</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="dashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="leccion.html">Lección Activa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="pronunciacion.html">Pronunciación</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="comunidad.html">Comunidad</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="suscripcion.html">Suscripción</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="soporte.html">Soporte</a>
+            </li>
+          </ul>
+
+          <!-- BARRA DE ESTADO DE USUARIO: MI PERFIL, RACHA Y XP EN UNA SOLA LÍNEA CON MENÚ HACIA ABAJO -->
+          <div class="header-user-status-bar d-flex align-items-center gap-2 gap-md-3 flex-nowrap ms-lg-3">
+            <div class="header-stat-pill streak flex-shrink-0" title="Racha activa">
+              <i class="bi bi-fire"></i> <span class="stat-streak-val">5 días</span>
+            </div>
+            <div class="header-stat-pill xp flex-shrink-0" title="Experiencia acumulada">
+              <i class="bi bi-lightning-charge-fill"></i> <span class="stat-xp-val">120 XP</span>
+            </div>
+            <div class="dropdown header-profile-dropdown flex-shrink-0">
+              <button class="header-profile-btn dropdown-toggle d-flex align-items-center gap-2" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" title="Menú de perfil y cerrar sesión">
+                <div class="position-relative">
+                  <img src="assets/sofia.jpg" alt="Foto de perfil de Sofia Martinez" class="header-avatar-img">
+                  <span class="avatar-online-dot"></span>
+                </div>
+                <span class="header-profile-name fw-semibold small user-display-name">Mi Perfil</span>
+                <i class="bi bi-chevron-down small text-secondary"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 card-custom test-card-glass p-2 mt-2" aria-labelledby="dropdownUserMenu" style="min-width: 240px; z-index: 9999;">
+                <li class="px-3 py-2 border-bottom mb-1">
+                  <div class="fw-bold text-dark text-truncate user-display-name">Sofia Martinez</div>
+                  <div class="small text-secondary text-truncate" style="font-size: 0.775rem;">sofia.martinez@universidad.edu</div>
+                  <div class="badge bg-primary-subtle text-primary mt-1 user-level-badge" style="font-size: 0.7rem;">Nivel A2 - Básico Activo</div>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="perfil.html">
+                    <i class="bi bi-person-circle text-primary"></i> <span>Mi Perfil y Logros</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="dashboard.html">
+                    <i class="bi bi-speedometer2 text-success"></i> <span>Mi Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="suscripcion.html">
+                    <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider my-1"></li>
+                <li>
+                  <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
+                    <i class="bi bi-box-arrow-right fs-6"></i> <span>Cerrar Sesión</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="py-4 py-md-5" id="main-content">
+    <div class="container-xl" style="max-width: 920px;">
+
+      <!-- =========================================================================
+           ENCABEZADO DE EVALUACIÓN: ISLA EN NUBE CON MOLINO, PROGRESO Y CONTROLES
+           (Fiel a media_1791125039160.jpg y media_1791125044908.jpg)
+           ========================================================================= -->
+      <div class="cloud-header-island anim-cascade stagger-3">
+        
+        <!-- Cresta Decorativa: Molino Eólico y Satélite en la cima de la nube -->
+        <div class="cloud-wind-crest d-none d-md-block">
+          <svg width="140" height="42" viewBox="0 0 140 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Nube pequeña base -->
+            <path d="M40 38 Q55 24 75 28 Q95 20 110 38 Z" fill="currentColor" opacity="0.3"/>
+            <!-- Torre y Aspas del Molino -->
+            <line x1="68" y1="36" x2="68" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="68" cy="12" r="2.5" fill="currentColor"/>
+            <line x1="68" y1="12" x2="56" y2="4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="68" y1="12" x2="80" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="68" y1="12" x2="68" y2="25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <!-- Antena Satelital -->
+            <line x1="88" y1="36" x2="94" y2="18" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M88 16 Q94 20 100 16" stroke="currentColor" stroke-width="1.8" fill="none"/>
+            <line x1="94" y1="18" x2="98" y2="12" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <span class="cloud-badge-wind" title="Elemento Aire y Comunicación">
+              <i class="bi bi-wind"></i>
+            </span>
+            <span class="cloud-badge-level">TEST DE NIVEL</span>
+            <span class="cloud-badge-progress">
+              <span class="pulse-live-dot" style="background:#0c6843;"></span> En progreso
+            </span>
+            <h1 class="h5 fw-bold mb-0 ms-1" id="test-title" style="color: inherit;">
+              Evaluación Diagnóstica Inicial
+            </h1>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <div class="cloud-stat-chip">
+              <i class="bi bi-clock text-warning"></i>
+              <span>Tiempo est.: <strong>~3 min</strong></span>
+            </div>
+            <button type="button" class="cloud-stat-chip btn-cloud-hint" id="btn-test-pause" style="cursor: pointer;">
+              <i class="bi bi-pause-fill"></i> Pausar
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de Progreso Dinámica con Líquido Azul -->
+        <div class="d-flex justify-content-end mb-1">
+          <span class="small fw-bold text-primary" id="test-progress-text">40% completado</span>
+        </div>
+        <div class="cloud-progress-track">
+          <div class="cloud-progress-fluid" id="test-progress-bar" style="width: 40%;"></div>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           TARJETA PRINCIPAL EN FORMA DE NUBE CON EVALUACIÓN, PAJARITOS Y BONSAI
+           (Fiel a media_1791125039160.jpg y media_1791125044908.jpg)
+           ========================================================================= -->
+      <div class="cloud-main-card anim-cascade stagger-4">
+        
+        <!-- Fila de Etiquetas Superiores -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="cloud-badge-level" id="test-badge-category" style="font-size: 0.78rem;">
+            Gramática y Vocabulario contextual - Nivel Inicial
+          </span>
+          <span class="cloud-item-id" id="test-item-tag">Ítem #D-104</span>
+        </div>
+
+        <!-- Enunciado de la Pregunta -->
+        <h2 class="h5 fw-bold mb-4" id="test-question-text" style="color: inherit;">
+          Completa la frase en inglés con la conjugación correcta:
+        </h2>
+
+        <!-- BURBUJA DE FRASE EN ESTUDIO (CLOUD SPEECH BUBBLE) -->
+        <div class="cloud-quote-bubble anim-cascade stagger-5" id="test-sentence-container">
+          <p class="fs-4 mb-2 fw-semibold lh-base" id="test-sentence-box" style="color: inherit;">
+            “Every morning, she <span id="sentence-blank-pill" class="cloud-blank-slot">drinks</span> a fresh cup of coffee before starting work.”
+          </p>
+
+          <!-- Fila de Apoyo Pedagógico Sutil con Hojas Verdes -->
+          <div class="cloud-hint-row">
+            <button type="button" class="btn-cloud-hint" id="btn-toggle-translation" aria-label="Ver u ocultar traducción">
+              <i class="bi bi-eye"></i> <span>Ver traducción</span> <span class="ms-1">🍃</span>
+            </button>
+            <span class="d-inline-flex align-items-center gap-1">
+              <span>🍃</span> <i class="bi bi-geo-alt"></i> Intenta pensar en inglés antes de ver la traducción
+            </span>
+          </div>
+
+          <!-- Caja de Traducción Manual Desplegable -->
+          <div id="box-manual-translation" class="d-none mt-2 p-2 px-3 rounded-3 small fst-italic cloud-stat-chip w-100">
+            “Cada mañana, ella toma una taza de café fresco antes de empezar a trabajar.”
+          </div>
+        </div>
+
+        <!-- BANNER ORGÁNICO DE REFUERZO AL RESPONDER (COLOR MENTA / VERDE AGUA O TEAL) -->
+        <div id="box-reinforcement-translation" class="mb-3">
+          <div class="cloud-reinforce-banner anim-pop-in">
+            <div>
+              <div class="cloud-reinforce-title">
+                <i class="bi bi-chat-square-quote-fill me-1"></i> Refuerzo al responder (Traducción completa):
+              </div>
+              <div class="cloud-reinforce-text">
+                “Cada mañana, ella toma una taza de café fresco antes de empezar a trabajar.”
+              </div>
+            </div>
+            <div class="cloud-wind-swirls d-none d-sm-block">
+              <svg viewBox="0 0 70 28" width="60" height="24" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.75">
+                <path d="M4 14 Q20 4 36 14 T68 14" stroke-linecap="round"/>
+                <path d="M12 8 Q24 2 36 8 T56 8" stroke-linecap="round"/>
+                <path d="M18 20 Q30 24 44 20 T62 20" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- BARRA DE AUDIO CON PAJARITOS POSADOS EN EL BORDE -->
+        <div class="cloud-audio-bar-wrapper anim-cascade stagger-5">
+          <!-- Tres pajaritos descansando en la baranda -->
+          <div class="cloud-birds-perch">
+            <!-- Pajarito Verde -->
+            <svg class="cute-bird-svg" width="22" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="11" cy="12" rx="9" ry="7" fill="#84cc16"/>
+              <circle cx="16" cy="8" r="5" fill="#a3e635"/>
+              <circle cx="18" cy="7" r="1.2" fill="#1e293b"/>
+              <polygon points="21,7 24,9 21,10" fill="#f97316"/>
+              <ellipse cx="9" cy="13" rx="5" ry="3" fill="#65a30d"/>
+            </svg>
+            <!-- Palomita Gris/Blanca -->
+            <svg class="cute-bird-svg" width="24" height="21" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="11" cy="12" rx="9" ry="7" fill="#cbd5e1"/>
+              <circle cx="16" cy="8" r="5.2" fill="#e2e8f0"/>
+              <circle cx="18" cy="7" r="1.2" fill="#0f172a"/>
+              <polygon points="21,7 24,9 21,10" fill="#fb923c"/>
+              <ellipse cx="9" cy="13" rx="5" ry="3" fill="#94a3b8"/>
+            </svg>
+            <!-- Pajarito Naranja -->
+            <svg class="cute-bird-svg" width="22" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="11" cy="12" rx="9" ry="7" fill="#fb923c"/>
+              <circle cx="16" cy="8" r="5" fill="#fdba74"/>
+              <circle cx="18" cy="7" r="1.2" fill="#1e293b"/>
+              <polygon points="21,7 24,9 21,10" fill="#ea580c"/>
+              <ellipse cx="9" cy="13" rx="5" ry="3" fill="#ea580c"/>
+            </svg>
+          </div>
+
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <button type="button" class="btn-cloud-audio" id="btn-speech-normal" title="Escuchar pronunciación nativa">
+              <i class="bi bi-volume-up-fill text-primary"></i>
+              <span>Escuchar oración</span>
+              <span class="cloud-chip-speed text-primary fw-bold">1.0x</span>
+            </button>
+            <button type="button" class="btn-cloud-audio" id="btn-speech-slow" title="Escuchar a velocidad pausada">
+              <i class="bi bi-hourglass-split text-warning"></i>
+              <span>Lenta</span>
+              <span class="cloud-chip-speed text-secondary">0.75x</span>
+            </button>
+            <button type="button" class="btn-cloud-audio" id="btn-speech-ultraslow" title="Escuchar a velocidad ultra lenta para detalles fonéticos">
+              <i class="bi bi-pause-circle text-success"></i>
+              <span>Ultra lenta</span>
+              <span class="cloud-chip-speed text-secondary">0.5x</span>
+            </button>
+          </div>
+
+          <span class="small d-inline-flex align-items-center gap-1 opacity-75">
+            <i class="bi bi-headphones"></i> Audio nativo verificado
+          </span>
+        </div>
+
+        <!-- ÁREA DE OPCIONES CON ISLAS FLOTANTES Y ÁRBOLES BONSAI EN LOS LATERALES -->
+        <div class="cloud-options-area anim-cascade stagger-6">
+          
+          <!-- Isla Flotante Izquierda con Árbol Bonsai -->
+          <div class="cloud-floating-island-left">
+            <svg viewBox="0 0 95 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Roca / Acantilado flotante -->
+              <path d="M12 40 Q45 42 78 38 Q65 72 45 74 Q25 72 12 40 Z" fill="#6d4c41"/>
+              <path d="M14 42 Q45 44 76 40 Q62 65 45 68 Q28 65 14 42 Z" fill="#8d6e63"/>
+              <!-- Capa de Césped -->
+              <path d="M10 40 Q45 37 80 39 Q75 44 12 42 Z" fill="#558b2f"/>
+              <!-- Tronco y Follaje Bonsai -->
+              <path d="M38 40 Q32 28 35 18 Q36 26 42 39 Z" fill="#4e342e"/>
+              <circle cx="34" cy="14" r="14" fill="#33691e"/>
+              <circle cx="44" cy="18" r="11" fill="#558b2f"/>
+              <circle cx="26" cy="20" r="9" fill="#2e7d32"/>
+            </svg>
+          </div>
+
+          <!-- Isla Flotante Derecha con Árbol Bonsai -->
+          <div class="cloud-floating-island-right">
+            <svg viewBox="0 0 95 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Roca / Acantilado flotante -->
+              <path d="M18 38 Q50 42 82 40 Q70 72 52 74 Q30 72 18 38 Z" fill="#6d4c41"/>
+              <path d="M20 40 Q50 44 80 42 Q68 65 52 68 Q32 65 20 40 Z" fill="#8d6e63"/>
+              <!-- Capa de Césped -->
+              <path d="M15 39 Q50 37 85 40 Q80 44 18 42 Z" fill="#558b2f"/>
+              <!-- Tronco y Follaje Bonsai -->
+              <path d="M56 40 Q62 28 58 18 Q57 26 52 39 Z" fill="#4e342e"/>
+              <circle cx="60" cy="14" r="14" fill="#33691e"/>
+              <circle cx="50" cy="18" r="11" fill="#558b2f"/>
+              <circle cx="68" cy="20" r="9" fill="#2e7d32"/>
+            </svg>
+          </div>
+
+          <!-- Encabezado de Selección -->
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="small fw-bold text-uppercase letter-spacing-1 opacity-75">
+              SELECCIONA LA OPCIÓN CORRECTA:
+            </span>
+            <span class="small opacity-75">Usa teclas [1, 2, 3, 4]</span>
+          </div>
+
+          <!-- Grid de Opciones Dinámicas A, B, C, D -->
+          <div class="row g-3 mb-4" id="test-options-container">
+            <!-- Renderizado dinámico desde js/test.js -->
+          </div>
+        </div>
+
+        <!-- TIP MOTIVADOR Y HÁBITO -->
+        <div class="cloud-quote-bubble p-3 p-md-4 mb-2 text-center overflow-hidden position-relative anim-cascade stagger-7">
+          <img src="assets/tip_motivador_habito.png" 
+               alt="TIP motivador y hábito: 5 minutos diarios vs 1 hora semanal. El secreto está en la repetición." 
+               class="img-fluid rounded-3 shadow-sm w-100" 
+               style="max-height: 380px; object-fit: contain;">
+        </div>
+      </div>
+
+      <!-- BARRA DE ACCIÓN Y NAVEGACIÓN INFERIOR (VIDRIO ESMERILADO MARFIL) -->
+      <div class="card-custom test-card-glass p-3 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3 anim-cascade stagger-8">
+        <button type="button" class="btn btn-secondary-custom test-pill-glass" id="btn-test-prev">
+          <i class="bi bi-arrow-left"></i> Anterior
+        </button>
+
+        <div class="keyboard-shortcuts-helper test-pill-glass">
+          <i class="bi bi-keyboard text-secondary"></i>
+          <span>Pulsa <kbd class="kbd-badge">1 - 4</kbd> o <kbd class="kbd-badge">Enter</kbd> para avanzar</span>
+        </div>
+
+        <button type="button" class="btn-primary-custom" id="btn-test-next">
+          <span>Siguiente Pregunta</span>
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Nota de Confianza y Calibración -->
+      <div class="test-card-glass p-3 rounded-4 text-center text-muted small anim-cascade stagger-8">
+        <i class="bi bi-shield-check text-success"></i>
+        <span>Tu resultado calibrará automáticamente tus lecciones en el Dashboard. No hay respuestas punitivas.</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL DE RESULTADOS Y CALIBRACIÓN DE NIVEL -->
+  <div class="modal fade" id="test-results-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalResultsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom test-card-glass border-0 text-center p-4">
+        <div class="modal-body">
+          <div class="display-3 text-warning mb-3">
+            <i class="bi bi-trophy-fill"></i>
+          </div>
+          <h2 class="h3 fw-bold mb-2" id="modalResultsLabel">¡Evaluación Completada!</h2>
+          <p class="text-secondary mb-4">
+            Hemos analizado tu precisión sintáctica, vocabulario contextual y comprensión para crear tu ruta adaptativa.
+          </p>
+          <div class="p-3 test-container-inset rounded-4 mb-4">
+            <span class="badge bg-primary fs-6 px-3 py-2 mb-2 d-inline-block" id="result-level-badge">Nivel Calibrado: Básico (A2)</span>
+            <div class="text-muted small" id="result-score-text">4 de 5 respuestas correctas</div>
+            <div class="fw-bold text-success mt-2">+50 XP otorgados a tu cuenta</div>
+          </div>
+          <a href="dashboard.html" class="btn btn-primary-custom w-100 py-3 fw-bold">
+            <span>Ir a Mi Dashboard</span>
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL GUÍA DE ATAJOS -->
+  <div class="modal fade" id="modal-shortcuts" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom test-card-glass border-0">
+        <div class="modal-header border-bottom-0">
+          <h3 class="h5 modal-title fw-bold"><i class="bi bi-keyboard text-primary me-2"></i> Atajos de Teclado</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body py-3">
+          <ul class="list-group list-group-flush small">
+            <li class="list-group-item bg-transparent d-flex justify-content-between"><span>Elegir opciones</span> <kbd class="kbd-badge">1 - 4</kbd></li>
+            <li class="list-group-item bg-transparent d-flex justify-content-between"><span>Escuchar pronunciación</span> <kbd class="kbd-badge">Espacio</kbd></li>
+            <li class="list-group-item bg-transparent d-flex justify-content-between"><span>Siguiente pregunta</span> <kbd class="kbd-badge">Enter</kbd></li>
+            <li class="list-group-item bg-transparent d-flex justify-content-between"><span>Ir a Dashboard</span> <kbd class="kbd-badge">Alt + 3</kbd></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA ACCESIBLE (TRANSLÚCIDO CÁLIDO) -->
+  <footer class="footer-accessible dashboard-footer-warm anim-cascade stagger-9">
+    <div class="container-xl">
+      <div class="row align-items-center g-3">
+        <div class="col-md-6 d-flex align-items-center gap-2">
+          <div class="brand-icon" style="width: 24px; height: 24px; font-size: 0.8rem;">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <strong class="text-dark">LinguaLearn</strong>
+          <span class="text-muted small ms-2">Plataforma empática y accesible para el aprendizaje de idiomas.</span>
+        </div>
+        <div class="col-md-6 text-md-end d-flex flex-wrap justify-content-md-end gap-3 small">
+          <a href="#"><i class="bi bi-question-circle"></i> Centro de Ayuda</a>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#modal-shortcuts"><i class="bi bi-keyboard"></i> Guía de Atajos</a>
+          <a href="#"><i class="bi bi-shield-check"></i> Declaración de Accesibilidad</a>
+          <a href="#">Privacidad</a>
+        </div>
+      </div>
+      <div class="text-center text-muted small mt-4 pt-3 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+        © 2024 LinguaLearn. Diseñado bajo estándares WCAG 2.2 AAA.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scripts de la Aplicación -->
+  <script src="js/fireflies.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/test.js"></script>
+</body>
+</html>

@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaLearn - Planes de Suscripción y Métodos de Pago Perú</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Estilos Personalizados y Nuevas Pantallas -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/nuevas_pantallas.css">
+  <script>
+    if (localStorage.getItem('lingua_theme_reset_warm') !== 'true') {
+      localStorage.setItem('lingua_theme', 'light');
+      localStorage.setItem('lingua_theme_reset_warm', 'true');
+    }
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (document.body) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark-mode'));
+      }
+    }
+  </script>
+</head>
+<body class="subscription-canvas">
+
+  <!-- BARRA SUPERIOR DE ACCESIBILIDAD CON VIDRIO ESMERILADO CÁLIDO -->
+  <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">
+    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2 py-1">
+      <div class="d-flex align-items-center gap-3">
+        <span class="d-inline-flex align-items-center gap-1 fw-bold" style="color: #243828;">
+          <i class="bi bi-person-wheelchair text-primary"></i> Accesibilidad
+        </span>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
+          <i class="bi bi-moon-stars-fill"></i> <span class="darkmode-text">Modo Oscuro</span>
+        </button>
+        <span class="opacity-50">|</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Ajuste de tipografía">
+          <button type="button" class="btn-font-decrease font-size-control-btn" style="color: #4a3e30;" aria-label="Disminuir tamaño">A-</button>
+          <button type="button" class="btn-font-increase font-size-control-btn" style="color: #4a3e30;" aria-label="Aumentar tamaño">A+</button>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-sm btn-link text-decoration-none dropdown-toggle p-0" style="color: #4a3e30;" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-translate"></i> Español (ES/PE)
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item active" href="#">Español (Perú)</a></li>
+            <li><a class="dropdown-item" href="#">English (US)</a></li>
+          </ul>
+        </div>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn btn-sm btn-link text-decoration-none p-0" style="color: #4a3e30;" data-bs-toggle="modal" data-bs-target="#modal-shortcuts">
+          <i class="bi bi-keyboard"></i> Atajos [Alt + 1-5]
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- NAVBAR PRINCIPAL CON TONO MARFIL CÁLIDO ESMERILADO -->
+  <header class="main-navbar canvas-navbar-warm sticky-top shadow-sm anim-cascade-down stagger-2">
+    <div class="container-xl">
+      <nav class="navbar navbar-expand-lg p-0" aria-label="Navegación principal">
+        <a class="brand-logo-container" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <span class="brand-name">LinguaLearn</span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-label="Menú principal">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="test-diagnostico.html">Test Diagnóstico</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="dashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="leccion.html">Lección Activa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="pronunciacion.html">Pronunciación</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="comunidad.html">Comunidad</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom active" aria-current="page" href="suscripcion.html">Suscripción</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="soporte.html">Soporte</a>
+            </li>
+          </ul>
+
+          <!-- BARRA DE ESTADO DE USUARIO: MI PERFIL, RACHA Y XP EN UNA SOLA LÍNEA CON MENÚ HACIA ABAJO -->
+          <div class="header-user-status-bar d-flex align-items-center gap-2 gap-md-3 flex-nowrap ms-lg-3">
+            <div class="header-stat-pill streak flex-shrink-0" title="Racha activa">
+              <i class="bi bi-fire"></i> <span class="stat-streak-val">5 días</span>
+            </div>
+            <div class="header-stat-pill xp flex-shrink-0" title="Experiencia acumulada">
+              <i class="bi bi-lightning-charge-fill"></i> <span class="stat-xp-val">120 XP</span>
+            </div>
+            <div class="dropdown header-profile-dropdown flex-shrink-0">
+              <button class="header-profile-btn dropdown-toggle d-flex align-items-center gap-2" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" title="Menú de perfil y cerrar sesión">
+                <div class="position-relative">
+                  <img src="assets/sofia.jpg" alt="Foto de perfil de Sofia Martinez" class="header-avatar-img">
+                  <span class="avatar-online-dot"></span>
+                </div>
+                <span class="header-profile-name fw-semibold small user-display-name">Mi Perfil</span>
+                <i class="bi bi-chevron-down small text-secondary"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 card-custom test-card-glass p-2 mt-2" aria-labelledby="dropdownUserMenu" style="min-width: 240px; z-index: 9999;">
+                <li class="px-3 py-2 border-bottom mb-1">
+                  <div class="fw-bold text-dark text-truncate user-display-name">Sofia Martinez</div>
+                  <div class="small text-secondary text-truncate" style="font-size: 0.775rem;">sofia.martinez@universidad.edu</div>
+                  <div class="badge bg-primary-subtle text-primary mt-1 user-level-badge" style="font-size: 0.7rem;">Nivel A2 - Básico Activo</div>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="perfil.html">
+                    <i class="bi bi-person-circle text-primary"></i> <span>Mi Perfil y Logros</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="dashboard.html">
+                    <i class="bi bi-speedometer2 text-success"></i> <span>Mi Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2 active" href="suscripcion.html">
+                    <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider my-1"></li>
+                <li>
+                  <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
+                    <i class="bi bi-box-arrow-right fs-6"></i> <span>Cerrar Sesión</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="py-4 py-md-5" id="main-content">
+    <div class="container-xl">
+
+      <!-- ENCABEZADO DE SECCIÓN CON VIDRIO ESMERILADO -->
+      <div class="text-center mb-5 anim-cascade stagger-3">
+        <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold mb-2">
+          <i class="bi bi-star-fill text-warning me-1"></i> Invierte en tu Fluidez Global
+        </span>
+        <h1 class="display-6 fw-bold mb-2">Suscripciones de estudio</h1>
+        <p class="text-secondary mx-auto mb-4" style="max-width: 680px;">
+          Conoce los diferentes planes de estudio de LinguaLearn adaptados a tu objetivo personal: precios transparentes en Soles (S/.), beneficios exclusivos para cada nivel y métodos de pago locales (Yape, Plin, Culqi y PagoEfectivo).
+        </p>
+
+        <!-- CONMUTADOR MENSUAL / ANUAL CON AHORRO -->
+        <div class="d-inline-flex align-items-center justify-content-center">
+          <div class="billing-switch-wrapper" role="radiogroup" aria-label="Ciclo de facturación">
+            <button type="button" class="billing-switch-btn" id="btn-billing-monthly" role="radio" aria-checked="false">
+              Mensual
+            </button>
+            <button type="button" class="billing-switch-btn active" id="btn-billing-yearly" role="radio" aria-checked="true">
+              Anual Ahorro <span class="badge-discount-save">Ahorra 33%</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN PRINCIPAL: 3 PLANES + CHECKOUT LATERAL -->
+      <div class="row g-4 align-items-start mb-5">
+        
+        <!-- COLUMNA IZQUIERDA: TARJETAS DE LOS 3 PLANES (8 COLS) -->
+        <div class="col-lg-8">
+          <div class="row g-4">
+            
+            <!-- PLAN 1: BÁSICO (GRATIS) -->
+            <div class="col-md-4 anim-cascade stagger-4">
+              <div class="pricing-plan-card" id="card-plan-basic">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="fw-bold text-secondary text-uppercase small">Nivel Inicio</span>
+                  </div>
+                  <h2 class="h4 fw-bold mb-3">Básico</h2>
+                  <div class="mb-3">
+                    <span class="plan-currency">S/</span>
+                    <span class="plan-price-amount">0</span>
+                    <span class="plan-period">/ siempre</span>
+                  </div>
+                  <p class="small text-secondary mb-4">
+                    Ideal para comenzar tu diagnóstico y conocer las bases del idioma sin costo alguno.
+                  </p>
+                  <hr class="opacity-25 mb-4">
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Acceso a niveles A1 y A2 iniciales</span>
+                  </div>
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Evaluación diagnóstica adaptativa</span>
+                  </div>
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Comunidad en modo lectura</span>
+                  </div>
+                  <div class="plan-feature-item opacity-50">
+                    <i class="bi bi-x-circle text-secondary plan-feature-icon"></i>
+                    <span>Práctica oral con IA fonética</span>
+                  </div>
+                  <div class="plan-feature-item opacity-50">
+                    <i class="bi bi-x-circle text-secondary plan-feature-icon"></i>
+                    <span>Salas de voz en vivo ilimitadas</span>
+                  </div>
+                </div>
+                <div class="mt-4 pt-2">
+                  <button type="button" class="btn btn-outline-secondary w-100 rounded-pill py-2 fw-semibold" id="btn-select-basic">
+                    Plan Actual
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- PLAN 2: PRO MENSUAL (S/ 29.90) -->
+            <div class="col-md-4 anim-cascade stagger-5">
+              <div class="pricing-plan-card" id="card-plan-pro">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="fw-bold text-primary text-uppercase small">Avanza a tu ritmo</span>
+                  </div>
+                  <h2 class="h4 fw-bold mb-3">Pro Mensual</h2>
+                  <div class="mb-3">
+                    <span class="plan-currency">S/</span>
+                    <span class="plan-price-amount" id="price-pro-amount">29.90</span>
+                    <span class="plan-period" id="price-pro-period">/ mes</span>
+                  </div>
+                  <p class="small text-secondary mb-4">
+                    Flexibilidad total mes a mes con todas las herramientas de fluidez y voz activas.
+                  </p>
+                  <hr class="opacity-25 mb-4">
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Acceso ilimitado a niveles A1 a C2</span>
+                  </div>
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Práctica oral y fonética con IA</span>
+                  </div>
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Salas de conversación comunitarias</span>
+                  </div>
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Sin anuncios y con soporte rápido</span>
+                  </div>
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Garantía de reembolso de 7 días</span>
+                  </div>
+                </div>
+                <div class="mt-4 pt-2">
+                  <button type="button" class="btn btn-secondary-custom w-100 rounded-pill py-2 fw-bold" id="btn-select-pro">
+                    Elegir Pro Mensual
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- PLAN 3: ANUAL AHORRO (S/ 239.90) - DESTACADO -->
+            <div class="col-md-4 anim-cascade stagger-6">
+              <div class="pricing-plan-card featured-plan" id="card-plan-yearly">
+                <div class="plan-badge-top">
+                  <i class="bi bi-gem me-1"></i> MÁS POPULAR EN PERÚ
+                </div>
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2 mt-2">
+                    <span class="fw-bold text-warning-emphasis text-uppercase small">Mejor Valor</span>
+                  </div>
+                  <h2 class="h4 fw-bold mb-3">Anual Ahorro</h2>
+                  <div class="mb-1">
+                    <span class="plan-currency">S/</span>
+                    <span class="plan-price-amount" id="price-yearly-amount">239.90</span>
+                    <span class="plan-period">/ año</span>
+                  </div>
+                  <div class="small fw-bold text-success mb-3">
+                    Equivale a solo <span class="bg-success-subtle px-2 py-0.5 rounded">S/ 19.99 / mes</span>
+                  </div>
+                  <p class="small text-secondary mb-3">
+                    Asegura tu meta de bilingüismo durante todo el año al precio más económico.
+                  </p>
+                  <hr class="opacity-25 mb-3">
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span><strong>Todo lo del plan Pro ilimitado</strong></span>
+                  </div>
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Certificado digital verificado CEFR</span>
+                  </div>
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Tutor IA conversacional 24/7 sin límite</span>
+                  </div>
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Acceso anticipado a salas VIP con nativos</span>
+                  </div>
+                  <div class="plan-feature-item">
+                    <i class="bi bi-check-circle-fill plan-feature-icon"></i>
+                    <span>Descarga de materiales para estudio offline</span>
+                  </div>
+                </div>
+                <div class="mt-4 pt-2">
+                  <button type="button" class="btn btn-primary-custom w-100 rounded-pill py-2 fw-bold" id="btn-select-yearly">
+                    <i class="bi bi-lightning-charge-fill me-1"></i> Elegir Anual Ahorro
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- =========================================================================
+               MÉTODOS DE PAGO PERUANOS (YAPE, PLIN, CULQI TARJETAS Y PAGOEFECTIVO)
+               ========================================================================= -->
+          <div class="card-custom test-card-glass p-4 mt-4 anim-cascade stagger-7">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="h5 fw-bold mb-0">
+                <i class="bi bi-credit-card-2-front text-primary me-2"></i> Métodos de Pago Locales (Perú)
+              </h3>
+              <span class="badge bg-light text-dark border">
+                <i class="bi bi-lock-fill text-success"></i> Pago 100% Seguro
+              </span>
+            </div>
+
+            <!-- Navegación de Pestañas Perú -->
+            <div class="peru-payment-nav" role="tablist">
+              <button class="peru-nav-link active" id="tab-wallets-btn" data-bs-toggle="pill" data-bs-target="#tab-wallets" type="button" role="tab">
+                <i class="bi bi-qr-code fs-5"></i>
+                <span>Billeteras (Yape / Plin)</span>
+              </button>
+              <button class="peru-nav-link" id="tab-cards-btn" data-bs-toggle="pill" data-bs-target="#tab-cards" type="button" role="tab">
+                <i class="bi bi-credit-card fs-5"></i>
+                <span>Tarjetas (Culqi)</span>
+              </button>
+              <button class="peru-nav-link" id="tab-cip-btn" data-bs-toggle="pill" data-bs-target="#tab-cip" type="button" role="tab">
+                <i class="bi bi-shop fs-5"></i>
+                <span>PagoEfectivo (CIP)</span>
+              </button>
+            </div>
+
+            <!-- Contenido de las Pestañas -->
+            <div class="tab-content pt-2">
+              
+              <!-- PESTAÑA 1: YAPE Y PLIN -->
+              <div class="tab-pane fade show active" id="tab-wallets" role="tabpanel">
+                <div class="row align-items-center g-4">
+                  <div class="col-md-5 text-center">
+                    <div class="wallet-qr-box">
+                      <div class="d-flex justify-content-center gap-2 mb-2">
+                        <span class="yape-badge">YAPE</span>
+                        <span class="plin-badge">PLIN</span>
+                      </div>
+                      <!-- QR interactivo generado en SVG nítido -->
+                      <svg class="qr-code-img" viewBox="0 0 100 100" fill="currentColor">
+                        <!-- Patrón QR Simulado Elegante -->
+                        <rect width="100" height="100" fill="#ffffff"/>
+                        <!-- Posicionadores Esquinas -->
+                        <rect x="6" y="6" width="26" height="26" fill="#1e1b4b" rx="4"/>
+                        <rect x="10" y="10" width="18" height="18" fill="#ffffff" rx="2"/>
+                        <rect x="14" y="14" width="10" height="10" fill="#742284" rx="2"/>
+
+                        <rect x="68" y="6" width="26" height="26" fill="#1e1b4b" rx="4"/>
+                        <rect x="72" y="10" width="18" height="18" fill="#ffffff" rx="2"/>
+                        <rect x="76" y="14" width="10" height="10" fill="#00a7e1" rx="2"/>
+
+                        <rect x="6" y="68" width="26" height="26" fill="#1e1b4b" rx="4"/>
+                        <rect x="10" y="72" width="18" height="18" fill="#ffffff" rx="2"/>
+                        <rect x="14" y="76" width="10" height="10" fill="#742284" rx="2"/>
+
+                        <!-- Módulos de datos -->
+                        <rect x="38" y="8" width="6" height="6" fill="#111827"/>
+                        <rect x="48" y="8" width="6" height="6" fill="#111827"/>
+                        <rect x="38" y="18" width="6" height="6" fill="#111827"/>
+                        <rect x="48" y="24" width="6" height="6" fill="#111827"/>
+                        <rect x="38" y="38" width="24" height="24" fill="#742284" rx="4"/>
+                        <!-- Logo corazón Yape / Plin central -->
+                        <circle cx="50" cy="50" r="8" fill="#ffffff"/>
+                        <circle cx="50" cy="50" r="5" fill="#742284"/>
+
+                        <rect x="12" y="42" width="6" height="6" fill="#111827"/>
+                        <rect x="22" y="48" width="6" height="6" fill="#111827"/>
+                        <rect x="68" y="38" width="6" height="6" fill="#111827"/>
+                        <rect x="80" y="44" width="6" height="6" fill="#111827"/>
+                        <rect x="72" y="68" width="6" height="6" fill="#111827"/>
+                        <rect x="82" y="78" width="6" height="6" fill="#111827"/>
+                        <rect x="40" y="76" width="6" height="6" fill="#111827"/>
+                        <rect x="52" y="84" width="6" height="6" fill="#111827"/>
+                      </svg>
+                      <div class="small fw-bold text-dark">LinguaLearn Perú S.A.C.</div>
+                      <div class="small text-muted">987 654 321</div>
+                    </div>
+                  </div>
+                  <div class="col-md-7">
+                    <h4 class="h6 fw-bold mb-2">Instrucciones para pagar con Yape o Plin:</h4>
+                    <ol class="small text-secondary ps-3 mb-3">
+                      <li class="mb-1">Abre tu app de <strong>Yape</strong> o <strong>Plin</strong> y escanea el código QR de la izquierda o yapea al número <strong>987 654 321</strong>.</li>
+                      <li class="mb-1">Verifica que el titular figure como <strong>LinguaLearn Perú S.A.C.</strong></li>
+                      <li class="mb-1">Transfiere el monto exacto de <strong id="lbl-wallet-amount">S/ 239.90</strong>.</li>
+                      <li>Ingresa a continuación el <strong>Código de Aprobación</strong> de 6 dígitos que figura en tu comprobante:</li>
+                    </ol>
+
+                    <div class="mb-3">
+                      <label for="input-approval-code" class="form-label small fw-bold">Código de Aprobación (6 dígitos):</label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-hash"></i></span>
+                        <input type="text" class="form-control" id="input-approval-code" placeholder="Ej. 849201" maxlength="6" pattern="[0-9]{6}">
+                      </div>
+                      <div class="form-text small">La validación se realiza de forma inmediata con confirmación automática.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PESTAÑA 2: TARJETAS CON CULQI -->
+              <div class="tab-pane fade" id="tab-cards" role="tabpanel">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <div class="culqi-badge-secure">
+                    <i class="bi bi-shield-check"></i> Pasarela Culqi PCI-DSS Nivel 1 Certificada
+                  </div>
+                  <div class="d-flex gap-2 fs-4 text-secondary">
+                    <i class="bi bi-credit-card-fill text-primary" title="Visa"></i>
+                    <i class="bi bi-credit-card-2-back-fill text-danger" title="Mastercard"></i>
+                    <i class="bi bi-credit-card text-warning" title="Amex"></i>
+                  </div>
+                </div>
+
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label for="card-number" class="form-label small fw-bold">Número de Tarjeta (Débito o Crédito):</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white"><i class="bi bi-credit-card"></i></span>
+                      <input type="text" class="form-control" id="card-number" placeholder="4213 •••• •••• 9821" maxlength="19">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="card-holder" class="form-label small fw-bold">Nombre del Titular (como figura en la tarjeta):</label>
+                    <input type="text" class="form-control" id="card-holder" value="SOFIA MARTINEZ" placeholder="SOFIA MARTINEZ">
+                  </div>
+
+                  <div class="col-md-3 col-6">
+                    <label for="card-exp" class="form-label small fw-bold">Vencimiento:</label>
+                    <input type="text" class="form-control" id="card-exp" placeholder="MM/AA" maxlength="5">
+                  </div>
+
+                  <div class="col-md-3 col-6">
+                    <label for="card-cvv" class="form-label small fw-bold">CVV:</label>
+                    <div class="input-group">
+                      <input type="password" class="form-control" id="card-cvv" placeholder="123" maxlength="4">
+                      <span class="input-group-text bg-white" title="3 dígitos al reverso"><i class="bi bi-info-circle"></i></span>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="doc-type" class="form-label small fw-bold">Documento de Identidad:</label>
+                    <div class="input-group">
+                      <select class="form-select" id="doc-type" style="max-width: 100px;">
+                        <option value="DNI" selected>DNI</option>
+                        <option value="CE">C.E.</option>
+                        <option value="PAS">Pasaporte</option>
+                      </select>
+                      <input type="text" class="form-control" id="doc-number" placeholder="74839201" maxlength="12">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold">Emisión de Comprobante:</label>
+                    <div class="d-flex gap-3 pt-2">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="invoiceType" id="invoiceBoleta" checked>
+                        <label class="form-check-label small" for="invoiceBoleta">Boleta Electrónica</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="invoiceType" id="invoiceFactura">
+                        <label class="form-check-label small" for="invoiceFactura">Factura (RUC)</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PESTAÑA 3: PAGOEFECTIVO CIP -->
+              <div class="tab-pane fade" id="tab-cip" role="tabpanel">
+                <div class="cip-box-container">
+                  <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                    <span class="badge bg-warning text-dark fw-bold px-3 py-1">Código de Pago CIP</span>
+                    <span class="text-secondary small"><i class="bi bi-clock-history"></i> Válido por: <strong class="text-danger" id="cip-countdown">23h : 59m : 42s</strong></span>
+                  </div>
+
+                  <div class="my-3">
+                    <span class="cip-code-text" id="cip-code-val">4892 1074</span>
+                    <button type="button" class="btn btn-sm btn-outline-warning ms-2" id="btn-copy-cip" title="Copiar código CIP">
+                      <i class="bi bi-clipboard"></i> Copiar
+                    </button>
+                  </div>
+
+                  <p class="small text-secondary mb-3">
+                    Paga en efectivo o banca por internet en más de 40,000 puntos autorizados en todo el Perú sin tarjeta de crédito:
+                  </p>
+
+                  <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+                    <span class="badge bg-white text-dark border px-2 py-1">BCP</span>
+                    <span class="badge bg-white text-dark border px-2 py-1">BBVA</span>
+                    <span class="badge bg-white text-dark border px-2 py-1">Interbank</span>
+                    <span class="badge bg-white text-dark border px-2 py-1">Scotiabank</span>
+                    <span class="badge bg-white text-dark border px-2 py-1">Agentes KasNet</span>
+                    <span class="badge bg-white text-dark border px-2 py-1">Western Union</span>
+                    <span class="badge bg-white text-dark border px-2 py-1">Tambo / Mass</span>
+                  </div>
+
+                  <div class="alert alert-light border small text-start mb-0">
+                    <i class="bi bi-info-circle-fill text-primary me-1"></i> Indica al cajero o selecciona en tu app bancaria: <strong>Servicios > PagoEfectivo > PagoEfectivo Soles</strong> y digita el código CIP <strong>4892 1074</strong>.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- COLUMNA DERECHA: RESUMEN LATERAL DE CHECKOUT (4 COLS) -->
+        <div class="col-lg-4">
+          <div class="checkout-summary-card anim-cascade stagger-6">
+            <h3 class="h5 fw-bold mb-3 d-flex align-items-center gap-2">
+              <i class="bi bi-receipt text-primary"></i> Resumen del Pedido
+            </h3>
+
+            <!-- Plan seleccionado -->
+            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+              <div>
+                <strong id="summary-plan-title">Plan Anual Ahorro</strong>
+                <div class="small text-secondary" id="summary-plan-desc">Acceso bilingüe completo (12 meses)</div>
+              </div>
+              <div class="fw-bold" id="summary-plan-price">S/ 239.90</div>
+            </div>
+
+            <!-- Desglose de Precios en Soles -->
+            <div class="py-3 border-bottom small">
+              <div class="d-flex justify-content-between text-secondary mb-1">
+                <span>Subtotal sin impuestos:</span>
+                <span id="summary-subtotal">S/ 203.31</span>
+              </div>
+              <div class="d-flex justify-content-between text-secondary mb-1">
+                <span>I.G.V. (18% según SUNAT):</span>
+                <span id="summary-igv">S/ 36.59</span>
+              </div>
+              <div class="d-flex justify-content-between text-success fw-semibold mb-1" id="row-discount" style="display: none !important;">
+                <span>Descuento Promocional:</span>
+                <span id="summary-discount">-S/ 0.00</span>
+              </div>
+            </div>
+
+            <!-- Cupón de Descuento -->
+            <div class="my-3">
+              <label for="input-coupon" class="form-label small fw-bold">¿Tienes un cupón de descuento?</label>
+              <div class="input-group input-group-sm">
+                <input type="text" class="form-control text-uppercase" id="input-coupon" placeholder="Ej. PERU2026">
+                <button class="btn btn-outline-secondary" type="button" id="btn-apply-coupon">Aplicar</button>
+              </div>
+              <div id="coupon-feedback" class="form-text small text-success d-none">¡Cupón PERU2026 aplicado! (-10% adicional)</div>
+            </div>
+
+            <!-- Total a Pagar en Soles -->
+            <div class="d-flex justify-content-between align-items-center py-2 mb-3">
+              <span class="fs-5 fw-bold">Total a Pagar:</span>
+              <span class="fs-3 fw-bold text-primary" id="summary-total-pay">S/ 239.90</span>
+            </div>
+
+            <!-- Botón Destacado de Pago -->
+            <button type="button" class="btn btn-primary-custom w-100 py-3 fw-bold mb-3 shadow" id="btn-confirm-checkout">
+              <i class="bi bi-shield-lock-fill me-2"></i> Confirmar y Pagar
+            </button>
+
+            <!-- Sello de Garantía de 7 Días -->
+            <div class="p-3 rounded-3 border bg-light text-center">
+              <div class="d-flex align-items-center justify-content-center gap-2 text-warning-emphasis fw-bold small mb-1">
+                <i class="bi bi-shield-check fs-5 text-warning"></i> Garantía Incondicional de 7 Días
+              </div>
+              <div class="text-secondary small" style="font-size: 0.775rem;">
+                Prueba LinguaLearn sin riesgo. Si decides no continuar dentro de los primeros 7 días, te devolvemos el 100% de tu dinero sin preguntas.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL DE COMPROBANTE Y PAGO EXITOSO -->
+  <div class="modal fade" id="modal-voucher-success" tabindex="-1" aria-labelledby="modalVoucherLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom test-card-glass border-0 p-3">
+        <div class="modal-header border-0 pb-0">
+          <div class="d-flex align-items-center gap-2">
+            <div class="p-2 bg-success text-white rounded-circle fs-5">
+              <i class="bi bi-check-lg"></i>
+            </div>
+            <div>
+              <h2 class="h5 modal-title fw-bold" id="modalVoucherLabel">¡Pago Confirmado con Éxito!</h2>
+              <div class="small text-secondary">Comprobante de Pago Electrónico SUNAT</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body py-3">
+          <div class="p-3 test-container-inset rounded-4 mb-3">
+            <div class="d-flex justify-content-between small text-secondary mb-1">
+              <span>Emisor:</span> <strong>LinguaLearn Perú S.A.C.</strong>
+            </div>
+            <div class="d-flex justify-content-between small text-secondary mb-1">
+              <span>RUC:</span> <strong>20609841231</strong>
+            </div>
+            <div class="d-flex justify-content-between small text-secondary mb-1">
+              <span>Boleta Electrónica:</span> <strong>B001 - 004812</strong>
+            </div>
+            <div class="d-flex justify-content-between small text-secondary mb-1">
+              <span>Estudiante:</span> <strong>Sofia Martinez</strong>
+            </div>
+            <div class="d-flex justify-content-between small text-secondary mb-1">
+              <span>Plan Activado:</span> <strong id="modal-plan-name">Anual Ahorro (12 meses)</strong>
+            </div>
+            <hr class="my-2">
+            <div class="d-flex justify-content-between fw-bold">
+              <span>Monto Total Pagado:</span> <span class="text-success" id="modal-total-paid">S/ 239.90</span>
+            </div>
+          </div>
+
+          <div class="alert alert-success border-0 small mb-0">
+            <i class="bi bi-stars me-1"></i> ¡Felicidades Sofia! Tu cuenta cuenta con acceso ilimitado a todas las lecciones, salas de conversación y práctica de voz con IA.
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-outline-secondary w-100 mb-2 rounded-pill" onclick="window.print()">
+            <i class="bi bi-printer me-1"></i> Descargar Comprobante (PDF)
+          </button>
+          <a href="dashboard.html" class="btn btn-primary-custom w-100 rounded-pill">
+            <span>Comenzar a Aprender en el Dashboard</span>
+            <i class="bi bi-arrow-right ms-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA ACCESIBLE -->
+  <footer class="footer-accessible dashboard-footer-warm anim-cascade stagger-9">
+    <div class="container-xl">
+      <div class="row align-items-center g-3">
+        <div class="col-md-6 d-flex align-items-center gap-2">
+          <div class="brand-icon" style="width: 24px; height: 24px; font-size: 0.8rem;">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <strong class="text-dark">LinguaLearn Perú</strong>
+          <span class="text-muted small ms-2">Educación accesible con soporte local y medios de pago peruanos.</span>
+        </div>
+        <div class="col-md-6 text-md-end d-flex flex-wrap justify-content-md-end gap-3 small">
+          <a href="soporte.html"><i class="bi bi-question-circle"></i> Centro de Ayuda</a>
+          <a href="comunidad.html"><i class="bi bi-people"></i> Comunidad</a>
+          <a href="#"><i class="bi bi-shield-check"></i> Términos y Devoluciones</a>
+          <a href="#">Libro de Reclamaciones</a>
+        </div>
+      </div>
+      <div class="text-center text-muted small mt-4 pt-3 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+        © 2024 LinguaLearn Perú S.A.C. RUC 20609841231. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scripts de la Aplicación -->
+  <script src="js/fireflies.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- LÓGICA INTERACTIVA DE CHECKOUT Y PLANES -->
+  <script>
+    (function () {
+      'use strict';
+
+      let currentBilling = 'yearly'; // 'monthly' | 'yearly'
+      let selectedPlan = 'yearly'; // 'basic' | 'pro' | 'yearly'
+      let couponApplied = false;
+
+      const btnMonthly = document.getElementById('btn-billing-monthly');
+      const btnYearly = document.getElementById('btn-billing-yearly');
+
+      const cardBasic = document.getElementById('card-plan-basic');
+      const cardPro = document.getElementById('card-plan-pro');
+      const cardYearly = document.getElementById('card-plan-yearly');
+
+      const btnSelectBasic = document.getElementById('btn-select-basic');
+      const btnSelectPro = document.getElementById('btn-select-pro');
+      const btnSelectYearly = document.getElementById('btn-select-yearly');
+
+      const summaryTitle = document.getElementById('summary-plan-title');
+      const summaryDesc = document.getElementById('summary-plan-desc');
+      const summaryPlanPrice = document.getElementById('summary-plan-price');
+      const summarySubtotal = document.getElementById('summary-subtotal');
+      const summaryIgv = document.getElementById('summary-igv');
+      const summaryDiscount = document.getElementById('summary-discount');
+      const rowDiscount = document.getElementById('row-discount');
+      const summaryTotalPay = document.getElementById('summary-total-pay');
+      const lblWalletAmount = document.getElementById('lbl-wallet-amount');
+
+      function updatePrices() {
+        let total = 0;
+        let title = '';
+        let desc = '';
+
+        if (selectedPlan === 'basic') {
+          total = 0;
+          title = 'Plan Básico';
+          desc = 'Acceso introductorio gratuito';
+        } else if (selectedPlan === 'pro') {
+          total = 29.90;
+          title = 'Plan Pro Mensual';
+          desc = 'Acceso ilimitado con facturación mensual';
+        } else if (selectedPlan === 'yearly') {
+          total = 239.90;
+          title = 'Plan Anual Ahorro';
+          desc = 'Acceso bilingüe completo (12 meses con 33% dto.)';
+        }
+
+        if (couponApplied && total > 0) {
+          const discountVal = total * 0.10;
+          total = total - discountVal;
+          if (rowDiscount) {
+            rowDiscount.style.setProperty('display', 'flex', 'important');
+            summaryDiscount.textContent = `-S/ ${discountVal.toFixed(2)}`;
+          }
+        }
+
+        const subtotal = total / 1.18;
+        const igv = total - subtotal;
+
+        summaryTitle.textContent = title;
+        summaryDesc.textContent = desc;
+        summaryPlanPrice.textContent = `S/ ${total.toFixed(2)}`;
+        summarySubtotal.textContent = `S/ ${subtotal.toFixed(2)}`;
+        summaryIgv.textContent = `S/ ${igv.toFixed(2)}`;
+        summaryTotalPay.textContent = `S/ ${total.toFixed(2)}`;
+        if (lblWalletAmount) lblWalletAmount.textContent = `S/ ${total.toFixed(2)}`;
+      }
+
+      btnMonthly.addEventListener('click', function () {
+        currentBilling = 'monthly';
+        btnMonthly.classList.add('active');
+        btnYearly.classList.remove('active');
+        btnMonthly.setAttribute('aria-checked', 'true');
+        btnYearly.setAttribute('aria-checked', 'false');
+        if (selectedPlan === 'yearly') selectedPlan = 'pro';
+        updatePrices();
+      });
+
+      btnYearly.addEventListener('click', function () {
+        currentBilling = 'yearly';
+        btnYearly.classList.add('active');
+        btnMonthly.classList.remove('active');
+        btnYearly.setAttribute('aria-checked', 'true');
+        btnMonthly.setAttribute('aria-checked', 'false');
+        selectedPlan = 'yearly';
+        updatePrices();
+      });
+
+      btnSelectBasic.addEventListener('click', () => { selectedPlan = 'basic'; updatePrices(); });
+      btnSelectPro.addEventListener('click', () => { selectedPlan = 'pro'; updatePrices(); });
+      btnSelectYearly.addEventListener('click', () => { selectedPlan = 'yearly'; updatePrices(); });
+
+      // Cupón de descuento interactivo
+      const btnApplyCoupon = document.getElementById('btn-apply-coupon');
+      const inputCoupon = document.getElementById('input-coupon');
+      const couponFeedback = document.getElementById('coupon-feedback');
+
+      btnApplyCoupon.addEventListener('click', function () {
+        const code = inputCoupon.value.trim().toUpperCase();
+        if (code === 'PERU2026' || code === 'LINGUA10') {
+          couponApplied = true;
+          couponFeedback.classList.remove('d-none');
+          updatePrices();
+        } else {
+          alert('Cupón no válido. Prueba utilizando el código promocional: PERU2026');
+        }
+      });
+
+      // Confirmar y pagar
+      const btnConfirmCheckout = document.getElementById('btn-confirm-checkout');
+      btnConfirmCheckout.addEventListener('click', function () {
+        const modalEl = new bootstrap.Modal(document.getElementById('modal-voucher-success'));
+        document.getElementById('modal-plan-name').textContent = summaryTitle.textContent;
+        document.getElementById('modal-total-paid').textContent = summaryTotalPay.textContent;
+        modalEl.show();
+      });
+
+      // Copiar CIP
+      const btnCopyCip = document.getElementById('btn-copy-cip');
+      if (btnCopyCip) {
+        btnCopyCip.addEventListener('click', function () {
+          navigator.clipboard.writeText('48921074').then(() => {
+            this.innerHTML = '<i class="bi bi-check2"></i> ¡Copiado!';
+            setTimeout(() => this.innerHTML = '<i class="bi bi-clipboard"></i> Copiar', 2000);
+          });
+        });
+      }
+
+      updatePrices();
+    })();
+  </script>
+</body>
+</html>

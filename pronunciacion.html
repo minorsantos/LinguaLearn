@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaLearn - Práctica Oral y Ejercicio de Pronunciación</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Estilos Personalizados y Nuevas Pantallas -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/nuevas_pantallas.css">
+  <script>
+    if (localStorage.getItem('lingua_theme_reset_warm') !== 'true') {
+      localStorage.setItem('lingua_theme', 'light');
+      localStorage.setItem('lingua_theme_reset_warm', 'true');
+    }
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (document.body) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark-mode'));
+      }
+    }
+  </script>
+</head>
+<body class="pronunciation-canvas">
+
+  <!-- BARRA SUPERIOR DE ACCESIBILIDAD CON VIDRIO ESMERILADO CÁLIDO -->
+  <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">
+    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2 py-1">
+      <div class="d-flex align-items-center gap-3">
+        <span class="d-inline-flex align-items-center gap-1 fw-bold" style="color: #243828;">
+          <i class="bi bi-person-wheelchair text-primary"></i> Accesibilidad
+        </span>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
+          <i class="bi bi-moon-stars-fill"></i> <span class="darkmode-text">Modo Oscuro</span>
+        </button>
+        <span class="opacity-50">|</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Ajuste de tipografía">
+          <button type="button" class="btn-font-decrease font-size-control-btn" style="color: #4a3e30;" aria-label="Disminuir tamaño">A-</button>
+          <button type="button" class="btn-font-increase font-size-control-btn" style="color: #4a3e30;" aria-label="Aumentar tamaño">A+</button>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-sm btn-link text-decoration-none dropdown-toggle p-0" style="color: #4a3e30;" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-translate"></i> Español (ES)
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item active" href="#">Español (ES)</a></li>
+            <li><a class="dropdown-item" href="#">English (US)</a></li>
+          </ul>
+        </div>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn btn-sm btn-link text-decoration-none p-0" style="color: #4a3e30;" data-bs-toggle="modal" data-bs-target="#modal-shortcuts">
+          <i class="bi bi-keyboard"></i> Atajos [Espacio, R, Enter]
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- NAVBAR PRINCIPAL CON TONO MARFIL CÁLIDO ESMERILADO -->
+  <header class="main-navbar canvas-navbar-warm sticky-top shadow-sm anim-cascade-down stagger-2">
+    <div class="container-xl">
+      <nav class="navbar navbar-expand-lg p-0" aria-label="Navegación principal">
+        <a class="brand-logo-container" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <span class="brand-name">LinguaLearn</span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-label="Menú principal">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="test-diagnostico.html">Test Diagnóstico</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="dashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="leccion.html">Lección Activa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom active" aria-current="page" href="pronunciacion.html">Pronunciación</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="comunidad.html">Comunidad</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="suscripcion.html">Suscripción</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="soporte.html">Soporte</a>
+            </li>
+          </ul>
+
+          <!-- BARRA DE ESTADO DE USUARIO: MI PERFIL, RACHA Y XP EN UNA SOLA LÍNEA CON MENÚ HACIA ABAJO -->
+          <div class="header-user-status-bar d-flex align-items-center gap-2 gap-md-3 flex-nowrap ms-lg-3">
+            <div class="header-stat-pill streak flex-shrink-0" title="Racha activa">
+              <i class="bi bi-fire"></i> <span class="stat-streak-val">5 días</span>
+            </div>
+            <div class="header-stat-pill xp flex-shrink-0" title="Experiencia acumulada">
+              <i class="bi bi-lightning-charge-fill"></i> <span class="stat-xp-val">120 XP</span>
+            </div>
+            <div class="dropdown header-profile-dropdown flex-shrink-0">
+              <button class="header-profile-btn dropdown-toggle d-flex align-items-center gap-2" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" title="Menú de perfil y cerrar sesión">
+                <div class="position-relative">
+                  <img src="assets/sofia.jpg" alt="Foto de perfil de Sofia Martinez" class="header-avatar-img">
+                  <span class="avatar-online-dot"></span>
+                </div>
+                <span class="header-profile-name fw-semibold small user-display-name">Mi Perfil</span>
+                <i class="bi bi-chevron-down small text-secondary"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 card-custom test-card-glass p-2 mt-2" aria-labelledby="dropdownUserMenu" style="min-width: 240px; z-index: 9999;">
+                <li class="px-3 py-2 border-bottom mb-1">
+                  <div class="fw-bold text-dark text-truncate user-display-name">Sofia Martinez</div>
+                  <div class="small text-secondary text-truncate" style="font-size: 0.775rem;">sofia.martinez@universidad.edu</div>
+                  <div class="badge bg-primary-subtle text-primary mt-1 user-level-badge" style="font-size: 0.7rem;">Nivel A2 - Básico Activo</div>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="perfil.html">
+                    <i class="bi bi-person-circle text-primary"></i> <span>Mi Perfil y Logros</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="dashboard.html">
+                    <i class="bi bi-speedometer2 text-success"></i> <span>Mi Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="suscripcion.html">
+                    <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider my-1"></li>
+                <li>
+                  <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
+                    <i class="bi bi-box-arrow-right fs-6"></i> <span>Cerrar Sesión</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="py-4 py-md-5" id="main-content">
+    <div class="container-xl" style="max-width: 900px;">
+
+      <!-- BARRA DE PROGRESO DEL EJERCICIO -->
+      <div class="card-custom test-card-glass mb-4 p-3 anim-cascade stagger-3">
+        <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-primary text-white rounded-pill px-3 py-1">Voz y Habla</span>
+            <span class="fw-bold small text-dark" id="exercise-step-label">Ejercicio 3 de 6 · Práctica de Fonética</span>
+          </div>
+          <div class="d-flex align-items-center gap-2 small">
+            <span class="badge bg-success-subtle text-success border">+15 XP al completar</span>
+            <span class="fw-bold text-primary" id="exercise-progress-pct">50% completado</span>
+          </div>
+        </div>
+        <div class="cloud-progress-track" style="height: 12px;">
+          <div class="cloud-progress-fluid" id="exercise-progress-bar" style="width: 50%;"></div>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           ÁREA PRINCIPAL DE EJERCICIO DE PRONUNCIACIÓN
+           ========================================================================= -->
+      <div class="card-custom test-card-glass p-4 p-md-5 mb-4 text-center anim-cascade stagger-4">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill small">
+            <i class="bi bi-mic me-1"></i> Reconocimiento de Voz Asistido por IA
+          </span>
+          <span class="small text-secondary"><i class="bi bi-shield-check"></i> Modo seguro sin penalización</span>
+        </div>
+
+        <p class="small text-uppercase text-secondary fw-bold letter-spacing-1 mb-2">
+          Pronuncia en voz alta la siguiente oración:
+        </p>
+
+        <!-- FRASE EN INGLÉS EN TEXTO GRANDE Y DESTACADO -->
+        <h1 class="display-6 fw-bold mb-2 text-dark lh-base" id="target-phrase">
+          “Good morning! I would like to order a fresh cup of coffee, please.”
+        </h1>
+
+        <!-- TRANSCRIPCIÓN FONÉTICA IPA -->
+        <div class="text-secondary small fst-italic mb-3" style="font-family: monospace; font-size: 0.95rem;">
+          [ ɡʊd ˈmɔːnɪŋ! aɪ wʊd laɪk tuː ˈɔːrdər ə freʃ kʌp əv ˈkɒfi, pliːz ]
+        </div>
+
+        <!-- CONTROLES DE AUDIO NATIVO Y SELECTOR DE VELOCIDADES PERSONALIZABLE -->
+        <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap mb-4">
+          <button type="button" class="btn btn-primary-custom btn-sm rounded-pill px-3" id="btn-play-current-speech">
+            <i class="bi bi-volume-up-fill me-1"></i> Escuchar Frase (<span id="lbl-active-speed-chip">1.0x</span>)
+          </button>
+          
+          <!-- Selector de Velocidad Personalizada (Lentitud / Rapidez) -->
+          <div class="btn-group btn-group-sm rounded-pill bg-white p-1 border shadow-sm" role="group" aria-label="Velocidad de reproducción">
+            <button type="button" class="btn btn-sm rounded-pill btn-speed-select" data-speed="0.5" title="Ultra lenta para detalles fonéticos">0.5x (Ultra lenta)</button>
+            <button type="button" class="btn btn-sm rounded-pill btn-speed-select" data-speed="0.75" title="Lenta para principiantes">0.75x (Lenta)</button>
+            <button type="button" class="btn btn-sm rounded-pill btn-speed-select active btn-terracotta" data-speed="1.0" title="Velocidad estándar">1.0x (Normal)</button>
+            <button type="button" class="btn btn-sm rounded-pill btn-speed-select" data-speed="1.25" title="Velocidad fluida nativa">1.25x (Fluida)</button>
+          </div>
+
+          <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" id="btn-toggle-phrase-trans">
+            <i class="bi bi-translate me-1"></i> <span id="lbl-trans-toggle">Ver traducción</span>
+          </button>
+        </div>
+
+        <!-- TRADUCCIÓN EN ESPAÑOL (OCULTA POR DEFECTO) -->
+        <div id="phrase-translation-box" class="d-none alert alert-light border small mx-auto mb-4" style="max-width: 550px;">
+          “¡Buenos días! Me gustaría pedir una taza de café fresco, por favor.”
+        </div>
+
+        <hr class="opacity-25 my-4">
+
+        <!-- =========================================================================
+             GRABACIÓN INTERACTIVA: BOTÓN CIRCULAR DE MICRÓFONO + ONDA DE AUDIO
+             ========================================================================= -->
+        <div class="my-4">
+          <button type="button" class="btn-mic-circle-large" id="btn-record-mic" title="Presiona o pulsa Espacio para hablar" aria-label="Presiona para hablar">
+            <i class="bi bi-mic-fill" id="mic-icon"></i>
+          </button>
+
+          <!-- ONDA ECUALIZADORA DE AUDIO -->
+          <div class="audio-waves-container" id="audio-waves">
+            <span class="audio-wave-bar" style="animation-delay: 0.1s;"></span>
+            <span class="audio-wave-bar" style="animation-delay: 0.3s;"></span>
+            <span class="audio-wave-bar" style="animation-delay: 0.5s;"></span>
+            <span class="audio-wave-bar" style="animation-delay: 0.2s;"></span>
+            <span class="audio-wave-bar" style="animation-delay: 0.4s;"></span>
+            <span class="audio-wave-bar" style="animation-delay: 0.15s;"></span>
+            <span class="audio-wave-bar" style="animation-delay: 0.35s;"></span>
+          </div>
+
+          <div class="fw-bold mt-2 fs-5" id="recording-status-text">
+            Presiona para hablar
+          </div>
+          <div class="small text-secondary" id="recording-status-sub">
+            Pulsa el micrófono o la barra espaciadora en tu teclado
+          </div>
+        </div>
+
+        <!-- =========================================================================
+             RETROALIMENTACIÓN FONÉTICA DETALLADA (APARECE AL GRABAR)
+             ========================================================================= -->
+        <div class="test-container-inset p-4 rounded-4 mt-4 text-start anim-pop-in" id="feedback-card">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3 pb-2 border-bottom">
+            <div class="d-flex align-items-center gap-3">
+              <!-- Círculo de porcentaje de precisión SVG -->
+              <div class="position-relative d-inline-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
+                <svg width="64" height="64" viewBox="0 0 36 36">
+                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(215, 195, 160, 0.4)" stroke-width="3.5" />
+                  <path id="svg-score-circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#22c55e" stroke-width="3.5" stroke-dasharray="88, 100" />
+                </svg>
+                <span class="position-absolute fw-bold fs-6 text-success" id="lbl-accuracy-pct">88%</span>
+              </div>
+              <div>
+                <h3 class="h6 fw-bold mb-0">¡Excelente entonación y claridad!</h3>
+                <div class="small text-secondary">Nivel de precisión: <strong class="text-success">Casi Nativo (88%)</strong></div>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <span class="badge bg-success-subtle text-success py-1 px-2 small">Ritmo: 92%</span>
+              <span class="badge bg-primary-subtle text-primary py-1 px-2 small">Entonación: 86%</span>
+            </div>
+          </div>
+
+          <!-- DESGLOSE PALABRA POR PALABRA CON COLOREADO ACCESIBLE -->
+          <div class="mb-3">
+            <div class="small fw-bold text-secondary text-uppercase mb-2">Desglose fonético palabra por palabra:</div>
+            <div class="d-flex flex-wrap align-items-center" id="words-breakdown">
+              <span class="word-feedback-token word-token-green" title="Pronunciación correcta (96%)">Good <i class="bi bi-check small"></i></span>
+              <span class="word-feedback-token word-token-green" title="Pronunciación correcta (94%)">morning! <i class="bi bi-check small"></i></span>
+              <span class="word-feedback-token word-token-green" title="Pronunciación correcta (98%)">I <i class="bi bi-check small"></i></span>
+              <span class="word-feedback-token word-token-green" title="Pronunciación correcta (90%)">would <i class="bi bi-check small"></i></span>
+              <span class="word-feedback-token word-token-green" title="Pronunciación correcta (95%)">like <i class="bi bi-check small"></i></span>
+              <span class="word-feedback-token word-token-orange" id="token-order" title="Atención: Vocal abierta /ɔːrdər/ (Click para tip)">to order ⚠️</span>
+              <span class="word-feedback-token word-token-green" title="Pronunciación correcta (92%)">a fresh <i class="bi bi-check small"></i></span>
+              <span class="word-feedback-token word-token-green" title="Pronunciación correcta (97%)">cup of <i class="bi bi-check small"></i></span>
+              <span class="word-feedback-token word-token-green" title="Pronunciación correcta (93%)">coffee, <i class="bi bi-check small"></i></span>
+              <span class="word-feedback-token word-token-green" title="Pronunciación correcta (96%)">please. <i class="bi bi-check small"></i></span>
+            </div>
+          </div>
+
+          <!-- TIP FONÉTICO ESPECÍFICO DE LA PALABRA EN NARANJA -->
+          <div class="p-3 rounded-3 bg-warning-subtle text-warning-emphasis small border border-warning-subtle" id="phonetic-tip-box">
+            <div class="fw-bold mb-1"><i class="bi bi-lightbulb-fill me-1"></i> Tip de mejora para "to order":</div>
+            <div>En inglés americano estándar, pronuncia la vocal <strong>/ɔːr/</strong> de forma redondeada y continua sin forzar la 'd' final. Haz clic en la palabra para escucharla aislada.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- =========================================================================
+           BARRA DE ACCIÓN Y ATAJOS DE TECLADO INFERIORES
+           ========================================================================= -->
+      <div class="card-custom test-card-glass p-3 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3 anim-cascade stagger-5">
+        <button type="button" class="btn btn-secondary-custom rounded-pill px-3" id="btn-retry-record">
+          <i class="bi bi-arrow-counterclockwise me-1"></i> Reintentar Grabación
+        </button>
+
+        <div class="keyboard-shortcuts-helper test-pill-glass">
+          <i class="bi bi-keyboard text-secondary"></i>
+          <span>Pulsa <kbd class="kbd-badge">Espacio</kbd> Grabar · <kbd class="kbd-badge">R</kbd> Muestra · <kbd class="kbd-badge">Enter</kbd> Continuar</span>
+        </div>
+
+        <button type="button" class="btn btn-primary-custom rounded-pill px-4" id="btn-next-phrase">
+          <span>Siguiente Frase (+15 XP)</span>
+          <i class="bi bi-arrow-right ms-1"></i>
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- PIE DE PÁGINA ACCESIBLE -->
+  <footer class="footer-accessible dashboard-footer-warm anim-cascade stagger-6">
+    <div class="container-xl">
+      <div class="row align-items-center g-3">
+        <div class="col-md-6 d-flex align-items-center gap-2">
+          <div class="brand-icon" style="width: 24px; height: 24px; font-size: 0.8rem;">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <strong class="text-dark">LinguaLearn Oral</strong>
+          <span class="text-muted small ms-2">Tecnología de reconocimiento de voz empático y adaptable.</span>
+        </div>
+        <div class="col-md-6 text-md-end d-flex flex-wrap justify-content-md-end gap-3 small">
+          <a href="soporte.html"><i class="bi bi-question-circle"></i> Permisos de Micrófono</a>
+          <a href="dashboard.html"><i class="bi bi-speedometer2"></i> Volver a Dashboard</a>
+          <a href="#">Declaración de Accesibilidad</a>
+        </div>
+      </div>
+      <div class="text-center text-muted small mt-4 pt-3 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+        © 2024 LinguaLearn. Diseñado bajo estándares WCAG 2.2 AAA.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scripts de la Aplicación -->
+  <script src="js/fireflies.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- LÓGICA INTERACTIVA DE GRABACIÓN, EVALUACIÓN FONÉTICA Y VELOCIDADES -->
+  <script>
+    (function () {
+      'use strict';
+
+      // 1. BANCO DE FRASES SENCILLAS Y COTIDIANAS (PRONUNCIACIÓN ACCESIBLE)
+      const PHRASES = [
+        {
+          en: 'Hello! How are you today?',
+          ipa: '[ həˈləʊ! haʊ ɑː juː təˈdeɪ? ]',
+          es: '¡Hola! ¿Cómo estás hoy?',
+          words: [
+            { text: 'Hello!', status: 'green', score: 96, tip: 'Sonido /h/ aspirado suave desde la garganta.' },
+            { text: 'How', status: 'green', score: 95, tip: 'Diptongo /aʊ/ con apertura bucal natural.' },
+            { text: 'are', status: 'green', score: 98, tip: 'Vocal /ɑː/ abierta y relajada.' },
+            { text: 'you', status: 'green', score: 94, tip: 'Semivocal /j/ suave y continua.' },
+            { text: 'today?', status: 'orange', score: 85, tip: 'La primera sílaba "to-" suena como /tə/ schwa relajada, no "tu".' }
+          ]
+        },
+        {
+          en: 'Can I have some water, please?',
+          ipa: '[ kæn aɪ hæv sʌm ˈwɔːtər, pliːz? ]',
+          es: '¿Puedo tomar un poco de agua, por favor?',
+          words: [
+            { text: 'Can', status: 'green', score: 95, tip: 'Vocal /æ/ abierta.' },
+            { text: 'I', status: 'green', score: 98, tip: 'Diptongo claro /aɪ/.' },
+            { text: 'have', status: 'green', score: 92, tip: 'Terminación /v/ con dientes superiores en labio inferior.' },
+            { text: 'some', status: 'green', score: 94, tip: 'Vocal central corta /ʌ/.' },
+            { text: 'water,', status: 'orange', score: 84, tip: 'En inglés cotidiano la "t" suena como flap tap /ɾ/ suave ("wá-der").' },
+            { text: 'please?', status: 'green', score: 97, tip: 'Vocal larga /iː/ con "s" sonora /z/.' }
+          ]
+        },
+        {
+          en: 'I love learning English every day.',
+          ipa: '[ aɪ lʌv ˈlɜːnɪŋ ˈɪŋɡlɪʃ ˈevri deɪ ]',
+          es: 'Me encanta aprender inglés todos los días.',
+          words: [
+            { text: 'I', status: 'green', score: 98, tip: 'Diptongo /aɪ/ sonoro.' },
+            { text: 'love', status: 'green', score: 94, tip: 'Vocal /ʌ/ corta y relajada.' },
+            { text: 'learning', status: 'orange', score: 83, tip: 'Vocal /ɜː/ centrada sin forzar la "r" dura española.' },
+            { text: 'English', status: 'green', score: 95, tip: 'Sonido /ŋ/ nasal antes de /ɡ/.' },
+            { text: 'every', status: 'green', score: 93, tip: 'Dos sílabas continuas /ˈev.ri/.' },
+            { text: 'day.', status: 'green', score: 96, tip: 'Diptongo /deɪ/ limpio.' }
+          ]
+        },
+        {
+          en: 'Thank you so much for your help!',
+          ipa: '[ θæŋk juː səʊ mʌtʃ fɔː jɔː help! ]',
+          es: '¡Muchas gracias por tu ayuda!',
+          words: [
+            { text: 'Thank', status: 'orange', score: 82, tip: 'Sonido /θ/ interdental: coloca suavemente la punta de la lengua entre los dientes.' },
+            { text: 'you', status: 'green', score: 96, tip: 'Pronombre /juː/ fluido.' },
+            { text: 'so', status: 'green', score: 95, tip: 'Diptongo /səʊ/.' },
+            { text: 'much', status: 'green', score: 94, tip: 'Sonido africado final /tʃ/.' },
+            { text: 'for', status: 'green', score: 92, tip: 'Preposición /fɔː/ corta.' },
+            { text: 'your', status: 'green', score: 95, tip: 'Sonido /jɔː/.' },
+            { text: 'help!', status: 'green', score: 97, tip: 'Vocal corta /e/ con aspiración limpia.' }
+          ]
+        },
+        {
+          en: 'Have a wonderful and happy day!',
+          ipa: '[ hæv ə ˈwʌndəfl ənd ˈhæpi deɪ! ]',
+          es: '¡Que tengas un día maravilloso y feliz!',
+          words: [
+            { text: 'Have', status: 'green', score: 95, tip: 'Vocal /æ/.' },
+            { text: 'a', status: 'green', score: 98, tip: 'Schwa /ə/ átona suave.' },
+            { text: 'wonderful', status: 'orange', score: 86, tip: 'Acentúa firmemente la primera sílaba /ˈwʌn/.' },
+            { text: 'and', status: 'green', score: 94, tip: 'Conexión suave /ənd/.' },
+            { text: 'happy', status: 'green', score: 96, tip: 'Sonido /h/ aspirado.' },
+            { text: 'day!', status: 'green', score: 98, tip: 'Diptongo /deɪ/.' }
+          ]
+        }
+      ];
+
+      let currentIndex = 0;
+      let isRecording = false;
+      let activePlaybackSpeed = 1.0;
+      let recognition = null;
+
+      const phraseEl = document.getElementById('target-phrase');
+      const transBox = document.getElementById('phrase-translation-box');
+      const btnRecord = document.getElementById('btn-record-mic');
+      const audioWaves = document.getElementById('audio-waves');
+      const statusText = document.getElementById('recording-status-text');
+      const statusSub = document.getElementById('recording-status-sub');
+      const micIcon = document.getElementById('mic-icon');
+      const feedbackCard = document.getElementById('feedback-card');
+      const wordsContainer = document.getElementById('words-breakdown');
+      const tipBox = document.getElementById('phonetic-tip-box');
+      const lblAccuracyPct = document.getElementById('lbl-accuracy-pct');
+      const svgScoreCircle = document.getElementById('svg-score-circle');
+
+      // 2. CONFIGURACIÓN DE VELOCIDADES DE REPRODUCCIÓN PERSONALIZABLES
+      const speedButtons = document.querySelectorAll('.btn-speed-select');
+      const lblActiveSpeedChip = document.getElementById('lbl-active-speed-chip');
+
+      speedButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+          speedButtons.forEach(b => {
+            b.classList.remove('active', 'btn-terracotta');
+            b.classList.add('btn-light');
+          });
+          this.classList.remove('btn-light');
+          this.classList.add('active', 'btn-terracotta');
+
+          activePlaybackSpeed = parseFloat(this.getAttribute('data-speed'));
+          if (lblActiveSpeedChip) lblActiveSpeedChip.textContent = `${activePlaybackSpeed}x`;
+          playPhraseAudio(activePlaybackSpeed);
+        });
+      });
+
+      // 3. REPRODUCIR AUDIO (WEB SPEECH API) CON VELOCIDAD PERSONALIZADA
+      function playPhraseAudio(speed = activePlaybackSpeed, customText = null) {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        const p = PHRASES[currentIndex];
+        const utt = new SpeechSynthesisUtterance(customText || p.en);
+        utt.lang = 'en-US';
+        utt.rate = speed;
+        window.speechSynthesis.speak(utt);
+      }
+
+      document.getElementById('btn-play-current-speech')?.addEventListener('click', () => {
+        playPhraseAudio(activePlaybackSpeed);
+      });
+
+      // 4. DESGLOSE FONÉTICO PALABRA POR PALABRA ACTUALIZADO DINÁMICAMENTE
+      function renderWordTokens(phraseObj) {
+        if (!wordsContainer) return;
+        wordsContainer.innerHTML = '';
+
+        let totalScore = 0;
+        let orangeTipFound = null;
+
+        phraseObj.words.forEach((w, idx) => {
+          totalScore += w.score;
+          const token = document.createElement('span');
+          const isGreen = w.status === 'green';
+          token.className = `word-feedback-token ${isGreen ? 'word-token-green' : 'word-token-orange'}`;
+          token.setAttribute('title', `Precisión: ${w.score}% (Click para escuchar y ver tip)`);
+          token.innerHTML = `${w.text} ${isGreen ? '<i class="bi bi-check small"></i>' : '<i class="bi bi-exclamation-circle small"></i>'}`;
+
+          if (!isGreen && !orangeTipFound) {
+            orangeTipFound = w;
+          }
+
+          // Al hacer clic en la palabra, escucharla aislada a la velocidad activa y ver su tip
+          token.addEventListener('click', function () {
+            playPhraseAudio(Math.max(0.7, activePlaybackSpeed), w.text.replace(/[!?,.]/g, ''));
+            updatePhoneticTip(w);
+          });
+
+          wordsContainer.appendChild(token);
+        });
+
+        // Calcular porcentaje promedio de precisión
+        const avgScore = Math.round(totalScore / phraseObj.words.length);
+        if (lblAccuracyPct) lblAccuracyPct.textContent = `${avgScore}%`;
+        if (svgScoreCircle) svgScoreCircle.setAttribute('stroke-dasharray', `${avgScore}, 100`);
+
+        // Mostrar tip de la palabra con más oportunidad de mejora
+        if (orangeTipFound) {
+          updatePhoneticTip(orangeTipFound);
+        }
+      }
+
+      function updatePhoneticTip(wordObj) {
+        if (!tipBox) return;
+        tipBox.innerHTML = `
+          <div class="fw-bold mb-1"><i class="bi bi-lightbulb-fill me-1 text-warning"></i> Tip fonético para "${wordObj.text}":</div>
+          <div>${wordObj.tip} <button type="button" class="btn btn-sm btn-link p-0 ms-2 text-decoration-underline text-warning-emphasis fw-bold" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('${wordObj.text.replace(/[!?,.]/g, '')}'))"><i class="bi bi-volume-up"></i> Escuchar palabra</button></div>
+        `;
+        tipBox.classList.add('shadow-sm');
+      }
+
+      // 5. CARGAR FRASIS ACTUAL Y REGLAS
+      function loadCurrentPhrase(idx) {
+        const p = PHRASES[idx];
+        if (!p) return;
+
+        if (phraseEl) phraseEl.textContent = `“${p.en}”`;
+        if (transBox) transBox.textContent = `“${p.es}”`;
+
+        const stepLabel = document.getElementById('exercise-step-label');
+        if (stepLabel) stepLabel.textContent = `Ejercicio ${idx + 1} de ${PHRASES.length} · Práctica de Fonética`;
+
+        const pct = Math.round(((idx + 1) / PHRASES.length) * 100);
+        const progressPctEl = document.getElementById('exercise-progress-pct');
+        const progressBarEl = document.getElementById('exercise-progress-bar');
+        if (progressPctEl) progressPctEl.textContent = `${pct}% completado`;
+        if (progressBarEl) progressBarEl.style.width = `${pct}%`;
+
+        renderWordTokens(p);
+      }
+
+      // 6. TOGGLE DE TRADUCCIÓN
+      const btnToggleTrans = document.getElementById('btn-toggle-phrase-trans');
+      btnToggleTrans?.addEventListener('click', function () {
+        const isHidden = transBox.classList.contains('d-none');
+        if (isHidden) {
+          transBox.classList.remove('d-none');
+          document.getElementById('lbl-trans-toggle').textContent = 'Ocultar traducción';
+        } else {
+          transBox.classList.add('d-none');
+          document.getElementById('lbl-trans-toggle').textContent = 'Ver traducción';
+        }
+      });
+
+      // 7. EVALUACIÓN DE PRONUNCIACIÓN INTERACTIVA CON RECONOCIMIENTO DE VOZ
+      function initSpeechRecognition() {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (SpeechRec) {
+          recognition = new SpeechRec();
+          recognition.lang = 'en-US';
+          recognition.continuous = false;
+          recognition.interimResults = false;
+
+          recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;
+            evaluatePronunciationResult(transcript);
+          };
+
+          recognition.onerror = function () {
+            evaluatePronunciationResult(null);
+          };
+
+          recognition.onend = function () {
+            if (isRecording) stopRecording();
+          };
+        }
+      }
+
+      function evaluatePronunciationResult(userTranscript) {
+        const p = PHRASES[currentIndex];
+        let evaluatedScore = 90;
+
+        if (userTranscript) {
+          // Comparar palabras coincidentes
+          const targetWords = p.en.toLowerCase().replace(/[!?,.]/g, '').split(' ');
+          const spokenWords = userTranscript.toLowerCase().replace(/[!?,.]/g, '').split(' ');
+          let matches = 0;
+
+          targetWords.forEach(w => {
+            if (spokenWords.includes(w)) matches++;
+          });
+
+          const matchRatio = matches / targetWords.length;
+          evaluatedScore = Math.min(100, Math.max(78, Math.round(matchRatio * 96) + 4));
+        } else {
+          // Simulación acústica realista
+          evaluatedScore = Math.floor(88 + Math.random() * 8);
+        }
+
+        if (lblAccuracyPct) lblAccuracyPct.textContent = `${evaluatedScore}%`;
+        if (svgScoreCircle) svgScoreCircle.setAttribute('stroke-dasharray', `${evaluatedScore}, 100`);
+
+        statusText.textContent = `¡Pronunciación evaluada: ${evaluatedScore}%!`;
+        statusSub.textContent = evaluatedScore >= 90 ? '¡Excelente dicción y ritmo natural!' : 'Buen intento. Revisa las palabras en naranja para pulir el fonema.';
+      }
+
+      function startRecording() {
+        isRecording = true;
+        btnRecord.classList.add('recording');
+        micIcon.className = 'bi bi-stop-fill';
+        statusText.textContent = 'Escuchando tu voz... (Pronuncia la frase)';
+        statusSub.textContent = 'Presiona el botón de nuevo o pulsa Espacio para finalizar';
+        audioWaves.classList.add('recording');
+        feedbackCard.style.opacity = '0.5';
+
+        try {
+          if (recognition) recognition.start();
+        } catch (e) {}
+      }
+
+      function stopRecording() {
+        isRecording = false;
+        btnRecord.classList.remove('recording');
+        micIcon.className = 'bi bi-mic-fill';
+        statusText.textContent = '¡Grabación completada!';
+        statusSub.textContent = 'Calculando porcentaje de precisión con IA...';
+        audioWaves.classList.remove('recording');
+
+        try {
+          if (recognition) recognition.stop();
+        } catch (e) {}
+
+        setTimeout(() => {
+          feedbackCard.style.opacity = '1';
+          evaluatePronunciationResult(null);
+          feedbackCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 500);
+      }
+
+      function toggleRecording() {
+        if (!isRecording) startRecording();
+        else stopRecording();
+      }
+
+      btnRecord.addEventListener('click', toggleRecording);
+      document.getElementById('btn-retry-record')?.addEventListener('click', () => {
+        if (isRecording) stopRecording();
+        startRecording();
+      });
+
+      // 8. SIGUIENTE FRASE (+15 XP)
+      const btnNextPhrase = document.getElementById('btn-next-phrase');
+      btnNextPhrase?.addEventListener('click', function () {
+        currentIndex = (currentIndex + 1) % PHRASES.length;
+        loadCurrentPhrase(currentIndex);
+
+        // Sumar XP a la cuenta global
+        if (window.LinguaApp) {
+          window.LinguaApp.addXP(15);
+          window.LinguaApp.showToast('¡+15 XP sumados por tu práctica oral!', 'success');
+        }
+      });
+
+      // 9. ATAJOS DE TECLADO (Espacio, R, Enter)
+      document.addEventListener('keydown', function (e) {
+        if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+
+        if (e.code === 'Space') {
+          e.preventDefault();
+          toggleRecording();
+        } else if (e.code === 'KeyR') {
+          e.preventDefault();
+          playPhraseAudio(activePlaybackSpeed);
+        } else if (e.code === 'Enter') {
+          e.preventDefault();
+          btnNextPhrase?.click();
+        }
+      });
+
+      // Inicialización al cargar la página
+      initSpeechRecognition();
+      loadCurrentPhrase(0);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaLearn - Continúa explorando tu potencial</title>
+  <!-- Google Fonts: Playfair Display & Cinzel para fidelidad tipográfica editorial -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Estilos Personalizados y Accesibilidad -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    if (localStorage.getItem('lingua_theme_reset_warm') !== 'true') {
+      localStorage.setItem('lingua_theme', 'light');
+      localStorage.setItem('lingua_theme_reset_warm', 'true');
+    }
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (document.body) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark-mode'));
+      }
+    }
+  </script>
+  <style>
+    /* Estilos de precisión para la estética cálida y armónica - Match 100% idéntico entre modo claro y oscuro */
+    .hero-canvas {
+      position: relative;
+      min-height: calc(100vh - 36px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .hero-bg-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      background-color: #f7f4ec;
+      background-image: 
+        radial-gradient(circle at 85% 15%, rgba(212, 175, 55, 0.20) 0%, transparent 45%),
+        linear-gradient(180deg, rgba(247, 244, 236, 0.40) 0%, rgba(242, 236, 224, 0.55) 100%),
+        url('assets/hero_bg_warm.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    body.dark-mode .hero-bg-layer {
+      background-color: #0b1118 !important;
+      background-image: url('assets/inicio_dark_bg.jpg') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+    }
+
+    .hero-canvas #fireflies-canvas {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 2 !important;
+      pointer-events: none !important;
+    }
+
+    .warm-nav-header {
+      padding: 0.75rem 1.25rem 0.5rem;
+      max-width: 1160px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-main-container {
+      max-width: 1140px !important;
+      width: 100%;
+      margin: auto auto;
+      padding: 0.75rem 1.5rem 1.25rem;
+    }
+
+    .hero-title-warm {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.3rem, 4.4vw, 3.4rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #173824;
+      margin-bottom: 1.35rem;
+    }
+
+    body.dark-mode .hero-title-warm {
+      color: #ede1cb !important;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    }
+
+    .login-card-ornate {
+      position: relative;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid #d4b886;
+      border-radius: 14px;
+      box-shadow: 0 16px 36px rgba(138, 92, 45, 0.16), 0 2px 6px rgba(0, 0, 0, 0.04);
+      padding: 1.6rem 2rem 1.45rem;
+      max-width: 395px;
+      width: 100%;
+      margin: 0 0 0 auto;
+      z-index: 5;
+    }
+
+    body.dark-mode .login-card-ornate {
+      background: rgba(16, 25, 36, 0.65) !important;
+      backdrop-filter: blur(14px) !important;
+      -webkit-backdrop-filter: blur(14px) !important;
+      border: 1.5px solid rgba(212, 175, 55, 0.45) !important;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 175, 55, 0.15) !important;
+      color: #f1f5f9 !important;
+    }
+
+    .card-title-serif {
+      font-family: "Cinzel", "Playfair Display", Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #1e3324;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    body.dark-mode .card-title-serif {
+      color: #eedbc0 !important;
+    }
+
+    .avatar-gold-medallion {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      margin: 0 auto 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, #fbf2dc 0%, #ecd39d 65%, #c29953 100%);
+      border: 2.5px solid #b89254;
+      box-shadow: 0 4px 14px rgba(184, 146, 84, 0.35);
+      position: relative;
+    }
+
+    .input-warm-group {
+      position: relative;
+      margin-bottom: 1.05rem;
+    }
+
+    .input-warm-underline {
+      border: none;
+      border-bottom: 1.5px solid #caa873;
+      border-radius: 0;
+      background: transparent;
+      padding: 0.55rem 0.5rem 0.55rem 2.25rem;
+      font-size: 0.95rem;
+      color: #1c3222;
+      width: 100%;
+      transition: var(--transition);
+    }
+
+    body.dark-mode .input-warm-underline {
+      color: #f1f5f9 !important;
+      border-bottom-color: rgba(212, 175, 55, 0.6) !important;
+    }
+
+    body.dark-mode .input-warm-underline::placeholder {
+      color: rgba(226, 232, 240, 0.6) !important;
+    }
+
+    .btn-entrar-metallic {
+      background: linear-gradient(180deg, #915034 0%, #6f3721 100%);
+      border: 1.5px solid #dcb985;
+      border-radius: 9px;
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      font-size: 1.02rem;
+      padding: 0.68rem;
+      width: 100%;
+      box-shadow: 0 4px 14px rgba(111, 55, 33, 0.35);
+      transition: var(--transition);
+      display: block;
+      text-align: center;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="page-inicio">
+
+  <!-- BARRA DISCRETA DE ACCESIBILIDAD UNIVERSAL (WCAG 2.2 AAA) -->
+  <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">
+    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2 py-1">
+      <div class="d-flex align-items-center gap-3">
+        <span class="d-inline-flex align-items-center gap-1 fw-bold">
+          <i class="bi bi-person-wheelchair text-primary"></i> Accesibilidad
+        </span>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
+          <i class="bi bi-moon-stars-fill"></i> <span class="darkmode-text">Modo Oscuro</span>
+        </button>
+        <span class="opacity-50">|</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Ajuste de tipografía">
+          <button type="button" class="btn-font-decrease font-size-control-btn" style="color: #4a3e30;" aria-label="Disminuir tamaño">A-</button>
+          <button type="button" class="btn-font-increase font-size-control-btn" style="color: #4a3e30;" aria-label="Aumentar tamaño">A+</button>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-sm btn-link text-decoration-none dropdown-toggle p-0" style="color: #4a3e30;" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-translate"></i> Español (ES)
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item active" href="#">Español (ES)</a></li>
+            <li><a class="dropdown-item" href="#">English (US)</a></li>
+          </ul>
+        </div>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn btn-sm btn-link text-decoration-none p-0" style="color: #4a3e30;" data-bs-toggle="modal" data-bs-target="#modal-shortcuts">
+          <i class="bi bi-keyboard"></i> Atajos [Alt + 1-5]
+        </button>
+        <span class="opacity-50 d-none d-md-inline">|</span>
+        <a href="dashboard.html" class="small fw-bold text-decoration-none d-none d-md-inline" style="color: #8b4429;">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       PARTE 1 DE INICIO: HERO CON EL DISEÑO Y COLORES EXACTOS DEL PROTOTIPO 1
+       ========================================================================= -->
+  <header class="hero-canvas">
+    <!-- Capa de Fondo Ilustrado (detrás de las luciérnagas) -->
+    <div class="hero-bg-layer" aria-hidden="true"></div>
+
+    <!-- Canvas de Luciérnagas Vivas en Movimiento Orgánico Continuo -->
+    <canvas id="fireflies-canvas" aria-hidden="true"></canvas>
+    
+    <!-- BARRA DE NAVEGACIÓN SUPERIOR: LOGO Y BOTÓN EXPLORE -->
+    <div class="container-xl warm-nav-header anim-cascade-down stagger-2 position-relative" style="z-index: 5;">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <!-- Logo con brote dorado -->
+          <a href="index.html" class="brand-warm-logo" aria-label="LinguaLearn Página principal">
+            <svg class="brand-sprout-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 28 C 16 20, 18 12, 26 8 C 26 18, 20 24, 16 28 Z" fill="#8d744b"/>
+              <path d="M16 28 C 16 18, 12 11, 5 9 C 6 19, 11 25, 16 28 Z" fill="#a48c62"/>
+              <path d="M16 28 L 16 31" stroke="#8d744b" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span class="brand-warm-title">LinguaLearn</span>
+          </a>
+
+          <!-- Botón de píldora Explore -->
+          <a href="#seccion-interactiva" class="btn-explore-pill">
+            Explore
+          </a>
+        </div>
+
+        <!-- Enlaces rápidos de navegación derecha: Match visual exacto al prototipo -->
+        <nav class="d-none d-md-flex align-items-center gap-2 hero-nav-links flex-nowrap" aria-label="Navegación secundaria">
+          <a href="test-diagnostico.html" class="hero-nav-link">Test Diagnóstico</a>
+          <a href="dashboard.html" class="hero-nav-link">Dashboard</a>
+          <a href="leccion.html" class="hero-nav-link">Lección Activa</a>
+          <a href="perfil.html" class="hero-nav-link">Mi Perfil</a>
+          <div class="dropdown d-inline-block">
+            <button class="hero-nav-link dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+              Más
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-1" style="min-width: 170px;">
+              <li><a class="dropdown-item py-2 small rounded-2" href="pronunciacion.html"><i class="bi bi-mic me-2 text-warning"></i> Pronunciación</a></li>
+              <li><a class="dropdown-item py-2 small rounded-2" href="comunidad.html"><i class="bi bi-people me-2 text-primary"></i> Comunidad</a></li>
+              <li><a class="dropdown-item py-2 small rounded-2" href="suscripcion.html"><i class="bi bi-gem me-2 text-danger"></i> Suscripción</a></li>
+              <li><a class="dropdown-item py-2 small rounded-2" href="soporte.html"><i class="bi bi-question-circle me-2 text-info"></i> Soporte</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- CONTENIDO DEL HERO: 2 COLUMNAS (TÍTULO Y ACCIONES / TARJETA ORNAMENTAL) -->
+    <div class="container-xl hero-main-container position-relative" style="z-index: 5;">
+      <div class="row align-items-center justify-content-between g-4">
+        
+        <!-- Columna Izquierda: Título y Botones Terracotta -->
+        <div class="col-lg-6 col-xl-6 anim-cascade-left stagger-3">
+          <h1 class="hero-title-warm">
+            Continúa<br>
+            explorando<br>
+            tu potencial.
+          </h1>
+
+          <div class="d-flex flex-wrap align-items-center gap-3">
+            <!-- Botón 1: Empieza a Aprender con icono de mano apuntando -->
+            <a href="test-diagnostico.html" class="btn-terracotta" id="btn-hero-learn">
+              <span style="font-size: 1.25rem;">👉</span>
+              <span>Empieza a Aprender</span>
+            </a>
+
+            <!-- Botón 2: Registrarte -->
+            <button type="button" class="btn-terracotta" style="padding-left: 2.2rem; padding-right: 2.2rem;" data-bs-toggle="modal" data-bs-target="#modal-register-hero">
+              Registrarte
+            </button>
+          </div>
+
+          <!-- Enlace discreto Ver más adelante... que desliza hacia la nueva sección interactiva -->
+          <div>
+            <a href="#seccion-interactiva" class="link-ver-mas">
+              Ver más adelante...
+            </a>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Tarjeta Ornamental de Inicio de Sesión -->
+        <div class="col-lg-6 col-xl-5 anim-cascade-right stagger-4 d-flex justify-content-lg-end justify-content-center">
+          <div class="login-card-ornate">
+            
+            <!-- Silueta decorativa de Pagoda en el centro superior -->
+            <svg class="pagoda-finial" viewBox="0 0 50 30" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 25,2 L 25,6" stroke="#9e7b48" stroke-width="2" stroke-linecap="round" />
+              <path d="M 18,10 Q 25,4 32,10 L 30,13 Q 25,9 20,13 Z" fill="#a8854f" />
+              <path d="M 10,18 Q 25,10 40,18 L 38,22 Q 25,15 12,22 Z" fill="#9e7b48" />
+              <path d="M 14,22 L 14,28 M 36,22 L 36,28" stroke="#9e7b48" stroke-width="1.5" />
+            </svg>
+
+            <!-- Título Serif Clásico -->
+            <h2 class="card-title-serif">INICIAR SESIÓN</h2>
+
+            <!-- Medallón Dorado de Avatar con Silueta 3D -->
+            <div class="avatar-gold-medallion" title="Identidad del Estudiante">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="7.5" r="4.2" fill="url(#goldGradientHead)" filter="drop-shadow(0 2px 2px rgba(110,75,30,0.3))"/>
+                <path d="M 4.5,20 C 4.5,15.2 7.8,13.2 12,13.2 C 16.2,13.2 19.5,15.2 19.5,20" fill="url(#goldGradientBody)" filter="drop-shadow(0 2px 2px rgba(110,75,30,0.3))"/>
+                <defs>
+                  <linearGradient id="goldGradientHead" x1="12" y1="3" x2="12" y2="12" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#fff2d6"/>
+                    <stop offset="0.6" stop-color="#dfbc7a"/>
+                    <stop offset="1" stop-color="#9d7637"/>
+                  </linearGradient>
+                  <linearGradient id="goldGradientBody" x1="12" y1="13" x2="12" y2="20" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#fff2d6"/>
+                    <stop offset="0.5" stop-color="#dfbc7a"/>
+                    <stop offset="1" stop-color="#8a6327"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            <!-- Formulario de Acceso Estilizado -->
+            <form id="form-hero-login">
+              
+              <!-- Campo 1: Usuario o Correo -->
+              <div class="input-warm-group">
+                <i class="bi bi-person input-icon-warm"></i>
+                <input type="text" id="hero-user-input" class="input-warm-underline" placeholder="Usuario o Correo" value="sofia.martinez@universidad.edu" required aria-label="Usuario o Correo">
+              </div>
+
+              <!-- Campo 2: Contraseña con Ojo Mostrar/Ocultar -->
+              <div class="input-warm-group d-flex align-items-center position-relative">
+                <i class="bi bi-key input-icon-warm"></i>
+                <input type="password" id="hero-pass-input" class="input-warm-underline flex-grow-1 pe-4" placeholder="Contraseña" value="12345678" required aria-label="Contraseña">
+                <button type="button" class="btn btn-sm text-secondary p-0 btn-toggle-password position-absolute end-0 me-2" aria-label="Mostrar u ocultar contraseña" title="Mostrar u ocultar contraseña" style="background:transparent; border:none; color: #8c7355 !important;">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+              </div>
+
+              <!-- Fila: Recordar mis datos y ¿Olvidaste tu contraseña? -->
+              <div class="d-flex justify-content-between align-items-center mb-3 pt-1">
+                <div class="form-check m-0">
+                  <input class="form-check-input checkbox-warm" type="checkbox" id="check-remember" checked>
+                  <label class="form-check-label small label-remember-warm" for="check-remember">
+                    Recordar mis datos
+                  </label>
+                </div>
+                <a href="#" class="link-forgot-warm" data-bs-toggle="modal" data-bs-target="#modal-forgot-password">
+                  ¿Olvidaste tu contraseña?
+                </a>
+              </div>
+
+              <!-- Botón ENTRAR Metálico Bronce -->
+              <button type="submit" class="btn-entrar-metallic">
+                ENTRAR
+              </button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       PARTE 2 DE INICIO (AL DESLIZAR): SIMULADOR GAMIFICADO Y BANNER MUSGO
+       (MATCH EXACTO AL SEGUNDO PROTOTIPO)
+       ========================================================================= -->
+  <main id="seccion-interactiva" class="scroll-section-container">
+    <div class="container-xl">
+
+      <!-- TARJETA PRINCIPAL TERRACOTA: EXPERIENCIA INTERACTIVA CENTRAL -->
+      <section class="interactive-scenario-card mb-5 anim-cascade stagger-5">
+        
+        <!-- SELECTOR DE ESCENARIOS SUPERIOR (PÍLDORAS CLICABLES) -->
+        <div class="scenario-selector-bar" role="tablist" aria-label="Selector de Escenarios de Conversación">
+          
+          <!-- Escenario 1: Café PARÍS -->
+          <button type="button" class="scenario-pill-btn active" data-scenario="cafe" onclick="selectScenario('cafe', 'Bonjour! Un café au lait et un croissant, s\'il vous plaît.')">
+            <span class="scenario-pill-icon">☕</span>
+            <div class="text-start">
+              <span class="scenario-pill-title">Café</span>
+              <span class="scenario-pill-sub">PARÍS</span>
+            </div>
+          </button>
+
+          <!-- Escenario 2: Entrevista LONDRES -->
+          <button type="button" class="scenario-pill-btn" data-scenario="entrevista" onclick="selectScenario('entrevista', 'Welcome to our London headquarters. Could you tell us about your background?')">
+            <span class="scenario-pill-icon">👩</span>
+            <div class="text-start">
+              <span class="scenario-pill-title">Entrevista</span>
+              <span class="scenario-pill-sub">LONDRES</span>
+            </div>
+          </button>
+
+          <!-- Escenario 3: Negociación NUEVA YORK -->
+          <button type="button" class="scenario-pill-btn" data-scenario="negociacion" onclick="selectScenario('negociacion', 'Let\'s review the terms of the strategic partnership for the upcoming quarter.')">
+            <span class="scenario-pill-icon">🤝</span>
+            <div class="text-start">
+              <span class="scenario-pill-title">Negociación</span>
+              <span class="scenario-pill-sub">NUEVA YORK</span>
+            </div>
+          </button>
+
+          <!-- Escenario 4: Viajes TOKIO -->
+          <button type="button" class="scenario-pill-btn" data-scenario="viajes" onclick="selectScenario('viajes', 'Sumimasen, where can I find the bullet train platform to Kyoto?')">
+            <span class="scenario-pill-icon">✈️</span>
+            <div class="text-start">
+              <span class="scenario-pill-title">Viajes</span>
+              <span class="scenario-pill-sub">TOKIO</span>
+            </div>
+          </button>
+        </div>
+
+        <div class="row align-items-center g-4">
+          <!-- Columna Izquierda: Información de Experiencia Central -->
+          <div class="col-lg-5">
+            <span class="small fw-bold text-uppercase letter-spacing-1 d-block mb-2" style="color: #ffd8bf;">
+              EXPERIENCIA INTERACTIVA CENTRAL
+            </span>
+
+            <h2 class="h2 fw-bold text-white mb-3 lh-sm" style="font-size: clamp(1.75rem, 2.5vw, 2.25rem);">
+              Domina los Idiomas con un Simulador de Conversación Inmersivo y Gamificado
+            </h2>
+
+            <p class="mb-4" style="color: rgba(255, 255, 255, 0.88); font-size: 0.975rem;">
+              Practica escenarios un gamified scenario simulator.
+            </p>
+
+            <ul class="list-unstyled d-flex flex-column gap-2 mb-4" style="color: rgba(255, 255, 255, 0.95); font-size: 0.95rem;">
+              <li class="d-flex align-items-center gap-2">
+                <span class="fs-6" style="color: #ffd8bf;">•</span>
+                <span>Elige tu escenario y rol.</span>
+              </li>
+              <li class="d-flex align-items-center gap-2">
+                <span class="fs-6" style="color: #ffd8bf;">•</span>
+                <span>Habla o escribe para avanzar.</span>
+              </li>
+              <li class="d-flex align-items-center gap-2">
+                <span class="fs-6" style="color: #ffd8bf;">•</span>
+                <span>Recibe feedback en tiempo real y recompensas instantáneas.</span>
+              </li>
+              <li class="d-flex align-items-center gap-2">
+                <span class="fs-6" style="color: #ffd8bf;">•</span>
+                <span>Gana XP y medallas temáticas.</span>
+              </li>
+            </ul>
+
+            <a href="leccion.html" class="btn-adventure-cta">
+              <span>Inicia tu primera aventura lingüística</span>
+              <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- Columna Derecha: Panel del Diagrama Cognitivo y Autómata de Estados -->
+          <div class="col-lg-7">
+            <div class="cognitive-diagram-panel">
+              
+              <!-- Diagrama SVG fiel con 8 Nódulos Cognitivos + Flowchart de Estados -->
+              <svg viewBox="0 0 460 220" class="w-100 h-auto" xmlns="http://www.w3.org/2000/svg" style="max-height: 270px;">
+                
+                <!-- Lineas de conexión radial punteadas hacia el cerebro -->
+                <line x1="120" y1="110" x2="120" y2="40" stroke="#cbb28d" stroke-width="1.5" stroke-dasharray="3,3" />
+                <line x1="120" y1="110" x2="168" y2="58" stroke="#cbb28d" stroke-width="1.5" stroke-dasharray="3,3" />
+                <line x1="120" y1="110" x2="182" y2="110" stroke="#cbb28d" stroke-width="1.5" stroke-dasharray="3,3" />
+                <line x1="120" y1="110" x2="168" y2="162" stroke="#cbb28d" stroke-width="1.5" stroke-dasharray="3,3" />
+                <line x1="120" y1="110" x2="120" y2="180" stroke="#cbb28d" stroke-width="1.5" stroke-dasharray="3,3" />
+                <line x1="120" y1="110" x2="72" y2="162" stroke="#cbb28d" stroke-width="1.5" stroke-dasharray="3,3" />
+                <line x1="120" y1="110" x2="58" y2="110" stroke="#cbb28d" stroke-width="1.5" stroke-dasharray="3,3" />
+                <line x1="120" y1="110" x2="72" y2="58" stroke="#cbb28d" stroke-width="1.5" stroke-dasharray="3,3" />
+
+                <!-- Círculo Central: Cerebro Dorado -->
+                <circle cx="120" cy="110" r="30" fill="#dfbe7e" stroke="#b48c48" stroke-width="2.5" filter="drop-shadow(0 2px 4px rgba(160,120,50,0.25))" />
+                <!-- Icono de Cerebro en el centro -->
+                <path d="M 110,110 Q 110,102 115,102 Q 118,97 122,97 Q 126,97 128,102 Q 132,102 132,110 Q 132,115 128,118 Q 124,122 120,122 Q 116,122 112,118 Q 110,115 110,110 Z" fill="#ffffff" />
+                <path d="M 120,100 L 120,118 M 115,107 Q 120,109 125,107 M 115,114 Q 120,116 125,114" stroke="#c4974d" stroke-width="1.2" fill="none" />
+
+                <!-- 8 Nódulos Cognitivos Alrededor -->
+                <!-- Nódulo 1: Red sintáctica (Verde menta suave) -->
+                <circle cx="120" cy="40" r="14" fill="#d4edda" stroke="#8cb898" stroke-width="1.8" />
+                <circle cx="116" cy="37" r="2" fill="#527c5e"/>
+                <circle cx="124" cy="43" r="2" fill="#527c5e"/>
+                <line x1="116" y1="37" x2="124" y2="43" stroke="#527c5e" stroke-width="1"/>
+
+                <!-- Nódulo 2: Perfil cognitivo (Melocotón) -->
+                <circle cx="168" cy="58" r="14" fill="#ffe5d0" stroke="#d49f7e" stroke-width="1.8" />
+                <circle cx="168" cy="56" r="3" fill="#8d5635"/>
+                <path d="M 164,63 Q 168,60 172,63" stroke="#8d5635" stroke-width="1.2" fill="none"/>
+
+                <!-- Nódulo 3: Ramificación asociativa (Naranja suave) -->
+                <circle cx="182" cy="110" r="14" fill="#ffd8c8" stroke="#d58c73" stroke-width="1.8" />
+                <circle cx="182" cy="110" r="3" fill="#9f4b30"/>
+                <line x1="178" y1="106" x2="186" y2="114" stroke="#9f4b30" stroke-width="1.2"/>
+
+                <!-- Nódulo 4: Hemisferios y memoria (Azul cielo) -->
+                <circle cx="168" cy="162" r="14" fill="#d6ebf8" stroke="#88b5d5" stroke-width="1.8" />
+                <path d="M 163,162 Q 168,157 173,162" stroke="#48789b" stroke-width="1.2" fill="none"/>
+
+                <!-- Nódulo 5: Fonética y sonido (Amarillo pastel) -->
+                <circle cx="120" cy="180" r="14" fill="#fff3cd" stroke="#d8bc68" stroke-width="1.8" />
+                <rect x="115" y="176" width="10" height="8" rx="2" fill="#886f25" />
+
+                <!-- Nódulo 6: Ecología del lenguaje (Verde salvia) -->
+                <circle cx="72" cy="162" r="14" fill="#e2ecd8" stroke="#98b687" stroke-width="1.8" />
+                <circle cx="72" cy="162" r="4" fill="#587948" />
+
+                <!-- Nódulo 7: Conexiones neuronales (Lila) -->
+                <circle cx="58" cy="110" r="14" fill="#e9ddf0" stroke="#af96ba" stroke-width="1.8" />
+                <path d="M 54,110 Q 58,106 62,110" stroke="#684a75" stroke-width="1.2" fill="none"/>
+
+                <!-- Nódulo 8: Percepción auditiva (Crema claro) -->
+                <circle cx="72" cy="58" r="14" fill="#fcf3d9" stroke="#ceb36d" stroke-width="1.8" />
+                <circle cx="72" cy="58" r="3" fill="#8c7028" />
+
+                <!-- FLECHA CONECTORA PRINCIPAL HACIA EL FLOWCHART -->
+                <line x1="202" y1="110" x2="228" y2="110" stroke="#334857" stroke-width="2.5" />
+                <polygon points="228,106 236,110 228,114" fill="#334857" />
+
+                <!-- ==============================================
+                     FLOWCHART / AUTÓMATA DE ESTADOS (DERECHA)
+                     ============================================== -->
+                
+                <!-- Líneas de flujo y bucles -->
+                <!-- Conector Entrada -> Centro -->
+                <line x1="262" y1="110" x2="280" y2="110" stroke="#4b5d6c" stroke-width="1.8" />
+                <polygon points="278,107 284,110 278,113" fill="#4b5d6c" />
+
+                <!-- Conector Centro -> Salida -->
+                <line x1="334" y1="110" x2="352" y2="110" stroke="#4b5d6c" stroke-width="1.8" />
+                <polygon points="350,107 356,110 350,113" fill="#4b5d6c" />
+
+                <!-- Ramificación Superior: Centro -> Arriba -->
+                <line x1="307" y1="96" x2="307" y2="76" stroke="#4b5d6c" stroke-width="1.8" />
+                <polygon points="304,78 307,72 310,78" fill="#4b5d6c" />
+
+                <!-- Ramificación Inferior: Centro -> Abajo -->
+                <line x1="307" y1="124" x2="307" y2="144" stroke="#4b5d6c" stroke-width="1.8" />
+                <polygon points="304,142 307,148 310,142" fill="#4b5d6c" />
+
+                <!-- Bucle de retroalimentación Arriba: Retorno al inicio -->
+                <path d="M 280,60 L 250,60 L 250,96" stroke="#4b5d6c" stroke-width="1.5" fill="none" />
+                <polygon points="247,94 250,100 253,94" fill="#4b5d6c" />
+
+                <!-- Bucle Arriba -> Derecha -->
+                <path d="M 334,60 L 364,60 L 364,96" stroke="#4b5d6c" stroke-width="1.5" fill="none" />
+                <polygon points="361,94 364,100 367,94" fill="#4b5d6c" />
+
+                <!-- Bucle Inferior: Retorno del resultado al nodo de entrada -->
+                <path d="M 364,124 L 364,160 L 250,160 L 250,124" stroke="#4b5d6c" stroke-width="1.5" fill="none" />
+                <polygon points="247,126 250,120 253,126" fill="#4b5d6c" />
+
+                <!-- NÓDULOS DE ESTADO (PÍLDORAS) -->
+                <!-- Nodo Entrada Izquierda -->
+                <g id="state-node-left">
+                  <rect x="238" y="100" width="24" height="20" rx="10" fill="#d9e2ec" stroke="#334857" stroke-width="2" />
+                  <rect x="244" y="108" width="12" height="4" rx="2" fill="#334857" />
+                </g>
+
+                <!-- Nodo Superior -->
+                <g id="state-node-top">
+                  <rect x="290" y="50" width="34" height="20" rx="10" fill="#d9e2ec" stroke="#334857" stroke-width="2" />
+                  <rect x="298" y="58" width="18" height="4" rx="2" fill="#334857" />
+                </g>
+
+                <!-- Nodo Central Activo: Terracota Destacado -->
+                <g id="state-node-center">
+                  <rect x="282" y="98" width="52" height="24" rx="12" fill="#b05436" stroke="#f6c496" stroke-width="2.5" filter="drop-shadow(0 2px 6px rgba(176,84,54,0.4))" />
+                  <rect x="294" y="108" width="28" height="4" rx="2" fill="#ffffff" />
+                </g>
+
+                <!-- Nodo Inferior -->
+                <g id="state-node-bottom">
+                  <rect x="290" y="150" width="34" height="20" rx="10" fill="#d9e2ec" stroke="#334857" stroke-width="2" />
+                  <rect x="298" y="158" width="18" height="4" rx="2" fill="#334857" />
+                </g>
+
+                <!-- Nodo Salida Derecha -->
+                <g id="state-node-right">
+                  <rect x="356" y="100" width="28" height="20" rx="10" fill="#d9e2ec" stroke="#334857" stroke-width="2" />
+                  <rect x="362" y="108" width="16" height="4" rx="2" fill="#334857" />
+                </g>
+              </svg>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================================
+           BANNER INFERIOR VERDE MUSGO: ¿LISTO PARA EMPEZAR? (MATCH EXACTO)
+           ========================================================================= -->
+      <section class="cta-banner-moss anim-cascade stagger-6">
+        <div class="position-relative z-1 max-w-700 mx-auto">
+          <h2 class="h1 fw-bold text-white mb-3" style="font-size: clamp(1.85rem, 3.2vw, 2.6rem); letter-spacing: -0.01em;">
+            ¿Listo para empezar con una nueva experiencia cognitiva?
+          </h2>
+          
+          <p class="lead mb-4 mx-auto" style="color: #ded1be; font-size: 1.05rem; max-width: 650px;">
+            Únete a una comunidad respetuosa, sin presiones y con una experiencia adaptada a tu estilo visual, auditivo y kinestésico.
+          </p>
+
+          <div class="d-flex flex-wrap justify-content-center gap-3">
+            <button type="button" class="btn-amber-pill" data-bs-toggle="modal" data-bs-target="#modal-register-hero">
+              Crear cuenta gratis
+            </button>
+            <a href="#form-hero-login" class="btn-outline-moss">
+              Ya tengo usuario
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- MODAL DE REGISTRO RÁPIDO CON CONTRASEÑA Y CONFIRMACIÓN -->
+  <div class="modal fade" id="modal-register-hero" tabindex="-1" aria-labelledby="modalRegisterHeroLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom border-0 p-3">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h2 class="h5 modal-title fw-bold" id="modalRegisterHeroLabel">
+            <i class="bi bi-person-plus-fill text-primary me-2"></i> Crear Cuenta de Estudiante
+          </h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <form id="form-modal-register">
+          <div class="modal-body py-3">
+            <div class="mb-3">
+              <label for="reg-name" class="form-label small fw-bold">Nombre Completo</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-person"></i></span>
+                <input type="text" class="form-control" id="reg-name" placeholder="Ej. Carlos Mendoza" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="reg-email" class="form-label small fw-bold">Correo Electrónico</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-envelope"></i></span>
+                <input type="email" class="form-control" id="reg-email" placeholder="tu.nombre@correo.edu" required>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="reg-password" class="form-label small fw-bold">Contraseña</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-key"></i></span>
+                <input type="password" class="form-control" id="reg-password" placeholder="Mínimo 6 caracteres" required>
+                <button class="btn btn-outline-secondary btn-toggle-password" type="button" title="Mostrar u ocultar contraseña">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="reg-password-confirm" class="form-label small fw-bold">Confirmar Contraseña</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-key-fill"></i></span>
+                <input type="password" class="form-control" id="reg-password-confirm" placeholder="Repite tu contraseña" required>
+                <button class="btn btn-outline-secondary btn-toggle-password" type="button" title="Mostrar u ocultar contraseña">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+              </div>
+            </div>
+            <p class="text-muted small mb-0">Al registrarte serás guiado automáticamente a tu evaluación diagnóstica inicial de nivel.</p>
+          </div>
+          <div class="modal-footer border-top-0 pt-0">
+            <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn-terracotta">Crear Cuenta e Iniciar Test</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE RECUPERACIÓN DE CONTRASEÑA -->
+  <div class="modal fade" id="modal-forgot-password" tabindex="-1" aria-labelledby="modalForgotLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom border-0 p-3">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h2 class="h5 modal-title fw-bold" id="modalForgotLabel">
+            <i class="bi bi-shield-lock-fill text-warning me-2"></i> Recuperar Contraseña
+          </h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        
+        <!-- PASO 1: Ingreso de correo registrado -->
+        <div id="recovery-step-1" class="modal-body py-3">
+          <p class="small text-secondary mb-3">
+            Ingresa el correo electrónico asociado a tu cuenta de LinguaLearn para verificar tu identidad y restablecer tu contraseña.
+          </p>
+          <div class="mb-3">
+            <label for="recovery-email-input" class="form-label small fw-bold">Correo Electrónico Registrado:</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="bi bi-envelope"></i></span>
+              <input type="email" class="form-control" id="recovery-email-input" placeholder="ejemplo@correo.com" value="sofia.martinez@universidad.edu" required>
+            </div>
+            <div class="form-text small">Te enviaremos un código de validación o podrás actualizar tu clave directamente.</div>
+          </div>
+          <div class="d-flex justify-content-end gap-2 pt-2">
+            <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-terracotta" id="btn-verify-recovery-email">
+              Verificar Correo y Continuar <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- PASO 2: Introducir nueva contraseña y repetirla -->
+        <div id="recovery-step-2" class="modal-body py-3 d-none">
+          <div class="alert alert-light border small mb-3">
+            <i class="bi bi-check-circle-fill text-success me-1"></i> Correo verificado: <strong id="lbl-recovery-target-email"></strong>
+          </div>
+          <p class="small text-secondary mb-3">
+            Introduce tu nueva contraseña y repítela para confirmarla. Debe tener al menos 6 caracteres.
+          </p>
+          <div class="mb-3">
+            <label for="new-password-input" class="form-label small fw-bold">Nueva Contraseña:</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="bi bi-key"></i></span>
+              <input type="password" class="form-control" id="new-password-input" placeholder="Mínimo 6 caracteres" required>
+              <button class="btn btn-outline-secondary btn-toggle-password" type="button" title="Mostrar u ocultar contraseña">
+                <i class="bi bi-eye-fill"></i>
+              </button>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="confirm-new-password-input" class="form-label small fw-bold">Repetir Nueva Contraseña:</label>
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="bi bi-key-fill"></i></span>
+              <input type="password" class="form-control" id="confirm-new-password-input" placeholder="Repite tu nueva contraseña" required>
+              <button class="btn btn-outline-secondary btn-toggle-password" type="button" title="Mostrar u ocultar contraseña">
+                <i class="bi bi-eye-fill"></i>
+              </button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end gap-2 pt-2">
+            <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-terracotta" id="btn-confirm-reset-pass">
+              Confirmar Cambio de Contraseña <i class="bi bi-check2-circle ms-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- PASO 3: Confirmación y Acceso Directo -->
+        <div id="recovery-step-3" class="modal-body py-4 text-center d-none">
+          <div class="display-4 text-success mb-3">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
+          <h3 class="h5 fw-bold mb-2">¡Contraseña Cambiada con Éxito!</h3>
+          <p class="small text-secondary mb-4">
+            Tu nueva clave ha sido guardada en tu cuenta de LinguaLearn. Ya puedes iniciar sesión directamente con tu nueva contraseña.
+          </p>
+          <button type="button" class="btn btn-terracotta w-100 py-2 fw-bold" data-bs-dismiss="modal">
+            <span>Iniciar Sesión Ahora</span>
+            <i class="bi bi-box-arrow-in-right ms-2"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE GUÍA DE ATAJOS DE TECLADO (ACCESIBILIDAD) -->
+  <div class="modal fade" id="modal-shortcuts" tabindex="-1" aria-labelledby="modalShortcutsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom border-0">
+        <div class="modal-header border-bottom-0 pb-0">
+          <h2 class="h5 modal-title fw-bold" id="modalShortcutsLabel">
+            <i class="bi bi-keyboard text-primary me-2"></i> Atajos de Navegación Rápida
+          </h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar modal"></button>
+        </div>
+        <div class="modal-body py-4">
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex justify-content-between align-items-center p-2 bg-light rounded">
+              <span>Ir a Inicio</span>
+              <kbd class="kbd-badge">Alt + 1</kbd>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-2 bg-light rounded">
+              <span>Ir a Test Diagnóstico</span>
+              <kbd class="kbd-badge">Alt + 2</kbd>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-2 bg-light rounded">
+              <span>Ir a Dashboard Principal</span>
+              <kbd class="kbd-badge">Alt + 3</kbd>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-2 bg-light rounded">
+              <span>Ir a Lección Activa</span>
+              <kbd class="kbd-badge">Alt + 4</kbd>
+            </div>
+            <div class="d-flex justify-content-between align-items-center p-2 bg-light rounded">
+              <span>Ir a Mi Perfil</span>
+              <kbd class="kbd-badge">Alt + 5</kbd>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-top-0 pt-0">
+          <button type="button" class="btn btn-primary-custom w-100" data-bs-dismiss="modal">Entendido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA ACCESIBLE (WCAG 2.2 AAA) -->
+  <footer class="footer-accessible anim-cascade stagger-7" style="background-color: #f2ece0; border-top: 1px solid #dcd1be;">
+    <div class="container-xl">
+      <div class="row align-items-center g-3">
+        <div class="col-md-6 d-flex align-items-center gap-2">
+          <!-- Logo brote -->
+          <svg class="brand-sprout-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="width: 22px; height: 22px;">
+            <path d="M16 28 C 16 20, 18 12, 26 8 C 26 18, 20 24, 16 28 Z" fill="#8d744b"/>
+            <path d="M16 28 C 16 18, 12 11, 5 9 C 6 19, 11 25, 16 28 Z" fill="#a48c62"/>
+          </svg>
+          <strong style="color: #243828;">LinguaLearn</strong>
+          <span class="text-muted small ms-2">Plataforma empática y accesible para el aprendizaje de idiomas.</span>
+        </div>
+        <div class="col-md-6 text-md-end d-flex flex-wrap justify-content-md-end gap-3 small">
+          <a href="#" class="d-inline-flex align-items-center gap-1" style="color: #55493a;"><i class="bi bi-question-circle"></i> Centro de Ayuda</a>
+          <a href="#" class="d-inline-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#modal-shortcuts" style="color: #55493a;"><i class="bi bi-keyboard"></i> Guía de Atajos</a>
+          <a href="#" class="d-inline-flex align-items-center gap-1" style="color: #55493a;"><i class="bi bi-shield-check"></i> Declaración de Accesibilidad</a>
+          <a href="#" style="color: #55493a;">Privacidad</a>
+        </div>
+      </div>
+      <div class="text-center text-muted small mt-4 pt-3 border-top" style="border-color: #dcd1be !important;">
+        © 2024 LinguaLearn. Diseñado bajo estándares WCAG 2.2 AAA.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scripts de la Aplicación -->
+  <script src="js/fireflies.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Selector interactivo de escenarios de conversación
+    function selectScenario(scenarioId, phraseText) {
+      document.querySelectorAll('.scenario-pill-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-scenario') === scenarioId);
+      });
+
+      // Animación en el nodo central del autómata
+      const centerNode = document.getElementById('state-node-center');
+      if (centerNode) {
+        centerNode.classList.add('speaking-animation');
+        setTimeout(() => centerNode.classList.remove('speaking-animation'), 800);
+      }
+
+      // Reproducción de frase fonética nativa
+      if ('speechSynthesis' in window && phraseText) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(phraseText);
+        u.lang = scenarioId === 'cafe' ? 'fr-FR' : scenarioId === 'viajes' ? 'ja-JP' : 'en-US';
+        u.rate = 0.95;
+        window.speechSynthesis.speak(u);
+      }
+
+      const scenarioNames = {
+        'cafe': 'Café (París)',
+        'entrevista': 'Entrevista (Londres)',
+        'negociacion': 'Negociación (Nueva York)',
+        'viajes': 'Viajes (Tokio)'
+      };
+
+      if (window.LinguaApp) {
+        LinguaApp.showToast(`Escenario activo: ${scenarioNames[scenarioId]}. Audio reproducido.`, 'info');
+      }
+    }
+  </script>
+</body>
+</html>

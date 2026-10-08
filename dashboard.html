@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaLearn - Dashboard del Estudiante</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Estilos Personalizados y Accesibilidad -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/nuevas_pantallas.css">
+  <script>
+    if (localStorage.getItem('lingua_theme_reset_warm') !== 'true') {
+      localStorage.setItem('lingua_theme', 'light');
+      localStorage.setItem('lingua_theme_reset_warm', 'true');
+    }
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (document.body) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark-mode'));
+      }
+    }
+  </script>
+</head>
+<body class="dashboard-page-canvas">
+
+  <!-- BARRA SUPERIOR DE ACCESIBILIDAD CON TONO CÁLIDO ESMERILADO -->
+  <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">
+    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-3">
+        <span class="d-inline-flex align-items-center gap-1 fw-semibold text-secondary">
+          <i class="bi bi-person-wheelchair text-primary"></i> Accesibilidad
+        </span>
+        <span class="text-secondary opacity-50">|</span>
+        <button type="button" class="btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
+          <i class="bi bi-moon-stars-fill"></i> <span class="darkmode-text">Modo Oscuro</span>
+        </button>
+        <span class="text-secondary opacity-50">|</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Ajuste de tipografía">
+          <button type="button" class="btn-font-decrease font-size-control-btn" aria-label="Disminuir tamaño">A-</button>
+          <button type="button" class="btn-font-increase font-size-control-btn" aria-label="Aumentar tamaño">A+</button>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-sm btn-link text-decoration-none dropdown-toggle p-0 text-secondary" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-translate"></i> Español (ES)
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item active" href="#">Español (ES)</a></li>
+            <li><a class="dropdown-item" href="#">English (US)</a></li>
+          </ul>
+        </div>
+        <span class="text-secondary opacity-50">|</span>
+        <button type="button" class="btn btn-sm btn-link text-decoration-none p-0 text-secondary" data-bs-toggle="modal" data-bs-target="#modal-shortcuts">
+          <i class="bi bi-keyboard"></i> Atajos [Alt + 1-5]
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- NAVBAR PRINCIPAL CON TONO MARFIL CÁLIDO ESMERILADO -->
+  <header class="main-navbar canvas-navbar-warm sticky-top shadow-sm anim-cascade-down stagger-2">
+    <div class="container-xl">
+      <nav class="navbar navbar-expand-lg p-0" aria-label="Navegación principal">
+        <a class="brand-logo-container" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <span class="brand-name">LinguaLearn</span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="test-diagnostico.html">Test Diagnóstico</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom active" aria-current="page" href="dashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="leccion.html">Lección Activa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="pronunciacion.html">Pronunciación</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="comunidad.html">Comunidad</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="suscripcion.html">Suscripción</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="soporte.html">Soporte</a>
+            </li>
+          </ul>
+
+          <!-- BARRA DE ESTADO DE USUARIO: MI PERFIL, RACHA Y XP EN UNA SOLA LÍNEA CON MENÚ HACIA ABAJO -->
+          <div class="header-user-status-bar d-flex align-items-center gap-2 gap-md-3 flex-nowrap ms-lg-3">
+            <div class="header-stat-pill streak flex-shrink-0" title="Racha activa">
+              <i class="bi bi-fire"></i> <span class="stat-streak-val">5 días</span>
+            </div>
+            <div class="header-stat-pill xp flex-shrink-0" title="Experiencia acumulada">
+              <i class="bi bi-lightning-charge-fill"></i> <span class="stat-xp-val">120 XP</span>
+            </div>
+            <div class="dropdown header-profile-dropdown flex-shrink-0">
+              <button class="header-profile-btn dropdown-toggle d-flex align-items-center gap-2" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" title="Menú de perfil y cerrar sesión">
+                <div class="position-relative">
+                  <img src="assets/sofia.jpg" alt="Foto de perfil de Sofia Martinez" class="header-avatar-img">
+                  <span class="avatar-online-dot"></span>
+                </div>
+                <span class="header-profile-name fw-semibold small user-display-name">Mi Perfil</span>
+                <i class="bi bi-chevron-down small text-secondary"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 card-custom test-card-glass p-2 mt-2" aria-labelledby="dropdownUserMenu" style="min-width: 240px; z-index: 9999;">
+                <li class="px-3 py-2 border-bottom mb-1">
+                  <div class="fw-bold text-dark text-truncate user-display-name">Sofia Martinez</div>
+                  <div class="small text-secondary text-truncate" style="font-size: 0.775rem;">sofia.martinez@universidad.edu</div>
+                  <div class="badge bg-primary-subtle text-primary mt-1 user-level-badge" style="font-size: 0.7rem;">Nivel A2 - Básico Activo</div>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="perfil.html">
+                    <i class="bi bi-person-circle text-primary"></i> <span>Mi Perfil y Logros</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="dashboard.html">
+                    <i class="bi bi-speedometer2 text-success"></i> <span>Mi Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="suscripcion.html">
+                    <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider my-1"></li>
+                <li>
+                  <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
+                    <i class="bi bi-box-arrow-right fs-6"></i> <span>Cerrar Sesión</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="py-4" id="main-content">
+    <div class="container-xl">
+
+      <!-- BARRA DE AJUSTES RÁPIDOS DE ACCESIBILIDAD (VIDRIO ESMERILADO CÁLIDO) -->
+      <section class="card-custom dashboard-card-glass p-3 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3 anim-cascade stagger-3">
+        <div class="d-flex align-items-center gap-2">
+          <div class="p-2 bg-primary-subtle text-primary rounded-3 fs-5">
+            <i class="bi bi-sliders"></i>
+          </div>
+          <div>
+            <span class="fw-bold small text-dark d-block">Ajustes Rápidos de Accesibilidad</span>
+            <span class="text-secondary small d-none d-md-inline">Personaliza tu entorno visual y auditivo para una lectura sin fatiga cognitiva.</span>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <button type="button" class="btn btn-sm dashboard-pill-glass d-inline-flex align-items-center gap-1 btn-toggle-contrast">
+            <i class="bi bi-circle-half"></i> <span>Alto Contraste</span>
+          </button>
+          <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn dashboard-pill-glass btn-font-decrease">A-</button>
+            <button type="button" class="btn dashboard-pill-glass btn-font-reset font-scale-indicator">100%</button>
+            <button type="button" class="btn dashboard-pill-glass btn-font-increase">A+</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-primary-custom py-2 px-3 btn-read-aloud">
+            <i class="bi bi-volume-up-fill"></i> <span>Lectura en Voz Alta</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- BANNER DE BIENVENIDA Y PROGRESO SEMANAL (TRANSLÚCIDO CÁLIDO) -->
+      <section class="card-custom dashboard-card-glass p-4 p-md-5 mb-4 anim-cascade stagger-3">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+              <span class="badge bg-primary px-3 py-2 rounded-pill fw-bold">NIVEL CALIBRADO: BÁSICO (A2)</span>
+              <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle px-3 py-2 rounded-pill fw-bold">
+                <i class="bi bi-check2-circle"></i> Marco Común Europeo (MCER)
+              </span>
+            </div>
+
+            <h1 class="display-6 fw-bold mb-2 text-dark">¡Hola de nuevo, Sofia! 👋</h1>
+            <p class="text-secondary lead fs-6 mb-4">
+              Has completado el <strong>65% de tu meta semanal</strong>. ¡Estás a solo <strong>2 lecciones</strong> de alcanzar el nivel Intermedio B1!
+            </p>
+
+            <div>
+              <div class="d-flex justify-content-between small fw-bold mb-1">
+                <span>Progreso semanal hacia B1</span>
+                <span class="text-primary fw-bold">65% completado</span>
+              </div>
+              <div class="progress-bar-custom" style="height: 10px; background-color: rgba(215, 195, 160, 0.35);">
+                <div class="progress-bar-fill" style="width: 65%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="p-4 dashboard-container-inset text-center shadow-sm">
+              <div class="d-inline-flex p-3 rounded-circle bg-warning-subtle text-warning mb-2 fs-4">
+                <i class="bi bi-flag-fill"></i>
+              </div>
+              <div class="small text-muted text-uppercase fw-bold letter-spacing-1">Próximo Hito</div>
+              <h2 class="h5 fw-bold mb-2 text-dark">Examen A2 → B1</h2>
+              <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-3 py-1 rounded-pill fw-bold">
+                Faltan 4 días
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 TARJETAS DE GAMIFICACIÓN Y ESTADÍSTICAS (RF-05, RF-08) -->
+      <section class="row g-4 mb-4">
+        <!-- Tarjeta 1: Racha Activa -->
+        <div class="col-md-4 anim-cascade stagger-4">
+          <div class="card-custom dashboard-card-glass h-100 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="p-2 bg-warning-subtle text-warning rounded-3 fs-5">
+                <i class="bi bi-fire"></i>
+              </div>
+              <span class="badge bg-danger-subtle text-danger border border-danger-subtle">● En Vivo</span>
+            </div>
+            <div class="small fw-bold text-uppercase text-secondary">Racha Activa</div>
+            <div class="display-6 fw-bold text-dark my-1">5 días seguidos</div>
+            <p class="small text-secondary mb-3">
+              ¡No pierdas tu racha hoy! Completa 1 ejercicio antes de las 23:59.
+            </p>
+
+            <!-- Círculos de días de la semana L, M, X, J, V, S, D -->
+            <div class="d-flex justify-content-between align-items-center pt-2 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+              <div class="streak-day-badge completed" title="Lunes completado">✓</div>
+              <div class="streak-day-badge completed" title="Martes completado">✓</div>
+              <div class="streak-day-badge completed" title="Miércoles completado">✓</div>
+              <div class="streak-day-badge completed" title="Jueves completado">✓</div>
+              <div class="streak-day-badge completed" title="Viernes completado">✓</div>
+              <div class="streak-day-badge" title="Sábado">S</div>
+              <div class="streak-day-badge" title="Domingo">D</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Experiencia Acumulada -->
+        <div class="col-md-4 anim-cascade stagger-5">
+          <div class="card-custom dashboard-card-glass h-100 p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="p-2 bg-success-subtle text-success rounded-3 fs-5">
+                <i class="bi bi-lightning-charge-fill"></i>
+              </div>
+              <span class="badge bg-success text-white">Nivel 4 Learner</span>
+            </div>
+            <div class="small fw-bold text-uppercase text-secondary">Experiencia Acumulada</div>
+            <div class="display-6 fw-bold text-dark my-1"><span class="stat-xp-val">120 XP</span> acumulados</div>
+            <div class="small text-secondary mb-2">Meta diaria: <strong>80/100 XP hoy</strong> (80%)</div>
+            <div class="progress-bar-custom mb-3" style="background-color: rgba(215, 195, 160, 0.35);">
+              <div class="progress-bar-fill bg-success" style="width: 80%;"></div>
+            </div>
+            <div class="d-flex justify-content-between small text-muted pt-2 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+              <span>Faltan 20 XP para el bono diario</span>
+              <strong class="text-success">+50 XP bonus</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: Insignias y Logros -->
+        <div class="col-md-4 anim-cascade stagger-6">
+          <div class="card-custom dashboard-card-glass h-100 p-4 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="small fw-bold text-uppercase text-secondary">Insignias & Logros</div>
+                <a href="perfil.html" class="small text-primary text-decoration-none fw-bold">Ver todas (12) →</a>
+              </div>
+              <div class="row g-2 mb-3">
+                <div class="col-4">
+                  <div class="badge-achievement" title="Puntualidad de Hierro desbloqueada">
+                    <i class="bi bi-trophy-fill text-warning"></i>
+                    <strong class="small d-block" style="font-size: 0.725rem;">Puntualidad de Hierro</strong>
+                    <span class="badge bg-warning text-dark" style="font-size: 0.65rem;">ORO</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="badge-achievement" title="Oído de Oro desbloqueada">
+                    <i class="bi bi-headphones text-primary"></i>
+                    <strong class="small d-block" style="font-size: 0.725rem;">Oído de Oro</strong>
+                    <span class="badge bg-primary-subtle text-primary" style="font-size: 0.65rem;">PLATA</span>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="badge-achievement locked" title="Políglota Veloz bloqueada">
+                    <i class="bi bi-lock-fill text-secondary"></i>
+                    <strong class="small d-block" style="font-size: 0.725rem;">Políglota Veloz</strong>
+                    <span class="badge bg-light text-secondary" style="font-size: 0.65rem;">BLOQUEADO</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="p-2 dashboard-container-inset small text-secondary d-flex align-items-center gap-2">
+              <i class="bi bi-pin-angle-fill text-primary"></i>
+              <span>Siguiente logro al 75%: <strong>Habit Master</strong></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TARJETA DESTACADA: LECCIÓN SUGERIDA ACTIVA (VIDRIO ESMERILADO CÁLIDO) -->
+      <section class="card-custom dashboard-card-glass p-4 p-md-5 mb-5 shadow-sm anim-cascade stagger-7">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+              <span class="badge bg-primary text-white px-3 py-1 rounded-pill fw-bold">
+                <i class="bi bi-play-fill"></i> Siguiente Paso Recomendado
+              </span>
+              <span class="text-muted small">• <i class="bi bi-clock"></i> 8 minutos</span>
+              <span class="text-muted small">• <i class="bi bi-book"></i> 15 nuevos términos</span>
+            </div>
+
+            <h2 class="h3 fw-bold mb-3 text-dark">
+              Continuar Lección 4: Vocabulario de la Vida Diaria y Cafetería
+            </h2>
+
+            <p class="text-secondary mb-4">
+              Aprende a ordenar bebidas, consultar precios y comunicarte con amabilidad y soltura en cafeterías y restaurantes locales europeos.
+            </p>
+
+            <div class="mb-4">
+              <div class="d-flex justify-content-between small fw-bold mb-2">
+                <span>Progreso de la Unidad 2</span>
+                <span class="text-primary fw-bold">3 de 5 pasos completados (60%)</span>
+              </div>
+              <div class="progress-segmented">
+                <div class="progress-segment active"></div>
+                <div class="progress-segment active"></div>
+                <div class="progress-segment active"></div>
+                <div class="progress-segment" style="background-color: rgba(215, 195, 160, 0.35);"></div>
+                <div class="progress-segment" style="background-color: rgba(215, 195, 160, 0.35);"></div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-3">
+              <a href="leccion.html" class="btn btn-primary-custom px-4 py-3 fw-bold fs-6">
+                <span>Continuar Lección 4</span>
+                <i class="bi bi-play-circle-fill"></i>
+              </a>
+              <button type="button" class="btn dashboard-pill-glass px-4 py-3 fw-bold" data-bs-toggle="modal" data-bs-target="#modal-glosario">
+                <i class="bi bi-book"></i> Repasar Glosario
+              </button>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="position-relative rounded-4 overflow-hidden shadow-md">
+              <img src="assets/cafe.jpg" alt="Cafetería europea con barista sonriendo y clientes" class="img-fluid w-100" style="height: 260px; object-fit: cover;">
+              <div class="position-absolute bottom-0 start-0 end-0 p-3 bg-dark bg-opacity-75 text-white">
+                <span class="badge bg-warning text-dark fw-bold mb-1">ESCENARIO PRÁCTICO</span>
+                <div class="small fw-semibold">Cafetería & Encuentros Urbanos</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN: RUTA DE APRENDIZAJE PERSONALIZADA (HOJA DE RUTA CON VIDRIO TRANSLÚCIDO) -->
+      <section class="mb-5 anim-cascade stagger-8">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <span class="small fw-bold text-uppercase text-primary letter-spacing-1">Tu Hoja de Ruta</span>
+            <h2 class="h4 fw-bold mb-0 text-dark">Ruta de Aprendizaje Personalizada</h2>
+          </div>
+          <span class="text-secondary small d-none d-md-inline">
+            Diseñado paso a paso para consolidar gramática funcional, comprensión auditiva natural y soltura verbal.
+          </span>
+        </div>
+
+        <div class="row g-4">
+          <!-- Unidad 1: Completada -->
+          <div class="col-md-4">
+            <div class="card-custom dashboard-card-glass h-100 p-4 border-success-subtle d-flex flex-column justify-content-between">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold">
+                    ✓ Completada 100%
+                  </span>
+                  <span class="text-secondary small">5/5 Lecciones</span>
+                </div>
+                <div class="d-flex align-items-start gap-3 mb-3">
+                  <div class="p-2 bg-success text-white rounded-3 fs-5">
+                    <i class="bi bi-check2-all"></i>
+                  </div>
+                  <div>
+                    <h3 class="h6 fw-bold mb-1 text-secondary">Nivel A1 • Unidad 1</h3>
+                    <h4 class="h5 fw-bold mb-0 text-dark">Fundamentos y Presentación</h4>
+                  </div>
+                </div>
+                <p class="small text-secondary mb-3">
+                  Construcción de frases iniciales, alfabeto fonético, números y presentación formal e informal.
+                </p>
+                <div class="progress-bar-custom mb-3" style="background-color: rgba(215, 195, 160, 0.35);">
+                  <div class="progress-bar-fill bg-success" style="width: 100%;"></div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center pt-3 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+                <a href="leccion.html" class="btn btn-sm btn-outline-success fw-bold d-inline-flex align-items-center gap-1">
+                  <i class="bi bi-arrow-repeat"></i> Repasar Unidad
+                </a>
+                <span class="small fw-bold text-success">Nota: 98%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Unidad 2: En Progreso -->
+          <div class="col-md-4">
+            <div class="card-custom dashboard-card-glass h-100 p-4 border-primary d-flex flex-column justify-content-between" style="background: rgba(246, 240, 228, 0.72) !important;">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle fw-bold">
+                    📈 En Progreso • 60%
+                  </span>
+                  <span class="text-secondary small">3/5 Lecciones</span>
+                </div>
+                <div class="d-flex align-items-start gap-3 mb-3">
+                  <div class="p-2 bg-primary text-white rounded-3 fs-5">
+                    <i class="bi bi-cup-hot-fill"></i>
+                  </div>
+                  <div>
+                    <h3 class="h6 fw-bold mb-1 text-primary">Nivel A2 • Unidad 2</h3>
+                    <h4 class="h5 fw-bold mb-0 text-dark">En el Restaurante y Viajes</h4>
+                  </div>
+                </div>
+                <p class="small text-secondary mb-3">
+                  Orientación en aeropuertos, transporte público, reservas en hoteles y pedidos culinarios completos.
+                </p>
+                <div class="progress-bar-custom mb-3" style="background-color: rgba(215, 195, 160, 0.35);">
+                  <div class="progress-bar-fill" style="width: 60%;"></div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center pt-3 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+                <a href="leccion.html" class="btn btn-sm btn-primary-custom fw-bold d-inline-flex align-items-center gap-1">
+                  <span>Continuar</span> <i class="bi bi-arrow-right"></i>
+                </a>
+                <span class="small text-secondary">Quedan 2 lecciones</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Unidad 3: Bloqueada -->
+          <div class="col-md-4">
+            <div class="card-custom dashboard-card-glass h-100 p-4 opacity-75 d-flex flex-column justify-content-between">
+              <div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="badge dashboard-pill-glass border fw-bold text-secondary">
+                    <i class="bi bi-lock-fill"></i> Bloqueada
+                  </span>
+                  <span class="text-secondary small">0/6 Lecciones</span>
+                </div>
+                <div class="d-flex align-items-start gap-3 mb-3">
+                  <div class="p-2 dashboard-pill-glass rounded-3 fs-5 border">
+                    <i class="bi bi-briefcase-fill"></i>
+                  </div>
+                  <div>
+                    <h3 class="h6 fw-bold mb-1 text-secondary">Nivel B1 • Unidad 3</h3>
+                    <h4 class="h5 fw-bold mb-0 text-dark">Entrevistas de Trabajo y Negocios</h4>
+                  </div>
+                </div>
+                <p class="small text-secondary mb-3">
+                  Negociación básica, redacción de correos formales, respuestas a preguntas complejas de reclutadores.
+                </p>
+                <div class="progress-bar-custom mb-3" style="background-color: rgba(215, 195, 160, 0.35);">
+                  <div class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+              <div class="pt-3 border-top text-secondary small d-flex align-items-center gap-2" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+                <i class="bi bi-lock"></i> Completa Unidad 2 para desbloquear
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BANNER DE PRÁCTICA RÁPIDA DE VOZ (VIDRIO ESMERILADO MARFIL) -->
+      <section class="card-custom dashboard-card-glass p-4 d-flex justify-content-between align-items-center flex-wrap gap-3 anim-cascade stagger-8">
+        <div class="d-flex align-items-center gap-3">
+          <div class="p-3 bg-primary-subtle text-primary rounded-circle fs-4">
+            <i class="bi bi-person-lines-fill"></i>
+          </div>
+          <div>
+            <h3 class="h6 fw-bold mb-1 text-dark">¿Tienes 3 minutos libres?</h3>
+            <p class="text-secondary small mb-0">
+              Prueba nuestro club de pronunciación exprés con feedback háptico y auditivo inmediato.
+            </p>
+          </div>
+        </div>
+
+        <button type="button" class="btn dashboard-pill-glass fw-bold d-inline-flex align-items-center gap-2" onclick="speakQuickPhrase()">
+          <i class="bi bi-mic-fill text-primary"></i>
+          <span>Práctica Rápida de Voz</span>
+        </button>
+      </section>
+    </div>
+  </main>
+
+  <!-- MODAL DE GLOSARIO (VIDRIO ESMERILADO MARFIL) -->
+  <div class="modal fade" id="modal-glosario" tabindex="-1" aria-labelledby="glosarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom dashboard-card-glass border-0">
+        <div class="modal-header border-bottom-0">
+          <h2 class="h5 modal-title fw-bold text-dark" id="glosarioLabel"><i class="bi bi-book text-primary me-2"></i> Glosario: Cafetería & Restaurante</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body py-3">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div><strong class="text-dark">Coffee</strong> <span class="text-muted">/'kɒf.i/</span><div class="small text-secondary">Café</div></div>
+              <button class="btn btn-sm dashboard-pill-glass border" onclick="speakWord('Coffee')"><i class="bi bi-volume-up"></i></button>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div><strong class="text-dark">Bill / Check</strong> <span class="text-muted">/bɪl/</span><div class="small text-secondary">La cuenta</div></div>
+              <button class="btn btn-sm dashboard-pill-glass border" onclick="speakWord('Bill')"><i class="bi bi-volume-up"></i></button>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <div><strong class="text-dark">Order</strong> <span class="text-muted">/'ɔː.dər/</span><div class="small text-secondary">Ordenar / Pedir</div></div>
+              <button class="btn btn-sm dashboard-pill-glass border" onclick="speakWord('Order')"><i class="bi bi-volume-up"></i></button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL GUÍA DE ATAJOS -->
+  <div class="modal fade" id="modal-shortcuts" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom dashboard-card-glass border-0">
+        <div class="modal-header border-bottom-0">
+          <h3 class="h5 modal-title fw-bold text-dark"><i class="bi bi-keyboard text-primary me-2"></i> Atajos de Teclado</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body py-3">
+          <ul class="list-group list-group-flush small">
+            <li class="list-group-item d-flex justify-content-between"><span>Ir a Lección Activa</span> <kbd class="kbd-badge">Alt + 4</kbd></li>
+            <li class="list-group-item d-flex justify-content-between"><span>Ir a Mi Perfil</span> <kbd class="kbd-badge">Alt + 5</kbd></li>
+            <li class="list-group-item d-flex justify-content-between"><span>Alto Contraste</span> <kbd class="kbd-badge">Ajustes</kbd></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA ACCESIBLE (TRANSLÚCIDO CÁLIDO) -->
+  <footer class="footer-accessible dashboard-footer-warm anim-cascade stagger-9">
+    <div class="container-xl">
+      <div class="row align-items-center g-3">
+        <div class="col-md-6 d-flex align-items-center gap-2">
+          <div class="brand-icon" style="width: 24px; height: 24px; font-size: 0.8rem;">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <strong class="text-dark">LinguaLearn</strong>
+          <span class="text-muted small ms-2">Plataforma empática y accesible para el aprendizaje de idiomas.</span>
+        </div>
+        <div class="col-md-6 text-md-end d-flex flex-wrap justify-content-md-end gap-3 small">
+          <a href="#"><i class="bi bi-question-circle"></i> Centro de Ayuda</a>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#modal-shortcuts"><i class="bi bi-keyboard"></i> Guía de Atajos</a>
+          <a href="#"><i class="bi bi-shield-check"></i> Declaración de Accesibilidad</a>
+          <a href="#">Privacidad</a>
+        </div>
+      </div>
+      <div class="text-center text-muted small mt-4 pt-3 border-top">
+        © 2024 LinguaLearn. Diseñado bajo estándares WCAG 2.2 AAA.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scripts de la Aplicación -->
+  <script src="js/fireflies.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    function speakQuickPhrase() {
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance("Could I please have a cappuccino and a fresh croissant?");
+        u.lang = "en-US";
+        window.speechSynthesis.speak(u);
+        LinguaApp.showToast('Escuchando frase en inglés. +5 XP de práctica rápida.', 'success');
+        LinguaApp.addXP(5);
+      }
+    }
+    function speakWord(word) {
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(word);
+        u.lang = "en-US";
+        window.speechSynthesis.speak(u);
+      }
+    }
+  </script>
+</body>
+</html>
