@@ -144,7 +144,18 @@
                     <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
                   </a>
                 </li>
-                <li><hr class="dropdown-divider my-1"></li>
+                
+                  <li>
+                    <a href="tickets.html" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2">
+                      <i class="bi bi-ticket-detailed fs-6 text-primary"></i> <span data-i18n="menu.tickets">Mis Tickets</span>
+                    </a>
+                  </li>
+                  <li>
+                    <button type="button" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" id="btn-lang-toggle">
+                      <i class="bi bi-globe fs-6 text-success"></i> <span id="lang-toggle-text">English (EN)</span>
+                    </button>
+                  </li>
+                  <li><hr class="dropdown-divider my-1"></li>
                 <li>
                   <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
                     <i class="bi bi-box-arrow-right fs-6"></i> <span>Cerrar Sesión</span>
@@ -764,7 +775,7 @@
             <div class="col-lg-4 h-100 d-flex flex-column">
               <div class="card-custom dashboard-card-glass flex-grow-1 d-flex flex-column overflow-hidden h-100 border-0 shadow-sm">
                 <!-- Chat History -->
-                <div class="flex-grow-1 p-3 overflow-auto" id="ai-chat-history" style="background: rgba(255,255,255,0.5);">
+                <div class="flex-grow-1 p-3 overflow-auto" id="ai-chat-history" style="background: rgba(255,255,255,0.5); overflow-y: auto; max-height: calc(100vh - 200px);">
                   <!-- Mensaje inicial -->
                   <div class="d-flex align-items-start gap-2 mb-3">
                     <img src="https://ui-avatars.com/api/?name=IA&background=0D8ABC&color=fff" width="32" class="rounded-circle">
@@ -1129,16 +1140,27 @@
         aiChatHistory.scrollTop = aiChatHistory.scrollHeight;
       }
 
+      let teacherContext = 'greeting';
+      const teacherResponses = [
+        "¡Excelente punto! Siguiendo con eso, ¿puedes intentar formular una oración completa usando esa misma idea?",
+        "Me gusta cómo lo planteaste. En inglés, a veces usamos una estructura un poco diferente. ¿Sabes cuál sería?",
+        "¡Muy bien! Estás progresando bastante rápido. Cuéntame, ¿qué vocabulario te gustaría que revisemos ahora?",
+        "Esa es una pregunta muy interesante. La respuesta corta es sí, pero depende del contexto. ¿Te doy un ejemplo?",
+        "¡Perfecto! Para asegurarme de que quedó claro, ¿podrías darme tú un ejemplo de cómo lo usarías en una conversación real?"
+      ];
+      let teacherResponseIndex = 0;
+
       function handleAiResponse(userText) {
         const lower = userText.toLowerCase();
         
         setTimeout(() => {
           if (lower.includes('aprender') || lower.includes('ingles') || lower.includes('inglés')) {
-            addAiMessage("¡Claro que sí! Aprender inglés es una excelente decisión. Empecemos una sesión de aprendizaje ahora mismo. 🤗");
+            teacherContext = 'lesson';
+            addAiMessage("¡Claro que sí! Empecemos nuestra clase personalizada. 🤗");
             
             setTimeout(() => {
               addAiMessage(`
-                <strong>1. Vocabulario:</strong><br>
+                <strong>1. Vocabulario del día:</strong><br>
                 - Apple (Manzana)<br>
                 - Coffee (Café)<br>
                 - Book (Libro)<br>
@@ -1159,8 +1181,14 @@
               `, true);
             }, 3000);
 
+          } else if (lower.includes('hola') || lower.includes('buenos')) {
+            addAiMessage("¡Hola! Qué gusto verte en clase hoy. ¿En qué tema quieres que nos enfoquemos?");
+          } else if (lower.includes('gracias')) {
+            addAiMessage("¡De nada! Es mi trabajo como tu profesor. ¿Continuamos con otro tema?");
           } else {
-            addAiMessage("¡Qué interesante! Me encanta charlar contigo. Cuéntame más sobre eso o dime si quieres practicar vocabulario, pronunciación o gramática.");
+            // Rotating teacher responses
+            addAiMessage(teacherResponses[teacherResponseIndex]);
+            teacherResponseIndex = (teacherResponseIndex + 1) % teacherResponses.length;
           }
         }, 800);
       }
@@ -1220,5 +1248,6 @@
 
     })();
   </script>
+  <script src="js/i18n.js"></script>
 </body>
 </html>

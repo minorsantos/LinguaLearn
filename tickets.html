@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaLearn - Centro de Ayuda y Soporte</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Estilos Personalizados y Nuevas Pantallas -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/nuevas_pantallas.css">
+  <script>
+    if (localStorage.getItem('lingua_theme_reset_warm') !== 'true') {
+      localStorage.setItem('lingua_theme', 'light');
+      localStorage.setItem('lingua_theme_reset_warm', 'true');
+    }
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      if (document.body) {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark-mode'));
+      }
+    }
+  </script>
+</head>
+<body class="support-canvas">
+
+  <!-- BARRA SUPERIOR DE ACCESIBILIDAD CON VIDRIO ESMERILADO CÁLIDO -->
+  <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">
+    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2 py-1">
+      <div class="d-flex align-items-center gap-3">
+        <span class="d-inline-flex align-items-center gap-1 fw-bold" style="color: #243828;">
+          <i class="bi bi-person-wheelchair text-primary"></i> Accesibilidad
+        </span>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
+          <i class="bi bi-moon-stars-fill"></i> <span class="darkmode-text">Modo Oscuro</span>
+        </button>
+        <span class="opacity-50">|</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Ajuste de tipografía">
+          <button type="button" class="btn-font-decrease font-size-control-btn" style="color: #4a3e30;" aria-label="Disminuir tamaño">A-</button>
+          <button type="button" class="btn-font-increase font-size-control-btn" style="color: #4a3e30;" aria-label="Aumentar tamaño">A+</button>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="dropdown">
+          <button class="btn btn-sm btn-link text-decoration-none dropdown-toggle p-0" style="color: #4a3e30;" type="button" data-bs-toggle="dropdown">
+            <i class="bi bi-translate"></i> Español (ES)
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="dropdown-item active" href="#">Español (ES)</a></li>
+            <li><a class="dropdown-item" href="#">English (US)</a></li>
+          </ul>
+        </div>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn btn-sm btn-link text-decoration-none p-0" style="color: #4a3e30;" data-bs-toggle="modal" data-bs-target="#modal-shortcuts">
+          <i class="bi bi-keyboard"></i> Atajos [Alt + 1-5]
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- NAVBAR PRINCIPAL CON TONO MARFIL CÁLIDO ESMERILADO -->
+  <header class="main-navbar canvas-navbar-warm sticky-top shadow-sm anim-cascade-down stagger-2">
+    <div class="container-xl">
+      <nav class="navbar navbar-expand-lg p-0" aria-label="Navegación principal">
+        <a class="brand-logo-container" href="index.html">
+          <div class="brand-icon">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <span class="brand-name">LinguaLearn</span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-label="Menú principal">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="test-diagnostico.html">Test Diagnóstico</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="dashboard.html">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="leccion.html">Lección Activa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="pronunciacion.html">Pronunciación</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="comunidad.html">Comunidad</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom" href="suscripcion.html">Suscripción</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-custom active" aria-current="page" href="soporte.html">Soporte</a>
+            </li>
+          </ul>
+
+          <!-- BARRA DE ESTADO DE USUARIO: MI PERFIL, RACHA Y XP EN UNA SOLA LÍNEA CON MENÚ HACIA ABAJO -->
+          <div class="header-user-status-bar d-flex align-items-center gap-2 gap-md-3 flex-nowrap ms-lg-3">
+            <div class="header-stat-pill streak flex-shrink-0" title="Racha activa">
+              <i class="bi bi-fire"></i> <span class="stat-streak-val">5 días</span>
+            </div>
+            <div class="header-stat-pill xp flex-shrink-0" title="Experiencia acumulada">
+              <i class="bi bi-lightning-charge-fill"></i> <span class="stat-xp-val">120 XP</span>
+            </div>
+            <div class="dropdown header-profile-dropdown flex-shrink-0">
+              <button class="header-profile-btn dropdown-toggle d-flex align-items-center gap-2" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" title="Menú de perfil y cerrar sesión">
+                <div class="position-relative">
+                  <img src="assets/sofia.jpg" alt="Foto de perfil de Sofia Martinez" class="header-avatar-img">
+                  <span class="avatar-online-dot"></span>
+                </div>
+                <span class="header-profile-name fw-semibold small user-display-name">Mi Perfil</span>
+                <i class="bi bi-chevron-down small text-secondary"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 card-custom test-card-glass p-2 mt-2" aria-labelledby="dropdownUserMenu" style="min-width: 240px; z-index: 9999;">
+                <li class="px-3 py-2 border-bottom mb-1">
+                  <div class="fw-bold text-dark text-truncate user-display-name">Sofia Martinez</div>
+                  <div class="small text-secondary text-truncate" style="font-size: 0.775rem;">sofia.martinez@universidad.edu</div>
+                  <div class="badge bg-primary-subtle text-primary mt-1 user-level-badge" style="font-size: 0.7rem;">Nivel A2 - Básico Activo</div>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="perfil.html">
+                    <i class="bi bi-person-circle text-primary"></i> <span>Mi Perfil y Logros</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="dashboard.html">
+                    <i class="bi bi-speedometer2 text-success"></i> <span>Mi Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="suscripcion.html">
+                    <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
+                  </a>
+                </li>
+                
+                  <li>
+                    <a href="tickets.html" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2">
+                      <i class="bi bi-ticket-detailed fs-6 text-primary"></i> <span data-i18n="menu.tickets">Mis Tickets</span>
+                    </a>
+                  </li>
+                  <li>
+                    <button type="button" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" id="btn-lang-toggle">
+                      <i class="bi bi-globe fs-6 text-success"></i> <span id="lang-toggle-text">English (EN)</span>
+                    </button>
+                  </li>
+                  <li><hr class="dropdown-divider my-1"></li>
+                <li>
+                  <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
+                    <i class="bi bi-box-arrow-right fs-6"></i> <span>Cerrar Sesión</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  
+  <main class="dashboard-main py-5">
+    <div class="container-xl">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h1 class="h3 fw-bold text-dark mb-1" data-i18n="tickets.title"><i class="bi bi-inbox-fill text-primary me-2"></i> Buzón de Tickets</h1>
+          <p class="text-secondary small mb-0" data-i18n="tickets.subtitle">Aquí puedes consultar todos los tickets de soporte que has registrado.</p>
+        </div>
+        <div>
+          <button class="btn btn-outline-danger fw-bold rounded-pill" id="btn-clear-tickets">
+            <i class="bi bi-trash3-fill me-1"></i> <span data-i18n="tickets.clear">Vaciar buzón</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row g-4" id="tickets-container">
+        <!-- Tickets will be injected here via JS -->
+      </div>
+      
+      <div id="no-tickets-msg" class="text-center py-5 d-none">
+        <div class="display-1 text-muted mb-3 opacity-25"><i class="bi bi-inbox"></i></div>
+        <h3 class="h5 fw-bold text-secondary" data-i18n="tickets.empty">Tu buzón está vacío</h3>
+        <p class="small text-muted" data-i18n="tickets.empty_sub">No tienes tickets de soporte registrados en este momento.</p>
+        <a href="soporte.html" class="btn btn-primary-custom mt-2 rounded-pill"><i class="bi bi-plus-circle me-1"></i> <span data-i18n="tickets.create">Crear Ticket</span></a>
+      </div>
+
+    </div>
+  </main>
+
+
+  <!-- MODAL: CREAR TICKET DE SOPORTE -->
+  <div class="modal fade" id="modal-ticket" tabindex="-1" aria-labelledby="modalTicketLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom test-card-glass border-0 p-3">
+        <div class="modal-header border-0 pb-0">
+          <h2 class="h5 modal-title fw-bold" id="modalTicketLabel"><i class="bi bi-ticket-detailed text-primary me-2"></i> Nuevo Ticket de Reporte</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body py-3">
+          <div class="mb-3">
+            <label for="ticket-cat-select" class="form-label small fw-bold">Categoría:</label>
+            <select class="form-select" id="ticket-cat-select">
+              <option value="Pagos y Suscripción (Perú)">Pagos y Suscripción (Perú)</option>
+              <option value="Problemas con Micrófono / Audio">Problemas con Micrófono / Audio</option>
+              <option value="Certificados y Progreso">Certificados y Progreso</option>
+              <option value="Accesibilidad">Accesibilidad</option>
+              <option value="Otro">Otro asunto</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="ticket-subject-input" class="form-label small fw-bold">Asunto:</label>
+            <input type="text" class="form-control" id="ticket-subject-input" placeholder="Ej. Mi comprobante de pago con Yape">
+          </div>
+          <div class="mb-3">
+            <label for="ticket-desc-input" class="form-label small fw-bold">Descripción detallada:</label>
+            <textarea class="form-control" id="ticket-desc-input" rows="3" placeholder="Explícanos qué sucedió para ayudarte de inmediato..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-secondary-custom rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary-custom rounded-pill" id="btn-submit-ticket">
+            Enviar Ticket
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONFIRMACIÓN DE TICKET EXITOSO -->
+  <div class="modal fade" id="modal-ticket-success" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom test-card-glass border-0 p-4 text-center">
+        <div class="display-4 text-success mb-2">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <h3 class="h5 fw-bold mb-2">¡Ticket Generado con Éxito!</h3>
+        <p class="text-secondary small mb-3">
+          Hemos recibido tu solicitud y nuestro equipo te responderá a tu correo electrónico registrado.
+        </p>
+        <div class="p-3 test-container-inset rounded-3 mb-3">
+          <div class="small text-secondary">Código de seguimiento:</div>
+          <strong class="fs-4 text-primary" id="lbl-generated-ticket">#TK-4819</strong>
+        </div>
+        <button type="button" class="btn btn-primary-custom rounded-pill w-100" data-bs-dismiss="modal">
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CHAT EN VIVO CON LINGUABOT -->
+  <div class="modal fade" id="modal-chat-linguabot" tabindex="-1" aria-labelledby="modalChatLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom test-card-glass border-0 p-3">
+        <div class="modal-header border-0 pb-2">
+          <div class="d-flex align-items-center gap-2">
+            <div class="p-2 bg-primary text-white rounded-circle fs-5">
+              <i class="bi bi-robot"></i>
+            </div>
+            <div>
+              <h2 class="h6 modal-title fw-bold mb-0" id="modalChatLabel">LinguaBot Asistente</h2>
+              <span class="small text-success"><span class="pulse-live-dot"></span> En línea para ayudarte</span>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar chat"></button>
+        </div>
+
+        <div class="modal-body p-0">
+          <!-- Historial de Conversación -->
+          <div class="linguabot-chat-box" id="chat-messages-container">
+            <div class="chat-bubble-bot">
+              ¡Hola Sofia! 👋 Soy LinguaBot, tu asistente de soporte. ¿En qué puedo orientarte hoy? Puedes preguntarme sobre tus pagos en soles, cómo calibrar tu micrófono o cómo funciona la racha.
+            </div>
+          </div>
+
+          <!-- Caja de Entrada del Chat -->
+          <div class="p-3 border-top">
+            <div class="input-group">
+              <input type="text" class="form-control" id="chat-user-input" placeholder="Escribe tu mensaje aquí..." aria-label="Escribe tu mensaje">
+              <button class="btn btn-primary-custom" type="button" id="btn-send-chat">
+                <i class="bi bi-send-fill"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA ACCESIBLE -->
+  <footer class="footer-accessible dashboard-footer-warm anim-cascade stagger-7">
+    <div class="container-xl">
+      <div class="row align-items-center g-3">
+        <div class="col-md-6 d-flex align-items-center gap-2">
+          <div class="brand-icon" style="width: 24px; height: 24px; font-size: 0.8rem;">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <strong class="text-dark">LinguaLearn Soporte</strong>
+          <span class="text-muted small ms-2">Atención accesible bajo lineamientos de transparencia y calidez.</span>
+        </div>
+        <div class="col-md-6 text-md-end d-flex flex-wrap justify-content-md-end gap-3 small">
+          <a href="suscripcion.html"><i class="bi bi-gem"></i> Planes y Pagos</a>
+          <a href="comunidad.html"><i class="bi bi-people"></i> Comunidad</a>
+          <a href="#">Términos y Privacidad</a>
+          <a href="#">Libro de Reclamaciones</a>
+        </div>
+      </div>
+      <div class="text-center text-muted small mt-4 pt-3 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+        © 2024 LinguaLearn Perú S.A.C. Diseñado bajo estándares WCAG 2.2 AAA.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scripts de la Aplicación -->
+  <script src="js/fireflies.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- LÓGICA DE BÚSQUEDA EN VIVO, TICKETS Y CHATBOT -->
+  <script>
+    (function () {
+      'use strict';
+
+      // 1. Filtrado en Vivo del Buscador Central
+      const searchInput = document.getElementById('support-search-input');
+      const faqItems = document.querySelectorAll('.faq-item');
+      const counterLabel = document.getElementById('faq-counter-label');
+
+      searchInput.addEventListener('input', function () {
+        const query = this.value.trim().toLowerCase();
+        let matches = 0;
+
+        faqItems.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          const keywords = item.getAttribute('data-keywords') || '';
+
+          if (!query || text.includes(query) || keywords.includes(query)) {
+            item.style.display = 'block';
+            matches++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        counterLabel.textContent = `${matches} resultado${matches === 1 ? '' : 's'} encontrado${matches === 1 ? '' : 's'}`;
+      });
+
+      // 2. Click en categorías para filtrar FAQ
+      document.querySelectorAll('.category-col').forEach(col => {
+        col.addEventListener('click', function () {
+          const cat = this.getAttribute('data-cat');
+          if (cat === 'pagos') searchInput.value = 'pago';
+          if (cat === 'ejercicios') searchInput.value = 'microfono';
+          if (cat === 'accesibilidad') searchInput.value = 'oscuro';
+          if (cat === 'progreso') searchInput.value = 'certificado';
+          searchInput.dispatchEvent(new Event('input'));
+          document.getElementById('faqAccordion').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      // 3. Crear Ticket de Soporte
+      const btnSubmitTicket = document.getElementById('btn-submit-ticket');
+      btnSubmitTicket.addEventListener('click', function () {
+        const subject = document.getElementById('ticket-subject-input').value.trim();
+        const desc = document.getElementById('ticket-desc-input').value.trim();
+
+        if (!subject || !desc) {
+          alert('Por favor completa el asunto y la descripción de tu solicitud.');
+          return;
+        }
+
+        const randomNum = Math.floor(1000 + Math.random() * 9000);
+        document.getElementById('lbl-generated-ticket').textContent = `#TK-${randomNum}`;
+
+        const modalTicket = bootstrap.Modal.getInstance(document.getElementById('modal-ticket'));
+        if (modalTicket) modalTicket.hide();
+
+        const modalSuccess = new bootstrap.Modal(document.getElementById('modal-ticket-success'));
+        modalSuccess.show();
+
+        document.getElementById('ticket-subject-input').value = '';
+        document.getElementById('ticket-desc-input').value = '';
+      });
+
+      // 4. Chat Asistente LinguaBot Avanzado (Simulación Conversacional)
+      const btnSendChat = document.getElementById('btn-send-chat');
+      const chatInput = document.getElementById('chat-user-input');
+      const chatContainer = document.getElementById('chat-messages-container');
+      
+      let conversationHistory = [];
+      let context = 'general';
+
+      function generateNaturalResponse(msg) {
+        const lower = msg.toLowerCase();
+        
+        // Detección de intenciones y cambio de contexto
+        if (lower.match(/hola|buenos d|buenas t|buenas n/)) {
+            return "¿Hola! Qué gusto saludarte. Cuéntame, ¿en qué te puedo ayudar hoy con tu aprendizaje de inglés?";
+        }
+        
+        if (lower.includes('problema') || lower.includes('error') || lower.includes('no funciona')) {
+            context = 'support';
+            return "Lamento mucho escuchar que estás teniendo inconvenientes. ¿Podrías darme más detalles sobre lo que está fallando exactamente? Estoy aquí para solucionarlo paso a paso.";
+        }
+        
+        if (lower.includes('yape') || lower.includes('plin') || lower.includes('pago') || lower.includes('suscripcion') || lower.includes('suscripción')) {
+            context = 'billing';
+            return "¡Excelente! Los temas de pagos son súper fáciles de resolver. Aceptamos pagos locales con Yape y Plin, y también tarjetas. ¿Tienes alguna duda específica sobre los planes o ya estás intentando hacer un pago?";
+        }
+        
+        if (lower.includes('micrófono') || lower.includes('audio') || lower.includes('pronunciacion') || lower.includes('pronunciación')) {
+            context = 'technical';
+            return "El micrófono es clave para que evaluemos tu pronunciación real. A veces el navegador bloquea el acceso. Revisa si hay un ícono de candado o cámara en la barra de direcciones de tu navegador y asegúrate de permitir el micrófono. ¿Te aparece algún error específico al intentarlo?";
+        }
+        
+        if (lower.match(/como|cómo|que|qué|cuando|cuándo/)) {
+            return "Esa es una gran pregunta. Para darte la mejor respuesta posible, ¿podrías darme un poquito más de contexto sobre lo que estás intentando lograr?";
+        }
+        
+        if (lower.includes('gracias')) {
+            context = 'general';
+            return "¡De nada! Es un placer enorme poder ayudarte. Si tienes alguna otra duda o quieres conversar, aquí estaré. ¡Mucho éxito en tus lecciones!";
+        }
+        
+        if (lower.includes('aprender') || lower.includes('ingles') || lower.includes('inglés')) {
+            return "¡Me encanta esa motivación! Aprender inglés abre muchas puertas. Te recomiendo que empieces con las lecciones interactivas de tu ruta de aprendizaje en el Dashboard. ¿Hay alguna unidad en particular en la que sientas que necesitas más refuerzo?";
+        }
+
+        // Si hay un contexto previo, responder con base en ese contexto
+        if (context === 'support') {
+            return "Entiendo. Ese detalle es importante. He registrado esta información. ¿Has intentado refrescar la página o usar otro navegador para ver si el problema persiste?";
+        }
+        if (context === 'billing') {
+            return "Comprendo. En cuanto al pago, todo es automático. Una vez confirmes la transacción con el código, tu plan se activará de inmediato y podrás descargar tu boleta electrónica. ¿Te puedo ayudar con algo más sobre esto?";
+        }
+        
+        // Reflexión genérica (estilo ELIZA) para continuar conversación natural
+        const genericResponses = [
+            "Te entiendo perfectamente. ¿Puedes contarme un poco más sobre eso?",
+            "Eso tiene mucho sentido. Y dime, ¿cómo te sientes con el progreso que llevas hasta ahora en LinguaLearn?",
+            "Interesante... ¿Me podrías dar un ejemplo específico para asegurarme de entenderte al 100%?",
+            "¡Claro, veo a lo que te refieres! Si necesitas que abordemos esto más a fondo, también puedo crear un ticket automático para que un especialista humano lo revise. ¿Seguimos conversando por aquí?",
+            "Me parece una excelente observación. Tomaré nota de eso. ¿Hay algo adicional en lo que te pueda orientar hoy?"
+        ];
+        
+        return genericResponses[Math.floor(Math.random() * genericResponses.length)];
+      }
+
+      function sendMessage() {
+        const userMsg = chatInput.value.trim();
+        if (!userMsg) return;
+
+        const userBubble = document.createElement('div');
+        userBubble.className = 'chat-bubble-user';
+        userBubble.textContent = userMsg;
+        chatContainer.appendChild(userBubble);
+        chatInput.value = '';
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        
+        conversationHistory.push({role: 'user', content: userMsg});
+
+        // Simulador de tipado natural (retraso variable según largo del mensaje)
+        const isTypingDiv = document.createElement('div');
+        isTypingDiv.className = 'chat-bubble-bot text-muted small fst-italic';
+        isTypingDiv.innerHTML = '<span class="spinner-grow spinner-grow-sm me-2"></span>Escribiendo...';
+        chatContainer.appendChild(isTypingDiv);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        const responseText = generateNaturalResponse(userMsg);
+        const typingDelay = Math.min(Math.max(responseText.length * 15, 800), 3000);
+
+        setTimeout(() => {
+          chatContainer.removeChild(isTypingDiv);
+          const botBubble = document.createElement('div');
+          botBubble.className = 'chat-bubble-bot';
+          botBubble.textContent = responseText;
+          chatContainer.appendChild(botBubble);
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+          
+          conversationHistory.push({role: 'bot', content: responseText});
+        }, typingDelay);
+      }
+
+      btnSendChat.addEventListener('click', sendMessage);
+      chatInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+    })();
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const ticketsContainer = document.getElementById('tickets-container');
+      const noTicketsMsg = document.getElementById('no-tickets-msg');
+      const btnClear = document.getElementById('btn-clear-tickets');
+      
+      function loadTickets() {
+        let tickets = JSON.parse(localStorage.getItem('lingua_tickets') || '[]');
+        ticketsContainer.innerHTML = '';
+        
+        if (tickets.length === 0) {
+          noTicketsMsg.classList.remove('d-none');
+          ticketsContainer.classList.add('d-none');
+          btnClear.style.display = 'none';
+        } else {
+          noTicketsMsg.classList.add('d-none');
+          ticketsContainer.classList.remove('d-none');
+          btnClear.style.display = 'inline-block';
+          
+          tickets.reverse().forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'col-md-6 col-lg-4';
+            card.innerHTML = `
+              <div class="card-custom dashboard-card-glass h-100 p-4 border-start border-4 border-primary">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1">${t.id}</span>
+                  <span class="small text-muted"><i class="bi bi-clock me-1"></i>${t.time}</span>
+                </div>
+                <h3 class="h6 fw-bold mb-2">${t.category}</h3>
+                <p class="small text-secondary mb-3">${t.description}</p>
+                <div class="pt-3 border-top small text-muted d-flex justify-content-between">
+                  <span><i class="bi bi-calendar-event me-1"></i>${t.date}</span>
+                  <span class="text-success"><i class="bi bi-check-circle-fill me-1"></i>Registrado</span>
+                </div>
+              </div>
+            `;
+            ticketsContainer.appendChild(card);
+          });
+        }
+      }
+      
+      btnClear.addEventListener('click', () => {
+        if (confirm('¿Estás seguro de que deseas vaciar tu buzón de tickets? Esta acción no se puede deshacer.')) {
+          localStorage.removeItem('lingua_tickets');
+          loadTickets();
+        }
+      });
+      
+      loadTickets();
+    });
+  </script>
+
+  <script src="js/i18n.js"></script>
+</body>
+</html>

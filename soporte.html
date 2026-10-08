@@ -144,7 +144,18 @@
                     <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
                   </a>
                 </li>
-                <li><hr class="dropdown-divider my-1"></li>
+                
+                  <li>
+                    <a href="tickets.html" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2">
+                      <i class="bi bi-ticket-detailed fs-6 text-primary"></i> <span data-i18n="menu.tickets">Mis Tickets</span>
+                    </a>
+                  </li>
+                  <li>
+                    <button type="button" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" id="btn-lang-toggle">
+                      <i class="bi bi-globe fs-6 text-success"></i> <span id="lang-toggle-text">English (EN)</span>
+                    </button>
+                  </li>
+                  <li><hr class="dropdown-divider my-1"></li>
                 <li>
                   <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
                     <i class="bi bi-box-arrow-right fs-6"></i> <span>Cerrar Sesión</span>
@@ -568,7 +579,23 @@
         }
 
         const randomNum = Math.floor(1000 + Math.random() * 9000);
-        document.getElementById('lbl-generated-ticket').textContent = `#TK-${randomNum}`;
+        const ticketId = `#TK-${randomNum}`;
+        document.getElementById('lbl-generated-ticket').textContent = ticketId;
+        
+        // Save to localStorage for tickets.html
+        let tickets = JSON.parse(localStorage.getItem('lingua_tickets') || '[]');
+        const catSelect = document.getElementById('ticket-cat-select');
+        const category = catSelect ? catSelect.value : 'General';
+        
+        const now = new Date();
+        tickets.push({
+            id: ticketId,
+            category: category + " - " + subject,
+            description: desc,
+            date: now.toLocaleDateString(),
+            time: now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        });
+        localStorage.setItem('lingua_tickets', JSON.stringify(tickets));
 
         const modalTicket = bootstrap.Modal.getInstance(document.getElementById('modal-ticket'));
         if (modalTicket) modalTicket.hide();
@@ -689,5 +716,6 @@
 
     })();
   </script>
+  <script src="js/i18n.js"></script>
 </body>
 </html>
