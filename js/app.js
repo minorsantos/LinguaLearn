@@ -598,6 +598,26 @@
     syncHeader: syncHeaderStats
   };
 
+
+  // Atajo Alt + R para modo oscuro
+  document.addEventListener('keydown', function(e) {
+    if (e.altKey && (e.key === 'r' || e.key === 'R')) {
+      e.preventDefault();
+      const currentTheme = localStorage.getItem('lingua_theme') || 'light';
+      if (currentTheme === 'light') {
+        localStorage.setItem('lingua_theme', 'dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.body.classList.add('dark-mode');
+        document.querySelectorAll('.btn-toggle-darkmode .darkmode-text').forEach(el => el.textContent = 'Modo Claro');
+      } else {
+        localStorage.setItem('lingua_theme', 'light');
+        document.documentElement.removeAttribute('data-theme');
+        document.body.classList.remove('dark-mode');
+        document.querySelectorAll('.btn-toggle-darkmode .darkmode-text').forEach(el => el.textContent = 'Modo Oscuro');
+      }
+    }
+  });
+
   // Inicializar al cargar
   document.addEventListener('DOMContentLoaded', () => {
     syncHeaderStats();

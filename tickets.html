@@ -147,14 +147,10 @@
                 
                   <li>
                     <a href="tickets.html" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2">
-                      <i class="bi bi-ticket-detailed fs-6 text-primary"></i> <span data-i18n="menu.tickets">Mis Tickets</span>
+                      <i class="bi bi-ticket-detailed fs-6 text-primary"></i> <span>Mis Tickets</span>
                     </a>
                   </li>
-                  <li>
-                    <button type="button" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" id="btn-lang-toggle">
-                      <i class="bi bi-globe fs-6 text-success"></i> <span id="lang-toggle-text">English (EN)</span>
-                    </button>
-                  </li>
+                  
                   <li><hr class="dropdown-divider my-1"></li>
                 <li>
                   <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
@@ -174,12 +170,12 @@
     <div class="container-xl">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h1 class="h3 fw-bold text-dark mb-1" data-i18n="tickets.title"><i class="bi bi-inbox-fill text-primary me-2"></i> Buzón de Tickets</h1>
-          <p class="text-secondary small mb-0" data-i18n="tickets.subtitle">Aquí puedes consultar todos los tickets de soporte que has registrado.</p>
+          <h1 class="h3 fw-bold text-dark mb-1"><i class="bi bi-inbox-fill text-primary me-2"></i> Buzón de Tickets</h1>
+          <p class="text-secondary small mb-0">Aquí puedes consultar todos los tickets de soporte que has registrado.</p>
         </div>
         <div>
           <button class="btn btn-outline-danger fw-bold rounded-pill" id="btn-clear-tickets">
-            <i class="bi bi-trash3-fill me-1"></i> <span data-i18n="tickets.clear">Vaciar buzón</span>
+            <i class="bi bi-trash3-fill me-1"></i> <span>Vaciar buzón</span>
           </button>
         </div>
       </div>
@@ -190,9 +186,9 @@
       
       <div id="no-tickets-msg" class="text-center py-5 d-none">
         <div class="display-1 text-muted mb-3 opacity-25"><i class="bi bi-inbox"></i></div>
-        <h3 class="h5 fw-bold text-secondary" data-i18n="tickets.empty">Tu buzón está vacío</h3>
-        <p class="small text-muted" data-i18n="tickets.empty_sub">No tienes tickets de soporte registrados en este momento.</p>
-        <a href="soporte.html" class="btn btn-primary-custom mt-2 rounded-pill"><i class="bi bi-plus-circle me-1"></i> <span data-i18n="tickets.create">Crear Ticket</span></a>
+        <h3 class="h5 fw-bold text-secondary">Tu buzón está vacío</h3>
+        <p class="small text-muted">No tienes tickets de soporte registrados en este momento.</p>
+        <a href="soporte.html" class="btn btn-primary-custom mt-2 rounded-pill"><i class="bi bi-plus-circle me-1"></i> <span>Crear Ticket</span></a>
       </div>
 
     </div>
@@ -557,6 +553,5 @@
     });
   </script>
 
-  <script src="js/i18n.js"></script>
 </body>
 </html>

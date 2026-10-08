@@ -147,14 +147,10 @@
                 
                   <li>
                     <a href="tickets.html" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2">
-                      <i class="bi bi-ticket-detailed fs-6 text-primary"></i> <span data-i18n="menu.tickets">Mis Tickets</span>
+                      <i class="bi bi-ticket-detailed fs-6 text-primary"></i> <span>Mis Tickets</span>
                     </a>
                   </li>
-                  <li>
-                    <button type="button" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" id="btn-lang-toggle">
-                      <i class="bi bi-globe fs-6 text-success"></i> <span id="lang-toggle-text">English (EN)</span>
-                    </button>
-                  </li>
+                  
                   <li><hr class="dropdown-divider my-1"></li>
                 <li>
                   <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
@@ -470,22 +466,22 @@
             </div>
           </div>
 
-          <!-- Unidad 3: En Progreso -->
+          <!-- Unidad 3: Bloqueada -->
           <div class="col-md-4">
-            <div class="card-custom dashboard-card-glass h-100 p-4 border-primary d-flex flex-column justify-content-between" style="background: rgba(246, 240, 228, 0.72) !important;">
+            <div class="card-custom dashboard-card-glass h-100 p-4 opacity-75 d-flex flex-column justify-content-between">
               <div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle fw-bold">
-                    📈 En Progreso • 0%
+                  <span class="badge dashboard-pill-glass border fw-bold text-secondary">
+                    <i class="bi bi-lock-fill"></i> Bloqueada
                   </span>
                   <span class="text-secondary small">0/6 Lecciones</span>
                 </div>
                 <div class="d-flex align-items-start gap-3 mb-3">
-                  <div class="p-2 bg-primary text-white rounded-3 fs-5">
+                  <div class="p-2 dashboard-pill-glass rounded-3 fs-5 border">
                     <i class="bi bi-briefcase-fill"></i>
                   </div>
                   <div>
-                    <h3 class="h6 fw-bold mb-1 text-primary">Nivel B1 • Unidad 3</h3>
+                    <h3 class="h6 fw-bold mb-1 text-secondary">Nivel B1 • Unidad 3</h3>
                     <h4 class="h5 fw-bold mb-0 text-dark">Entrevistas de Trabajo y Negocios</h4>
                   </div>
                 </div>
@@ -496,11 +492,8 @@
                   <div class="progress-bar-fill" style="width: 0%;"></div>
                 </div>
               </div>
-              <div class="d-flex justify-content-between align-items-center pt-3 border-top" style="border-color: rgba(215, 195, 160, 0.4) !important;">
-                <a href="leccion.html" class="btn btn-sm btn-primary-custom fw-bold d-inline-flex align-items-center gap-1">
-                  <span>Iniciar</span> <i class="bi bi-arrow-right"></i>
-                </a>
-                <span class="small text-secondary">Quedan 6 lecciones</span>
+              <div class="pt-3 border-top text-secondary small d-flex align-items-center gap-2" style="border-color: rgba(215, 195, 160, 0.4) !important;">
+                <i class="bi bi-lock"></i> Completa Unidad 2 para desbloquear
               </div>
             </div>
           </div>
@@ -624,6 +617,5 @@
       }
     }
   </script>
-  <script src="js/i18n.js"></script>
 </body>
 </html>
