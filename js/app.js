@@ -122,9 +122,13 @@
     }
   }
 
-  // Sincronizar clases de autenticación en <html> y <body>
+  // Sincronizar clases de autenticación en <html> y <body> y actualizar la barra de navegación
   function syncAuthState() {
     const loggedIn = isUserLoggedIn();
+    const guestNav = document.getElementById('nav-guest-actions');
+    const guestWrapper = document.getElementById('guest-hero-wrapper');
+    const loggedWrapper = document.getElementById('logged-hero-wrapper');
+
     if (loggedIn) {
       document.documentElement.classList.add('user-logged-in');
       document.documentElement.classList.remove('user-not-logged-in');
@@ -132,6 +136,39 @@
         document.body.classList.add('user-logged-in');
         document.body.classList.remove('user-not-logged-in');
       }
+
+      // Eliminar por completo el botón de iniciar sesión sin dejar ningún espacio
+      if (guestNav) {
+        guestNav.style.setProperty('display', 'none', 'important');
+        guestNav.style.setProperty('visibility', 'hidden', 'important');
+        guestNav.style.setProperty('width', '0', 'important');
+        guestNav.style.setProperty('height', '0', 'important');
+        guestNav.style.setProperty('margin', '0', 'important');
+        guestNav.style.setProperty('padding', '0', 'important');
+        guestNav.classList.add('d-none');
+        guestNav.classList.remove('d-flex');
+      }
+
+      if (guestWrapper) {
+        guestWrapper.style.setProperty('display', 'none', 'important');
+        guestWrapper.classList.add('d-none');
+        guestWrapper.classList.remove('d-flex');
+      }
+
+      if (loggedWrapper) {
+        loggedWrapper.style.removeProperty('display');
+        loggedWrapper.classList.remove('d-none');
+      }
+
+      document.querySelectorAll('.auth-only-guest').forEach(el => {
+        el.style.setProperty('display', 'none', 'important');
+        el.classList.add('d-none');
+      });
+
+      document.querySelectorAll('.auth-only-logged-in').forEach(el => {
+        el.style.removeProperty('display');
+        el.classList.remove('d-none');
+      });
     } else {
       document.documentElement.classList.add('user-not-logged-in');
       document.documentElement.classList.remove('user-logged-in');
@@ -139,6 +176,38 @@
         document.body.classList.add('user-not-logged-in');
         document.body.classList.remove('user-logged-in');
       }
+
+      if (guestNav) {
+        guestNav.style.removeProperty('display');
+        guestNav.style.removeProperty('visibility');
+        guestNav.style.removeProperty('width');
+        guestNav.style.removeProperty('height');
+        guestNav.style.removeProperty('margin');
+        guestNav.style.removeProperty('padding');
+        guestNav.classList.remove('d-none');
+        guestNav.classList.add('d-flex');
+      }
+
+      if (guestWrapper) {
+        guestWrapper.style.removeProperty('display');
+        guestWrapper.classList.remove('d-none');
+        guestWrapper.classList.add('d-flex');
+      }
+
+      if (loggedWrapper) {
+        loggedWrapper.style.setProperty('display', 'none', 'important');
+        loggedWrapper.classList.add('d-none');
+      }
+
+      document.querySelectorAll('.auth-only-guest').forEach(el => {
+        el.style.removeProperty('display');
+        el.classList.remove('d-none');
+      });
+
+      document.querySelectorAll('.auth-only-logged-in').forEach(el => {
+        el.style.setProperty('display', 'none', 'important');
+        el.classList.add('d-none');
+      });
     }
   }
 
@@ -504,6 +573,23 @@
 
     // 2. Formulario de Registro Rápido
     const regForm = document.getElementById('form-modal-register');
+    const registerModalEl = document.getElementById('modal-register-hero');
+
+    // Manejar eventos del modal para evitar congelamiento de pantalla y capas superpuestas
+    if (registerModalEl) {
+      registerModalEl.addEventListener('hidden.bs.modal', function () {
+        // Limpiar cualquier backdrop residual
+        document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('padding-right');
+
+        // Retornar foco al formulario de inicio de sesión
+        const userInput = document.getElementById('hero-user-input');
+        if (userInput) userInput.focus();
+      });
+    }
+
     if (regForm) {
       regForm.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -511,6 +597,11 @@
         const email = document.getElementById('reg-email')?.value;
         const pass1 = document.getElementById('reg-password')?.value;
         const pass2 = document.getElementById('reg-password-confirm')?.value;
+
+        if (!name || !email || !pass1 || !pass2) {
+          showToast('Por favor completa todos los campos del registro.', 'error');
+          return;
+        }
 
         if (pass1 !== pass2) {
           showToast('Las contraseñas no coinciden. Por favor verifícalas.', 'error');
@@ -521,6 +612,16 @@
           showToast('La contraseña debe tener al menos 6 caracteres.', 'error');
           return;
         }
+
+        // Cerrar modal antes de registrar
+        if (window.bootstrap && window.bootstrap.Modal && registerModalEl) {
+          const m = window.bootstrap.Modal.getInstance(registerModalEl);
+          if (m) m.hide();
+        }
+        document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('padding-right');
 
         registerUser(name, email, pass1);
       });

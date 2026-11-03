@@ -2569,11 +2569,44 @@ main,
 .pricing-plan-card,
 .checkout-summary-card,
 .conversation-room-card,
-.support-topic-card,
-.modal-dialog,
-.modal {
+.support-topic-card {
   position: relative !important;
   z-index: 4 !important;
+}
+
+/* Modales Bootstrap: Stack nativo limpio por encima del backdrop */
+.modal {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 1060 !important;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: 0;
+}
+
+.modal-backdrop {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 1050 !important;
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal-dialog {
+  position: relative !important;
+  margin: 1.75rem auto;
+  pointer-events: auto !important;
+  z-index: 1065 !important;
+}
+
+.modal-content {
+  position: relative !important;
+  pointer-events: auto !important;
+  z-index: 1070 !important;
 }
 
 /* BOTÓN CONMUTADOR DE MODO OSCURO */
@@ -5023,8 +5056,23 @@ body.user-not-logged-in .auth-only-logged-in {
 }
 
 html.user-logged-in .auth-only-guest,
-body.user-logged-in .auth-only-guest {
+body.user-logged-in .auth-only-guest,
+html.user-logged-in #nav-guest-actions,
+body.user-logged-in #nav-guest-actions,
+.user-logged-in #nav-guest-actions {
   display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  pointer-events: none !important;
+}
+
+html.user-not-logged-in #nav-guest-actions,
+body.user-not-logged-in #nav-guest-actions {
+  display: flex !important;
 }
 
 /* Modo no autenticado: centrado perfecto del formulario sin distracciones */

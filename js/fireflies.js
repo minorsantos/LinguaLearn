@@ -202,14 +202,17 @@
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     
     // Si el canvas está dentro de un contenedor relativo como .hero-canvas
+    // Si el canvas está dentro de un contenedor relativo como .hero-canvas
     const parent = canvas.parentElement;
     if (parent && (parent.classList.contains('hero-canvas') || parent.id === 'hero-canvas')) {
-      width = parent.offsetWidth || window.innerWidth;
-      height = parent.offsetHeight || window.innerHeight;
+      width = parent.offsetWidth || window.innerWidth || 1200;
+      height = parent.offsetHeight || window.innerHeight || 800;
     } else {
-      width = window.innerWidth;
-      height = window.innerHeight;
+      width = window.innerWidth || document.documentElement.clientWidth || 1200;
+      height = window.innerHeight || document.documentElement.clientHeight || 800;
     }
+    width = Math.max(width, 320);
+    height = Math.max(height, 320);
 
     canvas.width = Math.floor(width * dpr);
     canvas.height = Math.floor(height * dpr);
@@ -228,19 +231,14 @@
   function loop() {
     if (!isRunning) return;
 
-    // Verificar si el usuario pidió reducción de movimiento
-    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isReduced = prefersReducedMotion || document.body.classList.contains('reduce-motion');
-
     ctx.clearRect(0, 0, width, height);
 
     const isDark = document.body.classList.contains('dark-mode') || 
                    document.documentElement.getAttribute('data-theme') === 'dark';
 
+    // Movimiento orgánico y continuo ininterrumpido
     for (let i = 0; i < fireflies.length; i++) {
-      if (!isReduced) {
-        fireflies[i].update();
-      }
+      fireflies[i].update();
       fireflies[i].draw(isDark);
     }
 
