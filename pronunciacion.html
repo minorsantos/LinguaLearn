@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- CONTROL DE ACCESO ESTRICTO: REDIRIGIR AL LOGIN SI NO HAY SESIÓN ACTIVA -->
+  <script>
+    (function () {
+      try {
+        var user = JSON.parse(localStorage.getItem('lingua_current_user') || '{}');
+        if (!user || user.isLoggedIn !== true) {
+          window.location.replace('index.html');
+        }
+      } catch (e) {
+        window.location.replace('index.html');
+      }
+    })();
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LinguaLearn - Práctica Oral y Ejercicio de Pronunciación</title>

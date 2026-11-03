@@ -18,7 +18,7 @@
     email: 'sofia.martinez@universidad.edu',
     password: '12345678',
     avatar: 'assets/sofia.jpg',
-    isLoggedIn: true,
+    isLoggedIn: false,
     hasCompletedTest: true,
     level: 'Básico',
     levelCode: 'A2',
@@ -105,7 +105,54 @@
       db.push(user);
     }
     saveUsersDatabase(db);
+    syncAuthState();
     syncHeaderStats();
+  }
+
+  
+  // Verificación de inicio de sesión
+  function isUserLoggedIn() {
+    try {
+      const data = localStorage.getItem(STORAGE_KEY_USER);
+      if (!data) return false;
+      const parsed = JSON.parse(data);
+      return Boolean(parsed && parsed.isLoggedIn === true);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Sincronizar clases de autenticación en <html> y <body>
+  function syncAuthState() {
+    const loggedIn = isUserLoggedIn();
+    if (loggedIn) {
+      document.documentElement.classList.add('user-logged-in');
+      document.documentElement.classList.remove('user-not-logged-in');
+      if (document.body) {
+        document.body.classList.add('user-logged-in');
+        document.body.classList.remove('user-not-logged-in');
+      }
+    } else {
+      document.documentElement.classList.add('user-not-logged-in');
+      document.documentElement.classList.remove('user-logged-in');
+      if (document.body) {
+        document.body.classList.add('user-not-logged-in');
+        document.body.classList.remove('user-logged-in');
+      }
+    }
+  }
+
+  // Inicialización de primer acceso para garantizar estado inicial no autenticado
+  if (localStorage.getItem('lingua_auth_v3_init') !== 'true') {
+    localStorage.setItem('lingua_auth_v3_init', 'true');
+    const raw = localStorage.getItem(STORAGE_KEY_USER);
+    if (raw) {
+      try {
+        const u = JSON.parse(raw);
+        u.isLoggedIn = false;
+        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(u));
+      } catch (e) {}
+    }
   }
 
   // Sincronizar estadísticas y nombre en la barra de navegación
@@ -309,6 +356,7 @@
     // Login exitoso
     user.isLoggedIn = true;
     saveCurrentUser(user);
+    syncAuthState();
     showToast(`¡Hola de nuevo, ${user.name}! Sesión iniciada.`, 'success');
 
     setTimeout(() => {
@@ -323,11 +371,12 @@
     const user = getCurrentUser();
     user.isLoggedIn = false;
     localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
+    syncAuthState();
     showToast('Has cerrado sesión correctamente. ¡Hasta pronto!', 'info');
 
     setTimeout(() => {
       window.location.href = 'index.html';
-    }, 600);
+    }, 500);
   }
 
   // 4. Verificación de correo para Recuperación de Contraseña
@@ -595,7 +644,9 @@
     setupPasswordToggles: setupPasswordToggles,
     addXP: addExperience,
     showToast: showToast,
-    syncHeader: syncHeaderStats
+    syncHeader: syncHeaderStats,
+    isLoggedIn: isUserLoggedIn,
+    syncAuth: syncAuthState
   };
 
 
@@ -625,6 +676,7 @@
     document.body.classList.remove('preload-theme');
   }, 100);
 
+    syncAuthState();
     syncHeaderStats();
     setupAuthForms();
     setupPageTransitions();

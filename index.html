@@ -201,11 +201,30 @@
       cursor: pointer;
     }
   </style>
+  <script>
+    (function () {
+      try {
+        var user = JSON.parse(localStorage.getItem('lingua_current_user') || '{}');
+        if (user && user.isLoggedIn === true) {
+          document.documentElement.classList.add('user-logged-in');
+        } else {
+          document.documentElement.classList.add('user-not-logged-in');
+        }
+      } catch (e) {
+        document.documentElement.classList.add('user-not-logged-in');
+      }
+    })();
+  </script>
 </head>
 <body class="page-inicio preload-theme">
   <script>
     if (localStorage.getItem('lingua_theme') === 'dark') {
       document.body.classList.add('dark-mode');
+    }
+    if (document.documentElement.classList.contains('user-logged-in')) {
+      document.body.classList.add('user-logged-in');
+    } else {
+      document.body.classList.add('user-not-logged-in');
     }
   </script>
 
@@ -241,7 +260,7 @@
           <i class="bi bi-keyboard"></i> Atajos [Alt + 1-5]
         </button>
         <span class="opacity-50 d-none d-md-inline">|</span>
-        <a href="dashboard.html" class="small fw-bold text-decoration-none d-none d-md-inline" style="color: #8b4429;">
+        <a href="dashboard.html" class="small fw-bold text-decoration-none d-none d-md-inline auth-only-logged-in" style="color: #8b4429;">
           <i class="bi bi-speedometer2"></i> Dashboard
         </a>
       </div>
@@ -272,14 +291,14 @@
             <span class="brand-warm-title">LinguaLearn</span>
           </a>
 
-          <!-- Botón de píldora Explore -->
-          <a href="#seccion-interactiva" class="btn-explore-pill">
+          <!-- Botón de píldora Explore (Sólo cuando hay sesión activa) -->
+          <a href="#seccion-interactiva" class="btn-explore-pill auth-only-logged-in">
             Explore
           </a>
         </div>
 
-        <!-- Enlaces rápidos de navegación derecha: Match visual exacto al prototipo -->
-        <nav class="d-none d-md-flex align-items-center gap-2 hero-nav-links flex-nowrap" aria-label="Navegación secundaria">
+        <!-- Enlaces rápidos de navegación derecha (Sólo cuando hay sesión activa) -->
+        <nav class="d-none d-md-flex align-items-center gap-2 hero-nav-links flex-nowrap auth-only-logged-in" aria-label="Navegación secundaria">
           <a href="test-diagnostico.html" class="hero-nav-link">Test Diagnóstico</a>
           <a href="dashboard.html" class="hero-nav-link">Dashboard</a>
           <a href="leccion.html" class="hero-nav-link">Lección Activa</a>
@@ -295,13 +314,157 @@
               <li><a class="dropdown-item py-2 small rounded-2" href="soporte.html"><i class="bi bi-question-circle me-2 text-info"></i> Soporte</a></li>
             </ul>
           </div>
+
+          <!-- Avatar y menú de usuario activo en navbar de Inicio -->
+          <div class="dropdown d-inline-block ms-2">
+            <button class="btn p-0 border-0 header-avatar-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Menú de usuario">
+              <img src="assets/sofia.jpg" class="header-avatar-img rounded-circle" style="width: 36px; height: 36px; object-fit: cover; border: 2px solid #caa873;" alt="Foto de perfil">
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 card-custom test-card-glass p-2 mt-2" style="min-width: 250px; z-index: 1080;">
+              <li class="px-3 py-2 border-bottom mb-1">
+                <div class="fw-bold text-dark text-truncate user-display-name">Sofia Martinez</div>
+                <div class="small text-secondary text-truncate" style="font-size: 0.775rem;">sofia.martinez@universidad.edu</div>
+                <div class="badge bg-primary-subtle text-primary mt-1 user-level-badge" style="font-size: 0.7rem;">Nivel: A2 (Básico)</div>
+              </li>
+              <li>
+                <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="perfil.html">
+                  <i class="bi bi-person-circle text-primary"></i> <span>Mi Perfil y Logros</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="dashboard.html">
+                  <i class="bi bi-speedometer2 text-success"></i> <span>Mi Dashboard</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="tickets.html">
+                  <i class="bi bi-envelope-paper text-warning"></i> <span>Mis Tickets</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="suscripcion.html">
+                  <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="soporte.html">
+                  <i class="bi bi-question-circle text-info"></i> <span>Centro de Ayuda</span>
+                </a>
+              </li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li>
+                <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-semibold">
+                  <i class="bi bi-box-arrow-right"></i> <span>Cerrar Sesión</span>
+                </button>
+              </li>
+            </ul>
+          </div>
         </nav>
+
+        <!-- ACCIONES DE INVITADO: Únicamente «Iniciar sesión» y «Registrarse» (Sólo cuando NO hay sesión) -->
+        <div class="d-flex align-items-center gap-2 auth-only-guest" id="nav-guest-actions">
+          <button type="button" class="btn-auth-nav active" id="btn-nav-login" onclick="document.getElementById('hero-user-input')?.focus();">
+            <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+          </button>
+          <button type="button" class="btn-auth-nav" id="btn-nav-register" data-bs-toggle="modal" data-bs-target="#modal-register-hero">
+            <i class="bi bi-person-plus"></i> Registrarse
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- CONTENIDO DEL HERO: 2 COLUMNAS (TÍTULO Y ACCIONES / TARJETA ORNAMENTAL) -->
+    <!-- CONTENIDO DEL HERO: VISTA SEGÚN AUTENTICACIÓN -->
     <div class="container-xl hero-main-container position-relative" style="z-index: 5;">
-      <div class="row align-items-center justify-content-between g-4">
+      
+      <!-- ========================================================
+           VISTA 1: USUARIO SIN SESIÓN (FORMULARIO CENTRADO Y LIMPIO)
+           ======================================================== -->
+      <div class="auth-only-guest w-100 justify-content-center align-items-center py-2" id="guest-hero-wrapper">
+        <div class="login-card-ornate mx-auto">
+          
+          <!-- Silueta decorativa de Pagoda en el centro superior -->
+          <svg class="pagoda-finial" viewBox="0 0 50 30" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 25,2 L 25,6" stroke="#9e7b48" stroke-width="2" stroke-linecap="round" />
+            <path d="M 18,10 Q 25,4 32,10 L 30,13 Q 25,9 20,13 Z" fill="#a8854f" />
+            <path d="M 10,18 Q 25,10 40,18 L 38,22 Q 25,15 12,22 Z" fill="#9e7b48" />
+            <path d="M 14,22 L 14,28 M 36,22 L 36,28" stroke="#9e7b48" stroke-width="1.5" />
+          </svg>
+
+          <!-- Título Serif Clásico -->
+          <h2 class="card-title-serif">INICIAR SESIÓN</h2>
+
+          <!-- Medallón Dorado de Avatar con Silueta 3D -->
+          <div class="avatar-gold-medallion" title="Identidad del Estudiante">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="7.5" r="4.2" fill="url(#goldGradientHead)" filter="drop-shadow(0 2px 2px rgba(110,75,30,0.3))"/>
+              <path d="M 4.5,20 C 4.5,15.2 7.8,13.2 12,13.2 C 16.2,13.2 19.5,15.2 19.5,20" fill="url(#goldGradientBody)" filter="drop-shadow(0 2px 2px rgba(110,75,30,0.3))"/>
+              <defs>
+                <linearGradient id="goldGradientHead" x1="12" y1="3" x2="12" y2="12" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#fff2d6"/>
+                  <stop offset="0.6" stop-color="#dfbc7a"/>
+                  <stop offset="1" stop-color="#9d7637"/>
+                </linearGradient>
+                <linearGradient id="goldGradientBody" x1="12" y1="13" x2="12" y2="20" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#fff2d6"/>
+                  <stop offset="0.5" stop-color="#dfbc7a"/>
+                  <stop offset="1" stop-color="#8a6327"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <!-- Formulario de Acceso Estilizado -->
+          <form id="form-hero-login">
+            
+            <!-- Campo 1: Usuario o Correo -->
+            <div class="input-warm-group">
+              <i class="bi bi-person input-icon-warm"></i>
+              <input type="text" id="hero-user-input" class="input-warm-underline" placeholder="Usuario o Correo" value="sofia.martinez@universidad.edu" required aria-label="Usuario o Correo">
+            </div>
+
+            <!-- Campo 2: Contraseña con Ojo Mostrar/Ocultar -->
+            <div class="input-warm-group d-flex align-items-center position-relative">
+              <i class="bi bi-key input-icon-warm"></i>
+              <input type="password" id="hero-pass-input" class="input-warm-underline flex-grow-1 pe-4" placeholder="Contraseña" value="12345678" required aria-label="Contraseña">
+              <button type="button" class="btn btn-sm text-secondary p-0 btn-toggle-password position-absolute end-0 me-2" aria-label="Mostrar u ocultar contraseña" title="Mostrar u ocultar contraseña" style="background:transparent; border:none; color: #8c7355 !important;">
+                <i class="bi bi-eye-fill"></i>
+              </button>
+            </div>
+
+            <!-- Fila: Recordar mis datos y ¿Olvidaste tu contraseña? -->
+            <div class="d-flex justify-content-between align-items-center mb-3 pt-1">
+              <div class="form-check m-0">
+                <input class="form-check-input checkbox-warm" type="checkbox" id="check-remember" checked>
+                <label class="form-check-label small label-remember-warm" for="check-remember">
+                  Recordar mis datos
+                </label>
+              </div>
+              <a href="#" class="link-forgot-warm" data-bs-toggle="modal" data-bs-target="#modal-forgot-password">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
+
+            <!-- Botón ENTRAR Metálico Bronce -->
+            <button type="submit" class="btn-entrar-metallic">
+              ENTRAR
+            </button>
+
+            <!-- Acceso a Registro -->
+            <div class="text-center mt-3 pt-2 border-top" style="border-color: rgba(202, 168, 115, 0.4) !important;">
+              <span class="small" style="color: #6c5332;">¿No tienes una cuenta?</span>
+              <button type="button" class="btn btn-link btn-sm p-0 ms-1 fw-bold text-decoration-none" style="color: #915034;" data-bs-toggle="modal" data-bs-target="#modal-register-hero">
+                Registrarse aquí
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+      <!-- ========================================================
+           VISTA 2: USUARIO CON SESIÓN ACTIVA (2 COLUMNAS EDITORIAL)
+           ======================================================== -->
+      <div class="row align-items-center justify-content-between g-4 auth-only-logged-in w-100" id="logged-hero-wrapper">
         
         <!-- Columna Izquierda: Título y Botones Terracotta -->
         <div class="col-lg-6 col-xl-6 anim-cascade-left stagger-3">
@@ -312,16 +475,16 @@
           </h1>
 
           <div class="d-flex flex-wrap align-items-center gap-3">
-            <!-- Botón 1: Empieza a Aprender con icono de mano apuntando -->
-            <a href="test-diagnostico.html" class="btn-terracotta" id="btn-hero-learn">
+            <!-- Botón 1: Ir a Dashboard -->
+            <a href="dashboard.html" class="btn-terracotta" id="btn-hero-learn">
               <span style="font-size: 1.25rem;">👉</span>
-              <span>Empieza a Aprender</span>
+              <span>Ir a Mi Dashboard</span>
             </a>
 
-            <!-- Botón 2: Registrarte -->
-            <button type="button" class="btn-terracotta" style="padding-left: 2.2rem; padding-right: 2.2rem;" data-bs-toggle="modal" data-bs-target="#modal-register-hero">
-              Registrarte
-            </button>
+            <!-- Botón 2: Continuar Lección -->
+            <a href="leccion.html" class="btn-terracotta" style="padding-left: 2.2rem; padding-right: 2.2rem;">
+              Continuar Lección
+            </a>
           </div>
 
           <!-- Enlace discreto Ver más adelante... que desliza hacia la nueva sección interactiva -->
@@ -332,11 +495,11 @@
           </div>
         </div>
 
-        <!-- Columna Derecha: Tarjeta Ornamental de Inicio de Sesión -->
+        <!-- Columna Derecha: Tarjeta Ornamental de Usuario Activo -->
         <div class="col-lg-6 col-xl-5 anim-cascade-right stagger-4 d-flex justify-content-lg-end justify-content-center">
-          <div class="login-card-ornate">
+          <div class="login-card-ornate text-center" id="logged-in-user-card">
             
-            <!-- Silueta decorativa de Pagoda en el centro superior -->
+            <!-- Silueta decorativa de Pagoda -->
             <svg class="pagoda-finial" viewBox="0 0 50 30" xmlns="http://www.w3.org/2000/svg">
               <path d="M 25,2 L 25,6" stroke="#9e7b48" stroke-width="2" stroke-linecap="round" />
               <path d="M 18,10 Q 25,4 32,10 L 30,13 Q 25,9 20,13 Z" fill="#a8854f" />
@@ -345,64 +508,32 @@
             </svg>
 
             <!-- Título Serif Clásico -->
-            <h2 class="card-title-serif">INICIAR SESIÓN</h2>
+            <h2 class="card-title-serif mb-2">¡HOLA DE NUEVO!</h2>
 
-            <!-- Medallón Dorado de Avatar con Silueta 3D -->
-            <div class="avatar-gold-medallion" title="Identidad del Estudiante">
-              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="7.5" r="4.2" fill="url(#goldGradientHead)" filter="drop-shadow(0 2px 2px rgba(110,75,30,0.3))"/>
-                <path d="M 4.5,20 C 4.5,15.2 7.8,13.2 12,13.2 C 16.2,13.2 19.5,15.2 19.5,20" fill="url(#goldGradientBody)" filter="drop-shadow(0 2px 2px rgba(110,75,30,0.3))"/>
-                <defs>
-                  <linearGradient id="goldGradientHead" x1="12" y1="3" x2="12" y2="12" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#fff2d6"/>
-                    <stop offset="0.6" stop-color="#dfbc7a"/>
-                    <stop offset="1" stop-color="#9d7637"/>
-                  </linearGradient>
-                  <linearGradient id="goldGradientBody" x1="12" y1="13" x2="12" y2="20" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#fff2d6"/>
-                    <stop offset="0.5" stop-color="#dfbc7a"/>
-                    <stop offset="1" stop-color="#8a6327"/>
-                  </linearGradient>
-                </defs>
-              </svg>
+            <div class="avatar-gold-medallion mb-3" title="Foto de perfil">
+              <img src="assets/sofia.jpg" class="header-avatar-img rounded-circle w-100 h-100 object-fit-cover" alt="Avatar">
             </div>
 
-            <!-- Formulario de Acceso Estilizado -->
-            <form id="form-hero-login">
-              
-              <!-- Campo 1: Usuario o Correo -->
-              <div class="input-warm-group">
-                <i class="bi bi-person input-icon-warm"></i>
-                <input type="text" id="hero-user-input" class="input-warm-underline" placeholder="Usuario o Correo" value="sofia.martinez@universidad.edu" required aria-label="Usuario o Correo">
-              </div>
+            <h3 class="h5 fw-bold text-dark mb-1 user-display-name">Sofia Martinez</h3>
+            <div class="small text-secondary mb-3 user-level-badge">Nivel A2 - Básico Activo</div>
 
-              <!-- Campo 2: Contraseña con Ojo Mostrar/Ocultar -->
-              <div class="input-warm-group d-flex align-items-center position-relative">
-                <i class="bi bi-key input-icon-warm"></i>
-                <input type="password" id="hero-pass-input" class="input-warm-underline flex-grow-1 pe-4" placeholder="Contraseña" value="12345678" required aria-label="Contraseña">
-                <button type="button" class="btn btn-sm text-secondary p-0 btn-toggle-password position-absolute end-0 me-2" aria-label="Mostrar u ocultar contraseña" title="Mostrar u ocultar contraseña" style="background:transparent; border:none; color: #8c7355 !important;">
-                  <i class="bi bi-eye-fill"></i>
-                </button>
+            <div class="d-flex justify-content-center gap-2 mb-3">
+              <div class="badge bg-warning-subtle text-dark border px-3 py-2 rounded-pill">
+                <i class="bi bi-fire text-warning me-1"></i> <span class="stat-streak-val">5 días</span>
               </div>
-
-              <!-- Fila: Recordar mis datos y ¿Olvidaste tu contraseña? -->
-              <div class="d-flex justify-content-between align-items-center mb-3 pt-1">
-                <div class="form-check m-0">
-                  <input class="form-check-input checkbox-warm" type="checkbox" id="check-remember" checked>
-                  <label class="form-check-label small label-remember-warm" for="check-remember">
-                    Recordar mis datos
-                  </label>
-                </div>
-                <a href="#" class="link-forgot-warm" data-bs-toggle="modal" data-bs-target="#modal-forgot-password">
-                  ¿Olvidaste tu contraseña?
-                </a>
+              <div class="badge bg-primary-subtle text-primary border px-3 py-2 rounded-pill">
+                <i class="bi bi-lightning-charge-fill me-1"></i> <span class="stat-xp-val">120 XP</span>
               </div>
+            </div>
 
-              <!-- Botón ENTRAR Metálico Bronce -->
-              <button type="submit" class="btn-entrar-metallic">
-                ENTRAR
+            <div class="d-flex flex-column gap-2 pt-2">
+              <a href="dashboard.html" class="btn-entrar-metallic text-decoration-none">
+                CONTINUAR APRENDIZAJE <i class="bi bi-arrow-right ms-1"></i>
+              </a>
+              <button type="button" class="btn btn-sm btn-link text-danger text-decoration-none btn-global-logout mt-1 fw-bold">
+                <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
               </button>
-            </form>
+            </div>
 
           </div>
         </div>
@@ -414,7 +545,7 @@
        PARTE 2 DE INICIO (AL DESLIZAR): SIMULADOR GAMIFICADO Y BANNER MUSGO
        (MATCH EXACTO AL SEGUNDO PROTOTIPO)
        ========================================================================= -->
-  <main id="seccion-interactiva" class="scroll-section-container">
+  <main id="seccion-interactiva" class="scroll-section-container auth-only-logged-in">
     <div class="container-xl">
 
       <!-- TARJETA PRINCIPAL TERRACOTA: EXPERIENCIA INTERACTIVA CENTRAL -->
@@ -847,7 +978,7 @@
   </div>
 
   <!-- PIE DE PÁGINA ACCESIBLE (WCAG 2.2 AAA) -->
-  <footer class="footer-accessible anim-cascade stagger-7" style="background-color: #f2ece0; border-top: 1px solid #dcd1be;">
+  <footer class="footer-accessible anim-cascade stagger-7 auth-only-logged-in" style="background-color: #f2ece0; border-top: 1px solid #dcd1be;">
     <div class="container-xl">
       <div class="row align-items-center g-3">
         <div class="col-md-6 d-flex align-items-center gap-2">
