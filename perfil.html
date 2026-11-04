@@ -257,7 +257,7 @@
               </span>
             </div>
             <p class="text-secondary small mb-3">
-              Selecciona el idioma que deseas practicar. La interfaz de la plataforma se mantendrá en <strong>Español</strong> y serás redirigido al <strong>Test Diagnóstico</strong> para iniciar tu ruta adaptativa.
+              Selecciona el idioma que deseas practicar. Toda la plataforma (incluyendo el Perfil) se adaptará al idioma seleccionado y serás redirigido al <strong>Test Diagnóstico</strong> para iniciar tu ruta adaptativa.
             </p>
 
             <!-- 3 Opciones de Idiomas: Inglés, Francés y Portugués -->
@@ -686,6 +686,8 @@
   <script src="js/fireflies.js"></script>
   <script src="js/accesibilidad.js"></script>
   <script src="js/app.js"></script>
+  <!-- Motor de Internacionalización Global (i18n) -->
+  <script src="js/i18n.js"></script>
   <script>
     // Micro-sonido para feedback háptico en interacciones
     function playMicroClick() {
@@ -906,11 +908,20 @@
               langBadge.textContent = `${targetCfg.flag} ${targetCfg.name} (Activo)`;
             }
 
-            // Guardar preferencia de idioma en localStorage
+            // Guardar preferencia de idioma en localStorage e i18n
             LinguaApp.setTargetLanguage(selectedLang);
+            if (window.LinguaI18n && window.LinguaI18n.setLanguage) {
+              window.LinguaI18n.setLanguage(selectedLang);
+            }
 
             // Notificación visual y redirección ordenada al Test Diagnóstico
-            LinguaApp.showToast(`¡Idioma actualizado a ${targetCfg.name}! Iniciando Test Diagnóstico...`, 'success');
+            const toastMsgs = {
+              en: 'Language updated to English! Starting Placement Test...',
+              fr: 'Langue mise à jour en Français ! Démarrage du Test diagnostique...',
+              pt: 'Idioma atualizado para Português! Iniciando Teste Diagnóstico...'
+            };
+            const toastText = toastMsgs[selectedLang] || `¡Idioma actualizado a ${targetCfg.name}! Iniciando Test Diagnóstico...`;
+            LinguaApp.showToast(toastText, 'success');
 
             setTimeout(() => {
               window.location.href = 'test-diagnostico.html';
