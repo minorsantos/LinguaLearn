@@ -109,17 +109,17 @@
         id: 'D-FR-1',
         category: 'Saludos y Presentación · Nivel Inicial (A1)',
         question: 'Selecciona la forma correcta para completar la presentación en francés:',
-        sentence: '« Bonjour ! Je [m'appelle] Julien et j'habite à Paris. »',
-        speechSentence: 'Bonjour ! Je m'appelle Julien et j'habite à Paris.',
-        blankSlot: 'm'appelle',
+        sentence: "« Bonjour ! Je [m'appelle] Julien et j'habite à Paris. »",
+        speechSentence: "Bonjour ! Je m'appelle Julien et j'habite à Paris.",
+        blankSlot: "m'appelle",
         translation: '¡Hola! Me llamo Julien y vivo en París.',
         options: [
-          { letter: 'A', text: 'appelle', desc: 'Verbo to be/llamarse sin pronombre reflexivo', correct: false },
-          { letter: 'B', text: 'm'appelle', desc: 'Forma reflexiva correcta en 1ª persona singular (je)', correct: true },
-          { letter: 'C', text: 't'appelles', desc: 'Segunda persona singular para "tu"', correct: false },
-          { letter: 'D', text: 's'appelle', desc: 'Tercera persona singular para "il/elle"', correct: false }
+          { letter: 'A', text: 'appelle', desc: 'Verbo llamarse sin pronombre reflexivo', correct: false },
+          { letter: 'B', text: "m'appelle", desc: 'Forma reflexiva correcta en 1ª persona singular (je)', correct: true },
+          { letter: 'C', text: "t'appelles", desc: 'Segunda persona singular para "tu"', correct: false },
+          { letter: 'D', text: "s'appelle", desc: 'Tercera persona singular para "il/elle"', correct: false }
         ],
-        empathyTip: 'En francés, el verbo reflexivo "s'appeler" requiere la contracción "m'" delante de vocal para la primera persona singular.',
+        empathyTip: 'En francés, el verbo reflexivo "s\'appeler" requiere la contracción "m\'" delante de vocal para la primera persona singular.',
         immersionText: 'Presentarse con naturalidad y cortesía en francés abre puertas inmediatas en viajes y entornos de estudio.'
       },
       {
@@ -715,8 +715,41 @@ Has ganado +50 XP.`);
     if (btnPrev) btnPrev.addEventListener('click', prevQuestion);
   }
 
-  // Iniciar siempre desde la Pregunta 1 limpia al cargar la página
-  document.addEventListener('DOMContentLoaded', () => {
-    initTest();
+  // Escuchar cambios de idioma en tiempo real (desde perfil u otros componentes)
+  window.addEventListener('lingua:language-changed', function (e) {
+    currentQuestionIndex = 0;
+    userAnswers = {};
+    renderQuestion(0);
+    if (window.LinguaApp && window.LinguaApp.updateLanguageBadges) {
+      window.LinguaApp.updateLanguageBadges(e.detail ? e.detail.lang : null);
+    }
   });
+
+  window.addEventListener('storage', function (e) {
+    if (e.key === 'lingua_target_language') {
+      currentQuestionIndex = 0;
+      userAnswers = {};
+      renderQuestion(0);
+      if (window.LinguaApp && window.LinguaApp.updateLanguageBadges) {
+        window.LinguaApp.updateLanguageBadges(e.newValue);
+      }
+    }
+  });
+
+  // Exponer API del test para interoperabilidad
+  window.LinguaTest = {
+    init: initTest,
+    render: renderQuestion,
+    getActiveQuestions: getActiveQuestions,
+    selectOption: selectOption,
+    next: nextQuestion,
+    prev: prevQuestion
+  };
+
+  // Iniciar siempre desde la Pregunta 1 limpia al cargar la página
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTest);
+  } else {
+    initTest();
+  }
 })();

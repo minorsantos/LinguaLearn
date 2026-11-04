@@ -802,6 +802,9 @@
     user.targetLanguage = lang;
     saveCurrentUser(user);
     updateLanguageBadges(lang);
+    try {
+      window.dispatchEvent(new CustomEvent('lingua:language-changed', { detail: { lang: lang } }));
+    } catch (e) {}
     return lang;
   }
 

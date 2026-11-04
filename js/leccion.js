@@ -743,6 +743,23 @@ let LESSON_EXERCISES = [];
     });
   }
 
+  // Escuchar cambios de idioma en tiempo real
+  window.addEventListener('lingua:language-changed', function (e) {
+    initLesson();
+    if (window.LinguaApp && window.LinguaApp.updateLanguageBadges) {
+      window.LinguaApp.updateLanguageBadges(e.detail ? e.detail.lang : null);
+    }
+  });
+
+  window.addEventListener('storage', function (e) {
+    if (e.key === 'lingua_target_language') {
+      initLesson();
+      if (window.LinguaApp && window.LinguaApp.updateLanguageBadges) {
+        window.LinguaApp.updateLanguageBadges(e.newValue);
+      }
+    }
+  });
+
   // Exponer a nivel de ventana para integración
   window.LinguaLesson = {
     init: initLesson,
@@ -750,6 +767,10 @@ let LESSON_EXERCISES = [];
     next: nextStep
   };
 
-  // Inicializar al cargar el DOM
-  document.addEventListener('DOMContentLoaded', initLesson);
+  // Inicializar al cargar el DOM o inmediatamente si ya está listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLesson);
+  } else {
+    initLesson();
+  }
 })();

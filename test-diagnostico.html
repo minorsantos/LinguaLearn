@@ -383,9 +383,56 @@
             <span class="small opacity-75">Usa teclas [1, 2, 3, 4]</span>
           </div>
 
-          <!-- Grid de Opciones Dinámicas A, B, C, D -->
+          <!-- Grid de Opciones Dinámicas A, B, C, D (Ubicadas justo encima de los botones de navegación) -->
           <div class="row g-3 mb-3" id="test-options-container">
-            <!-- Renderizado dinámico desde js/test.js -->
+            <div class="col-md-6 anim-cascade stagger-1">
+              <button type="button" class="cloud-option-card" data-option-index="0" data-option-letter="A" aria-pressed="false">
+                <div class="d-flex align-items-center">
+                  <div class="cloud-opt-letter">A</div>
+                  <div>
+                    <div class="cloud-opt-text-main">is</div>
+                    <div class="cloud-opt-text-sub">Concordancia para tercera persona singular</div>
+                  </div>
+                </div>
+                <div class="cloud-opt-indicator"></div>
+              </button>
+            </div>
+            <div class="col-md-6 anim-cascade stagger-2">
+              <button type="button" class="cloud-option-card" data-option-index="1" data-option-letter="B" aria-pressed="false">
+                <div class="d-flex align-items-center">
+                  <div class="cloud-opt-letter">B</div>
+                  <div>
+                    <div class="cloud-opt-text-main">am</div>
+                    <div class="cloud-opt-text-sub">Uso exclusivo para primera persona "I"</div>
+                  </div>
+                </div>
+                <div class="cloud-opt-indicator"></div>
+              </button>
+            </div>
+            <div class="col-md-6 anim-cascade stagger-3">
+              <button type="button" class="cloud-option-card" data-option-index="2" data-option-letter="C" aria-pressed="false">
+                <div class="d-flex align-items-center">
+                  <div class="cloud-opt-letter">C</div>
+                  <div>
+                    <div class="cloud-opt-text-main">are</div>
+                    <div class="cloud-opt-text-sub">Forma correcta del verbo to be para el pronombre "you"</div>
+                  </div>
+                </div>
+                <div class="cloud-opt-indicator"></div>
+              </button>
+            </div>
+            <div class="col-md-6 anim-cascade stagger-4">
+              <button type="button" class="cloud-option-card" data-option-index="3" data-option-letter="D" aria-pressed="false">
+                <div class="d-flex align-items-center">
+                  <div class="cloud-opt-letter">D</div>
+                  <div>
+                    <div class="cloud-opt-text-main">be</div>
+                    <div class="cloud-opt-text-sub">Forma infinitiva sin conjugar</div>
+                  </div>
+                </div>
+                <div class="cloud-opt-indicator"></div>
+              </button>
+            </div>
           </div>
 
           <!-- BARRA DE ACCIÓN INMEDIATA: SIGUIENTE / ANTERIOR (DIRECTAMENTE DEBAJO DE LAS OPCIONES) -->
