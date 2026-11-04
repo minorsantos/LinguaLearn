@@ -238,7 +238,7 @@
           <span class="small fw-bold text-primary" id="test-progress-text">40% completado</span>
         </div>
         <div class="cloud-progress-track">
-          <div class="cloud-progress-fluid" id="test-progress-bar" style="width: 40%;"></div>
+          <div class="cloud-progress-fluid" id="test-progress-bar" style="width: 20%;"></div>
         </div>
       </div>
 
@@ -251,20 +251,20 @@
         <!-- Fila de Etiquetas Superiores -->
         <div class="d-flex justify-content-between align-items-center mb-3">
           <span class="cloud-badge-level" id="test-badge-category" style="font-size: 0.78rem;">
-            Gramática y Vocabulario contextual - Nivel Inicial
+            Saludos e Identidad · Nivel Inicial (A1)
           </span>
-          <span class="cloud-item-id" id="test-item-tag">Ítem #D-104</span>
+          <span class="cloud-item-id" id="test-item-tag">Ítem #D-201</span>
         </div>
 
         <!-- Enunciado de la Pregunta -->
         <h2 class="h5 fw-bold mb-4" id="test-question-text" style="color: inherit;">
-          Completa la frase en inglés con la conjugación correcta:
+          Selecciona la opción correcta para completar la pregunta de presentación:
         </h2>
 
         <!-- BURBUJA DE FRASE EN ESTUDIO (CLOUD SPEECH BUBBLE) -->
         <div class="cloud-quote-bubble anim-cascade stagger-5" id="test-sentence-container">
           <p class="fs-4 mb-2 fw-semibold lh-base" id="test-sentence-box" style="color: inherit;">
-            “Every morning, she <span id="sentence-blank-pill" class="cloud-blank-slot">drinks</span> a fresh cup of coffee before starting work.”
+            “Nice to meet you! Where <span id="sentence-blank-pill" class="cloud-blank-slot">______</span> you from?”
           </p>
 
           <!-- Fila de Apoyo Pedagógico Sutil con Hojas Verdes -->
@@ -279,31 +279,13 @@
 
           <!-- Caja de Traducción Manual Desplegable -->
           <div id="box-manual-translation" class="d-none mt-2 p-2 px-3 rounded-3 small fst-italic cloud-stat-chip w-100">
-            “Cada mañana, ella toma una taza de café fresco antes de empezar a trabajar.”
+            “¡Mucho gusto en conocerte! ¿De dónde eres?”
           </div>
         </div>
 
         <!-- BANNER ORGÁNICO DE REFUERZO AL RESPONDER (COLOR MENTA / VERDE AGUA O TEAL) -->
-        <div id="box-reinforcement-translation" class="mb-3">
-          <div class="cloud-reinforce-banner anim-pop-in">
-            <div>
-              <div class="cloud-reinforce-title">
-                <i class="bi bi-chat-square-quote-fill me-1"></i> Refuerzo al responder (Traducción completa):
-              </div>
-              <div class="cloud-reinforce-text">
-                “Cada mañana, ella toma una taza de café fresco antes de empezar a trabajar.”
-              </div>
-            </div>
-            <div class="cloud-wind-swirls d-none d-sm-block">
-              <svg viewBox="0 0 70 28" width="60" height="24" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.75">
-                <path d="M4 14 Q20 4 36 14 T68 14" stroke-linecap="round"/>
-                <path d="M12 8 Q24 2 36 8 T56 8" stroke-linecap="round"/>
-                <path d="M18 20 Q30 24 44 20 T62 20" stroke-linecap="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-
+        <!-- BANNER ORGÁNICO DE REFUERZO AL RESPONDER (COLOR MENTA / VERDE AGUA O TEAL) -->
+        <div id="box-reinforcement-translation" class="mb-3 d-none"></div>
         <!-- BARRA DE AUDIO CON PAJARITOS POSADOS EN EL BORDE -->
         <div class="cloud-audio-bar-wrapper anim-cascade stagger-5">
           <!-- Tres pajaritos descansando en la baranda -->
@@ -401,35 +383,35 @@
           </div>
 
           <!-- Grid de Opciones Dinámicas A, B, C, D -->
-          <div class="row g-3 mb-4" id="test-options-container">
+          <div class="row g-3 mb-3" id="test-options-container">
             <!-- Renderizado dinámico desde js/test.js -->
           </div>
-        </div>
 
-        <!-- TIP MOTIVADOR Y HÁBITO -->
-        <div class="cloud-quote-bubble p-3 p-md-4 mb-2 text-center overflow-hidden position-relative anim-cascade stagger-7">
-          <img src="assets/tip_motivador_habito.png" 
-               alt="TIP motivador y hábito: 5 minutos diarios vs 1 hora semanal. El secreto está en la repetición." 
-               class="img-fluid rounded-3 shadow-sm w-100" 
-               style="max-height: 380px; object-fit: contain;">
+          <!-- BARRA DE ACCIÓN INMEDIATA: SIGUIENTE / ANTERIOR (DIRECTAMENTE DEBAJO DE LAS OPCIONES) -->
+          <div class="card-custom test-card-glass p-3 mt-2 mb-2 d-flex justify-content-between align-items-center flex-wrap gap-3 anim-cascade stagger-7" id="test-action-bar-direct">
+            <button type="button" class="btn btn-secondary-custom test-pill-glass" id="btn-test-prev">
+              <i class="bi bi-arrow-left"></i> Anterior
+            </button>
+
+            <div class="keyboard-shortcuts-helper test-pill-glass d-none d-sm-flex align-items-center gap-1">
+              <i class="bi bi-keyboard text-secondary"></i>
+              <span>Pulsa <kbd class="kbd-badge">1 - 4</kbd> o <kbd class="kbd-badge">Enter</kbd> para avanzar</span>
+            </div>
+
+            <button type="button" class="btn btn-primary-custom px-4 py-2 fw-bold shadow-sm" id="btn-test-next">
+              <span>Siguiente Pregunta</span>
+              <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- BARRA DE ACCIÓN Y NAVEGACIÓN INFERIOR (VIDRIO ESMERILADO MARFIL) -->
-      <div class="card-custom test-card-glass p-3 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3 anim-cascade stagger-8">
-        <button type="button" class="btn btn-secondary-custom test-pill-glass" id="btn-test-prev">
-          <i class="bi bi-arrow-left"></i> Anterior
-        </button>
-
-        <div class="keyboard-shortcuts-helper test-pill-glass">
-          <i class="bi bi-keyboard text-secondary"></i>
-          <span>Pulsa <kbd class="kbd-badge">1 - 4</kbd> o <kbd class="kbd-badge">Enter</kbd> para avanzar</span>
-        </div>
-
-        <button type="button" class="btn-primary-custom" id="btn-test-next">
-          <span>Siguiente Pregunta</span>
-          <i class="bi bi-arrow-right"></i>
-        </button>
+      <!-- TIP MOTIVADOR Y HÁBITO (UBICADO DEBAJO PARA NO OBSTRUIR EL BOTÓN SIGUIENTE) -->
+      <div class="cloud-quote-bubble p-3 p-md-4 mb-3 text-center overflow-hidden position-relative anim-cascade stagger-8">
+        <img src="assets/tip_motivador_habito.png" 
+             alt="TIP motivador y hábito: 5 minutos diarios vs 1 hora semanal. El secreto está en la repetición." 
+             class="img-fluid rounded-3 shadow-sm w-100" 
+             style="max-height: 280px; object-fit: contain;">
       </div>
 
       <!-- Nota de Confianza y Calibración -->

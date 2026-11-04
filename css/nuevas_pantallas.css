@@ -412,81 +412,50 @@ body.dark-mode .cloud-chip-speed {
   border: 2px solid transparent;
 }
 
-/* Opción A (drinks - Seleccionada / Correcta como en la imagen) */
-.cloud-option-a {
-  background: linear-gradient(135deg, #cde5fc 0%, #b2d9fc 100%);
-  border-color: #72b1ea;
-  box-shadow: 0 8px 22px rgba(60, 130, 210, 0.22);
+/* Opciones de Respuesta Dinámicas - Estilo Base Uniforme */
+.cloud-option-card {
+  background: #fdfaf3 !important;
+  border: 2px solid #e5d7c3 !important;
+  box-shadow: 0 6px 16px rgba(120, 85, 45, 0.06) !important;
 }
 
-body.dark-mode .cloud-option-a {
-  background: linear-gradient(135deg, #1b3854 0%, #12283d 100%);
-  border-color: #38bdf8;
-  box-shadow: 0 8px 26px rgba(56, 189, 248, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.15);
-}
-
-/* Opción B (drank) */
-.cloud-option-b {
-  background: #fdfaf3;
-  border-color: #e5d7c3;
-  box-shadow: 0 6px 16px rgba(120, 85, 45, 0.06);
-}
-
-body.dark-mode .cloud-option-b {
-  background: #182637;
-  border-color: #32455b;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-}
-
-/* Opción C (is drink) */
-.cloud-option-c {
-  background: #f4ecf7;
-  border-color: #dac7e4;
-  box-shadow: 0 6px 16px rgba(120, 85, 45, 0.06);
-}
-
-body.dark-mode .cloud-option-c {
-  background: #182637;
-  border-color: #32455b;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-}
-
-/* Opción D (has drink) */
-.cloud-option-d {
-  background: #faece3;
-  border-color: #eacab7;
-  box-shadow: 0 6px 16px rgba(120, 85, 45, 0.06);
-}
-
-body.dark-mode .cloud-option-d {
-  background: #182637;
-  border-color: #32455b;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+body.dark-mode .cloud-option-card {
+  background: #152232 !important;
+  border-color: rgba(56, 95, 125, 0.6) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4) !important;
 }
 
 .cloud-option-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(100, 70, 30, 0.14);
+  transform: translateY(-2px) !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 10px 24px rgba(56, 189, 248, 0.22) !important;
 }
 
 body.dark-mode .cloud-option-card:hover {
-  border-color: #60a5fa;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+  border-color: #38bdf8 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 28px rgba(56, 189, 248, 0.28) !important;
 }
 
+/* OPCIÓN SELECCIONADA DINÁMICAMENTE (Se aplica a cualquier opción A, B, C o D que el usuario marque) */
 .cloud-option-card.selected {
-  outline: 2px solid #2563eb;
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #cde5fc 0%, #b2d9fc 100%) !important;
+  border: 2.5px solid #2563eb !important;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.32), 0 0 0 2px #2563eb !important;
+  transform: translateY(-2px) !important;
 }
 
 body.dark-mode .cloud-option-card.selected {
-  outline: 2px solid #38bdf8;
+  background: linear-gradient(135deg, #1b3854 0%, #12283d 100%) !important;
+  border: 2.5px solid #38bdf8 !important;
+  box-shadow: 0 8px 26px rgba(56, 189, 248, 0.42), 0 0 0 2px #38bdf8 !important;
+  transform: translateY(-2px) !important;
 }
 
+/* Círculo con letra: Neutral por defecto */
 .cloud-opt-letter {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -497,11 +466,7 @@ body.dark-mode .cloud-option-card.selected {
   color: #3f3223;
   margin-right: 1rem;
   flex-shrink: 0;
-}
-
-.cloud-option-a .cloud-opt-letter {
-  background: #3988d1;
-  color: #ffffff;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 body.dark-mode .cloud-opt-letter {
@@ -509,9 +474,27 @@ body.dark-mode .cloud-opt-letter {
   color: #e2e8f0;
 }
 
-body.dark-mode .cloud-option-a .cloud-opt-letter {
-  background: #0284c7;
-  color: #ffffff;
+/* CÍRCULO AZUL DINÁMICO QUE SE TRASLADA A LA OPCIÓN QUE EL USUARIO MARCA */
+.cloud-option-card.selected .cloud-opt-letter {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.5) !important;
+  transform: scale(1.1) !important;
+}
+
+body.dark-mode .cloud-option-card.selected .cloud-opt-letter {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.6) !important;
+  transform: scale(1.1) !important;
+}
+
+.cloud-option-card.selected .cloud-opt-text-main {
+  color: #0369a1 !important;
+}
+
+body.dark-mode .cloud-option-card.selected .cloud-opt-text-main {
+  color: #7dd3fc !important;
 }
 
 .cloud-opt-text-main {
