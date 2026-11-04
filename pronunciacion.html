@@ -187,9 +187,10 @@
       <!-- BARRA DE PROGRESO DEL EJERCICIO -->
       <div class="card-custom test-card-glass mb-4 p-3 anim-cascade stagger-3">
         <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
-          <div class="d-flex align-items-center gap-2">
+          <div class="d-flex align-items-center gap-2 flex-wrap">
             <span class="badge bg-primary text-white rounded-pill px-3 py-1">Voz y Habla</span>
-            <span class="fw-bold small text-dark" id="exercise-step-label">Ejercicio 3 de 6 · Práctica de Fonética</span>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill active-target-lang-badge">🇬🇧 Inglés</span>
+            <span class="fw-bold small text-dark" id="exercise-step-label">Ejercicio 1 de 5 · Práctica de Fonética</span>
           </div>
           <div class="d-flex align-items-center gap-2 small">
             <span class="badge bg-success-subtle text-success border">+15 XP al completar</span>
@@ -223,8 +224,8 @@
         </h1>
 
         <!-- TRANSCRIPCIÓN FONÉTICA IPA -->
-        <div class="text-secondary small fst-italic mb-3" style="font-family: monospace; font-size: 0.95rem;">
-          [ ɡʊd ˈmɔːnɪŋ! aɪ wʊd laɪk tuː ˈɔːrdər ə freʃ kʌp əv ˈkɒfi, pliːz ]
+        <div class="text-secondary small fst-italic mb-3" id="target-phrase-ipa" style="font-family: monospace; font-size: 0.95rem;">
+          [ həˈləʊ! haʊ ɑː juː təˈdeɪ? ]
         </div>
 
         <!-- CONTROLES DE AUDIO NATIVO Y SELECTOR DE VELOCIDADES PERSONALIZABLE -->
@@ -387,83 +388,232 @@
   <!-- LÓGICA INTERACTIVA DE GRABACIÓN, EVALUACIÓN FONÉTICA Y VELOCIDADES -->
   <script>
     (function () {
-      'use strict';
+      'use strict';      // 1. BANCO DE FRASES MULTIIDIOMA (INGLÉS PRINCIPAL, FRANCÉS Y PORTUGUÉS)
+      const PHRASES_BY_LANGUAGE = {
+        // --------------------------------------------------------------------
+        // INGLÉS (Idioma Principal)
+        // --------------------------------------------------------------------
+        en: [
+          {
+            text: 'Hello! How are you today?',
+            ipa: '[ həˈləʊ! haʊ ɑː juː təˈdeɪ? ]',
+            es: '¡Hola! ¿Cómo estás hoy?',
+            words: [
+              { text: 'Hello!', status: 'green', score: 96, tip: 'Sonido /h/ aspirado suave desde la garganta.' },
+              { text: 'How', status: 'green', score: 95, tip: 'Diptongo /aʊ/ con apertura bucal natural.' },
+              { text: 'are', status: 'green', score: 98, tip: 'Vocal /ɑː/ abierta y relajada.' },
+              { text: 'you', status: 'green', score: 94, tip: 'Semivocal /j/ suave y continua.' },
+              { text: 'today?', status: 'orange', score: 85, tip: 'La primera sílaba "to-" suena como /tə/ schwa relajada, no "tu".' }
+            ]
+          },
+          {
+            text: 'Can I have some water, please?',
+            ipa: '[ kæn aɪ hæv sʌm ˈwɔːtər, pliːz? ]',
+            es: '¿Puedo tomar un poco de agua, por favor?',
+            words: [
+              { text: 'Can', status: 'green', score: 95, tip: 'Vocal /æ/ abierta.' },
+              { text: 'I', status: 'green', score: 98, tip: 'Diptongo claro /aɪ/.' },
+              { text: 'have', status: 'green', score: 92, tip: 'Terminación /v/ con dientes superiores en labio inferior.' },
+              { text: 'some', status: 'green', score: 94, tip: 'Vocal central corta /ʌ/.' },
+              { text: 'water,', status: 'orange', score: 84, tip: 'En inglés cotidiano la "t" suena como flap tap /ɾ/ suave ("wá-der").' },
+              { text: 'please?', status: 'green', score: 97, tip: 'Vocal larga /iː/ con "s" sonora /z/.' }
+            ]
+          },
+          {
+            text: 'I love learning English every day.',
+            ipa: '[ aɪ lʌv ˈlɜːnɪŋ ˈɪŋɡlɪʃ ˈevri deɪ ]',
+            es: 'Me encanta aprender inglés todos los días.',
+            words: [
+              { text: 'I', status: 'green', score: 98, tip: 'Diptongo /aɪ/ sonoro.' },
+              { text: 'love', status: 'green', score: 94, tip: 'Vocal /ʌ/ corta y relajada.' },
+              { text: 'learning', status: 'orange', score: 83, tip: 'Vocal /ɜː/ centrada sin forzar la "r" dura española.' },
+              { text: 'English', status: 'green', score: 95, tip: 'Sonido /ŋ/ nasal antes de /ɡ/.' },
+              { text: 'every', status: 'green', score: 93, tip: 'Dos sílabas continuas /ˈev.ri/.' },
+              { text: 'day.', status: 'green', score: 96, tip: 'Diptongo /deɪ/ limpio.' }
+            ]
+          },
+          {
+            text: 'Thank you so much for your help!',
+            ipa: '[ θæŋk juː səʊ mʌtʃ fɔː jɔː help! ]',
+            es: '¡Muchas gracias por tu ayuda!',
+            words: [
+              { text: 'Thank', status: 'orange', score: 82, tip: 'Sonido /θ/ interdental: coloca suavemente la punta de la lengua entre los dientes.' },
+              { text: 'you', status: 'green', score: 96, tip: 'Pronombre /juː/ fluido.' },
+              { text: 'so', status: 'green', score: 95, tip: 'Diptongo /səʊ/.' },
+              { text: 'much', status: 'green', score: 94, tip: 'Sonido africado final /tʃ/.' },
+              { text: 'for', status: 'green', score: 92, tip: 'Preposición /fɔː/ corta.' },
+              { text: 'your', status: 'green', score: 95, tip: 'Sonido /jɔː/.' },
+              { text: 'help!', status: 'green', score: 97, tip: 'Vocal corta /e/ con aspiración limpia.' }
+            ]
+          },
+          {
+            text: 'Have a wonderful and happy day!',
+            ipa: '[ hæv ə ˈwʌndəfl ənd ˈhæpi deɪ! ]',
+            es: '¡Que tengas un día maravilloso y feliz!',
+            words: [
+              { text: 'Have', status: 'green', score: 95, tip: 'Vocal /æ/.' },
+              { text: 'a', status: 'green', score: 98, tip: 'Schwa /ə/ átona suave.' },
+              { text: 'wonderful', status: 'orange', score: 86, tip: 'Acentúa firmemente la primera sílaba /ˈwʌn/.' },
+              { text: 'and', status: 'green', score: 94, tip: 'Conexión suave /ənd/.' },
+              { text: 'happy', status: 'green', score: 96, tip: 'Sonido /h/ aspirado.' },
+              { text: 'day!', status: 'green', score: 98, tip: 'Diptongo /deɪ/.' }
+            ]
+          }
+        ],
 
-      // 1. BANCO DE FRASES SENCILLAS Y COTIDIANAS (PRONUNCIACIÓN ACCESIBLE)
-      const PHRASES = [
-        {
-          en: 'Hello! How are you today?',
-          ipa: '[ həˈləʊ! haʊ ɑː juː təˈdeɪ? ]',
-          es: '¡Hola! ¿Cómo estás hoy?',
-          words: [
-            { text: 'Hello!', status: 'green', score: 96, tip: 'Sonido /h/ aspirado suave desde la garganta.' },
-            { text: 'How', status: 'green', score: 95, tip: 'Diptongo /aʊ/ con apertura bucal natural.' },
-            { text: 'are', status: 'green', score: 98, tip: 'Vocal /ɑː/ abierta y relajada.' },
-            { text: 'you', status: 'green', score: 94, tip: 'Semivocal /j/ suave y continua.' },
-            { text: 'today?', status: 'orange', score: 85, tip: 'La primera sílaba "to-" suena como /tə/ schwa relajada, no "tu".' }
-          ]
-        },
-        {
-          en: 'Can I have some water, please?',
-          ipa: '[ kæn aɪ hæv sʌm ˈwɔːtər, pliːz? ]',
-          es: '¿Puedo tomar un poco de agua, por favor?',
-          words: [
-            { text: 'Can', status: 'green', score: 95, tip: 'Vocal /æ/ abierta.' },
-            { text: 'I', status: 'green', score: 98, tip: 'Diptongo claro /aɪ/.' },
-            { text: 'have', status: 'green', score: 92, tip: 'Terminación /v/ con dientes superiores en labio inferior.' },
-            { text: 'some', status: 'green', score: 94, tip: 'Vocal central corta /ʌ/.' },
-            { text: 'water,', status: 'orange', score: 84, tip: 'En inglés cotidiano la "t" suena como flap tap /ɾ/ suave ("wá-der").' },
-            { text: 'please?', status: 'green', score: 97, tip: 'Vocal larga /iː/ con "s" sonora /z/.' }
-          ]
-        },
-        {
-          en: 'I love learning English every day.',
-          ipa: '[ aɪ lʌv ˈlɜːnɪŋ ˈɪŋɡlɪʃ ˈevri deɪ ]',
-          es: 'Me encanta aprender inglés todos los días.',
-          words: [
-            { text: 'I', status: 'green', score: 98, tip: 'Diptongo /aɪ/ sonoro.' },
-            { text: 'love', status: 'green', score: 94, tip: 'Vocal /ʌ/ corta y relajada.' },
-            { text: 'learning', status: 'orange', score: 83, tip: 'Vocal /ɜː/ centrada sin forzar la "r" dura española.' },
-            { text: 'English', status: 'green', score: 95, tip: 'Sonido /ŋ/ nasal antes de /ɡ/.' },
-            { text: 'every', status: 'green', score: 93, tip: 'Dos sílabas continuas /ˈev.ri/.' },
-            { text: 'day.', status: 'green', score: 96, tip: 'Diptongo /deɪ/ limpio.' }
-          ]
-        },
-        {
-          en: 'Thank you so much for your help!',
-          ipa: '[ θæŋk juː səʊ mʌtʃ fɔː jɔː help! ]',
-          es: '¡Muchas gracias por tu ayuda!',
-          words: [
-            { text: 'Thank', status: 'orange', score: 82, tip: 'Sonido /θ/ interdental: coloca suavemente la punta de la lengua entre los dientes.' },
-            { text: 'you', status: 'green', score: 96, tip: 'Pronombre /juː/ fluido.' },
-            { text: 'so', status: 'green', score: 95, tip: 'Diptongo /səʊ/.' },
-            { text: 'much', status: 'green', score: 94, tip: 'Sonido africado final /tʃ/.' },
-            { text: 'for', status: 'green', score: 92, tip: 'Preposición /fɔː/ corta.' },
-            { text: 'your', status: 'green', score: 95, tip: 'Sonido /jɔː/.' },
-            { text: 'help!', status: 'green', score: 97, tip: 'Vocal corta /e/ con aspiración limpia.' }
-          ]
-        },
-        {
-          en: 'Have a wonderful and happy day!',
-          ipa: '[ hæv ə ˈwʌndəfl ənd ˈhæpi deɪ! ]',
-          es: '¡Que tengas un día maravilloso y feliz!',
-          words: [
-            { text: 'Have', status: 'green', score: 95, tip: 'Vocal /æ/.' },
-            { text: 'a', status: 'green', score: 98, tip: 'Schwa /ə/ átona suave.' },
-            { text: 'wonderful', status: 'orange', score: 86, tip: 'Acentúa firmemente la primera sílaba /ˈwʌn/.' },
-            { text: 'and', status: 'green', score: 94, tip: 'Conexión suave /ənd/.' },
-            { text: 'happy', status: 'green', score: 96, tip: 'Sonido /h/ aspirado.' },
-            { text: 'day!', status: 'green', score: 98, tip: 'Diptongo /deɪ/.' }
-          ]
-        }
-      ];
+        // --------------------------------------------------------------------
+        // FRANCÉS
+        // --------------------------------------------------------------------
+        fr: [
+          {
+            text: 'Bonjour ! Comment allez-vous aujourd\'hui ?',
+            ipa: '[ bɔ̃.ʒuʁ ! kɔ.mɑ̃ ta.le vu o.ʒuʁ.dɥi ? ]',
+            es: '¡Buenos días! ¿Cómo está usted hoy?',
+            words: [
+              { text: 'Bonjour !', status: 'green', score: 97, tip: 'Vocal nasal /ɔ̃/ seguida de "jour" con /u/ cerrada.' },
+              { text: 'Comment', status: 'green', score: 95, tip: 'Nasal /ɑ̃/ sin pronunciar la "t" final muda.' },
+              { text: 'allez-vous', status: 'green', score: 94, tip: 'Liaison fluida en /z/ entre allez y vous.' },
+              { text: 'aujourd\'hui ?', status: 'orange', score: 85, tip: 'Sonido /ʒ/ sonoro con terminación semivocálica /ɥi/.' }
+            ]
+          },
+          {
+            text: 'Puis-je avoir de l\'eau, s\'il vous plaît ?',
+            ipa: '[ pɥi ʒ‿a.vwaʁ də lo sil vu plɛ ? ]',
+            es: '¿Puedo tomar un poco de agua, por favor?',
+            words: [
+              { text: 'Puis-je', status: 'green', score: 93, tip: 'Semivocal /ɥ/ anterior redondeada.' },
+              { text: 'avoir', status: 'green', score: 95, tip: 'Diptongo /waʁ/ gutural suave.' },
+              { text: 'de l\'eau,', status: 'green', score: 96, tip: 'Vocal cerrada /o/ en "l\'eau".' },
+              { text: 's\'il vous plaît ?', status: 'orange', score: 86, tip: 'Acento circunflejo en plaît con vocal abierta /ɛ/.' }
+            ]
+          },
+          {
+            text: 'J\'aime apprendre les langues chaque jour.',
+            ipa: '[ ʒɛm a.pʁɑ̃dʁ le lɑ̃ɡ ʃak ʒuʁ ]',
+            es: 'Me encanta aprender idiomas todos los días.',
+            words: [
+              { text: 'J\'aime', status: 'green', score: 96, tip: 'Elisión suave /ʒɛm/ con vocal abierta.' },
+              { text: 'apprendre', status: 'orange', score: 84, tip: 'Vocal nasal /ɑ̃/ y "r" uvular francesa.' },
+              { text: 'les langues', status: 'green', score: 95, tip: 'Plural silencioso sin pronunciar la "s".' },
+              { text: 'chaque', status: 'green', score: 94, tip: 'Fricativa postalveolar sorda /ʃ/.' },
+              { text: 'jour.', status: 'green', score: 97, tip: 'Vocal cerrada /u/.' }
+            ]
+          },
+          {
+            text: 'Merci beaucoup pour votre aide !',
+            ipa: '[ mɛʁ.si bo.ku puʁ vɔ.tʁ‿ɛd ! ]',
+            es: '¡Muchas gracias por su valiosa ayuda!',
+            words: [
+              { text: 'Merci', status: 'green', score: 98, tip: 'Entonación viva con /i/ final claro y alegre.' },
+              { text: 'beaucoup', status: 'orange', score: 85, tip: 'Terminación muda en "p", pronunciando /ku/.' },
+              { text: 'pour', status: 'green', score: 95, tip: 'Preposición /puʁ/ corta y directa.' },
+              { text: 'votre', status: 'green', score: 94, tip: 'Vocal media /ɔ/ relajada.' },
+              { text: 'aide !', status: 'green', score: 97, tip: 'Vocal /ɛ/ nítida y expresiva.' }
+            ]
+          },
+          {
+            text: 'Passez une excellente et belle journée !',
+            ipa: '[ pa.se yn ɛk.sɛ.lɑ̃t e bɛl ʒuʁ.ne ! ]',
+            es: '¡Que tenga una excelente y hermosa jornada!',
+            words: [
+              { text: 'Passez', status: 'green', score: 96, tip: 'Terminación /e/ limpia.' },
+              { text: 'une', status: 'orange', score: 83, tip: 'Vocal cerrada redondeada /y/ anterior única del francés.' },
+              { text: 'excellente', status: 'green', score: 94, tip: 'Nasal suave /lɑ̃t/.' },
+              { text: 'et belle', status: 'green', score: 95, tip: 'Conexión melódica /e bɛl/.' },
+              { text: 'journée !', status: 'green', score: 98, tip: 'Acento agudo ascendente en /ne/.' }
+            ]
+          }
+        ],
 
+        // --------------------------------------------------------------------
+        // PORTUGUÉS
+        // --------------------------------------------------------------------
+        pt: [
+          {
+            text: 'Olá! Como você está hoje?',
+            ipa: '[ oˈla ! ˈkõ.mu voˈse jsˈta ˈo.ʒi ? ]',
+            es: '¡Hola! ¿Cómo estás hoy?',
+            words: [
+              { text: 'Olá!', status: 'green', score: 98, tip: 'Acento agudo abierto en la última sílaba /la/.' },
+              { text: 'Como', status: 'green', score: 95, tip: 'Vocal final átona /u/ en portugués brasileño.' },
+              { text: 'você', status: 'green', score: 97, tip: 'Acento circunflejo con timbre semicerrado /e/.' },
+              { text: 'está', status: 'green', score: 96, tip: 'Acento agudo abierto /a/.' },
+              { text: 'hoje?', status: 'orange', score: 85, tip: 'Terminación "-e" suena como /i/ o africada suave /dʒi/.' }
+            ]
+          },
+          {
+            text: 'Posso tomar um pouco de água, por favor?',
+            ipa: '[ ˈpɔ.su tuˈmaɾ ũ ˈpo.ku dʒi ˈa.ɡwɐ poɾ faˈvoɾ ? ]',
+            es: '¿Puedo tomar un poco de agua, por favor?',
+            words: [
+              { text: 'Posso', status: 'green', score: 94, tip: 'Vocal abierta /ɔ/ en "Posso".' },
+              { text: 'tomar', status: 'green', score: 95, tip: 'Verbo con vibrante suave /ɾ/.' },
+              { text: 'um pouco', status: 'orange', score: 84, tip: 'Nasal /ũ/ en "um" y diptongo /ow/ o /o/.' },
+              { text: 'de água,', status: 'green', score: 95, tip: 'Palatalización brasileña "de" -> /dʒi/.' },
+              { text: 'por favor?', status: 'green', score: 97, tip: 'Entonación cortés y cálida.' }
+            ]
+          },
+          {
+            text: 'Eu adoro aprender novos idiomas todos os dias.',
+            ipa: '[ ew aˈdɔ.ɾu a.pɾẽˈdeɾ ˈnɔ.vus i.dʒiˈõ.mɐs ˈto.duz uz ˈdʒi.ɐs ]',
+            es: 'Me encanta aprender nuevos idiomas todos los días.',
+            words: [
+              { text: 'Eu', status: 'green', score: 98, tip: 'Diptongo suave /ew/.' },
+              { text: 'adoro', status: 'green', score: 95, tip: 'Vocal abierta /ɔ/.' },
+              { text: 'aprender', status: 'orange', score: 85, tip: 'Vocal nasal /ẽ/ antes de la consonante "d".' },
+              { text: 'novos idiomas', status: 'green', score: 94, tip: 'Conexión suave entre palabras.' },
+              { text: 'todos os dias.', status: 'green', score: 96, tip: 'Pronunciación suave de "dias" /dʒi.ɐs/.' }
+            ]
+          },
+          {
+            text: 'Muito obrigado por toda a sua ajuda!',
+            ipa: '[ ˈmũj.tu o.bɾiˈɡa.du poɾ ˈto.dɐ ɐ ˈsu.ɐ aˈʒu.dɐ ! ]',
+            es: '¡Muchas gracias por toda tu ayuda!',
+            words: [
+              { text: 'Muito', status: 'orange', score: 83, tip: 'Diptongo nasalizado /ˈmũj.tu/.' },
+              { text: 'obrigado', status: 'green', score: 97, tip: 'Acento en la penúltima sílaba /ɡa/.' },
+              { text: 'por toda', status: 'green', score: 95, tip: 'Vocal átona final suave.' },
+              { text: 'a sua', status: 'green', score: 96, tip: 'Fluidez vocal entre palabras.' },
+              { text: 'ajuda!', status: 'green', score: 97, tip: 'Sonido fricativo /ʒ/.' }
+            ]
+          },
+          {
+            text: 'Tenha um dia maravilhoso e muito feliz!',
+            ipa: '[ ˈtẽ.ɲɐ ũ ˈdʒi.ɐ ma.ɾa.viˈʎo.zu i ˈmũj.tu feˈlis ! ]',
+            es: '¡Que tengas un día maravilloso y muy feliz!',
+            words: [
+              { text: 'Tenha', status: 'green', score: 96, tip: 'Dígrafo "nh" correspondiente a la eñe española.' },
+              { text: 'um dia', status: 'green', score: 95, tip: 'Sonido /dʒi.ɐ/.' },
+              { text: 'maravilhoso', status: 'orange', score: 86, tip: 'Dígrafo "lh" palatal lateral suave.' },
+              { text: 'e muito', status: 'green', score: 94, tip: 'Conjunción "e" suena como /i/.' },
+              { text: 'feliz!', status: 'green', score: 98, tip: 'Terminación "z" suena suave como /s/ o /ʃ/.' }
+            ]
+          }
+        ]
+      };
+
+      function getActiveTargetLang() {
+        return (window.LinguaApp && window.LinguaApp.getTargetLanguage) ? window.LinguaApp.getTargetLanguage() : 'en';
+      }
+
+      function getActiveSpeechLang() {
+        const map = { en: 'en-US', fr: 'fr-FR', pt: 'pt-BR' };
+        return map[getActiveTargetLang()] || 'en-US';
+      }
+
+      function getPhrasesForCurrentLang() {
+        const lang = getActiveTargetLang();
+        return PHRASES_BY_LANGUAGE[lang] || PHRASES_BY_LANGUAGE.en;
+      }
+
+      let PHRASES = getPhrasesForCurrentLang();
       let currentIndex = 0;
       let isRecording = false;
       let activePlaybackSpeed = 1.0;
       let recognition = null;
 
       const phraseEl = document.getElementById('target-phrase');
+      const ipaEl = document.getElementById('target-phrase-ipa');
       const transBox = document.getElementById('phrase-translation-box');
       const btnRecord = document.getElementById('btn-record-mic');
       const audioWaves = document.getElementById('audio-waves');
@@ -495,13 +645,13 @@
         });
       });
 
-      // 3. REPRODUCIR AUDIO (WEB SPEECH API) CON VELOCIDAD PERSONALIZADA
+      // 3. REPRODUCIR AUDIO (WEB SPEECH API) CON VELOCIDAD Y LENGUAJE PERSONALIZADO
       function playPhraseAudio(speed = activePlaybackSpeed, customText = null) {
         if (!('speechSynthesis' in window)) return;
         window.speechSynthesis.cancel();
         const p = PHRASES[currentIndex];
-        const utt = new SpeechSynthesisUtterance(customText || p.en);
-        utt.lang = 'en-US';
+        const utt = new SpeechSynthesisUtterance(customText || p.text);
+        utt.lang = getActiveSpeechLang();
         utt.rate = speed;
         window.speechSynthesis.speak(utt);
       }
@@ -535,7 +685,6 @@
             orangeTipFound = w;
           }
 
-          // Al hacer clic en la palabra, escucharla aislada a la velocidad activa y ver su tip
           token.addEventListener('click', function () {
             playPhraseAudio(Math.max(0.7, activePlaybackSpeed), w.text.replace(/[!?,.]/g, ''));
             updatePhoneticTip(w);
@@ -544,12 +693,10 @@
           wordsContainer.appendChild(token);
         });
 
-        // Calcular porcentaje promedio de precisión
         const avgScore = Math.round(totalScore / phraseObj.words.length);
         if (lblAccuracyPct) lblAccuracyPct.textContent = `${avgScore}%`;
         if (svgScoreCircle) svgScoreCircle.setAttribute('stroke-dasharray', `${avgScore}, 100`);
 
-        // Mostrar tip de la palabra con más oportunidad de mejora
         if (orangeTipFound) {
           updatePhoneticTip(orangeTipFound);
         } else if (phraseObj.words.length > 0) {
@@ -561,17 +708,26 @@
         if (!tipBox) return;
         tipBox.innerHTML = `
           <div class="fw-bold mb-1"><i class="bi bi-lightbulb-fill me-1 text-warning"></i> Tip fonético para "${wordObj.text}":</div>
-          <div>${wordObj.tip} <button type="button" class="btn btn-sm btn-link p-0 ms-2 text-decoration-underline text-warning-emphasis fw-bold" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('${wordObj.text.replace(/[!?,.]/g, '')}'))"><i class="bi bi-volume-up"></i> Escuchar palabra</button></div>
+          <div>${wordObj.tip} <button type="button" class="btn btn-sm btn-link p-0 ms-2 text-decoration-underline text-warning-emphasis fw-bold" onclick="playIsolatedWord('${wordObj.text.replace(/['"!?,\.]/g, '')}')"><i class="bi bi-volume-up"></i> Escuchar palabra</button></div>
         `;
         tipBox.classList.add('shadow-sm');
       }
 
-      // 5. CARGAR FRASIS ACTUAL Y REGLAS
+      window.playIsolatedWord = function(word) {
+        if (!('speechSynthesis' in window)) return;
+        const utt = new SpeechSynthesisUtterance(word);
+        utt.lang = getActiveSpeechLang();
+        window.speechSynthesis.speak(utt);
+      };
+
+      // 5. CARGAR FRASE ACTUAL Y REGLAS
       function loadCurrentPhrase(idx) {
+        PHRASES = getPhrasesForCurrentLang();
         const p = PHRASES[idx];
         if (!p) return;
 
-        if (phraseEl) phraseEl.textContent = `“${p.en}”`;
+        if (phraseEl) phraseEl.textContent = `“${p.text}”`;
+        if (ipaEl) ipaEl.textContent = p.ipa;
         if (transBox) transBox.textContent = `“${p.es}”`;
 
         const stepLabel = document.getElementById('exercise-step-label');
@@ -630,7 +786,7 @@
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRec) {
           recognition = new SpeechRec();
-          recognition.lang = 'en-US';
+          recognition.lang = getActiveSpeechLang();
           recognition.continuous = false;
           recognition.interimResults = false;
 
@@ -716,7 +872,10 @@
         feedbackCard.style.opacity = '0.5';
 
         try {
-          if (recognition) recognition.start();
+          if (recognition) {
+            recognition.lang = getActiveSpeechLang();
+            recognition.start();
+          }
         } catch (e) {
           console.error(e);
         }

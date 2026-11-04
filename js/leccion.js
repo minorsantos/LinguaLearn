@@ -9,75 +9,220 @@
   'use strict';
 let LESSON_EXERCISES = [];
 
-  const POOL_EXERCISES = [
-    {
-      id: 1, type: 'multiple_choice', wordDisplay: 'apple',
-      instruction: 'Selecciona la traducción correcta para:',
-      image: 'assets/apple_vector.png', imageAlt: 'Manzana roja',
-      options: [{text:'casa',isCorrect:false}, {text:'manzana',isCorrect:true}, {text:'perro',isCorrect:false}],
-      explanation: '¡Excelente! "Apple" significa manzana en español.', phraseSample: 'An apple a day keeps the doctor away.'
-    },
-    {
-      id: 2, type: 'image_grid', wordDisplay: 'coffee',
-      instruction: 'Selecciona la imagen que representa:',
-      options: [
-        {image:'assets/leccion_airplane.jpg', text:'airplane', isCorrect:false},
-        {image:'assets/leccion_coffee.jpg', text:'coffee', isCorrect:true},
-        {image:'assets/leccion_book.jpg', text:'book', isCorrect:false},
-        {image:'assets/leccion_dog.jpg', text:'dog', isCorrect:false}
-      ],
-      explanation: '¡Muy bien! "Coffee" es café.', phraseSample: 'I need a cup of coffee.'
-    },
-    {
-      id: 3, type: 'unscramble', wordDisplay: 'Frase desordenada',
-      instruction: 'Ordena las palabras para formar la frase: "Yo leo un libro"',
-      words: ['read', 'book', 'I', 'a'], correctOrder: ['I', 'read', 'a', 'book'],
-      explanation: '¡Perfecto! El orden es Sujeto + Verbo + Artículo + Sustantivo.', phraseSample: 'I read a book.'
-    },
-    {
-      id: 4, type: 'match_pairs', wordDisplay: 'Pares',
-      instruction: 'Une la palabra en inglés con su traducción:',
-      pairs: [{en:'dog', es:'perro'}, {en:'cat', es:'gato'}, {en:'bird', es:'pájaro'}, {en:'fish', es:'pez'}],
-      explanation: '¡Brillante! Has unido todos los pares correctamente.', phraseSample: 'A loyal dog is a great friend.'
-    },
-    {
-      id: 5, type: 'multiple_choice', wordDisplay: 'airplane',
-      instruction: '¿Cuál es el medio de transporte mostrado?:',
-      image: 'assets/leccion_airplane.jpg', imageAlt: 'Avión de pasajeros',
-      options: [{text:'avión',isCorrect:true}, {text:'tren',isCorrect:false}, {text:'barco',isCorrect:false}],
-      explanation: '¡Maravilloso! "Airplane" es avión.', phraseSample: 'The airplane departs at noon.'
-    },
-    {
-      id: 6, type: 'unscramble', wordDisplay: 'Frase desordenada',
-      instruction: 'Ordena las palabras para formar la frase: "El perro corre rápido"',
-      words: ['fast', 'The', 'runs', 'dog'], correctOrder: ['The', 'dog', 'runs', 'fast'],
-      explanation: '¡Excelente! Estructura básica completada.', phraseSample: 'The dog runs fast.'
-    },
-    {
-      id: 7, type: 'image_grid', wordDisplay: 'dog',
-      instruction: 'Selecciona la imagen correspondiente a:',
-      options: [
-        {image:'assets/leccion_dog.jpg', text:'dog', isCorrect:true},
-        {image:'assets/leccion_book.jpg', text:'book', isCorrect:false},
-        {image:'assets/apple_vector.png', text:'apple', isCorrect:false},
-        {image:'assets/leccion_coffee.jpg', text:'coffee', isCorrect:false}
-      ],
-      explanation: '¡Muy bien! "Dog" es perro.', phraseSample: 'My dog is very playful.'
-    },
-    {
-      id: 8, type: 'match_pairs', wordDisplay: 'Pares',
-      instruction: 'Encuentra los opuestos:',
-      pairs: [{en:'hot', es:'frío'}, {en:'big', es:'pequeño'}, {en:'fast', es:'lento'}], 
-      // Wait, pairs should match meaning for consistency, not opposites unless we change instructions.
-      // Let's do normal pairs.
-      pairs: [{en:'apple', es:'manzana'}, {en:'book', es:'libro'}, {en:'coffee', es:'café'}, {en:'airplane', es:'avión'}],
-      explanation: '¡Increíble memoria! Completaste todos los pares.', phraseSample: 'I drink coffee while reading a book.'
-    }
-  ];
+  const POOL_BY_LANGUAGE = {
+    // ------------------------------------------------------------------------
+    // INGLÉS (Idioma Principal)
+    // ------------------------------------------------------------------------
+    en: [
+      {
+        id: 1, type: 'multiple_choice', wordDisplay: 'apple',
+        instruction: 'Selecciona la traducción correcta para:',
+        image: 'assets/apple_vector.png', imageAlt: 'Manzana roja',
+        options: [{text:'casa',isCorrect:false}, {text:'manzana',isCorrect:true}, {text:'perro',isCorrect:false}],
+        explanation: '¡Excelente! "Apple" significa manzana en español.', phraseSample: 'An apple a day keeps the doctor away.'
+      },
+      {
+        id: 2, type: 'image_grid', wordDisplay: 'coffee',
+        instruction: 'Selecciona la imagen que representa:',
+        options: [
+          {image:'assets/leccion_airplane.jpg', text:'airplane', isCorrect:false},
+          {image:'assets/leccion_coffee.jpg', text:'coffee', isCorrect:true},
+          {image:'assets/leccion_book.jpg', text:'book', isCorrect:false},
+          {image:'assets/leccion_dog.jpg', text:'dog', isCorrect:false}
+        ],
+        explanation: '¡Muy bien! "Coffee" es café.', phraseSample: 'I need a cup of coffee.'
+      },
+      {
+        id: 3, type: 'unscramble', wordDisplay: 'Frase desordenada',
+        instruction: 'Ordena las palabras para formar la frase: "Yo leo un libro"',
+        words: ['read', 'book', 'I', 'a'], correctOrder: ['I', 'read', 'a', 'book'],
+        explanation: '¡Perfecto! El orden es Sujeto + Verbo + Artículo + Sustantivo.', phraseSample: 'I read a book.'
+      },
+      {
+        id: 4, type: 'match_pairs', wordDisplay: 'Pares',
+        instruction: 'Une la palabra en inglés con su traducción:',
+        pairs: [{target:'dog', es:'perro'}, {target:'cat', es:'gato'}, {target:'bird', es:'pájaro'}, {target:'fish', es:'pez'}],
+        explanation: '¡Brillante! Has unido todos los pares correctamente.', phraseSample: 'A loyal dog is a great friend.'
+      },
+      {
+        id: 5, type: 'multiple_choice', wordDisplay: 'airplane',
+        instruction: '¿Cuál es el medio de transporte mostrado?:',
+        image: 'assets/leccion_airplane.jpg', imageAlt: 'Avión de pasajeros',
+        options: [{text:'avión',isCorrect:true}, {text:'tren',isCorrect:false}, {text:'barco',isCorrect:false}],
+        explanation: '¡Maravilloso! "Airplane" es avión.', phraseSample: 'The airplane departs at noon.'
+      },
+      {
+        id: 6, type: 'unscramble', wordDisplay: 'Frase desordenada',
+        instruction: 'Ordena las palabras para formar la frase: "El perro corre rápido"',
+        words: ['fast', 'The', 'runs', 'dog'], correctOrder: ['The', 'dog', 'runs', 'fast'],
+        explanation: '¡Excelente! Estructura básica completada.', phraseSample: 'The dog runs fast.'
+      },
+      {
+        id: 7, type: 'image_grid', wordDisplay: 'dog',
+        instruction: 'Selecciona la imagen correspondiente a:',
+        options: [
+          {image:'assets/leccion_dog.jpg', text:'dog', isCorrect:true},
+          {image:'assets/leccion_book.jpg', text:'book', isCorrect:false},
+          {image:'assets/apple_vector.png', text:'apple', isCorrect:false},
+          {image:'assets/leccion_coffee.jpg', text:'coffee', isCorrect:false}
+        ],
+        explanation: '¡Muy bien! "Dog" es perro.', phraseSample: 'My dog is very playful.'
+      },
+      {
+        id: 8, type: 'match_pairs', wordDisplay: 'Pares',
+        instruction: 'Une cada palabra en inglés con su significado:',
+        pairs: [{target:'apple', es:'manzana'}, {target:'book', es:'libro'}, {target:'coffee', es:'café'}, {target:'airplane', es:'avión'}],
+        explanation: '¡Increíble memoria! Completaste todos los pares.', phraseSample: 'I drink coffee while reading a book.'
+      }
+    ],
+
+    // ------------------------------------------------------------------------
+    // FRANCÉS
+    // ------------------------------------------------------------------------
+    fr: [
+      {
+        id: 1, type: 'multiple_choice', wordDisplay: 'pomme',
+        instruction: 'Selecciona la traducción correcta para:',
+        image: 'assets/apple_vector.png', imageAlt: 'Manzana roja',
+        options: [{text:'casa',isCorrect:false}, {text:'manzana',isCorrect:true}, {text:'perro',isCorrect:false}],
+        explanation: '¡Excelente! "Pomme" significa manzana en francés.', phraseSample: 'Une pomme rouge est très savoureuse.'
+      },
+      {
+        id: 2, type: 'image_grid', wordDisplay: 'café',
+        instruction: 'Selecciona la imagen que representa:',
+        options: [
+          {image:'assets/leccion_airplane.jpg', text:'avion', isCorrect:false},
+          {image:'assets/leccion_coffee.jpg', text:'café', isCorrect:true},
+          {image:'assets/leccion_book.jpg', text:'livre', isCorrect:false},
+          {image:'assets/leccion_dog.jpg', text:'chien', isCorrect:false}
+        ],
+        explanation: '¡Muy bien! "Café" es café en francés.', phraseSample: 'Je voudrais une tasse de café, s’il vous plaît.'
+      },
+      {
+        id: 3, type: 'unscramble', wordDisplay: 'Frase desordenada',
+        instruction: 'Ordena las palabras para formar la frase en francés: "Yo leo un libro"',
+        words: ['lis', 'livre', 'Je', 'un'], correctOrder: ['Je', 'lis', 'un', 'livre'],
+        explanation: '¡Perfecto! En francés el orden es Sujeto (Je) + Verbo (lis) + Artículo (un) + Sustantivo (livre).', phraseSample: 'Je lis un livre chaque soir.'
+      },
+      {
+        id: 4, type: 'match_pairs', wordDisplay: 'Pares',
+        instruction: 'Une la palabra en francés con su traducción:',
+        pairs: [{target:'chien', es:'perro'}, {target:'chat', es:'gato'}, {target:'oiseau', es:'pájaro'}, {target:'poisson', es:'pez'}],
+        explanation: '¡Brillante! Has unido todos los pares franceses con éxito.', phraseSample: 'Le chat et le chien jouent dans le jardin.'
+      },
+      {
+        id: 5, type: 'multiple_choice', wordDisplay: 'avion',
+        instruction: '¿Cuál es el medio de transporte mostrado?:',
+        image: 'assets/leccion_airplane.jpg', imageAlt: 'Avión de pasajeros',
+        options: [{text:'avión',isCorrect:true}, {text:'tren',isCorrect:false}, {text:'barco',isCorrect:false}],
+        explanation: '¡Maravilloso! "Avion" es avión en francés.', phraseSample: "L'avion décolle à midi."
+      },
+      {
+        id: 6, type: 'unscramble', wordDisplay: 'Frase desordenada',
+        instruction: 'Ordena las palabras para formar la frase en francés: "El perro corre rápido"',
+        words: ['court', 'Le', 'vite', 'chien'], correctOrder: ['Le', 'chien', 'court', 'vite'],
+        explanation: '¡Excelente! "Le chien court vite" es la formulación correcta.', phraseSample: 'Le chien court vite dans le parc.'
+      },
+      {
+        id: 7, type: 'image_grid', wordDisplay: 'chien',
+        instruction: 'Selecciona la imagen correspondiente a:',
+        options: [
+          {image:'assets/leccion_dog.jpg', text:'chien', isCorrect:true},
+          {image:'assets/leccion_book.jpg', text:'livre', isCorrect:false},
+          {image:'assets/apple_vector.png', text:'pomme', isCorrect:false},
+          {image:'assets/leccion_coffee.jpg', text:'café', isCorrect:false}
+        ],
+        explanation: '¡Muy bien! "Chien" es perro en francés.', phraseSample: 'Mon chien est très fidèle.'
+      },
+      {
+        id: 8, type: 'match_pairs', wordDisplay: 'Pares',
+        instruction: 'Une cada palabra en francés con su significado:',
+        pairs: [{target:'pomme', es:'manzana'}, {target:'livre', es:'libro'}, {target:'café', es:'café'}, {target:'avion', es:'avión'}],
+        explanation: '¡Increíble memoria! Completaste todos los pares en francés.', phraseSample: 'Je bois un café en lisant un bon livre.'
+      }
+    ],
+
+    // ------------------------------------------------------------------------
+    // PORTUGUÉS
+    // ------------------------------------------------------------------------
+    pt: [
+      {
+        id: 1, type: 'multiple_choice', wordDisplay: 'maçã',
+        instruction: 'Selecciona la traducción correcta para:',
+        image: 'assets/apple_vector.png', imageAlt: 'Manzana roja',
+        options: [{text:'casa',isCorrect:false}, {text:'manzana',isCorrect:true}, {text:'perro',isCorrect:false}],
+        explanation: '¡Excelente! "Maçã" significa manzana en portugués.', phraseSample: 'Uma maçã por dia faz muito bem à saúde.'
+      },
+      {
+        id: 2, type: 'image_grid', wordDisplay: 'café',
+        instruction: 'Selecciona la imagen que representa:',
+        options: [
+          {image:'assets/leccion_airplane.jpg', text:'avião', isCorrect:false},
+          {image:'assets/leccion_coffee.jpg', text:'café', isCorrect:true},
+          {image:'assets/leccion_book.jpg', text:'livro', isCorrect:false},
+          {image:'assets/leccion_dog.jpg', text:'cachorro', isCorrect:false}
+        ],
+        explanation: '¡Muy bien! "Café" es café en portugués.', phraseSample: 'Eu quero uma xícara de café quente, por favor.'
+      },
+      {
+        id: 3, type: 'unscramble', wordDisplay: 'Frase desordenada',
+        instruction: 'Ordena las palabras para formar la frase en portugués: "Yo leo un libro"',
+        words: ['leio', 'livro', 'Eu', 'um'], correctOrder: ['Eu', 'leio', 'um', 'livro'],
+        explanation: '¡Perfecto! El orden es Sujeito (Eu) + Verbo (leio) + Artigo (um) + Substantivo (livro).', phraseSample: 'Eu leio um livro todos os dias.'
+      },
+      {
+        id: 4, type: 'match_pairs', wordDisplay: 'Pares',
+        instruction: 'Une la palabra en portugués con su traducción:',
+        pairs: [{target:'cachorro', es:'perro'}, {target:'gato', es:'gato'}, {target:'pássaro', es:'pájaro'}, {target:'peixe', es:'pez'}],
+        explanation: '¡Brillante! Has unido todos los pares en portugués correctamente.', phraseSample: 'O cachorro e o gato são amigos.'
+      },
+      {
+        id: 5, type: 'multiple_choice', wordDisplay: 'avião',
+        instruction: '¿Cuál es el medio de transporte mostrado?:',
+        image: 'assets/leccion_airplane.jpg', imageAlt: 'Avión de pasajeros',
+        options: [{text:'avión',isCorrect:true}, {text:'tren',isCorrect:false}, {text:'barco',isCorrect:false}],
+        explanation: '¡Maravilloso! "Avião" es avión en portugués.', phraseSample: 'O avião parte pontualmente ao meio-dia.'
+      },
+      {
+        id: 6, type: 'unscramble', wordDisplay: 'Frase desordenada',
+        instruction: 'Ordena las palabras para formar la frase en portugués: "El perro corre rápido"',
+        words: ['corre', 'O', 'rápido', 'cachorro'], correctOrder: ['O', 'cachorro', 'corre', 'rápido'],
+        explanation: '¡Excelente! "O cachorro corre rápido" es la estructura natural.', phraseSample: 'O cachorro corre rápido pelo parque.'
+      },
+      {
+        id: 7, type: 'image_grid', wordDisplay: 'cachorro',
+        instruction: 'Selecciona la imagen correspondiente a:',
+        options: [
+          {image:'assets/leccion_dog.jpg', text:'cachorro', isCorrect:true},
+          {image:'assets/leccion_book.jpg', text:'livro', isCorrect:false},
+          {image:'assets/apple_vector.png', text:'maçã', isCorrect:false},
+          {image:'assets/leccion_coffee.jpg', text:'café', isCorrect:false}
+        ],
+        explanation: '¡Muy bien! "Cachorro" es perro en portugués.', phraseSample: 'Meu cachorro é muito brincalhão e leal.'
+      },
+      {
+        id: 8, type: 'match_pairs', wordDisplay: 'Pares',
+        instruction: 'Une cada palabra en portugués con su significado:',
+        pairs: [{target:'maçã', es:'manzana'}, {target:'livro', es:'libro'}, {target:'café', es:'café'}, {target:'avião', es:'avión'}],
+        explanation: '¡Increíble memoria! Completaste todos los pares en portugués.', phraseSample: 'Eu tomo café da manhã lendo um livro.'
+      }
+    ]
+  };
+
+  function speakLessonWord(word) {
+    if (!('speechSynthesis' in window)) return;
+    const lang = (window.LinguaApp && window.LinguaApp.getTargetLanguage) ? window.LinguaApp.getTargetLanguage() : 'en';
+    const speechMap = { en: 'en-US', fr: 'fr-FR', pt: 'pt-BR' };
+    const utt = new SpeechSynthesisUtterance(word);
+    utt.lang = speechMap[lang] || 'en-US';
+    window.speechSynthesis.speak(utt);
+  }
 
   function initLesson() {
+    const targetLang = (window.LinguaApp && window.LinguaApp.getTargetLanguage) ? window.LinguaApp.getTargetLanguage() : 'en';
+    const pool = POOL_BY_LANGUAGE[targetLang] || POOL_BY_LANGUAGE.en;
     // Escoger 5 ejercicios aleatorios
-    const shuffled = [...POOL_EXERCISES].sort(() => Math.random() - 0.5);
+    const shuffled = [...pool].sort(() => Math.random() - 0.5);
     LESSON_EXERCISES = shuffled.slice(0, 5);
     
     loadUserDataFromStorage();
@@ -260,7 +405,7 @@ let LESSON_EXERCISES = [];
     wordHeader.className = 'lesson-word-text anim-cascade stagger-5 mb-4';
     wordHeader.innerHTML = `<span>${ex.wordDisplay}</span>`;
     if (ex.wordDisplay !== 'Frase desordenada' && ex.wordDisplay !== 'Pares') {
-      wordHeader.innerHTML += `<button type="button" class="btn-speaker-mini ms-2" onclick="window.speechSynthesis.speak(new SpeechSynthesisUtterance('${ex.wordDisplay}'))"><i class="bi bi-volume-up-fill"></i></button>`;
+      wordHeader.innerHTML += `<button type="button" class="btn-speaker-mini ms-2" onclick="speakLessonWord('${ex.wordDisplay}')"><i class="bi bi-volume-up-fill"></i></button>`;
     }
     container.appendChild(wordHeader);
 
@@ -331,26 +476,27 @@ let LESSON_EXERCISES = [];
       const grid = document.createElement('div');
       grid.className = 'row g-4';
       
-      const colEn = document.createElement('div');
-      colEn.className = 'col-6 d-flex flex-column gap-2';
+      const colTarget = document.createElement('div');
+      colTarget.className = 'col-6 d-flex flex-column gap-2';
       const colEs = document.createElement('div');
       colEs.className = 'col-6 d-flex flex-column gap-2';
 
-      const enWords = [...ex.pairs].sort(() => Math.random() - 0.5);
+      const targetWords = [...ex.pairs].sort(() => Math.random() - 0.5);
       const esWords = [...ex.pairs].sort(() => Math.random() - 0.5);
 
-      enWords.forEach(p => {
+      targetWords.forEach(p => {
+        const tWord = p.target || p.en;
         const btn = document.createElement('button');
         btn.className = 'btn btn-outline-primary py-3 fw-bold';
-        btn.textContent = p.en;
+        btn.textContent = tWord;
         btn.onclick = function() {
-          if (matchedPairs.includes(p.en)) return;
-          Array.from(colEn.children).forEach(c => c.classList.remove('active', 'btn-primary'));
+          if (matchedPairs.includes(tWord)) return;
+          Array.from(colTarget.children).forEach(c => c.classList.remove('active', 'btn-primary'));
           this.classList.add('active', 'btn-primary');
-          currentPairSelection.en = p.en;
+          currentPairSelection.target = tWord;
           checkMatchPair(grid);
         };
-        colEn.appendChild(btn);
+        colTarget.appendChild(btn);
       });
 
       esWords.forEach(p => {
@@ -367,19 +513,19 @@ let LESSON_EXERCISES = [];
         colEs.appendChild(btn);
       });
 
-      grid.appendChild(colEn);
+      grid.appendChild(colTarget);
       grid.appendChild(colEs);
       container.appendChild(grid);
     }
   }
 
   function checkMatchPair(grid) {
-    if (currentPairSelection.en && currentPairSelection.es) {
+    if (currentPairSelection.target && currentPairSelection.es) {
       const ex = LESSON_EXERCISES[currentExerciseIndex];
-      const correctPair = ex.pairs.find(p => p.en === currentPairSelection.en);
+      const correctPair = ex.pairs.find(p => (p.target || p.en) === currentPairSelection.target);
       
       if (correctPair && correctPair.es === currentPairSelection.es) {
-        matchedPairs.push(currentPairSelection.en);
+        matchedPairs.push(currentPairSelection.target);
         matchedPairs.push(currentPairSelection.es);
         
         const activeBtns = grid.querySelectorAll('.active');
@@ -403,7 +549,7 @@ let LESSON_EXERCISES = [];
           }, 500);
         });
       }
-      currentPairSelection = { en: null, es: null };
+      currentPairSelection = { target: null, es: null };
     }
   }
 

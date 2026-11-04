@@ -11,6 +11,7 @@
 
   const STORAGE_KEY_USER = 'lingua_current_user';
   const STORAGE_KEY_USERS_DB = 'lingua_users_db';
+  const STORAGE_KEY_TARGET_LANG = 'lingua_target_language';
 
   // Perfil predeterminado de Sofia Martinez
   const DEFAULT_USER = {
@@ -18,6 +19,7 @@
     email: 'sofia.martinez@universidad.edu',
     password: '12345678',
     avatar: 'assets/sofia.jpg',
+    targetLanguage: 'en', // 'en' (Inglés), 'fr' (Francés), 'pt' (Portugués)
     isLoggedIn: false,
     hasCompletedTest: true,
     level: 'Básico',
@@ -732,6 +734,91 @@
     });
   }
 
+  // =========================================================================
+  // GESTOR DE SOPORTE MULTIIDIOMA (INGLÉS, FRANCÉS, PORTUGUÉS)
+  // =========================================================================
+  const LANGUAGE_CONFIGS = {
+    en: {
+      code: 'en',
+      name: 'Inglés',
+      flag: '🇬🇧',
+      speechLang: 'en-US',
+      goalText: 'Meta: Inglés Profesional (B2)',
+      unitTitle: 'Unidad 2: Vocabulario de la Vida Diaria y Cafetería',
+      scenarioLabel: 'Cafetería & Encuentros Urbanos (Londres)',
+      glossary: [
+        { term: 'Coffee', es: 'Café (bebida caliente)', phonetic: '/ˈkɔː.fi/' },
+        { term: 'Bill', es: 'La cuenta / factura', phonetic: '/bɪl/' },
+        { term: 'Order', es: 'Ordenar / pedir', phonetic: '/ˈɔːr.dər/' }
+      ]
+    },
+    fr: {
+      code: 'fr',
+      name: 'Francés',
+      flag: '🇫🇷',
+      speechLang: 'fr-FR',
+      goalText: 'Meta: Francés Conversacional (B1)',
+      unitTitle: 'Unité 2 : Vocabulaire du Quotidien et Café Parisien',
+      scenarioLabel: 'Café & Rencontres Urbaines (Paris)',
+      glossary: [
+        { term: 'Café', es: 'Café (boisson chaude)', phonetic: '/ka.fe/' },
+        { term: "L'addition", es: 'La cuenta / factura', phonetic: '/la.di.sjɔ̃/' },
+        { term: 'Commander', es: 'Ordenar / pedir', phonetic: '/kɔ.mɑ̃.de/' }
+      ]
+    },
+    pt: {
+      code: 'pt',
+      name: 'Portugués',
+      flag: '🇧🇷',
+      speechLang: 'pt-BR',
+      goalText: 'Meta: Portugués Fluido (B1)',
+      unitTitle: 'Unidade 2: Vocabulário do Dia a Dia e Cafeteria',
+      scenarioLabel: 'Cafeteria & Encontros Urbanos (Lisboa / Rio)',
+      glossary: [
+        { term: 'Café', es: 'Café (bebida quente)', phonetic: '/kaˈfɛ/' },
+        { term: 'A conta', es: 'La cuenta / factura', phonetic: '/a ˈkõ.tɐ/' },
+        { term: 'Pedir', es: 'Ordenar / pedir', phonetic: '/peˈdʒiʁ/' }
+      ]
+    }
+  };
+
+  function getTargetLanguage() {
+    const stored = localStorage.getItem(STORAGE_KEY_TARGET_LANG);
+    if (stored && ['en', 'fr', 'pt'].includes(stored)) {
+      return stored;
+    }
+    const user = getCurrentUser();
+    if (user && user.targetLanguage && ['en', 'fr', 'pt'].includes(user.targetLanguage)) {
+      localStorage.setItem(STORAGE_KEY_TARGET_LANG, user.targetLanguage);
+      return user.targetLanguage;
+    }
+    return 'en';
+  }
+
+  function setTargetLanguage(lang) {
+    if (!['en', 'fr', 'pt'].includes(lang)) lang = 'en';
+    localStorage.setItem(STORAGE_KEY_TARGET_LANG, lang);
+    const user = getCurrentUser();
+    user.targetLanguage = lang;
+    saveCurrentUser(user);
+    updateLanguageBadges(lang);
+    return lang;
+  }
+
+  function getLanguageConfig(lang) {
+    const l = lang || getTargetLanguage();
+    return LANGUAGE_CONFIGS[l] || LANGUAGE_CONFIGS.en;
+  }
+
+  function updateLanguageBadges(lang) {
+    const cfg = getLanguageConfig(lang);
+    document.querySelectorAll('.active-target-lang-name').forEach(el => el.textContent = cfg.name);
+    document.querySelectorAll('.active-target-lang-flag').forEach(el => el.textContent = cfg.flag);
+    document.querySelectorAll('.active-target-lang-badge').forEach(el => el.textContent = `${cfg.flag} ${cfg.name}`);
+    const metaEl = document.getElementById('profile-meta-text');
+    if (metaEl) metaEl.innerHTML = `<i class="bi bi-bullseye me-1"></i> ${cfg.goalText}`;
+  }
+
   // Exponer API global
   window.LinguaApp = {
     getUser: getCurrentUser,
@@ -747,7 +834,11 @@
     showToast: showToast,
     syncHeader: syncHeaderStats,
     isLoggedIn: isUserLoggedIn,
-    syncAuth: syncAuthState
+    syncAuth: syncAuthState,
+    getTargetLanguage: getTargetLanguage,
+    setTargetLanguage: setTargetLanguage,
+    getLanguageConfig: getLanguageConfig,
+    updateLanguageBadges: updateLanguageBadges
   };
 
 
@@ -779,6 +870,7 @@
 
     syncAuthState();
     syncHeaderStats();
+    updateLanguageBadges(getTargetLanguage());
     setupAuthForms();
     setupPageTransitions();
   });

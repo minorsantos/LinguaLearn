@@ -217,6 +217,7 @@
           <div class="col-lg-8">
             <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
               <span class="badge bg-primary px-3 py-2 rounded-pill fw-bold">NIVEL CALIBRADO: BÁSICO (A2)</span>
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-bold active-target-lang-badge">🇬🇧 Inglés</span>
               <span class="badge bg-success-subtle text-success-emphasis border border-success-subtle px-3 py-2 rounded-pill fw-bold">
                 <i class="bi bi-check2-circle"></i> Marco Común Europeo (MCER)
               </span>
@@ -547,7 +548,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body py-3">
-          <ul class="list-group list-group-flush">
+          <ul class="list-group list-group-flush" id="glossary-items-list">
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <div><strong class="text-dark">Coffee</strong> <span class="text-muted">/'kɒf.i/</span><div class="small text-secondary">Café</div></div>
               <button class="btn btn-sm dashboard-pill-glass border" onclick="speakWord('Coffee')"><i class="bi bi-volume-up"></i></button>
@@ -618,20 +619,62 @@
   <script>
     function speakQuickPhrase() {
       if ('speechSynthesis' in window) {
-        const u = new SpeechSynthesisUtterance("Could I please have a cappuccino and a fresh croissant?");
-        u.lang = "en-US";
+        const lang = (window.LinguaApp && window.LinguaApp.getTargetLanguage) ? window.LinguaApp.getTargetLanguage() : 'en';
+        const phrases = {
+          en: { text: "Could I please have a cappuccino and a fresh croissant?", lang: "en-US", name: "inglés" },
+          fr: { text: "Pourrais-je avoir un cappuccino et un croissant frais, s'il vous plaît ?", lang: "fr-FR", name: "francés" },
+          pt: { text: "Poderia me trazer um cappuccino e um croissant fresco, por favor?", lang: "pt-BR", name: "português" }
+        };
+        const p = phrases[lang] || phrases.en;
+        const u = new SpeechSynthesisUtterance(p.text);
+        u.lang = p.lang;
         window.speechSynthesis.speak(u);
-        LinguaApp.showToast('Escuchando frase en inglés. +5 XP de práctica rápida.', 'success');
+        LinguaApp.showToast(`Escuchando frase en ${p.name}. +5 XP de práctica rápida.`, 'success');
         LinguaApp.addXP(5);
       }
     }
     function speakWord(word) {
       if ('speechSynthesis' in window) {
+        const lang = (window.LinguaApp && window.LinguaApp.getTargetLanguage) ? window.LinguaApp.getTargetLanguage() : 'en';
+        const speechLangs = { en: 'en-US', fr: 'fr-FR', pt: 'pt-BR' };
         const u = new SpeechSynthesisUtterance(word);
-        u.lang = "en-US";
+        u.lang = speechLangs[lang] || 'en-US';
         window.speechSynthesis.speak(u);
       }
     }
+    function renderGlossaryWords() {
+      const lang = (window.LinguaApp && window.LinguaApp.getTargetLanguage) ? window.LinguaApp.getTargetLanguage() : 'en';
+      const glossaries = {
+        en: [
+          { word: 'Coffee', ipa: "/'kɒf.i/", trans: 'Café' },
+          { word: 'Bill / Check', ipa: '/bɪl/', trans: 'La cuenta' },
+          { word: 'Order', ipa: "/'ɔː.dər/", trans: 'Ordenar / Pedir' }
+        ],
+        fr: [
+          { word: 'Café', ipa: '/ka.fe/', trans: 'Café' },
+          { word: "L'addition", ipa: '/la.di.sjɔ̃/', trans: 'La cuenta' },
+          { word: 'Commander', ipa: '/kɔ.mɑ̃.de/', trans: 'Ordenar / Pedir' }
+        ],
+        pt: [
+          { word: 'Café', ipa: '/kaˈfɛ/', trans: 'Café' },
+          { word: 'A conta', ipa: '/ɐ ˈkõ.tɐ/', trans: 'La cuenta' },
+          { word: 'Pedir', ipa: '/peˈdʒiɾ/', trans: 'Ordenar / Pedir' }
+        ]
+      };
+      const list = glossaries[lang] || glossaries.en;
+      const container = document.getElementById('glossary-items-list');
+      if (container) {
+        container.innerHTML = list.map(item => `
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div><strong class="text-dark">${item.word}</strong> <span class="text-muted">${item.ipa}</span><div class="small text-secondary">${item.trans}</div></div>
+            <button class="btn btn-sm dashboard-pill-glass border" onclick="speakWord('${item.word}')"><i class="bi bi-volume-up"></i></button>
+          </li>
+        `).join('');
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      renderGlossaryWords();
+    });
   </script>
 </body>
 </html>

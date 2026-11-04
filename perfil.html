@@ -216,7 +216,7 @@
               <div class="d-flex align-items-center gap-3 text-secondary small flex-wrap">
                 <span><i class="bi bi-calendar3 me-1"></i> Miembro desde Octubre 2024</span>
                 <span>•</span>
-                <span><i class="bi bi-bullseye me-1"></i> Meta: Inglés Profesional (B2)</span>
+                <span id="profile-meta-text"><i class="bi bi-bullseye me-1"></i> Meta: Inglés Profesional (B2)</span>
               </div>
             </div>
           </div>
@@ -242,6 +242,71 @@
              COLUMNA 1 (IZQUIERDA, 6 COLS): DIFICULTAD ADAPTATIVA & ÁREAS DE INTERÉS
              ------------------------------------------------------------------- -->
         <div class="col-lg-6 d-flex flex-column gap-4">
+
+          <!-- Card 0: Selector de Idioma de Práctica (Multiidioma) -->
+          <section class="card-custom profile-card-glass p-4 anim-cascade stagger-4" id="section-language-selector">
+            <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+              <div class="d-flex align-items-center gap-2">
+                <div class="p-2 bg-primary-subtle text-primary rounded-3 fs-5">
+                  <i class="bi bi-translate"></i>
+                </div>
+                <h2 class="h5 fw-bold mb-0 text-dark">Idioma de Aprendizaje y Práctica</h2>
+              </div>
+              <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill fw-semibold" id="current-language-badge">
+                🇬🇧 Inglés (Activo)
+              </span>
+            </div>
+            <p class="text-secondary small mb-3">
+              Selecciona el idioma que deseas practicar. La interfaz de la plataforma se mantendrá en <strong>Español</strong> y serás redirigido al <strong>Test Diagnóstico</strong> para iniciar tu ruta adaptativa.
+            </p>
+
+            <!-- 3 Opciones de Idiomas: Inglés, Francés y Portugués -->
+            <div class="row g-2 mb-3" id="language-options-group">
+              <!-- Opción 1: Inglés (Principal) -->
+              <div class="col-4">
+                <button type="button" class="language-select-card active w-100 p-3 text-start" data-lang="en">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="fs-4">🇬🇧</span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill lang-status-badge" style="font-size: 0.65rem;">Principal</span>
+                  </div>
+                  <div class="fw-bold text-dark fs-6 mb-1">Inglés</div>
+                  <div class="text-secondary small d-none d-sm-block" style="font-size: 0.72rem; line-height: 1.2;">Idioma estándar</div>
+                </button>
+              </div>
+
+              <!-- Opción 2: Francés -->
+              <div class="col-4">
+                <button type="button" class="language-select-card w-100 p-3 text-start" data-lang="fr">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="fs-4">🇫🇷</span>
+                    <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill lang-status-badge" style="font-size: 0.65rem;">Disponible</span>
+                  </div>
+                  <div class="fw-bold text-dark fs-6 mb-1">Francés</div>
+                  <div class="text-secondary small d-none d-sm-block" style="font-size: 0.72rem; line-height: 1.2;">Français parlé</div>
+                </button>
+              </div>
+
+              <!-- Opción 3: Portugués -->
+              <div class="col-4">
+                <button type="button" class="language-select-card w-100 p-3 text-start" data-lang="pt">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span class="fs-4">🇧🇷</span>
+                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill lang-status-badge" style="font-size: 0.65rem;">Disponible</span>
+                  </div>
+                  <div class="fw-bold text-dark fs-6 mb-1">Portugués</div>
+                  <div class="text-secondary small d-none d-sm-block" style="font-size: 0.72rem; line-height: 1.2;">Português diário</div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Caja Informativa de Redirección -->
+            <div class="p-3 dashboard-container-inset rounded-3 small text-secondary d-flex align-items-center gap-2">
+              <i class="bi bi-arrow-repeat text-primary fs-5 flex-shrink-0"></i>
+              <span style="font-size: 0.8rem;">
+                Al hacer clic en un idioma, se activará en tu perfil y entrarás automáticamente al <strong>Test Diagnóstico</strong> correspondiente.
+              </span>
+            </div>
+          </section>
 
           <!-- Card 1: Nivel de Dificultad del Algoritmo Adaptativo -->
           <section class="card-custom profile-card-glass p-4 anim-cascade stagger-4">
@@ -800,6 +865,61 @@
           LinguaApp.showToast('Perfil actualizado correctamente.', 'success');
         });
       }
+
+      // =======================================================================
+      // 5. SELECTOR DE IDIOMA Y REDIRECCIÓN AL TEST DIAGNÓSTICO
+      // =======================================================================
+      function initLanguageSelector() {
+        if (!window.LinguaApp) return;
+        const currentLang = LinguaApp.getTargetLanguage();
+        const langCards = document.querySelectorAll('.language-select-card');
+        const langBadge = document.getElementById('current-language-badge');
+        const cfg = LinguaApp.getLanguageConfig(currentLang);
+
+        if (langBadge) {
+          langBadge.textContent = `${cfg.flag} ${cfg.name} (Activo)`;
+        }
+
+        langCards.forEach(card => {
+          const cardLang = card.getAttribute('data-lang');
+          if (cardLang === currentLang) {
+            card.classList.add('active');
+            card.setAttribute('aria-pressed', 'true');
+          } else {
+            card.classList.remove('active');
+            card.setAttribute('aria-pressed', 'false');
+          }
+
+          card.addEventListener('click', function () {
+            playMicroClick();
+            const selectedLang = this.getAttribute('data-lang');
+            const targetCfg = LinguaApp.getLanguageConfig(selectedLang);
+
+            langCards.forEach(c => {
+              c.classList.remove('active');
+              c.setAttribute('aria-pressed', 'false');
+            });
+            this.classList.add('active');
+            this.setAttribute('aria-pressed', 'true');
+
+            if (langBadge) {
+              langBadge.textContent = `${targetCfg.flag} ${targetCfg.name} (Activo)`;
+            }
+
+            // Guardar preferencia de idioma en localStorage
+            LinguaApp.setTargetLanguage(selectedLang);
+
+            // Notificación visual y redirección ordenada al Test Diagnóstico
+            LinguaApp.showToast(`¡Idioma actualizado a ${targetCfg.name}! Iniciando Test Diagnóstico...`, 'success');
+
+            setTimeout(() => {
+              window.location.href = 'test-diagnostico.html';
+            }, 600);
+          });
+        });
+      }
+
+      initLanguageSelector();
     });
 
     function shareAchievements() {
