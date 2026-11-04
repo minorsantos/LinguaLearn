@@ -179,7 +179,12 @@
         switch (e.key) {
           case '1':
             e.preventDefault();
-            window.location.href = 'index.html';
+            try {
+              var u = JSON.parse(localStorage.getItem('lingua_current_user') || '{}');
+              window.location.href = (u && u.isLoggedIn) ? 'dashboard.html' : 'index.html';
+            } catch (err) {
+              window.location.href = 'dashboard.html';
+            }
             break;
           case '2':
             e.preventDefault();

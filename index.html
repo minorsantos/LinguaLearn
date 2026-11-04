@@ -201,6 +201,18 @@
       cursor: pointer;
     }
   </style>
+
+  <!-- REDIRECCIÓN DE USUARIOS AUTENTICADOS: Evitar volver al login sin cerrar sesión explícitamente -->
+  <script>
+    (function () {
+      try {
+        var user = JSON.parse(localStorage.getItem('lingua_current_user') || '{}');
+        if (user && user.isLoggedIn === true) {
+          window.location.replace('dashboard.html');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body class="page-inicio preload-theme">
   <script>
