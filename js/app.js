@@ -822,6 +822,98 @@
     if (metaEl) metaEl.innerHTML = `<i class="bi bi-bullseye me-1"></i> ${cfg.goalText}`;
   }
 
+  // ==========================================================================
+  // CONFIGURACIÓN DEL MENÚ HAMBURGUESA RESPONSIVO (máx. 768px)
+  // ==========================================================================
+  function setupResponsiveNavbar() {
+    const hamburgerBtn = document.getElementById('btn-navbar-hamburger') || document.querySelector('.hamburger-nav-btn');
+    const navbarContent = document.getElementById('navbarContent');
+
+    if (!hamburgerBtn || !navbarContent) return;
+
+    if (hamburgerBtn.dataset.boundHamburger === 'true') return;
+    hamburgerBtn.dataset.boundHamburger = 'true';
+
+    const symbolSpan = hamburgerBtn.querySelector('.hamburger-symbol') || hamburgerBtn;
+
+    function toggleMenu(forceState) {
+      const isCurrentlyOpen = navbarContent.classList.contains('show') || navbarContent.classList.contains('is-open');
+      const willOpen = typeof forceState === 'boolean' ? forceState : !isCurrentlyOpen;
+
+      if (typeof playMicroClick === 'function') {
+        try { playMicroClick(); } catch (e) {}
+      }
+
+      if (willOpen) {
+        navbarContent.classList.add('show', 'is-open');
+        hamburgerBtn.classList.add('is-active');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        hamburgerBtn.setAttribute('aria-label', 'Cerrar menú de navegación');
+        if (symbolSpan && symbolSpan.classList.contains('hamburger-symbol')) {
+          symbolSpan.textContent = '✕';
+        }
+      } else {
+        navbarContent.classList.remove('show', 'is-open');
+        hamburgerBtn.classList.remove('is-active');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        hamburgerBtn.setAttribute('aria-label', 'Abrir menú de navegación');
+        if (symbolSpan && symbolSpan.classList.contains('hamburger-symbol')) {
+          symbolSpan.textContent = '☰';
+        }
+      }
+    }
+
+    // Toggle al hacer clic o tap en el botón hamburguesa
+    hamburgerBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    // Cerrar al hacer clic en enlaces dentro del menú en dispositivos móviles
+    navbarContent.querySelectorAll('.nav-link-custom, .dropdown-item').forEach(link => {
+      link.addEventListener('click', function () {
+        if (window.innerWidth <= 768) {
+          toggleMenu(false);
+        }
+      });
+    });
+
+    // Cerrar al hacer clic fuera del navbar en móviles
+    document.addEventListener('click', function (e) {
+      if (window.innerWidth <= 768) {
+        if (navbarContent.classList.contains('show') || navbarContent.classList.contains('is-open')) {
+          if (!navbarContent.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+            toggleMenu(false);
+          }
+        }
+      }
+    });
+
+    // Cerrar con tecla Escape
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && window.innerWidth <= 768) {
+        if (navbarContent.classList.contains('show') || navbarContent.classList.contains('is-open')) {
+          toggleMenu(false);
+          hamburgerBtn.focus();
+        }
+      }
+    });
+
+    // Reajustar al cambiar de orientación o redimensionar a pantalla de escritorio
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 768) {
+        navbarContent.classList.remove('is-open');
+        hamburgerBtn.classList.remove('is-active');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        hamburgerBtn.setAttribute('aria-label', 'Abrir menú de navegación');
+        if (symbolSpan && symbolSpan.classList.contains('hamburger-symbol')) {
+          symbolSpan.textContent = '☰';
+        }
+      }
+    });
+  }
+
   // Exponer API global
   window.LinguaApp = {
     getUser: getCurrentUser,
@@ -841,7 +933,8 @@
     getTargetLanguage: getTargetLanguage,
     setTargetLanguage: setTargetLanguage,
     getLanguageConfig: getLanguageConfig,
-    updateLanguageBadges: updateLanguageBadges
+    updateLanguageBadges: updateLanguageBadges,
+    setupResponsiveNavbar: setupResponsiveNavbar
   };
 
 
@@ -876,5 +969,6 @@
     updateLanguageBadges(getTargetLanguage());
     setupAuthForms();
     setupPageTransitions();
+    setupResponsiveNavbar();
   });
 })();

@@ -1894,6 +1894,16 @@
     "en": "Privacy Policy",
     "fr": "Politique de confidentialité",
     "pt": "Política de Privacidade"
+  },
+  "Abrir menú de navegación": {
+    "en": "Open navigation menu",
+    "fr": "Ouvrir le menu de navigation",
+    "pt": "Abrir menu de navegação"
+  },
+  "Cerrar menú de navegación": {
+    "en": "Close navigation menu",
+    "fr": "Fermer le menu de navigation",
+    "pt": "Fechar menu de navegação"
   }
 };
 
