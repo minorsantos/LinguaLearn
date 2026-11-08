@@ -1,0 +1,489 @@
+/* ==========================================================================
+   LINGUALEARN - ESTILOS DEL PORTAL Y MENÚ DEL ADMINISTRADOR (admin.css)
+   Diseño institucional, accesible (WCAG AAA) y responsivo con estética glassmorphic
+   ========================================================================== */
+
+:root {
+  --admin-primary: #0062d2;
+  --admin-primary-dark: #004ba4;
+  --admin-gold: #c29953;
+  --admin-gold-light: #fbf2dc;
+  --admin-terracotta: #915034;
+  --admin-sage: #2a6f4e;
+  --admin-bg-light: #fcf9f2;
+  --admin-surface-light: rgba(255, 255, 255, 0.92);
+  --admin-border-light: rgba(215, 195, 160, 0.55);
+}
+
+body.page-admin {
+  background-color: var(--admin-bg-light);
+  color: #1e293b;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.page-admin.dark-mode {
+  background-color: #0b1118 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Navbar de Administración */
+.admin-navbar {
+  background: rgba(252, 248, 239, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1.5px solid var(--admin-border-light);
+  padding: 0.65rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+body.dark-mode .admin-navbar {
+  background: rgba(14, 22, 33, 0.88) !important;
+  border-bottom-color: rgba(212, 175, 55, 0.35) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.admin-badge-portal {
+  background: linear-gradient(135deg, #c29953 0%, #915034 100%);
+  color: #ffffff;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.65rem;
+  border-radius: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(145, 80, 52, 0.25);
+}
+
+/* Botón de Salida del Administrador */
+.btn-admin-logout {
+  background: #fff0f0;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-admin-logout:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+  transform: translateY(-1px);
+}
+
+body.dark-mode .btn-admin-logout {
+  background: rgba(220, 38, 38, 0.15);
+  color: #fca5a5;
+  border-color: rgba(220, 38, 38, 0.4);
+}
+
+body.dark-mode .btn-admin-logout:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+/* Barra de Pestañas / Navegación Modular */
+.admin-nav-tabs-wrapper {
+  background: rgba(254, 250, 242, 0.92);
+  border-bottom: 1px solid var(--admin-border-light);
+  padding: 0.5rem 0;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+body.dark-mode .admin-nav-tabs-wrapper {
+  background: rgba(16, 25, 36, 0.95);
+  border-bottom-color: rgba(212, 175, 55, 0.25);
+}
+
+.admin-nav-tab {
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  padding: 0.55rem 1.05rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #55493a;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.admin-nav-tab:hover {
+  background: rgba(194, 153, 83, 0.12);
+  color: #915034;
+}
+
+.admin-nav-tab.active {
+  background: #0062d2;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(0, 98, 210, 0.32);
+}
+
+body.dark-mode .admin-nav-tab {
+  color: #cbd5e1;
+}
+
+body.dark-mode .admin-nav-tab:hover {
+  background: rgba(212, 175, 55, 0.15);
+  color: #ffd875;
+}
+
+body.dark-mode .admin-nav-tab.active {
+  background: #0077ff !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(0, 119, 255, 0.4);
+}
+
+/* Tarjetas Glassmorphic */
+.admin-card-glass {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 18px;
+  padding: 1.35rem 1.45rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+}
+
+.admin-card-glass:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.07);
+}
+
+body.dark-mode .admin-card-glass {
+  background: rgba(18, 27, 40, 0.85);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .admin-card-glass:hover {
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.65), 0 0 16px rgba(212, 175, 55, 0.1);
+}
+
+/* Tarjetas KPI de Resumen */
+.admin-kpi-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 16px;
+  padding: 1.15rem 1.25rem;
+  background: #ffffff;
+  border: 1px solid rgba(215, 195, 160, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+body.dark-mode .admin-kpi-card {
+  background: rgba(20, 31, 46, 0.9);
+  border-color: rgba(212, 175, 55, 0.25);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+.admin-kpi-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  flex-shrink: 0;
+}
+
+.kpi-icon-sales { background: #e0f2fe; color: #0284c7; }
+.kpi-icon-revenue { background: #ecfdf5; color: #059669; }
+.kpi-icon-students { background: #fef3c7; color: #d97706; }
+.kpi-icon-retention { background: #f3e8ff; color: #9333ea; }
+
+body.dark-mode .kpi-icon-sales { background: rgba(2, 132, 199, 0.25); color: #38bdf8; }
+body.dark-mode .kpi-icon-revenue { background: rgba(5, 150, 105, 0.25); color: #34d399; }
+body.dark-mode .kpi-icon-students { background: rgba(217, 119, 6, 0.25); color: #fbbf24; }
+body.dark-mode .kpi-icon-retention { background: rgba(147, 51, 234, 0.25); color: #c084fc; }
+
+.kpi-val {
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+body.dark-mode .kpi-val {
+  color: #ffffff;
+}
+
+/* Contenedores de Gráficos */
+.chart-container-box {
+  position: relative;
+  height: 280px;
+  width: 100%;
+}
+
+.chart-container-box.donut-box {
+  height: 250px;
+}
+
+/* Tablas Administrativas Elegantes */
+.admin-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.88rem;
+}
+
+.admin-table th {
+  background: rgba(246, 241, 232, 0.85);
+  color: #4b3f33;
+  font-weight: 700;
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid rgba(215, 195, 160, 0.6);
+  white-space: nowrap;
+}
+
+body.dark-mode .admin-table th {
+  background: rgba(18, 27, 40, 0.95);
+  color: #cbd5e1;
+  border-bottom-color: rgba(212, 175, 55, 0.35);
+}
+
+.admin-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(215, 195, 160, 0.35);
+  vertical-align: middle;
+}
+
+body.dark-mode .admin-table td {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.admin-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.admin-table tbody tr:hover {
+  background-color: rgba(0, 98, 210, 0.035);
+}
+
+body.dark-mode .admin-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Badges de Nivel y Estado */
+.badge-level {
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.32rem 0.6rem;
+  border-radius: 8px;
+}
+
+.badge-level-a1 { background: #e0f2fe; color: #0369a1; }
+.badge-level-a2 { background: #dcfce7; color: #15803d; }
+.badge-level-b1 { background: #fef9c3; color: #854d0e; }
+.badge-level-b2 { background: #ffedd5; color: #9a3412; }
+.badge-level-c1 { background: #f3e8ff; color: #6b21a8; }
+.badge-level-c2 { background: #ffe4e6; color: #9f1239; }
+
+body.dark-mode .badge-level-a1 { background: rgba(3, 105, 161, 0.3); color: #7dd3fc; }
+body.dark-mode .badge-level-a2 { background: rgba(21, 128, 61, 0.3); color: #86efac; }
+body.dark-mode .badge-level-b1 { background: rgba(133, 77, 14, 0.3); color: #fde047; }
+body.dark-mode .badge-level-b2 { background: rgba(154, 52, 18, 0.3); color: #fdba74; }
+body.dark-mode .badge-level-c1 { background: rgba(107, 33, 168, 0.3); color: #d8b4fe; }
+body.dark-mode .badge-level-c2 { background: rgba(159, 18, 57, 0.3); color: #fda4af; }
+
+.badge-status-active {
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+}
+
+.badge-status-inactive {
+  background: #f1f5f9;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+}
+
+.badge-status-alert {
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+}
+
+body.dark-mode .badge-status-active { background: rgba(21, 128, 61, 0.3); color: #86efac; }
+body.dark-mode .badge-status-inactive { background: rgba(100, 116, 139, 0.25); color: #94a3b8; }
+body.dark-mode .badge-status-alert { background: rgba(185, 28, 28, 0.3); color: #fca5a5; }
+
+/* Botones de Acción en Tablas */
+.btn-action-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(215, 195, 160, 0.6);
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.85rem;
+  transition: all 0.18s ease;
+  cursor: pointer;
+}
+
+.btn-action-icon:hover {
+  background: #f8fafc;
+  color: var(--admin-primary);
+  border-color: var(--admin-primary);
+  transform: scale(1.05);
+}
+
+body.dark-mode .btn-action-icon {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(212, 175, 55, 0.3);
+  color: #cbd5e1;
+}
+
+body.dark-mode .btn-action-icon:hover {
+  background: rgba(0, 119, 255, 0.2);
+  color: #38bdf8;
+  border-color: #38bdf8;
+}
+
+/* Tarjetas de Planes de Suscripción */
+.plan-pricing-card {
+  border-radius: 18px;
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 2px solid rgba(215, 195, 160, 0.6);
+  transition: all 0.24s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.plan-pricing-card.featured {
+  border-color: #0284c7;
+  box-shadow: 0 10px 28px rgba(2, 132, 199, 0.12);
+  position: relative;
+}
+
+body.dark-mode .plan-pricing-card {
+  background: rgba(18, 27, 40, 0.9);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+body.dark-mode .plan-pricing-card.featured {
+  border-color: #38bdf8;
+  box-shadow: 0 10px 32px rgba(56, 189, 248, 0.25);
+}
+
+/* Barra de Progreso de Habilidades */
+.skill-bar-track {
+  height: 8px;
+  border-radius: 10px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+body.dark-mode .skill-bar-track {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.skill-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Animaciones y Transiciones */
+.fade-in-section {
+  animation: adminFadeIn 0.3s ease forwards;
+}
+
+@keyframes adminFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos de Impresión / PDF */
+@media print {
+  .admin-navbar,
+  .admin-nav-tabs-wrapper,
+  .accessibility-topbar,
+  .btn-print-hide,
+  .modal,
+  .toast-container {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .admin-card-glass {
+    border: 1px solid #cccccc !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    page-break-inside: avoid;
+  }
+
+  .chart-container-box {
+    height: 240px !important;
+  }
+}
+
+/* Responsividad en Celulares (máx. 768px) */
+@media (max-width: 768px) {
+  .admin-nav-tabs-wrapper {
+    padding: 0.4rem 0.5rem;
+  }
+  
+  .admin-nav-tab {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.82rem;
+  }
+
+  .chart-container-box {
+    height: 220px;
+  }
+
+  .admin-kpi-val {
+    font-size: 1.35rem;
+  }
+}

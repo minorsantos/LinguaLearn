@@ -5699,3 +5699,128 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     font-size: 0.8rem !important;
   }
 }
+
+
+/* ==========================================================================
+   ENLACES Y BOTONES AL PORTAL DE ADMINISTRADORES
+   ========================================================================== */
+.btn-admin-portal-link {
+  border-color: rgba(194, 153, 83, 0.6) !important;
+  color: #7a541b !important;
+  background: rgba(194, 153, 83, 0.08) !important;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.25s ease;
+}
+
+.btn-admin-portal-link:hover,
+.btn-admin-portal-link.active {
+  background: linear-gradient(135deg, #c29953 0%, #915034 100%) !important;
+  color: #ffffff !important;
+  border-color: #915034 !important;
+  box-shadow: 0 4px 12px rgba(145, 80, 52, 0.3) !important;
+  transform: translateY(-1px);
+}
+
+body.dark-mode .btn-admin-portal-link {
+  border-color: rgba(212, 175, 55, 0.5) !important;
+  color: #f7dfa5 !important;
+  background: rgba(212, 175, 55, 0.12) !important;
+}
+
+body.dark-mode .btn-admin-portal-link:hover {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%) !important;
+  color: #0b1118 !important;
+}
+
+.btn-admin-trigger {
+  border-radius: 12px;
+  font-size: 0.85rem;
+  border: 1.5px solid #c29953;
+  color: #7a541b;
+  background: rgba(254, 250, 240, 0.7);
+  transition: all 0.25s ease;
+}
+
+.btn-admin-trigger:hover {
+  background: linear-gradient(135deg, #c29953 0%, #915034 100%) !important;
+  color: #ffffff !important;
+  border-color: #915034 !important;
+  box-shadow: 0 4px 12px rgba(145, 80, 52, 0.25);
+  transform: translateY(-1px);
+}
+
+body.dark-mode .btn-admin-trigger {
+  background: rgba(194, 153, 83, 0.16) !important;
+  color: #fed7aa !important;
+  border-color: #d4af37 !important;
+}
+
+body.dark-mode .btn-admin-trigger:hover {
+  background: rgba(212, 175, 55, 0.3) !important;
+  color: #ffffff !important;
+}
+
+/* Modal de Autenticación de Administradores en Modo Oscuro */
+body.dark-mode #modal-admin-login .modal-content {
+  background: rgba(15, 23, 36, 0.98) !important;
+  border: 2px solid #d4af37 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode #modal-admin-login .modal-header,
+body.dark-mode #modal-admin-login .modal-footer {
+  border-color: rgba(212, 175, 55, 0.25) !important;
+}
+
+body.dark-mode #modal-admin-login .modal-title,
+body.dark-mode #modal-admin-login .text-dark {
+  color: #f8fafc !important;
+}
+
+body.dark-mode #modal-admin-login .text-secondary {
+  color: #94a3b8 !important;
+}
+
+body.dark-mode #modal-admin-login .form-label {
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode #modal-admin-login .form-control {
+  background: #1e293b !important;
+  border-color: rgba(212, 175, 55, 0.4) !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode #modal-admin-login .form-control:focus {
+  background: #253347 !important;
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
+}
+
+body.dark-mode #modal-admin-login .input-group-text {
+  background: #253347 !important;
+  border-color: rgba(212, 175, 55, 0.4) !important;
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode #modal-admin-login .alert-warning-subtle {
+  background: rgba(194, 153, 83, 0.16) !important;
+  color: #fed7aa !important;
+  border-color: rgba(194, 153, 83, 0.4) !important;
+}
+
+body.dark-mode #modal-admin-login .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+@media (max-width: 480px) {
+  .btn-admin-portal-link span {
+    display: none;
+  }
+  .btn-admin-portal-link::after {
+    content: 'Admin';
+  }
+}

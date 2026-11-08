@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaLearn - Menú del Administrador</title>
+
+  <!-- Verificación de Seguridad y Redirección -->
+  <script>
+    (function () {
+      try {
+        var admin = JSON.parse(localStorage.getItem('lingua_admin_session') || '{}');
+        if (!admin || admin.isLoggedIn !== true || admin.isAdmin !== true) {
+          window.location.replace('index.html?portal=admin&error=auth_required');
+        }
+      } catch (e) {
+        window.location.replace('index.html?portal=admin&error=auth_required');
+      }
+    })();
+  </script>
+
+  <!-- Preload Theme para evitar parpadeos -->
+  <script>
+    if (localStorage.getItem('lingua_theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.addEventListener('DOMContentLoaded', () => document.body.classList.add('dark-mode'));
+    }
+  </script>
+
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Estilos de la Plataforma -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/nuevas_pantallas.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="page-admin">
+
+  <!-- BARRA DISCRETA DE ACCESIBILIDAD UNIVERSAL (WCAG 2.2 AAA) -->
+  <aside class="accessibility-topbar canvas-topbar-warm btn-print-hide" aria-label="Herramientas de accesibilidad">
+    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2 py-1">
+      <div class="d-flex align-items-center gap-3">
+        <span class="d-inline-flex align-items-center gap-1 fw-bold">
+          <i class="bi bi-shield-check text-primary"></i> Panel Seguro de Administración
+        </span>
+        <span class="opacity-50">|</span>
+        <button type="button" class="btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
+          <i class="bi bi-moon-stars-fill"></i> <span class="darkmode-text">Modo Oscuro</span>
+        </button>
+        <span class="opacity-50">|</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Ajuste de tipografía">
+          <button type="button" class="btn-font-decrease font-size-control-btn" style="color: #4a3e30;" aria-label="Disminuir tamaño">A-</button>
+          <button type="button" class="btn-font-increase font-size-control-btn" style="color: #4a3e30;" aria-label="Aumentar tamaño">A+</button>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3 small">
+        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">
+          <i class="bi bi-activity me-1"></i> Servidor Online (99.98%)
+        </span>
+        <span class="text-secondary d-none d-sm-inline">
+          <i class="bi bi-clock me-1"></i> Sesión activa: <span id="admin-session-time">159123-AUTH</span>
+        </span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- NAVBAR PRINCIPAL DEL ADMINISTRADOR -->
+  <header class="admin-navbar shadow-sm btn-print-hide">
+    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-3">
+      
+      <!-- Brand Logo + Insignia de Administrador -->
+      <div class="d-flex align-items-center gap-3">
+        <a class="brand-logo-container text-decoration-none" href="admin.html">
+          <div class="brand-icon">
+            <i class="bi bi-chat-quote-fill"></i>
+          </div>
+          <span class="brand-name">LinguaLearn</span>
+        </a>
+        <span class="admin-badge-portal">Menú del Administrador</span>
+      </div>
+
+      <!-- Información del Administrador y Salida Segura -->
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2">
+          <div class="avatar-gold-medallion m-0" style="width: 38px; height: 38px; border-width: 2px;">
+            <i class="bi bi-person-fill-gear text-warning fs-5"></i>
+          </div>
+          <div class="d-none d-md-block text-start">
+            <div class="fw-bold text-dark small lh-1 mb-1" id="header-admin-name">Director Administrativo</div>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill" style="font-size: 0.68rem;">SuperAdmin</span>
+          </div>
+        </div>
+
+        <!-- Botón Destacado de Cerrar Sesión Administrador -->
+        <button type="button" class="btn-admin-logout" id="btn-admin-logout" title="Cerrar sesión de administrador y regresar al portal">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- BARRA DE PESTAÑAS / NAVEGACIÓN MODULAR DEL ADMINISTRADOR -->
+  <nav class="admin-nav-tabs-wrapper btn-print-hide shadow-sm" aria-label="Navegación del Menú del Administrador">
+    <div class="container-xl d-flex align-items-center gap-2 flex-wrap">
+      <button type="button" class="admin-nav-tab active" data-target="sec-dashboard">
+        <i class="bi bi-grid-1x2-fill"></i> <span>Dashboard General</span>
+      </button>
+      <button type="button" class="admin-nav-tab" data-target="sec-estudiantes">
+        <i class="bi bi-people-fill"></i> <span>Gestión de Estudiantes</span>
+      </button>
+      <button type="button" class="admin-nav-tab" data-target="sec-ventas">
+        <i class="bi bi-cash-stack"></i> <span>Gestión de Ventas</span>
+      </button>
+      <button type="button" class="admin-nav-tab" data-target="sec-suscripciones">
+        <i class="bi bi-gem"></i> <span>Gestión de Suscripciones</span>
+      </button>
+      <button type="button" class="admin-nav-tab" data-target="sec-seguimiento">
+        <i class="bi bi-graph-up-arrow"></i> <span>Seguimiento del Aprendizaje</span>
+      </button>
+      <button type="button" class="admin-nav-tab" data-target="sec-reportes">
+        <i class="bi bi-file-earmark-bar-graph-fill"></i> <span>Reportes y Estadísticas</span>
+      </button>
+      <button type="button" class="admin-nav-tab" data-target="sec-configuracion">
+        <i class="bi bi-shield-lock-fill"></i> <span>Configuración y Seguridad</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO PRINCIPAL DINÁMICO POR MÓDULOS -->
+  <main class="container-xl py-4 flex-grow-1">
+
+    <!-- =======================================================================
+         MÓDULO 1: DASHBOARD (VENTAS Y PROGRESO DE ESTUDIANTES)
+         ======================================================================= -->
+    <section id="sec-dashboard" class="admin-tab-section fade-in-section">
+      
+      <!-- ENCABEZADO DASHBOARD -->
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+          <h1 class="h3 fw-bold mb-1 text-dark">Panel de Control Ejecutivo</h1>
+          <p class="text-secondary small mb-0">Métricas analíticas consolidadas de ventas y rendimiento académico en tiempo real.</p>
+        </div>
+        <div class="d-flex align-items-center gap-2 btn-print-hide">
+          <button type="button" class="btn btn-sm btn-outline-secondary btn-print-report">
+            <i class="bi bi-printer me-1"></i> Imprimir Dashboard
+          </button>
+          <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2">
+            <i class="bi bi-check-circle-fill me-1"></i> Datos Sincronizados
+          </span>
+        </div>
+      </div>
+
+      <!-- SECCIÓN A: DASHBOARD DE VENTAS -->
+      <div class="mb-5">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <div class="p-2 bg-success-subtle text-success rounded-3 fs-5">
+            <i class="bi bi-currency-dollar"></i>
+          </div>
+          <div>
+            <h2 class="h5 fw-bold mb-0 text-dark">Dashboard de Ventas</h2>
+            <span class="text-secondary small">Monitoreo de ingresos, nuevos clientes y estado de membresías</span>
+          </div>
+        </div>
+
+        <!-- 4 KPI CARDS DE VENTAS -->
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div>
+                <span class="text-secondary small fw-semibold d-block mb-1">Ingresos Totales</span>
+                <div class="kpi-val text-success">S/ 128,450</div>
+                <span class="badge bg-success-subtle text-success small mt-1"><i class="bi bi-arrow-up-right"></i> +14.2% vs mes ant.</span>
+              </div>
+              <div class="admin-kpi-icon kpi-icon-revenue">
+                <i class="bi bi-wallet2"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div>
+                <span class="text-secondary small fw-semibold d-block mb-1">Ventas este Mes</span>
+                <div class="kpi-val text-primary">S/ 24,890</div>
+                <span class="badge bg-primary-subtle text-primary small mt-1">186 suscripciones</span>
+              </div>
+              <div class="admin-kpi-icon kpi-icon-sales">
+                <i class="bi bi-cart-check-fill"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div>
+                <span class="text-secondary small fw-semibold d-block mb-1">Nuevos Clientes (Mes)</span>
+                <div class="kpi-val text-warning">142</div>
+                <span class="badge bg-warning-subtle text-warning small mt-1">+18% primerizos</span>
+              </div>
+              <div class="admin-kpi-icon kpi-icon-students">
+                <i class="bi bi-person-plus-fill"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div>
+                <span class="text-secondary small fw-semibold d-block mb-1">Suscripciones Activas</span>
+                <div class="kpi-val" style="color: #9333ea;">1,248</div>
+                <span class="badge bg-purple-subtle text-purple small mt-1" style="background:#f3e8ff; color:#7e22ce;">92.4% retención</span>
+              </div>
+              <div class="admin-kpi-icon kpi-icon-retention">
+                <i class="bi bi-arrow-repeat"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 GRÁFICOS DE VENTAS -->
+        <div class="row g-4">
+          <!-- Gráfico 1: Líneas - Ingresos Mensuales -->
+          <div class="col-lg-6">
+            <div class="admin-card-glass h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h6 fw-bold mb-0 text-dark"><i class="bi bi-graph-up text-success me-2"></i>Ingresos Mensuales por Suscripciones</h3>
+                <span class="badge bg-light text-secondary border small">Ene - Dic (S/)</span>
+              </div>
+              <div class="chart-container-box">
+                <canvas id="chart-ventas-ingresos"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gráfico 2: Circular - Ventas por Tipo de Suscripción -->
+          <div class="col-lg-6">
+            <div class="admin-card-glass h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h6 fw-bold mb-0 text-dark"><i class="bi bi-pie-chart text-primary me-2"></i>Ventas por Tipo de Suscripción</h3>
+                <span class="badge bg-light text-secondary border small">Básico / Premium / Empresarial</span>
+              </div>
+              <div class="chart-container-box donut-box">
+                <canvas id="chart-ventas-planes"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gráfico 3: Barras - Nuevos Clientes por Mes -->
+          <div class="col-lg-6">
+            <div class="admin-card-glass h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h6 fw-bold mb-0 text-dark"><i class="bi bi-bar-chart-line text-primary me-2"></i>Nuevos Clientes por Mes</h3>
+                <span class="badge bg-light text-secondary border small">Compras por primera vez</span>
+              </div>
+              <div class="chart-container-box">
+                <canvas id="chart-ventas-clientes"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gráfico 4: Barras Apiladas - Estado de Suscripciones -->
+          <div class="col-lg-6">
+            <div class="admin-card-glass h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h6 fw-bold mb-0 text-dark"><i class="bi bi-layers-fill text-warning me-2"></i>Estado de Suscripciones</h3>
+                <span class="badge bg-light text-secondary border small">Activas vs Vencidas vs Canceladas</span>
+              </div>
+              <div class="chart-container-box">
+                <canvas id="chart-ventas-estados"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-5" style="border-color: rgba(215, 195, 160, 0.4);">
+
+      <!-- SECCIÓN B: DASHBOARD DE PROGRESO DE ESTUDIANTES -->
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <div class="p-2 bg-primary-subtle text-primary rounded-3 fs-5">
+            <i class="bi bi-mortarboard-fill"></i>
+          </div>
+          <div>
+            <h2 class="h5 fw-bold mb-0 text-dark">Dashboard de Progreso de Estudiantes</h2>
+            <span class="text-secondary small">Seguimiento de avance curricular, niveles MCER y competencias lingüísticas</span>
+          </div>
+        </div>
+
+        <!-- 4 KPI CARDS DE ESTUDIANTES -->
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div>
+                <span class="text-secondary small fw-semibold d-block mb-1">Total Estudiantes</span>
+                <div class="kpi-val text-primary">1,520</div>
+                <span class="badge bg-primary-subtle text-primary small mt-1">+85 este mes</span>
+              </div>
+              <div class="admin-kpi-icon kpi-icon-sales">
+                <i class="bi bi-people"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div>
+                <span class="text-secondary small fw-semibold d-block mb-1">Progreso General</span>
+                <div class="kpi-val text-success">68.5%</div>
+                <span class="badge bg-success-subtle text-success small mt-1">Avance curricular promedio</span>
+              </div>
+              <div class="admin-kpi-icon kpi-icon-revenue">
+                <i class="bi bi-award-fill"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div>
+                <span class="text-secondary small fw-semibold d-block mb-1">Tiempo de Estudio</span>
+                <div class="kpi-val text-warning">42 min</div>
+                <span class="badge bg-warning-subtle text-warning small mt-1">Promedio por día</span>
+              </div>
+              <div class="admin-kpi-icon kpi-icon-students">
+                <i class="bi bi-stopwatch-fill"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div>
+                <span class="text-secondary small fw-semibold d-block mb-1">Alumnos en Alerta</span>
+                <div class="kpi-val text-danger">28</div>
+                <span class="badge bg-danger-subtle text-danger small mt-1">Avance &lt; 50%</span>
+              </div>
+              <div class="admin-kpi-icon" style="background:#fee2e2; color:#b91c1c;">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 GRÁFICOS DE PROGRESO -->
+        <div class="row g-4">
+          <!-- Gráfico 5: Barras - Progreso General de Estudiantes -->
+          <div class="col-lg-6">
+            <div class="admin-card-glass h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h6 fw-bold mb-0 text-dark"><i class="bi bi-bar-chart-steps text-primary me-2"></i>Progreso General por Unidad</h3>
+                <span class="badge bg-light text-secondary border small">% Promedio de avance</span>
+              </div>
+              <div class="chart-container-box">
+                <canvas id="chart-progreso-general"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gráfico 6: Circular - Estudiantes por Nivel de Idioma -->
+          <div class="col-lg-6">
+            <div class="admin-card-glass h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h6 fw-bold mb-0 text-dark"><i class="bi bi-pie-chart-fill text-warning me-2"></i>Estudiantes por Nivel (MCER)</h3>
+                <span class="badge bg-light text-secondary border small">A1, A2, B1, B2, C1, C2</span>
+              </div>
+              <div class="chart-container-box donut-box">
+                <canvas id="chart-progreso-niveles"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gráfico 7: Líneas - Evolución del Aprendizaje -->
+          <div class="col-lg-6">
+            <div class="admin-card-glass h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h6 fw-bold mb-0 text-dark"><i class="bi bi-graph-up-arrow text-success me-2"></i>Evolución del Aprendizaje</h3>
+                <span class="badge bg-light text-secondary border small">Avance acumulado mes a mes</span>
+              </div>
+              <div class="chart-container-box">
+                <canvas id="chart-progreso-evolucion"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gráfico 8: Barras - Rendimiento por Habilidad -->
+          <div class="col-lg-6">
+            <div class="admin-card-glass h-100">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="h6 fw-bold mb-0 text-dark"><i class="bi bi-bullseye text-primary me-2"></i>Rendimiento por Habilidad Lingüística</h3>
+                <span class="badge bg-light text-secondary border small">Gramática, Vocabulario, etc.</span>
+              </div>
+              <div class="chart-container-box">
+                <canvas id="chart-progreso-habilidades"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =======================================================================
+         MÓDULO 2: GESTIÓN DE ESTUDIANTES
+         ======================================================================= -->
+    <section id="sec-estudiantes" class="admin-tab-section d-none">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+          <h2 class="h4 fw-bold mb-1 text-dark">Gestión de Estudiantes</h2>
+          <p class="text-secondary small mb-0">Alta, consulta, edición y control de cuentas académicas.</p>
+        </div>
+        <button type="button" class="btn btn-terracotta btn-sm py-2 px-3 fw-semibold d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#modal-new-student">
+          <i class="bi bi-person-plus-fill fs-6"></i>
+          <span>Registrar Nuevo Estudiante</span>
+        </button>
+      </div>
+
+      <!-- Barra de Filtros y Búsqueda -->
+      <div class="admin-card-glass p-3 mb-4">
+        <div class="row g-2 align-items-center">
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-secondary"></i></span>
+              <input type="text" id="input-search-student" class="form-control border-start-0" placeholder="Buscar por nombre, correo o código...">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex align-items-center gap-2">
+              <label for="select-filter-level" class="small fw-semibold text-secondary text-nowrap">Nivel:</label>
+              <select id="select-filter-level" class="form-select form-select-sm">
+                <option value="all">Todos los Niveles</option>
+                <option value="A1">A1 - Inicial</option>
+                <option value="A2">A2 - Básico</option>
+                <option value="B1">B1 - Intermedio</option>
+                <option value="B2">B2 - Intermedio Alto</option>
+                <option value="C1">C1 - Avanzado</option>
+                <option value="C2">C2 - Maestría</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3 text-md-end">
+            <span class="badge bg-light text-secondary border py-2 px-3 small" id="students-count-badge">Cargando...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Estudiantes -->
+      <div class="admin-card-glass p-0 overflow-hidden mb-4 shadow-sm">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Estudiante</th>
+                <th>Nivel</th>
+                <th>Avance Curricular</th>
+                <th>Plan Activo</th>
+                <th>Estado</th>
+                <th>Último Acceso</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="students-table-body">
+              <!-- Renderizado dinámico con js/admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         MÓDULO 3: GESTIÓN DE VENTAS
+         ======================================================================= -->
+    <section id="sec-ventas" class="admin-tab-section d-none">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+          <h2 class="h4 fw-bold mb-1 text-dark">Gestión de Ventas y Pasarelas de Pago</h2>
+          <p class="text-secondary small mb-0">Control de transacciones, recaudación y estados de pago.</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-sm btn-outline-success" id="btn-rep-ventas-csv">
+            <i class="bi bi-file-earmark-spreadsheet me-1"></i> Exportar Ventas CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Ingresos Acumulados -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="admin-kpi-card">
+            <div>
+              <span class="text-secondary small fw-semibold">Ingresos Filtrados</span>
+              <div class="kpi-val text-success" id="kpi-sales-total-amount">S/ 0.00</div>
+              <span class="small text-secondary">Recaudación neta comprobada</span>
+            </div>
+            <div class="admin-kpi-icon kpi-icon-revenue">
+              <i class="bi bi-cash-coin"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="admin-kpi-card">
+            <div>
+              <span class="text-secondary small fw-semibold">Pasarela Más Usada</span>
+              <div class="kpi-val text-primary">Yape (42%)</div>
+              <span class="small text-secondary">Billetera digital instantánea</span>
+            </div>
+            <div class="admin-kpi-icon kpi-icon-sales">
+              <i class="bi bi-qr-code"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="admin-kpi-card">
+            <div>
+              <span class="text-secondary small fw-semibold">Tasa de Aprobación</span>
+              <div class="kpi-val text-warning">98.2%</div>
+              <span class="small text-secondary">Transacciones exitosas sin fricción</span>
+            </div>
+            <div class="admin-kpi-icon kpi-icon-students">
+              <i class="bi bi-shield-check"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtros de Pasarela y Estado -->
+      <div class="admin-card-glass p-3 mb-4">
+        <div class="row g-2 align-items-center">
+          <div class="col-md-4">
+            <label for="select-filter-gateway" class="small fw-semibold text-secondary">Pasarela de Pago:</label>
+            <select id="select-filter-gateway" class="form-select form-select-sm">
+              <option value="all">Todas las Pasarelas</option>
+              <option value="Yape">Yape</option>
+              <option value="Plin">Plin</option>
+              <option value="Tarjeta">Tarjetas (Visa / Mastercard)</option>
+              <option value="PayPal">PayPal</option>
+              <option value="Transferencia">Transferencia Bancaria</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="select-filter-sale-status" class="small fw-semibold text-secondary">Estado de Transacción:</label>
+            <select id="select-filter-sale-status" class="form-select form-select-sm">
+              <option value="all">Todos los Estados</option>
+              <option value="completado">Completado</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="reembolsado">Reembolsado</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="small fw-semibold text-secondary">Periodo:</label>
+            <select class="form-select form-select-sm">
+              <option>Todo el Historial</option>
+              <option>Este Mes (Febrero 2024)</option>
+              <option>Últimos 7 Días</option>
+              <option>Hoy</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Ventas -->
+      <div class="admin-card-glass p-0 overflow-hidden shadow-sm">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Código TRX</th>
+                <th>Fecha y Hora</th>
+                <th>Estudiante / Cliente</th>
+                <th>Plan Adquirido</th>
+                <th>Monto</th>
+                <th>Pasarela</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody id="sales-table-body">
+              <!-- Renderizado dinámico -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         MÓDULO 4: GESTIÓN DE SUSCRIPCIONES
+         ======================================================================= -->
+    <section id="sec-suscripciones" class="admin-tab-section d-none">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+          <h2 class="h4 fw-bold mb-1 text-dark">Gestión de Suscripciones y Planes</h2>
+          <p class="text-secondary small mb-0">Administración de precios, monitoreo de vencimientos y renovaciones.</p>
+        </div>
+      </div>
+
+      <!-- Tarjetas de Planes Existentes (Precios y Beneficios) -->
+      <h3 class="h6 fw-bold text-dark text-uppercase letter-spacing-1 mb-3">Planes de Membresía Actuales</h3>
+      <div class="row" id="plans-cards-grid">
+        <!-- Generado dinámicamente -->
+      </div>
+
+      <!-- Monitoreo de Suscripciones Activas y Vencidas -->
+      <div class="admin-card-glass mt-4 p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <h3 class="h6 fw-bold text-dark mb-0"><i class="bi bi-clock-history text-primary me-2"></i>Monitoreo de Suscripciones y Renovaciones</h3>
+          <span class="badge bg-light text-secondary border small">1,248 Activas • 72 Vencidas • 18 Canceladas</span>
+        </div>
+        <p class="small text-secondary mb-3">Gestione manualmente renovaciones anticipadas o cancelaciones a solicitud del estudiante.</p>
+
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Estudiante</th>
+                <th>Plan</th>
+                <th>Fecha Inicio</th>
+                <th>Próximo Vencimiento</th>
+                <th>Estado</th>
+                <th class="text-end">Acción Rápida</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fw-bold">Sofia Martinez</td>
+                <td><span class="badge bg-primary-subtle text-primary">Plan Premium (Anual)</span></td>
+                <td class="small">2024-01-15</td>
+                <td class="small fw-bold text-success">2025-01-15</td>
+                <td><span class="badge-status-active">Activa</span></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-success py-1 px-2" onclick="showAdminToast('Suscripción de Sofia Martinez extendida 30 días.', 'success');"><i class="bi bi-arrow-repeat me-1"></i>Renovar</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Carlos Mendoza</td>
+                <td><span class="badge bg-light text-dark border">Plan Básico (Mensual)</span></td>
+                <td class="small">2024-02-01</td>
+                <td class="small fw-bold text-warning">2024-03-01 (en 2 días)</td>
+                <td><span class="badge bg-warning-subtle text-warning border border-warning-subtle">Por Vencer</span></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-success py-1 px-2" onclick="showAdminToast('Plan mensual renovado con éxito.', 'success');"><i class="bi bi-arrow-repeat me-1"></i>Renovar</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="fw-bold">Mariana Gomez</td>
+                <td><span class="badge bg-light text-dark border">Plan Básico (Mensual)</span></td>
+                <td class="small">2024-01-08</td>
+                <td class="small text-danger">2024-02-08</td>
+                <td><span class="badge-status-inactive">Vencida</span></td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-primary py-1 px-2" onclick="showAdminToast('Notificación de renovación enviada por email.', 'info');"><i class="bi bi-envelope me-1"></i>Notificar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         MÓDULO 5: SEGUIMIENTO DEL APRENDIZAJE
+         ======================================================================= -->
+    <section id="sec-seguimiento" class="admin-tab-section d-none">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+          <h2 class="h4 fw-bold mb-1 text-dark">Seguimiento y Auditoría del Aprendizaje</h2>
+          <p class="text-secondary small mb-0">Evaluación del progreso individual y competencias por habilidad lingüística.</p>
+        </div>
+        <div class="form-check form-switch bg-light border p-2 px-3 rounded-pill d-flex align-items-center gap-2">
+          <input class="form-check-input ms-0 mt-0" type="checkbox" id="check-only-alerts">
+          <label class="form-check-label small fw-bold text-danger" for="check-only-alerts">
+            <i class="bi bi-exclamation-octagon-fill me-1"></i> Filtrar solo Alumnos en Riesgo (&lt; 50%)
+          </label>
+        </div>
+      </div>
+
+      <!-- Tabla de Seguimiento de Habilidades -->
+      <div class="admin-card-glass p-0 overflow-hidden shadow-sm mb-4">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Estudiante</th>
+                <th>Nivel</th>
+                <th>Avance Curricular</th>
+                <th>Racha de Estudio</th>
+                <th>Área que Requiere Refuerzo</th>
+                <th>Diagnóstico</th>
+                <th class="text-end">Acción Pedagógica</th>
+              </tr>
+            </thead>
+            <tbody id="learning-table-body">
+              <!-- Renderizado dinámico -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         MÓDULO 6: REPORTES Y ESTADÍSTICAS
+         ======================================================================= -->
+    <section id="sec-reportes" class="admin-tab-section d-none">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+          <h2 class="h4 fw-bold mb-1 text-dark">Generación y Descarga de Reportes</h2>
+          <p class="text-secondary small mb-0">Exportación de datos analíticos para la toma de decisiones directivas.</p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Reporte 1: Ingresos Mensuales -->
+        <div class="col-md-6">
+          <div class="admin-card-glass h-100 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="p-2 bg-success-subtle text-success rounded-3 fs-5"><i class="bi bi-cash-coin"></i></div>
+                <h3 class="h6 fw-bold mb-0 text-dark">Reporte de Ingresos Mensuales</h3>
+              </div>
+              <p class="small text-secondary mb-3">Desglose de recaudación bruta, número de suscripciones cobradas, reembolsos e ingreso neto mensual.</p>
+              <div class="p-2 bg-light rounded small border mb-3">
+                <i class="bi bi-info-circle text-primary me-1"></i> Formato normalizado con totales anuales listos para contabilidad.
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-outline-success w-100 fw-semibold" id="btn-rep-ingresos-csv">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i> Descargar CSV
+              </button>
+              <button class="btn btn-sm btn-outline-secondary w-100 btn-print-report">
+                <i class="bi bi-printer me-1"></i> Imprimir / PDF
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reporte 2: Ventas por Tipo de Suscripción -->
+        <div class="col-md-6">
+          <div class="admin-card-glass h-100 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="p-2 bg-primary-subtle text-primary rounded-3 fs-5"><i class="bi bi-pie-chart-fill"></i></div>
+                <h3 class="h6 fw-bold mb-0 text-dark">Reporte de Ventas por Suscripción</h3>
+              </div>
+              <p class="small text-secondary mb-3">Historial de todas las ventas desglosadas por plan (Básico, Premium, Empresarial), pasarela y código.</p>
+              <div class="p-2 bg-light rounded small border mb-3">
+                <i class="bi bi-info-circle text-primary me-1"></i> Incluye códigos de aprobación de Yape, Plin y pasarelas de tarjeta.
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-outline-success w-100 fw-semibold" id="btn-rep-ventas-csv">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i> Descargar CSV
+              </button>
+              <button class="btn btn-sm btn-outline-secondary w-100 btn-print-report">
+                <i class="bi bi-printer me-1"></i> Imprimir / PDF
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reporte 3: Distribución por Nivel de Idioma -->
+        <div class="col-md-6">
+          <div class="admin-card-glass h-100 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="p-2 bg-warning-subtle text-warning rounded-3 fs-5"><i class="bi bi-mortarboard-fill"></i></div>
+                <h3 class="h6 fw-bold mb-0 text-dark">Reporte de Distribución por Nivel</h3>
+              </div>
+              <p class="small text-secondary mb-3">Estadística consolidada de alumnos clasificados en el Marco Común Europeo (A1 a C2) y tasas de aprobación.</p>
+              <div class="p-2 bg-light rounded small border mb-3">
+                <i class="bi bi-info-circle text-primary me-1"></i> Permite planificar la asignación de tutores y materiales por nivel.
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-outline-success w-100 fw-semibold" id="btn-rep-niveles-csv">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i> Descargar CSV
+              </button>
+              <button class="btn btn-sm btn-outline-secondary w-100 btn-print-report">
+                <i class="bi bi-printer me-1"></i> Imprimir / PDF
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reporte 4: Rendimiento Académico Consolidado -->
+        <div class="col-md-6">
+          <div class="admin-card-glass h-100 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <div class="p-2 bg-purple-subtle text-purple rounded-3 fs-5" style="background:#f3e8ff; color:#9333ea;"><i class="bi bi-journal-check"></i></div>
+                <h3 class="h6 fw-bold mb-0 text-dark">Reporte de Rendimiento Académico</h3>
+              </div>
+              <p class="small text-secondary mb-3">Auditoría completa por estudiante con calificaciones en Gramática, Vocabulario, Lectura, Escritura y Pronunciación.</p>
+              <div class="p-2 bg-light rounded small border mb-3">
+                <i class="bi bi-info-circle text-primary me-1"></i> Ideal para auditorías académicas y reportes a coordinaciones.
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm btn-outline-success w-100 fw-semibold" id="btn-rep-rendimiento-csv">
+                <i class="bi bi-file-earmark-spreadsheet me-1"></i> Descargar CSV
+              </button>
+              <button class="btn btn-sm btn-outline-secondary w-100 btn-print-report">
+                <i class="bi bi-printer me-1"></i> Imprimir / PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         MÓDULO 7: CONFIGURACIÓN Y SEGURIDAD (ADMINS, RBAC Y BITÁCORA)
+         ======================================================================= -->
+    <section id="sec-configuracion" class="admin-tab-section d-none">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div>
+          <h2 class="h4 fw-bold mb-1 text-dark">Configuración, Roles y Seguridad</h2>
+          <p class="text-secondary small mb-0">Gestión de cuentas directivas, permisos RBAC y bitácora de auditoría.</p>
+        </div>
+        <button type="button" class="btn btn-sm btn-primary-custom" data-bs-toggle="modal" data-bs-target="#modal-new-admin">
+          <i class="bi bi-shield-plus me-1"></i> + Agregar Nuevo Administrador
+        </button>
+      </div>
+
+      <!-- Cuentas de Administradores del Sistema -->
+      <div class="admin-card-glass p-4 mb-4">
+        <h3 class="h6 fw-bold text-dark mb-3"><i class="bi bi-person-badge-fill text-primary me-2"></i>Cuentas de Administradores Registrados</h3>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo Electrónico</th>
+                <th>Rol Asignado</th>
+                <th>Estado</th>
+                <th>Última Actividad</th>
+              </tr>
+            </thead>
+            <tbody id="admins-table-body">
+              <!-- Renderizado dinámico -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Matriz de Roles y Permisos (RBAC) -->
+      <div class="admin-card-glass p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h3 class="h6 fw-bold text-dark mb-1"><i class="bi bi-sliders text-warning me-2"></i>Matriz de Roles y Permisos (Control de Acceso RBAC)</h3>
+            <span class="text-secondary small">Defina qué módulos puede visualizar o editar cada perfil directivo</span>
+          </div>
+          <button type="button" class="btn btn-sm btn-success" id="btn-save-rbac">
+            <i class="bi bi-check-lg me-1"></i> Guardar Permisos
+          </button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Rol de Usuario</th>
+                <th class="text-center">Dashboard</th>
+                <th class="text-center">Estudiantes</th>
+                <th class="text-center">Ventas</th>
+                <th class="text-center">Suscripciones</th>
+                <th class="text-center">Seguimiento</th>
+                <th class="text-center">Reportes</th>
+                <th class="text-center">Configuración</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="fw-bold"><span class="badge bg-danger-subtle text-danger">SuperAdmin</span></td>
+                <td class="text-center"><input type="checkbox" checked disabled class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked disabled class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked disabled class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked disabled class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked disabled class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked disabled class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked disabled class="form-check-input"></td>
+              </tr>
+              <tr>
+                <td class="fw-bold"><span class="badge bg-primary-subtle text-primary">Admin Académico</span></td>
+                <td class="text-center"><input type="checkbox" checked class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+              </tr>
+              <tr>
+                <td class="fw-bold"><span class="badge bg-success-subtle text-success">Admin Financiero</span></td>
+                <td class="text-center"><input type="checkbox" checked class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" checked class="form-check-input"></td>
+                <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bitácora y Registro de Auditoría (Logs de Actividad) -->
+      <div class="admin-card-glass p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div>
+            <h3 class="h6 fw-bold text-dark mb-1"><i class="bi bi-clock-history text-secondary me-2"></i>Bitácora de Auditoría (Historial de Actividades)</h3>
+            <span class="text-secondary small">Registro inmutable de eventos, inicios de sesión y modificaciones del sistema</span>
+          </div>
+          <div style="min-width: 250px;">
+            <input type="text" id="input-search-logs" class="form-control form-control-sm" placeholder="Filtrar por acción o usuario...">
+          </div>
+        </div>
+
+        <div class="table-responsive" style="max-height: 380px; overflow-y: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Timestamp</th>
+                <th>Administrador</th>
+                <th>Acción Realizada</th>
+                <th>Módulo Afectado</th>
+                <th>Dirección IP</th>
+                <th>Severidad</th>
+              </tr>
+            </thead>
+            <tbody id="audit-logs-body">
+              <!-- Renderizado dinámico -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       MODALES DEL SISTEMA DE ADMINISTRACIÓN
+       ========================================================================= -->
+
+  <!-- Modal 1: Registrar Nuevo Estudiante -->
+  <div class="modal fade" id="modal-new-student" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom border-0 shadow-lg">
+        <div class="modal-header border-bottom">
+          <h3 class="h5 modal-title fw-bold text-dark"><i class="bi bi-person-plus-fill text-primary me-2"></i>Registrar Nuevo Estudiante</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="form-new-student" class="modal-body py-3">
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Nombre Completo:</label>
+            <input type="text" id="new-student-name" class="form-control" placeholder="Ej. Juan Perez" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Correo Electrónico:</label>
+            <input type="email" id="new-student-email" class="form-control" placeholder="juan.perez@correo.com" required>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-bold">Teléfono / WhatsApp:</label>
+              <input type="text" id="new-student-phone" class="form-control" placeholder="+51 987 654 321">
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">Nivel Inicial Asignado:</label>
+              <select id="new-student-level" class="form-select">
+                <option value="A1">A1 - Inicial</option>
+                <option value="A2" selected>A2 - Básico</option>
+                <option value="B1">B1 - Intermedio</option>
+                <option value="B2">B2 - Intermedio Alto</option>
+                <option value="C1">C1 - Avanzado</option>
+                <option value="C2">C2 - Maestría</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Plan de Suscripción Inicial:</label>
+            <select id="new-student-plan" class="form-select">
+              <option value="Plan Básico (Mensual)">Plan Básico (Mensual) - S/ 29.00</option>
+              <option value="Plan Premium (Anual)" selected>Plan Premium (Anual) - S/ 199.00</option>
+              <option value="Plan Empresarial (Vitalicio)">Plan Empresarial (Vitalicio) - S/ 399.00</option>
+            </select>
+          </div>
+          <div class="d-flex justify-content-end gap-2 pt-2">
+            <button type="button" class="btn btn-secondary-custom btn-sm" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-terracotta btn-sm px-4 fw-bold">Guardar Estudiante</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Editar Estudiante -->
+  <div class="modal fade" id="modal-student-edit" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom border-0 shadow-lg">
+        <div class="modal-header border-bottom">
+          <h3 class="h5 modal-title fw-bold text-dark"><i class="bi bi-pencil-square text-primary me-2"></i>Editar Información del Estudiante</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="form-edit-student" class="modal-body py-3">
+          <input type="hidden" id="edit-student-id">
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Nombre Completo:</label>
+            <input type="text" id="edit-student-name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Correo Electrónico:</label>
+            <input type="email" id="edit-student-email" class="form-control" required>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-bold">Teléfono:</label>
+              <input type="text" id="edit-student-phone" class="form-control">
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">Nivel Actual:</label>
+              <select id="edit-student-level" class="form-select">
+                <option value="A1">A1</option>
+                <option value="A2">A2</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+                <option value="C1">C1</option>
+                <option value="C2">C2</option>
+              </select>
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-bold">Plan Activo:</label>
+              <select id="edit-student-plan" class="form-select">
+                <option value="Plan Básico (Mensual)">Plan Básico (Mensual)</option>
+                <option value="Plan Premium (Anual)">Plan Premium (Anual)</option>
+                <option value="Plan Empresarial (Vitalicio)">Plan Empresarial (Vitalicio)</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">Estado de Cuenta:</label>
+              <select id="edit-student-status" class="form-select">
+                <option value="Activo">Activo</option>
+                <option value="Alerta">En Riesgo</option>
+                <option value="Desactivado">Desactivado</option>
+              </select>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end gap-2 pt-2">
+            <button type="button" class="btn btn-secondary-custom btn-sm" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary-custom btn-sm px-4 fw-bold">Actualizar Datos</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Consulta Detallada y Ficha Académica del Estudiante -->
+  <div class="modal fade" id="modal-student-detail" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content card-custom border-0 shadow-lg">
+        <div class="modal-header border-bottom">
+          <div class="d-flex align-items-center gap-3">
+            <div class="avatar-gold-medallion m-0" style="width: 44px; height: 44px;">
+              <i class="bi bi-person-circle fs-3 text-warning"></i>
+            </div>
+            <div>
+              <h3 class="h5 modal-title fw-bold text-dark mb-0" id="det-student-name">Nombre del Alumno</h3>
+              <span class="text-secondary small">ID: <span id="det-student-id" class="font-monospace fw-bold">EST-000</span></span>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body py-4">
+          <div class="row g-4">
+            
+            <!-- Columna Izquierda: Información Personal y de Membresía -->
+            <div class="col-md-5 border-end">
+              <h4 class="h6 fw-bold text-dark mb-3">Información General</h4>
+              <ul class="list-unstyled d-flex flex-column gap-2 small">
+                <li><strong class="text-secondary">Correo:</strong> <span id="det-student-email" class="text-dark"></span></li>
+                <li><strong class="text-secondary">Teléfono:</strong> <span id="det-student-phone" class="text-dark"></span></li>
+                <li><strong class="text-secondary">Nivel Asignado:</strong> <span id="det-student-level" class="badge-level"></span></li>
+                <li><strong class="text-secondary">Plan Actual:</strong> <span id="det-student-plan" class="fw-semibold"></span></li>
+                <li><strong class="text-secondary">Racha Activa:</strong> <span id="det-student-streak" class="badge bg-warning-subtle text-warning"></span></li>
+                <li><strong class="text-secondary">Puntos XP:</strong> <span id="det-student-xp" class="fw-bold text-success"></span></li>
+                <li><strong class="text-secondary">Fecha Registro:</strong> <span id="det-student-registered" class="text-dark"></span></li>
+                <li><strong class="text-secondary">Último Acceso:</strong> <span id="det-student-lastaccess" class="text-dark"></span></li>
+              </ul>
+            </div>
+
+            <!-- Columna Derecha: Auditoría de Habilidades Lingüísticas -->
+            <div class="col-md-7">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="h6 fw-bold text-dark mb-0">Rendimiento por Competencia</h4>
+                <span class="badge bg-primary-subtle text-primary" id="det-student-progress"></span>
+              </div>
+              <p class="small text-secondary mb-3">Resultados del test diagnóstico y lecciones interactivas adaptativas.</p>
+
+              <div class="d-flex flex-column gap-3">
+                <div>
+                  <div class="d-flex justify-content-between small fw-bold mb-1">
+                    <span>Gramática y Sintaxis</span>
+                    <span id="skill-det-grammar-val" class="text-success">0%</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div id="skill-det-grammar" class="skill-bar-fill bg-success" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="d-flex justify-content-between small fw-bold mb-1">
+                    <span>Vocabulario Funcional</span>
+                    <span id="skill-det-vocab-val" class="text-primary">0%</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div id="skill-det-vocab" class="skill-bar-fill bg-primary" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="d-flex justify-content-between small fw-bold mb-1">
+                    <span>Comprensión Lectora</span>
+                    <span id="skill-det-reading-val" class="text-info">0%</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div id="skill-det-reading" class="skill-bar-fill bg-info" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="d-flex justify-content-between small fw-bold mb-1">
+                    <span>Expresión Escrita</span>
+                    <span id="skill-det-writing-val" class="text-warning">0%</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div id="skill-det-writing" class="skill-bar-fill bg-warning" style="width: 0%;"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="d-flex justify-content-between small fw-bold mb-1">
+                    <span>Pronunciación Fonética e IA</span>
+                    <span id="skill-det-speaking-val" class="text-danger">0%</span>
+                  </div>
+                  <div class="skill-bar-track">
+                    <div id="skill-det-speaking" class="skill-bar-fill bg-danger" style="width: 0%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer border-top">
+          <button type="button" class="btn btn-secondary-custom btn-sm" data-bs-dismiss="modal">Cerrar Ficha</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Editar Plan de Suscripción -->
+  <div class="modal fade" id="modal-edit-plan" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom border-0 shadow-lg">
+        <div class="modal-header border-bottom">
+          <h3 class="h5 modal-title fw-bold text-dark"><i class="bi bi-gem text-warning me-2"></i>Modificar Precio y Beneficios</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="form-edit-plan" class="modal-body py-3">
+          <input type="hidden" id="edit-plan-id">
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Nombre del Plan:</label>
+            <input type="text" id="edit-plan-name" class="form-control" readonly>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label small fw-bold">Precio (S/):</label>
+              <input type="number" step="0.5" id="edit-plan-price" class="form-control" required>
+            </div>
+            <div class="col-6">
+              <label class="form-label small fw-bold">Periodo:</label>
+              <input type="text" id="edit-plan-period" class="form-control" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Etiqueta Destacada:</label>
+            <input type="text" id="edit-plan-badge" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Beneficios (Uno por línea):</label>
+            <textarea id="edit-plan-features" class="form-control" rows="4"></textarea>
+          </div>
+          <div class="d-flex justify-content-end gap-2 pt-2">
+            <button type="button" class="btn btn-secondary-custom btn-sm" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary-custom btn-sm px-4 fw-bold">Guardar Modificaciones</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Agregar Nuevo Administrador -->
+  <div class="modal fade" id="modal-new-admin" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content card-custom border-0 shadow-lg">
+        <div class="modal-header border-bottom">
+          <h3 class="h5 modal-title fw-bold text-dark"><i class="bi bi-shield-plus text-primary me-2"></i>Crear Cuenta de Administrador</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body py-3">
+          <div class="mb-3">
+            <label for="new-admin-name" class="form-label small fw-bold">Nombre Completo:</label>
+            <input type="text" class="form-control" id="new-admin-name" placeholder="Ej. Dr. Fernando Morales" required>
+          </div>
+          <div class="mb-3">
+            <label for="new-admin-email" class="form-label small fw-bold">Correo Institucional:</label>
+            <input type="email" class="form-control" id="new-admin-email" placeholder="f.morales@lingualearn.edu" required>
+          </div>
+          <div class="mb-3">
+            <label for="new-admin-role" class="form-label small fw-bold">Rol Asignado:</label>
+            <select class="form-select" id="new-admin-role">
+              <option value="Admin Académico">Admin Académico (Gestión de estudiantes y aprendizaje)</option>
+              <option value="Admin Financiero">Admin Financiero (Ventas y suscripciones)</option>
+              <option value="SuperAdmin">SuperAdmin (Acceso total)</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-bold">Contraseña Provisional:</label>
+            <input type="password" class="form-control" value="AdminPass2024!" required>
+          </div>
+          <div class="d-flex justify-content-end gap-2 pt-2">
+            <button type="button" class="btn btn-secondary-custom btn-sm" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-terracotta btn-sm px-4 fw-bold" id="btn-submit-new-admin">
+              Crear Administrador
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Chart.js para los 8 Gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Scripts de la Plataforma -->
+  <script src="js/fireflies.js"></script>
+  <script src="js/accesibilidad.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/i18n.js"></script>
+  <!-- Controlador del Administrador -->
+  <script src="js/admin.js"></script>
+
+</body>
+</html>
