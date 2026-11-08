@@ -222,7 +222,7 @@
       <!-- ===================================================================
            BANNER PROMOCIONAL LLAMATIVO (CTA): EBOOK GRATIS Y BENEFICIOS
            =================================================================== -->
-      <section class="promo-banner-cta p-4 p-md-5 mb-5 rounded-4 shadow-lg position-relative overflow-hidden anim-cascade stagger-2" aria-label="Promoción Ebook Gratuito y Beneficios">
+      <section id="promo-banner-ebook" class="promo-banner-cta p-4 p-md-5 mb-5 rounded-4 shadow-lg position-relative overflow-hidden anim-cascade stagger-2" aria-label="Promoción Ebook Gratuito y Beneficios">
         <div class="promo-banner-decor-glow"></div>
         <div class="row align-items-center g-4 position-relative" style="z-index: 2;">
           <div class="col-lg-8">
@@ -1177,6 +1177,60 @@
           emailInput.value = 'sofia.martinez@universidad.edu';
         }
       }
+
+      // Control Estricto de Visibilidad por Rol: Exclusivo para la estudiante Sofía Martínez
+      function checkSofiaRoleVisibility() {
+        let isSofiaUser = false;
+        try {
+          const rawUser = localStorage.getItem('lingua_current_user');
+          let user = rawUser ? JSON.parse(rawUser) : null;
+          const rawAdmin = localStorage.getItem('lingua_admin_session');
+          const admin = rawAdmin ? JSON.parse(rawAdmin) : null;
+
+          // Si hay una sesión administrativa activa o el usuario actual tiene flag admin, ocultar
+          const isAdminSession = (admin && admin.isLoggedIn === true && admin.isAdmin === true) || (user && user.isAdmin === true);
+
+          if (!isAdminSession) {
+            if (!user || Object.keys(user).length === 0) {
+              // Predeterminado en LinguaLearn es Sofía Martínez
+              user = { name: 'Sofia Martinez', email: 'sofia.martinez@universidad.edu', isLoggedIn: true };
+            }
+            const email = (user.email || '').toLowerCase().trim();
+            const name = (user.name || '').toLowerCase().trim();
+            if (email === 'sofia.martinez@universidad.edu' || name.includes('sofia') || name.includes('sofía')) {
+              isSofiaUser = true;
+            }
+          }
+        } catch (e) {
+          isSofiaUser = false;
+        }
+
+        const banner = document.getElementById('promo-banner-ebook');
+        const modal = document.getElementById('modal-landing-promo');
+
+        if (isSofiaUser) {
+          if (banner) {
+            banner.style.display = '';
+            banner.classList.remove('d-none');
+          }
+          if (modal) {
+            modal.classList.remove('d-none');
+          }
+          populateSofiaEbookData();
+        } else {
+          // Ocultar por completo banner y modal si no es el rol de Sofía Martínez
+          if (banner) {
+            banner.style.display = 'none';
+            banner.classList.add('d-none');
+          }
+          if (modal) {
+            modal.style.display = 'none';
+            modal.classList.add('d-none');
+          }
+        }
+      }
+
+      checkSofiaRoleVisibility();
 
       // Autocompletar al abrir la modal desde el banner o disparadores
       const modalLandingPromo = document.getElementById('modal-landing-promo');
