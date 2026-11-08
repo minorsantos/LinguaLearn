@@ -1,6 +1,7 @@
 /* ==========================================================================
    LINGUALEARN - ESTILOS DEL MENÚ LATERAL Y PORTAL ADMINISTRATIVO (admin.css)
    Diseño modular institucional, accesible (WCAG AAA) y responsivo con estética glassmorphic
+   Compatible al 100% con Modo Oscuro (Dark Mode) y Exportación a PDF de Alta Fidelidad
    ========================================================================== */
 
 :root {
@@ -40,7 +41,7 @@ body.page-admin.dark-mode {
 }
 
 body.dark-mode .admin-layout-wrapper {
-  background-color: #0b1118;
+  background-color: #0b1118 !important;
 }
 
 /* MENÚ LATERAL (SIDEBAR) */
@@ -61,8 +62,8 @@ body.dark-mode .admin-layout-wrapper {
 }
 
 body.dark-mode .admin-sidebar {
-  background: linear-gradient(180deg, #0d141e 0%, #070b12 100%);
-  border-right-color: rgba(212, 175, 55, 0.25);
+  background: linear-gradient(180deg, #0d141e 0%, #070b12 100%) !important;
+  border-right-color: rgba(212, 175, 55, 0.25) !important;
 }
 
 /* Cabecera del Sidebar */
@@ -268,7 +269,7 @@ body.dark-mode .admin-sidebar {
 }
 
 body.dark-mode .admin-main-wrapper {
-  background-color: #0b1118;
+  background-color: #0b1118 !important;
 }
 
 /* Barra Superior Sticky */
@@ -287,8 +288,8 @@ body.dark-mode .admin-main-wrapper {
 }
 
 body.dark-mode .admin-topbar {
-  background: rgba(14, 22, 33, 0.94);
-  border-bottom-color: rgba(212, 175, 55, 0.3);
+  background: rgba(14, 22, 33, 0.94) !important;
+  border-bottom-color: rgba(212, 175, 55, 0.3) !important;
 }
 
 body.dark-mode .admin-topbar .text-dark {
@@ -334,27 +335,17 @@ body.dark-mode .admin-topbar .text-dark {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-body.dark-mode .admin-card-glass {
-  background: rgba(18, 27, 40, 0.92) !important;
-  border-color: rgba(212, 175, 55, 0.28) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  color: #f1f5f9;
-}
-
-body.dark-mode .admin-card-glass .text-dark {
-  color: #f8fafc !important;
-}
-
-body.dark-mode .admin-card-glass .text-secondary {
-  color: #94a3b8 !important;
-}
-
 /* KPI Cards */
 .admin-kpi-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1.5px solid var(--admin-border-light);
+  border-radius: 20px;
   padding: 1.25rem 1.4rem;
   display: flex;
   align-items: center;
   gap: 1rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .admin-kpi-card:hover {
@@ -373,19 +364,22 @@ body.dark-mode .admin-card-glass .text-secondary {
   flex-shrink: 0;
 }
 
-.admin-kpi-icon.kpi-gold {
+.admin-kpi-icon.kpi-gold,
+.admin-kpi-icon.kpi-icon-students {
   background: rgba(194, 153, 83, 0.15);
   color: #c29953;
   border: 1px solid rgba(194, 153, 83, 0.35);
 }
 
-.admin-kpi-icon.kpi-blue {
+.admin-kpi-icon.kpi-blue,
+.admin-kpi-icon.kpi-icon-sales {
   background: rgba(0, 98, 210, 0.12);
   color: #0062d2;
   border: 1px solid rgba(0, 98, 210, 0.3);
 }
 
-.admin-kpi-icon.kpi-green {
+.admin-kpi-icon.kpi-green,
+.admin-kpi-icon.kpi-icon-revenue {
   background: rgba(42, 111, 78, 0.15);
   color: #2a6f4e;
   border: 1px solid rgba(42, 111, 78, 0.35);
@@ -397,15 +391,12 @@ body.dark-mode .admin-card-glass .text-secondary {
   border: 1px solid rgba(145, 80, 52, 0.35);
 }
 
-.admin-kpi-val {
+.admin-kpi-val,
+.kpi-val {
   font-size: 1.75rem;
   font-weight: 800;
   line-height: 1;
   color: #1e293b;
-}
-
-body.dark-mode .admin-kpi-val {
-  color: #f8fafc;
 }
 
 /* Contenedores de Gráficos */
@@ -442,12 +433,6 @@ body.dark-mode .admin-kpi-val {
   border-bottom: 2px solid rgba(194, 153, 83, 0.3);
 }
 
-body.dark-mode .admin-table thead th {
-  background: rgba(255, 255, 255, 0.04);
-  color: #fde047;
-  border-bottom-color: rgba(212, 175, 55, 0.3);
-}
-
 .admin-table tbody td {
   padding: 0.85rem 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -455,21 +440,13 @@ body.dark-mode .admin-table thead th {
   color: #334155;
 }
 
-body.dark-mode .admin-table tbody td {
-  border-bottom-color: rgba(255, 255, 255, 0.06);
-  color: #cbd5e1;
-}
-
 .admin-table tbody tr:hover {
   background: rgba(194, 153, 83, 0.04);
 }
 
-body.dark-mode .admin-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.03);
-}
-
 /* Badges de Nivel y Estado */
-.badge-level-mcer {
+.badge-level-mcer,
+.badge-level {
   font-weight: 700;
   font-size: 0.72rem;
   padding: 0.25rem 0.55rem;
@@ -529,16 +506,6 @@ body.dark-mode .admin-table tbody tr:hover {
   box-shadow: 0 10px 32px rgba(0, 98, 210, 0.15);
 }
 
-body.dark-mode .plan-pricing-card {
-  background: rgba(18, 27, 40, 0.9);
-  border-color: rgba(212, 175, 55, 0.35);
-}
-
-body.dark-mode .plan-pricing-card.featured {
-  border-color: #38bdf8;
-  box-shadow: 0 10px 32px rgba(56, 189, 248, 0.25);
-}
-
 /* Barra de Progreso de Habilidades */
 .skill-bar-track {
   height: 8px;
@@ -547,17 +514,233 @@ body.dark-mode .plan-pricing-card.featured {
   overflow: hidden;
 }
 
-body.dark-mode .skill-bar-track {
-  background: rgba(255, 255, 255, 0.12);
-}
-
 .skill-bar-fill {
   height: 100%;
   border-radius: 10px;
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Modales en Modo Oscuro */
+/* ==========================================================================
+   SOPORTE RIGUROSO DE CONTRASTE EN MODO OSCURO (DARK MODE)
+   Eliminación total de fondos blancos rígidos y garantía de alto contraste
+   ========================================================================== */
+
+/* 1. Contenedores y Tarjetas en Modo Oscuro */
+body.dark-mode .admin-card-glass,
+body.dark-mode .admin-kpi-card {
+  background: rgba(18, 27, 40, 0.95) !important;
+  border-color: rgba(212, 175, 55, 0.3) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode .plan-pricing-card {
+  background: rgba(18, 27, 40, 0.95) !important;
+  border-color: rgba(212, 175, 55, 0.35) !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-mode .plan-pricing-card.featured {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 10px 32px rgba(56, 189, 248, 0.25) !important;
+}
+
+/* 2. Eliminación de fondos blancos y grises claros rígidos */
+body.dark-mode .bg-white {
+  background-color: #1a2533 !important;
+  color: #f8fafc !important;
+  border-color: rgba(212, 175, 55, 0.3) !important;
+}
+
+body.dark-mode .bg-light {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #e2e8f0 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+body.dark-mode .border,
+body.dark-mode .border-bottom,
+body.dark-mode .border-top,
+body.dark-mode .border-start,
+body.dark-mode .border-end {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 3. Tipografía y Textos en Modo Oscuro con Alto Contraste */
+body.dark-mode .text-dark,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode .h1,
+body.dark-mode .h2,
+body.dark-mode .h3,
+body.dark-mode .h4,
+body.dark-mode .h5,
+body.dark-mode .h6 {
+  color: #f8fafc !important;
+}
+
+body.dark-mode .text-secondary,
+body.dark-mode .text-muted,
+body.dark-mode .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+body.dark-mode .text-gray-600,
+body.dark-mode .text-gray-700,
+body.dark-mode .text-gray-800,
+body.dark-mode .text-gray-900 {
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode .admin-kpi-val,
+body.dark-mode .kpi-val {
+  color: #f8fafc !important;
+}
+
+body.dark-mode .kpi-val.text-success { color: #4ade80 !important; }
+body.dark-mode .kpi-val.text-primary { color: #38bdf8 !important; }
+body.dark-mode .kpi-val.text-warning { color: #facc15 !important; }
+
+/* 4. Tablas en Modo Oscuro */
+body.dark-mode .table,
+body.dark-mode .admin-table {
+  color: #cbd5e1 !important;
+}
+
+body.dark-mode .table thead th,
+body.dark-mode .admin-table thead th {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #fde047 !important;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.4) !important;
+}
+
+body.dark-mode .table tbody td,
+body.dark-mode .admin-table tbody td {
+  border-bottom-color: rgba(255, 255, 255, 0.07) !important;
+  color: #e2e8f0 !important;
+}
+
+body.dark-mode .table tbody tr:hover,
+body.dark-mode .admin-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* 5. Controles de Formularios, Selects e Inputs */
+body.dark-mode .form-control,
+body.dark-mode .form-select,
+body.dark-mode .input-group-text {
+  background-color: #1a2533 !important;
+  border-color: rgba(212, 175, 55, 0.35) !important;
+  color: #f8fafc !important;
+}
+
+body.dark-mode .form-control::placeholder {
+  color: #64748b !important;
+}
+
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+  background-color: #222f42 !important;
+  border-color: #facc15 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 0 0.25rem rgba(250, 204, 21, 0.2) !important;
+}
+
+body.dark-mode .form-select option {
+  background-color: #1a2533 !important;
+  color: #f8fafc !important;
+}
+
+/* 6. Badges en Modo Oscuro */
+body.dark-mode .badge.bg-light.text-dark,
+body.dark-mode .badge.bg-light.text-secondary {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.dark-mode .bg-success-subtle {
+  background-color: rgba(34, 197, 94, 0.18) !important;
+  color: #86efac !important;
+  border-color: rgba(34, 197, 94, 0.35) !important;
+}
+
+body.dark-mode .bg-warning-subtle {
+  background-color: rgba(234, 179, 8, 0.18) !important;
+  color: #fde047 !important;
+  border-color: rgba(234, 179, 8, 0.35) !important;
+}
+
+body.dark-mode .bg-primary-subtle {
+  background-color: rgba(56, 189, 248, 0.18) !important;
+  color: #7dd3fc !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
+}
+
+body.dark-mode .bg-danger-subtle {
+  background-color: rgba(239, 68, 68, 0.18) !important;
+  color: #fca5a5 !important;
+  border-color: rgba(239, 68, 68, 0.35) !important;
+}
+
+body.dark-mode .bg-info-subtle {
+  background-color: rgba(14, 165, 233, 0.18) !important;
+  color: #7dd3fc !important;
+  border-color: rgba(14, 165, 233, 0.35) !important;
+}
+
+body.dark-mode .bg-secondary-subtle {
+  background-color: rgba(148, 163, 184, 0.18) !important;
+  color: #cbd5e1 !important;
+  border-color: rgba(148, 163, 184, 0.35) !important;
+}
+
+/* 7. Botones en Modo Oscuro */
+body.dark-mode .btn-outline-secondary {
+  color: #cbd5e1 !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .btn-outline-primary {
+  color: #38bdf8 !important;
+  border-color: #38bdf8 !important;
+}
+
+body.dark-mode .btn-outline-primary:hover {
+  background-color: #0284c7 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .btn-outline-success {
+  color: #4ade80 !important;
+  border-color: #4ade80 !important;
+}
+
+body.dark-mode .btn-outline-success:hover {
+  background-color: #16a34a !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode .btn-outline-warning {
+  color: #facc15 !important;
+  border-color: #facc15 !important;
+}
+
+body.dark-mode .btn-outline-warning:hover {
+  background-color: #ca8a04 !important;
+  color: #ffffff !important;
+}
+
+/* 8. Modales en Modo Oscuro */
 body.dark-mode .modal-content {
   background: rgba(15, 23, 36, 0.98) !important;
   border: 1.5px solid rgba(212, 175, 55, 0.4) !important;
@@ -578,22 +761,16 @@ body.dark-mode .modal-content .form-label {
   color: #e2e8f0 !important;
 }
 
-body.dark-mode .modal-content .form-control,
-body.dark-mode .modal-content .form-select {
-  background: #1e293b !important;
-  border-color: rgba(212, 175, 55, 0.4) !important;
-  color: #ffffff !important;
-}
-
-body.dark-mode .modal-content .form-control:focus,
-body.dark-mode .modal-content .form-select:focus {
-  background: #253347 !important;
-  border-color: #d4af37 !important;
-  box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
-}
-
 body.dark-mode .modal-content .btn-close {
-  filter: invert(1) grayscale(100%) brightness(200%);
+  filter: invert(1) grayscale(100%) brightness(200%) !important;
+}
+
+body.dark-mode #modal-pdf-preview .modal-body {
+  background-color: #0f1724 !important;
+}
+
+body.dark-mode .skill-bar-track {
+  background: rgba(255, 255, 255, 0.12) !important;
 }
 
 /* ==========================================================================
@@ -644,44 +821,99 @@ body.dark-mode .modal-content .btn-close {
     height: 240px;
   }
 
-  .admin-kpi-val {
+  .admin-kpi-val,
+  .kpi-val {
     font-size: 1.45rem;
   }
 }
 
-/* Estilos de Impresión / PDF */
+/* ==========================================================================
+   ESTILOS DE IMPRESIÓN Y EXPORTACIÓN A PDF (@media print)
+   Maquetación limpia con tablas estructuradas y márgenes exactos A4
+   ========================================================================== */
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 10.5pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Ocultar elementos de navegación, modales y barras de la app */
   .admin-sidebar,
   .admin-topbar,
   .sidebar-backdrop,
   .btn-print-hide,
+  .btn,
+  button,
   .modal,
-  .toast-container {
+  .modal-backdrop,
+  .toast-container,
+  #admin-toast-container,
+  nav,
+  header,
+  aside {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  .admin-layout-wrapper,
+  .admin-main-wrapper,
+  .admin-main-content {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+  }
+
+  /* Mostrar exclusivamente el contenedor estructurado de reporte */
+  body.printing-consolidated-report .admin-tab-section {
     display: none !important;
   }
 
-  body {
+  body.printing-consolidated-report #printable-consolidated-report {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  #printable-consolidated-report {
+    display: block !important;
     background: #ffffff !important;
     color: #000000 !important;
   }
 
-  .admin-main-wrapper {
-    height: auto !important;
-    overflow: visible !important;
-  }
-
-  .admin-tab-section {
-    display: block !important;
-  }
-
-  .admin-card-glass {
-    border: 1px solid #cccccc !important;
-    box-shadow: none !important;
+  .pdf-document-sheet {
     background: #ffffff !important;
-    page-break-inside: avoid;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
-  .chart-container-box {
-    height: 230px !important;
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  th, td {
+    color: #000000 !important;
+    border-color: #9ca3af !important;
   }
 }
