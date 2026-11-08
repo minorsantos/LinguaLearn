@@ -1625,18 +1625,40 @@
       if (current > 13) document.body.style.fontSize = (current - 1) + 'px';
     });
 
-    // Validación estricta y Descarga Directa del Ebook (Landing Promocional)
+    // Autocompletado y Descarga Directa del Ebook (Landing Promocional)
     const formPromoEbook = document.getElementById('form-promo-ebook');
+    const nameInput = document.getElementById('input-ebook-name');
+    const emailInput = document.getElementById('input-ebook-email');
+    const btnSubmit = document.getElementById('btn-submit-ebook');
+    const feedback = document.getElementById('ebook-feedback-success');
+    const titleFeedback = document.getElementById('ebook-success-title');
+    const descFeedback = document.getElementById('ebook-success-desc');
+    const errorName = document.getElementById('error-ebook-name');
+    const errorEmail = document.getElementById('error-ebook-email');
+
+    // Función para autocompletar automáticamente los campos con los datos de Sofía
+    function populateSofiaEbookDataAdmin() {
+      if (nameInput && !nameInput.value.trim()) {
+        nameInput.value = 'Sofía Martínez';
+      }
+      if (emailInput && !emailInput.value.trim()) {
+        emailInput.value = 'sofia.martinez@universidad.edu';
+      }
+    }
+
+    // Autocompletar al abrir la modal
+    const modalLandingPromoAdmin = document.getElementById('modal-landing-promo');
+    modalLandingPromoAdmin?.addEventListener('show.bs.modal', populateSofiaEbookDataAdmin);
+    document.getElementById('btn-open-promo-banner')?.addEventListener('click', populateSofiaEbookDataAdmin);
+
+    // Autocompletar al hacer clic en el botón "Descargar Ahora"
+    btnSubmit?.addEventListener('click', populateSofiaEbookDataAdmin);
+
     formPromoEbook?.addEventListener('submit', function (e) {
       e.preventDefault();
-      const nameInput = document.getElementById('input-ebook-name');
-      const emailInput = document.getElementById('input-ebook-email');
-      const btnSubmit = document.getElementById('btn-submit-ebook');
-      const feedback = document.getElementById('ebook-feedback-success');
-      const titleFeedback = document.getElementById('ebook-success-title');
-      const descFeedback = document.getElementById('ebook-success-desc');
-      const errorName = document.getElementById('error-ebook-name');
-      const errorEmail = document.getElementById('error-ebook-email');
+
+      // 1. Autocompletar automáticamente los campos del formulario con los datos de la estudiante Sofía
+      populateSofiaEbookDataAdmin();
 
       // Limpiar errores previos
       nameInput?.classList.remove('is-invalid', 'border-danger');
@@ -1648,6 +1670,7 @@
       const email = emailInput ? emailInput.value.trim() : '';
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+      // 2. Validar que los campos no estén vacíos
       let isValid = true;
 
       if (!name) {
@@ -1672,40 +1695,29 @@
       localStorage.setItem('lingua_ebook_leads', JSON.stringify(leads));
 
       const pdfUrl = 'assets/ebook_fluidez_lingualearn.pdf';
-      const fileName = 'Guia_Rapida_Fluidez_Idiomas_LinguaLearn.pdf';
+      const fileName = 'ebook_fluidez_lingualearn.pdf';
 
-      // Disparar descarga directa del archivo PDF
-      fetch(pdfUrl)
-        .then(res => {
-          if (!res.ok) throw new Error('File not accessible');
-          return res.blob();
-        })
-        .then(blob => {
-          const blobUrl = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = blobUrl;
-          a.download = fileName;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
-        })
-        .catch(() => {
-          const a = document.createElement('a');
-          a.href = pdfUrl;
-          a.download = fileName;
-          a.target = '_blank';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        });
+      // Disparar la descarga directa y automática utilizando un enlace temporal con el atributo download
+      const tempLink = document.createElement('a');
+      tempLink.href = pdfUrl;
+      tempLink.download = fileName;
+      tempLink.style.display = 'none';
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      setTimeout(() => {
+        if (tempLink.parentNode) tempLink.parentNode.removeChild(tempLink);
+      }, 1000);
+
+      // 3. Mostrar un mensaje de confirmación de éxito personalizado al usuario
+      const firstName = name.split(' ')[0] || 'Sofía';
+      const successMsg = `¡Gracias, ${firstName}! Tu descarga ha comenzado con éxito`;
 
       // Notificación visual de éxito en pantalla
-      showAdminToast('¡Tu Ebook se está descargando con éxito!', 'success');
+      showAdminToast(successMsg, 'success');
 
       // Feedback en la modal
       if (titleFeedback) {
-        titleFeedback.innerHTML = '<i class="bi bi-check-circle-fill text-success me-1"></i> ¡Tu Ebook se está descargando con éxito!';
+        titleFeedback.innerHTML = `<i class="bi bi-check-circle-fill text-success me-1"></i> ${successMsg}`;
       }
       if (descFeedback) {
         descFeedback.innerHTML = `¡Hola, <strong>${name}</strong>! Tu <strong>Guía Rápida de 12 Páginas</strong> se ha descargado a tu dispositivo.<br>` +
@@ -1718,7 +1730,7 @@
 
       if (btnSubmit) {
         btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<i class="bi bi-check2-circle fs-5"></i><span>¡Tu Ebook se está descargando con éxito!</span>';
+        btnSubmit.innerHTML = `<i class="bi bi-check2-circle fs-5"></i><span>¡Descarga Iniciada!</span>`;
         btnSubmit.classList.remove('btn-warning');
         btnSubmit.classList.add('btn-success');
       }
