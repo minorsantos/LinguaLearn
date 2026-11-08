@@ -1610,6 +1610,39 @@
       const current = parseFloat(getComputedStyle(document.body).fontSize) || 16;
       if (current > 13) document.body.style.fontSize = (current - 1) + 'px';
     });
+
+    // Interacción del Formulario de Captación de Ebook (Landing Promocional)
+    const formPromoEbook = document.getElementById('form-promo-ebook');
+    formPromoEbook?.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const nameInput = document.getElementById('input-ebook-name');
+      const emailInput = document.getElementById('input-ebook-email');
+      const btnSubmit = document.getElementById('btn-submit-ebook');
+      const feedback = document.getElementById('ebook-feedback-success');
+      const desc = document.getElementById('ebook-success-desc');
+
+      const name = nameInput ? nameInput.value.trim() : '';
+      const email = emailInput ? emailInput.value.trim() : '';
+
+      if (!name || !email) return;
+
+      const leads = JSON.parse(localStorage.getItem('lingua_ebook_leads') || '[]');
+      leads.push({ name: name, email: email, date: new Date().toISOString() });
+      localStorage.setItem('lingua_ebook_leads', JSON.stringify(leads));
+
+      if (desc) {
+        desc.textContent = `¡Excelente, ${name}! Hemos enviado el enlace de descarga de tu Ebook gratuito a ${email}. Revisa tu bandeja de entrada.`;
+      }
+      if (feedback) feedback.classList.remove('d-none');
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = '<i class="bi bi-check2-circle fs-5"></i><span>¡Ebook Enviado!</span>';
+        btnSubmit.classList.remove('btn-warning');
+        btnSubmit.classList.add('btn-success');
+      }
+      addAuditLog(`Registro de Ebook Gratuito: ${name} (${email})`, 'Promociones', 'Éxito');
+    });
+
   });
 
 })();
