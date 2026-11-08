@@ -650,38 +650,200 @@ body.dark-mode .modal-content .btn-close {
 }
 
 /* Estilos de Impresión / PDF */
+
+/* ==========================================================================
+   ESTILOS DE VISTA PREVIA Y EXPORTACIÓN A PDF (DOCUMENTOS ORDENADOS)
+   ========================================================================== */
+
+.pdf-preview-sheet {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.pdf-header-container {
+  border-bottom: 2px solid #2563eb;
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
+
+.pdf-brand-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+}
+
+.pdf-meta-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #475569;
+}
+
+.pdf-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.pdf-kpi-card {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.pdf-kpi-card .kpi-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.pdf-kpi-card .kpi-number {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.pdf-section-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1e3a8a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.pdf-table {
+  width: 100%;
+  border-collapse: collapse !important;
+  margin-bottom: 18px;
+  font-size: 11.5px;
+}
+
+.pdf-table th {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  font-weight: 700;
+  text-align: left;
+  padding: 7px 10px;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.pdf-table td {
+  padding: 6px 10px;
+  border: 1px solid #e2e8f0 !important;
+  color: #1e293b;
+}
+
+.pdf-table tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+.pdf-table tfoot td {
+  background-color: #e2e8f0 !important;
+  font-weight: 800;
+  color: #0f172a;
+  border-top: 2px solid #94a3b8 !important;
+}
+
+.pdf-signature-grid {
+  margin-top: 36px;
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.pdf-signature-item {
+  flex: 1;
+  text-align: center;
+  border-top: 1px solid #94a3b8;
+  padding-top: 6px;
+  font-size: 10.5px;
+  color: #475569;
+}
+
+/* Reglas de impresión limpias para exportar en PDF */
 @media print {
-  .admin-sidebar,
-  .admin-topbar,
-  .sidebar-backdrop,
-  .btn-print-hide,
-  .modal,
-  .toast-container {
-    display: none !important;
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
   }
 
   body {
     background: #ffffff !important;
     color: #000000 !important;
+    font-size: 11pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  .admin-main-wrapper {
-    height: auto !important;
-    overflow: visible !important;
+  /* Ocultar toda la interfaz interactiva */
+  body > *:not(#printable-pdf-document) {
+    display: none !important;
   }
 
-  .admin-tab-section {
+  .admin-layout,
+  .admin-sidebar,
+  .admin-topbar,
+  .sidebar-backdrop,
+  .modal,
+  .modal-backdrop,
+  .toast-container,
+  button,
+  .btn {
+    display: none !important;
+  }
+
+  /* Mostrar exclusivamente el documento maquetado */
+  #printable-pdf-document {
     display: block !important;
-  }
-
-  .admin-card-glass {
-    border: 1px solid #cccccc !important;
-    box-shadow: none !important;
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     background: #ffffff !important;
-    page-break-inside: avoid;
+    color: #0f172a !important;
   }
 
-  .chart-container-box {
-    height: 230px !important;
+  .pdf-table,
+  .pdf-table th,
+  .pdf-table td {
+    border: 1px solid #cbd5e1 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .pdf-kpi-card {
+    border: 1px solid #cbd5e1 !important;
+    background-color: #f8fafc !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .pdf-table th {
+    background-color: #f1f5f9 !important;
+  }
+
+  .pdf-table tfoot td {
+    background-color: #e2e8f0 !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
   }
 }

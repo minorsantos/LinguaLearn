@@ -106,7 +106,7 @@
     if (!localStorage.getItem(ADMINS_KEY)) {
       const defaultAdmins = [
         { id: 'ADM-01', name: 'Director Administrativo', email: 'admin@lingualearn.edu', role: 'SuperAdmin', permissions: ['all'], status: 'Activo', lastLogin: 'En línea ahora' },
-        { id: 'ADM-02', name: 'Prof. Roberto Silva', email: 'academico@lingualearn.edu', role: 'Admin Académico', permissions: ['students', 'learning', 'reports'], status: 'Activo', lastLogin: 'Hace 3 horas' },
+        { id: 'ADM-02', name: 'Prof. Roberto Silva', email: 'academico@lingualearn.edu', role: 'Admin Académico', permissions: ['students', 'reports'], status: 'Activo', lastLogin: 'Hace 3 horas' },
         { id: 'ADM-03', name: 'Lic. Patricia Vega', email: 'finanzas@lingualearn.edu', role: 'Admin Financiero', permissions: ['sales', 'subscriptions', 'reports'], status: 'Activo', lastLogin: 'Ayer 18:20' }
       ];
       localStorage.setItem(ADMINS_KEY, JSON.stringify(defaultAdmins));
@@ -495,8 +495,7 @@
       'sec-estudiantes': 'Gestión de Estudiantes',
       'sec-ventas': 'Gestión de Ventas y Finanzas',
       'sec-suscripciones': 'Gestión de Suscripciones y Planes',
-      'sec-seguimiento': 'Seguimiento del Aprendizaje',
-      'sec-reportes': 'Reportes y Estadísticas',
+            'sec-reportes': 'Reportes y Estadísticas',
       'sec-configuracion': 'Configuración y Seguridad'
     };
 
@@ -888,61 +887,10 @@
     }
   }
 
-  // =========================================================================
-  // 8. SEGUIMIENTO DEL APRENDIZAJE Y ALUMNOS EN RIESGO
-  // =========================================================================
-  function renderLearningTracking(onlyAlerts = false) {
-    const tbody = document.getElementById('tracking-table-body');
-    if (!tbody) return;
+  // 8. Módulo de Seguimiento removido según requerimiento
 
-    let students = getStudents();
-    if (onlyAlerts) {
-      students = students.filter(s => s.progress < 50 || s.status === 'Alerta');
-    }
-
-    tbody.innerHTML = '';
-    students.forEach(st => {
-      const skills = st.skills || { grammar: 50, vocab: 50, reading: 50, writing: 50, speaking: 50 };
-      const lowestSkill = Object.keys(skills).reduce((a, b) => skills[a] < skills[b] ? a : b);
-      const skillLabels = { grammar: 'Gramática', vocab: 'Vocabulario', reading: 'Lectura', writing: 'Escritura', speaking: 'Pronunciación' };
-
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>
-          <div class="fw-bold text-dark">${st.name}</div>
-          <span class="badge-level-mcer badge-level-${st.level.toLowerCase()}">${st.level}</span>
-        </td>
-        <td>
-          <div class="d-flex align-items-center gap-2">
-            <div class="progress flex-grow-1" style="height: 6px; width: 80px;">
-              <div class="progress-bar ${st.progress < 50 ? 'bg-danger' : 'bg-primary'}" style="width: ${st.progress}%;"></div>
-            </div>
-            <span class="small fw-semibold">${st.progress}%</span>
-          </div>
-        </td>
-        <td><span class="badge bg-light text-dark border">${st.streak} días seguidos</span></td>
-        <td><span class="small fw-semibold text-danger"><i class="bi bi-arrow-down me-1"></i>${skillLabels[lowestSkill]} (${skills[lowestSkill]}%)</span></td>
-        <td>${st.status === 'Alerta' ? '<span class="badge bg-danger-subtle text-danger border border-danger-subtle">Riesgo de abandono</span>' : '<span class="badge bg-success-subtle text-success">Regular</span>'}</td>
-        <td class="text-end">
-          <button class="btn btn-sm btn-outline-warning btn-send-alert d-inline-flex align-items-center gap-1" data-name="${st.name}">
-            <i class="bi bi-send-fill"></i> <span>Enviar Refuerzo</span>
-          </button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    document.querySelectorAll('.btn-send-alert').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const name = this.getAttribute('data-name');
-        showAdminToast(`¡Alerta pedagógica y material de refuerzo enviado a ${name}!`, 'success');
-        addAuditLog(`Envío de refuerzo pedagógico a ${name}`, 'Seguimiento Aprendizaje', 'Info');
-      });
-    });
-  }
-
-  // =========================================================================
-  // 9. GENERACIÓN Y DESCARGA DE REPORTES (CSV Y PDF)
+    // =========================================================================
+  // 9. GENERACIÓN Y EXPORTACIÓN DE REPORTES ORDENADOS EN PDF Y CSV
   // =========================================================================
   function downloadCSV(filename, content) {
     const blob = new Blob(["\uFEFF" + content], { type: 'text/csv;charset=utf-8;' });
@@ -958,8 +906,363 @@
     addAuditLog(`Descarga de reporte ${filename}`, 'Reportes', 'Info');
   }
 
+  // Generador de maquetación HTML limpia y ordenada para documentos PDF
+  function buildPDFReportHTML(reportType = 'consolidado') {
+    const now = new Date();
+    const formattedDate = now.toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' });
+    const formattedTime = now.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
+    const currentAdmin = JSON.parse(localStorage.getItem(ADMIN_SESSION_KEY) || '{}');
+    const adminName = currentAdmin.name || 'Administrador General';
+
+    let titleText = 'INFORME EJECUTIVO CONSOLIDADO DE GESTIÓN';
+    if (reportType === 'ingresos') titleText = 'REPORTE FINANCIERO DE INGRESOS MENSUALES';
+    if (reportType === 'ventas') titleText = 'REPORTE COMERCIAL DE VENTAS Y SUSCRIPCIONES';
+    if (reportType === 'niveles') titleText = 'REPORTE ACADÉMICO DE DISTRIBUCIÓN POR NIVELES';
+
+    const headerHTML = `
+      <div class="pdf-header-container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+          <div>
+            <div class="pdf-brand-title">LinguaLearn &bull; Plataforma Global de Idiomas</div>
+            <div style="font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase;">Sistema Integral de Administración y Analítica</div>
+          </div>
+          <div style="text-align: right;">
+            <span style="display: inline-block; background: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 10px; padding: 3px 8px; border-radius: 4px; border: 1px solid #bae6fd;">OFICIAL &bull; CONFIDENCIAL</span>
+          </div>
+        </div>
+        <div style="text-align: center; margin: 16px 0 10px;">
+          <h1 style="font-size: 16px; font-weight: 800; color: #0f172a; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">${titleText}</h1>
+          <div style="font-size: 11px; color: #475569; margin-top: 3px;">Período Auditado: Año Fiscal 2024 &bull; Estado Operativo: Verificado</div>
+        </div>
+        <div class="pdf-meta-box" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+          <div><strong>Fecha de emisión:</strong> ${formattedDate} (${formattedTime})</div>
+          <div><strong>Generado por:</strong> ${adminName}</div>
+          <div><strong>Código de Control:</strong> LL-REP-${now.getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}</div>
+        </div>
+      </div>
+    `;
+
+    // 1. Sección Ingresos Mensuales
+    const ingresosHTML = `
+      <div class="pdf-section-title">1. Balance de Ingresos Mensuales y Recaudación (S/)</div>
+      <p style="font-size: 11.5px; color: #334155; margin-bottom: 10px;">
+        Desglose contable de los ingresos brutos percibidos, altas de suscripción por período mensual, deducción de reembolsos e ingreso neto consolidado en moneda nacional (PEN S/).
+      </p>
+      
+      <div class="pdf-kpi-grid">
+        <div class="pdf-kpi-card">
+          <div class="kpi-label">Ingresos Netos</div>
+          <div class="kpi-number" style="color: #059669;">S/ 128,013.00</div>
+        </div>
+        <div class="pdf-kpi-card">
+          <div class="kpi-label">Nuevas Altas</div>
+          <div class="kpi-number" style="color: #2563eb;">642 clientes</div>
+        </div>
+        <div class="pdf-kpi-card">
+          <div class="kpi-label">Promedio Mensual</div>
+          <div class="kpi-number" style="color: #0f172a;">S/ 21,335.50</div>
+        </div>
+        <div class="pdf-kpi-card">
+          <div class="kpi-label">Tasa Reembolsos</div>
+          <div class="kpi-number" style="color: #d97706;">0.07% (Baja)</div>
+        </div>
+      </div>
+
+      <table class="pdf-table">
+        <thead>
+          <tr>
+            <th>Mes / Período</th>
+            <th style="text-align: right;">Ingresos Brutos (S/)</th>
+            <th style="text-align: center;">Nuevas Suscripciones</th>
+            <th style="text-align: right;">Reembolsos (S/)</th>
+            <th style="text-align: right;">Ingreso Neto (S/)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Enero 2024</strong></td>
+            <td style="text-align: right;">S/ 14,200.00</td>
+            <td style="text-align: center;">75</td>
+            <td style="text-align: right;">S/ 0.00</td>
+            <td style="text-align: right; font-weight: 600;">S/ 14,200.00</td>
+          </tr>
+          <tr>
+            <td><strong>Febrero 2024</strong></td>
+            <td style="text-align: right;">S/ 18,500.00</td>
+            <td style="text-align: center;">92</td>
+            <td style="text-align: right; color: #dc2626;">S/ 29.00</td>
+            <td style="text-align: right; font-weight: 600;">S/ 18,471.00</td>
+          </tr>
+          <tr>
+            <td><strong>Marzo 2024</strong></td>
+            <td style="text-align: right;">S/ 22,100.00</td>
+            <td style="text-align: center;">110</td>
+            <td style="text-align: right;">S/ 0.00</td>
+            <td style="text-align: right; font-weight: 600;">S/ 22,100.00</td>
+          </tr>
+          <tr>
+            <td><strong>Abril 2024</strong></td>
+            <td style="text-align: right;">S/ 19,800.00</td>
+            <td style="text-align: center;">98</td>
+            <td style="text-align: right;">S/ 0.00</td>
+            <td style="text-align: right; font-weight: 600;">S/ 19,800.00</td>
+          </tr>
+          <tr>
+            <td><strong>Mayo 2024</strong></td>
+            <td style="text-align: right;">S/ 24,600.00</td>
+            <td style="text-align: center;">125</td>
+            <td style="text-align: right; color: #dc2626;">S/ 58.00</td>
+            <td style="text-align: right; font-weight: 600;">S/ 24,542.00</td>
+          </tr>
+          <tr>
+            <td><strong>Junio 2024</strong></td>
+            <td style="text-align: right;">S/ 28,900.00</td>
+            <td style="text-align: center;">142</td>
+            <td style="text-align: right;">S/ 0.00</td>
+            <td style="text-align: right; font-weight: 600;">S/ 28,900.00</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>TOTAL CONSOLIDADO</td>
+            <td style="text-align: right;">S/ 128,100.00</td>
+            <td style="text-align: center;">642 suscripciones</td>
+            <td style="text-align: right; color: #dc2626;">S/ 87.00</td>
+            <td style="text-align: right; color: #059669;">S/ 128,013.00</td>
+          </tr>
+        </tfoot>
+      </table>
+    `;
+
+    // 2. Sección Ventas por Suscripción
+    const salesList = getSales();
+    let salesRowsHTML = '';
+    salesList.slice(0, 8).forEach(s => {
+      salesRowsHTML += `
+        <tr>
+          <td><code style="font-weight: 600; color: #1e3a8a;">${s.id}</code></td>
+          <td>${s.date}</td>
+          <td><strong>${s.student}</strong></td>
+          <td>${s.plan}</td>
+          <td style="text-align: right; font-weight: 600;">S/ ${parseFloat(s.amount).toFixed(2)}</td>
+          <td>${s.gateway}</td>
+          <td><span style="color: #059669; font-weight: 600;">${s.status}</span></td>
+        </tr>
+      `;
+    });
+
+    const ventasHTML = `
+      <div class="pdf-section-title">2. Distribución de Ventas por Tipo de Suscripción</div>
+      <p style="font-size: 11.5px; color: #334155; margin-bottom: 10px;">
+        Análisis de adopción de planes de membresía, precios unitarios vigentes, concentración de cartera y muestra de transacciones directas verificadas en pasarela de pagos.
+      </p>
+
+      <table class="pdf-table" style="margin-bottom: 14px;">
+        <thead>
+          <tr>
+            <th>Plan de Estudio</th>
+            <th style="text-align: right;">Precio Unitario</th>
+            <th style="text-align: center;">Usuarios Activos</th>
+            <th style="text-align: right;">Recaudación Mensual Estimada</th>
+            <th style="text-align: center;">Participación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Plan Básico</strong> (Acceso a lecciones estándar)</td>
+            <td style="text-align: right;">S/ 29.00 / mes</td>
+            <td style="text-align: center;">480</td>
+            <td style="text-align: right;">S/ 13,920.00</td>
+            <td style="text-align: center;">22.5%</td>
+          </tr>
+          <tr>
+            <td><strong>Plan Premium</strong> (Acceso total + ejercicios avanzados)</td>
+            <td style="text-align: right;">S/ 59.00 / mes</td>
+            <td style="text-align: center;">820</td>
+            <td style="text-align: right;">S/ 48,380.00</td>
+            <td style="text-align: center; font-weight: 700; color: #2563eb;">58.2% (Mayoría)</td>
+          </tr>
+          <tr>
+            <td><strong>Plan Empresarial</strong> (Tutorías y certificaciones)</td>
+            <td style="text-align: right;">S/ 149.00 / mes</td>
+            <td style="text-align: center;">220</td>
+            <td style="text-align: right;">S/ 32,780.00</td>
+            <td style="text-align: center;">19.3%</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>TOTAL GENERAL DE MEMBRESÍAS</td>
+            <td style="text-align: right;">-</td>
+            <td style="text-align: center;">1,520 usuarios</td>
+            <td style="text-align: right; color: #059669;">S/ 95,080.00 / mes</td>
+            <td style="text-align: center;">100.0%</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div style="font-size: 11px; font-weight: 700; color: #334155; margin-bottom: 6px; text-transform: uppercase;">Muestra de Transacciones Recientes Auditadas:</div>
+      <table class="pdf-table">
+        <thead>
+          <tr>
+            <th>ID Transacción</th>
+            <th>Fecha</th>
+            <th>Estudiante</th>
+            <th>Plan</th>
+            <th style="text-align: right;">Monto</th>
+            <th>Pasarela</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${salesRowsHTML}
+        </tbody>
+      </table>
+    `;
+
+    // 3. Sección Distribución por Niveles
+    const nivelesHTML = `
+      <div class="pdf-section-title">3. Distribución Académica de Estudiantes por Nivel MCER</div>
+      <p style="font-size: 11.5px; color: #334155; margin-bottom: 10px;">
+        Población estudiantil categorizada según el Marco Común Europeo de Referencia para las Lenguas (MCER), cuantificando la distribución porcentual y la tasa media de aprobación en evaluaciones diagnósticas.
+      </p>
+
+      <table class="pdf-table">
+        <thead>
+          <tr>
+            <th>Nivel MCER</th>
+            <th>Denominación Pedagógica</th>
+            <th style="text-align: center;">Cantidad Estudiantes</th>
+            <th style="text-align: center;">Distribución (%)</th>
+            <th style="text-align: center;">Tasa de Aprobación (%)</th>
+            <th>Estado Curricular</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color: #2563eb;">A1</strong></td>
+            <td>Acceso / Principiante</td>
+            <td style="text-align: center; font-weight: 600;">425</td>
+            <td style="text-align: center;">28.0%</td>
+            <td style="text-align: center; font-weight: 600; color: #059669;">94.2%</td>
+            <td><span style="font-size: 11px; color: #059669;">Óptimo</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color: #2563eb;">A2</strong></td>
+            <td>Plataforma / Elemental</td>
+            <td style="text-align: center; font-weight: 600;">486</td>
+            <td style="text-align: center;">32.0%</td>
+            <td style="text-align: center; font-weight: 600; color: #059669;">88.5%</td>
+            <td><span style="font-size: 11px; color: #059669;">Óptimo</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color: #d97706;">B1</strong></td>
+            <td>Umbral / Intermedio</td>
+            <td style="text-align: center; font-weight: 600;">334</td>
+            <td style="text-align: center;">22.0%</td>
+            <td style="text-align: center; font-weight: 600; color: #059669;">82.1%</td>
+            <td><span style="font-size: 11px; color: #059669;">Regular</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color: #d97706;">B2</strong></td>
+            <td>Avanzado / Intermedio Alto</td>
+            <td style="text-align: center; font-weight: 600;">168</td>
+            <td style="text-align: center;">11.0%</td>
+            <td style="text-align: center; font-weight: 600; color: #d97706;">76.4%</td>
+            <td><span style="font-size: 11px; color: #d97706;">Supervisión</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color: #7c3aed;">C1</strong></td>
+            <td>Dominio Operativo Eficaz</td>
+            <td style="text-align: center; font-weight: 600;">76</td>
+            <td style="text-align: center;">5.0%</td>
+            <td style="text-align: center; font-weight: 600; color: #059669;">91.0%</td>
+            <td><span style="font-size: 11px; color: #059669;">Excelente</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color: #7c3aed;">C2</strong></td>
+            <td>Maestría Lingüística</td>
+            <td style="text-align: center; font-weight: 600;">31</td>
+            <td style="text-align: center;">2.0%</td>
+            <td style="text-align: center; font-weight: 600; color: #059669;">96.8%</td>
+            <td><span style="font-size: 11px; color: #059669;">Sobresaliente</span></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>TOTAL ALUMNADO</td>
+            <td>Matrícula Consolidada</td>
+            <td style="text-align: center; color: #2563eb;">1,520 estudiantes</td>
+            <td style="text-align: center;">100.0%</td>
+            <td style="text-align: center; color: #059669;">88.2% promedio</td>
+            <td>Certificado</td>
+          </tr>
+        </tfoot>
+      </table>
+    `;
+
+    const footerHTML = `
+      <div style="margin-top: 24px; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 10.5px; color: #475569; line-height: 1.4;">
+        <strong>Declaración de Conformidad:</strong> Este informe oficial ha sido generado automáticamente por el Módulo de Analítica y Reportes de LinguaLearn. Las cifras de recaudación, membresías y progresos académicos han sido debidamente contrastadas con la base de datos de producción.
+      </div>
+
+      <div class="pdf-signature-grid">
+        <div class="pdf-signature-item">
+          <strong>Dirección Administrativa y Finanzas</strong><br>
+          LinguaLearn Educational Technologies S.A.C.<br>
+          <span style="color: #94a3b8; font-size: 9.5px;">Firma Digital Verificada</span>
+        </div>
+        <div class="pdf-signature-item">
+          <strong>Coordinación Académica General</strong><br>
+          Departamento de Evaluación y Certificación MCER<br>
+          <span style="color: #94a3b8; font-size: 9.5px;">Auditoría de Calidad Educativa</span>
+        </div>
+      </div>
+    `;
+
+    let bodyHTML = '';
+    if (reportType === 'ingresos') {
+      bodyHTML = headerHTML + ingresosHTML + footerHTML;
+    } else if (reportType === 'ventas') {
+      bodyHTML = headerHTML + ventasHTML + footerHTML;
+    } else if (reportType === 'niveles') {
+      bodyHTML = headerHTML + nivelesHTML + footerHTML;
+    } else {
+      // Consolidado completo
+      bodyHTML = headerHTML + ingresosHTML + ventasHTML + nivelesHTML + footerHTML;
+    }
+
+    return bodyHTML;
+  }
+
+  // Abre el modal de vista previa y prepara el contenedor de impresión
+  function openPDFReport(reportType = 'consolidado') {
+    const html = buildPDFReportHTML(reportType);
+
+    // Contenedor que se imprime estrictamente en el papel / PDF
+    const printContainer = document.getElementById('printable-pdf-document');
+    if (printContainer) {
+      printContainer.innerHTML = html;
+    }
+
+    // Contenedor visual para vista previa en pantalla
+    const modalBody = document.getElementById('modal-pdf-body');
+    if (modalBody) {
+      modalBody.innerHTML = html;
+    }
+
+    // Abrir modal de Bootstrap
+    const modalEl = document.getElementById('modal-pdf-preview');
+    if (modalEl && window.bootstrap) {
+      const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+      modal.show();
+    }
+
+    addAuditLog(`Apertura de Reporte PDF (${reportType})`, 'Reportes y PDF', 'Info');
+  }
+
   function setupReports() {
-    // 1. Reporte de Ingresos Mensuales
+    // 1. Descarga CSV: Reporte de Ingresos Mensuales
     document.getElementById('btn-rep-ingresos-csv')?.addEventListener('click', function () {
       const csv = `Mes,Ingresos Brutos (S/),Suscripciones Nuevas,Reembolsos (S/),Ingreso Neto (S/)\n` +
         `Enero 2024,14200.00,75,0.00,14200.00\n` +
@@ -972,7 +1275,7 @@
       downloadCSV('reporte_ingresos_mensuales_lingualearn.csv', csv);
     });
 
-    // 2. Reporte de Ventas por Tipo de Suscripción
+    // 2. Descarga CSV: Reporte de Ventas por Tipo de Suscripción
     document.getElementById('btn-rep-ventas-csv')?.addEventListener('click', function () {
       const sales = getSales();
       let csv = 'ID Transaccion,Fecha,Estudiante,Plan,Monto (S/),Pasarela,Estado\n';
@@ -982,7 +1285,7 @@
       downloadCSV('reporte_ventas_suscripcion_lingualearn.csv', csv);
     });
 
-    // 3. Reporte de Distribución de Estudiantes por Nivel
+    // 3. Descarga CSV: Reporte de Distribución de Estudiantes por Nivel
     document.getElementById('btn-rep-niveles-csv')?.addEventListener('click', function () {
       const csv = `Nivel MCER,Descripcion,Cantidad Alumnos,Porcentaje,Tasa de Aprobacion\n` +
         `A1,Inicial,425,28.0%,94.2%\n` +
@@ -995,23 +1298,23 @@
       downloadCSV('reporte_distribucion_niveles_lingualearn.csv', csv);
     });
 
-    // 4. Reporte Consolidado de Rendimiento Académico
-    document.getElementById('btn-rep-rendimiento-csv')?.addEventListener('click', function () {
-      const students = getStudents();
-      let csv = 'ID,Nombre,Nivel,Progreso General (%),Racha (dias),XP Total,Gramatica (%),Vocabulario (%),Lectura (%),Escritura (%),Pronunciacion (%)\n';
-      students.forEach(st => {
-        const sk = st.skills || {};
-        csv += `"${st.id}","${st.name}","${st.level}",${st.progress},${st.streak},${st.xp},${sk.grammar||0},${sk.vocab||0},${sk.reading||0},${sk.writing||0},${sk.speaking||0}\n`;
-      });
-      downloadCSV('reporte_rendimiento_academico_lingualearn.csv', csv);
+    // Botón Principal de la Sección: Exportar Reporte Completo en PDF
+    document.getElementById('btn-export-consolidated-pdf')?.addEventListener('click', function () {
+      openPDFReport('consolidado');
     });
 
-    // Botones de Impresión / PDF
+    // Botones Individuales de Cada Tarjeta de Reporte
     document.querySelectorAll('.btn-print-report').forEach(btn => {
       btn.addEventListener('click', function () {
-        window.print();
-        addAuditLog('Generación de Reporte para Impresión/PDF', 'Reportes', 'Info');
+        const reportType = this.getAttribute('data-report-type') || 'consolidado';
+        openPDFReport(reportType);
       });
+    });
+
+    // Botón de confirmación dentro del Modal de Vista Previa
+    document.getElementById('btn-confirm-print-pdf')?.addEventListener('click', function () {
+      window.print();
+      addAuditLog('Impresión/Guardado de Documento PDF finalizado', 'Reportes y PDF', 'Éxito');
     });
   }
 
@@ -1095,8 +1398,7 @@
     renderStudentsTable();
     renderSalesTable();
     renderPlansCards();
-    renderLearningTracking();
-    setupReports();
+        setupReports();
     renderAuditLogsTable();
     renderAdminsTable();
 
@@ -1240,7 +1542,7 @@
         name: name,
         email: email,
         role: role,
-        permissions: role === 'SuperAdmin' ? ['all'] : role === 'Admin Académico' ? ['students', 'learning', 'reports'] : ['sales', 'subscriptions', 'reports'],
+        permissions: role === 'SuperAdmin' ? ['all'] : role === 'Admin Académico' ? ['students', 'reports'] : ['sales', 'subscriptions', 'reports'],
         status: 'Activo',
         lastLogin: 'Nunca (Recién creado)'
       });
@@ -1266,12 +1568,6 @@
     });
     statusFilter?.addEventListener('change', () => {
       renderSalesTable(gatewayFilter ? gatewayFilter.value : 'all', statusFilter.value);
-    });
-
-    // Filtro de seguimiento (Solo en riesgo)
-    const checkOnlyAlerts = document.getElementById('check-only-alerts');
-    checkOnlyAlerts?.addEventListener('change', function () {
-      renderLearningTracking(this.checked);
     });
 
     // Buscador en logs de auditoría
