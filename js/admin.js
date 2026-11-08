@@ -904,21 +904,8 @@
   // 8. Módulo de Seguimiento removido según requerimiento
 
     // =========================================================================
-  // 9. GENERACIÓN Y EXPORTACIÓN DE REPORTES ORDENADOS EN PDF Y CSV
-  // =========================================================================
-  function downloadCSV(filename, content) {
-    const blob = new Blob(["\uFEFF" + content], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', filename);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    showAdminToast(`Reporte descargado: ${filename}`, 'success');
-    addAuditLog(`Descarga de reporte ${filename}`, 'Reportes', 'Info');
-  }
+  // 9. GENERACIÓN Y EXPORTACIÓN DE REPORTES ORDENADOS EN PDF
+  // ==========================================================================
 
   // Generador de maquetación HTML limpia y ordenada para documentos PDF
   function buildPDFReportHTML(reportType = 'consolidado') {
@@ -1276,41 +1263,7 @@
   }
 
   function setupReports() {
-    // 1. Descarga CSV: Reporte de Ingresos Mensuales
-    document.getElementById('btn-rep-ingresos-csv')?.addEventListener('click', function () {
-      const csv = `Mes,Ingresos Brutos (S/),Suscripciones Nuevas,Reembolsos (S/),Ingreso Neto (S/)\n` +
-        `Enero 2024,14200.00,75,0.00,14200.00\n` +
-        `Febrero 2024,18500.00,92,29.00,18471.00\n` +
-        `Marzo 2024,22100.00,110,0.00,22100.00\n` +
-        `Abril 2024,19800.00,98,0.00,19800.00\n` +
-        `Mayo 2024,24600.00,125,58.00,24542.00\n` +
-        `Junio 2024,28900.00,142,0.00,28900.00\n` +
-        `TOTAL ACUMULADO,128100.00,642,87.00,128013.00`;
-      downloadCSV('reporte_ingresos_mensuales_lingualearn.csv', csv);
-    });
 
-    // 2. Descarga CSV: Reporte de Ventas por Tipo de Suscripción
-    document.getElementById('btn-rep-ventas-csv')?.addEventListener('click', function () {
-      const sales = getSales();
-      let csv = 'ID Transaccion,Fecha,Estudiante,Plan,Monto (S/),Pasarela,Estado\n';
-      sales.forEach(s => {
-        csv += `"${s.id}","${s.date}","${s.student}","${s.plan}",${s.amount},"${s.gateway}","${s.status}"\n`;
-      });
-      downloadCSV('reporte_ventas_suscripcion_lingualearn.csv', csv);
-    });
-
-    // 3. Descarga CSV: Reporte de Distribución de Estudiantes por Nivel
-    document.getElementById('btn-rep-niveles-csv')?.addEventListener('click', function () {
-      const csv = `Nivel MCER,Descripcion,Cantidad Alumnos,Porcentaje,Tasa de Aprobacion\n` +
-        `A1,Inicial,425,28.0%,94.2%\n` +
-        `A2,Basico,486,32.0%,88.5%\n` +
-        `B1,Intermedio,334,22.0%,82.1%\n` +
-        `B2,Intermedio Alto,168,11.0%,76.4%\n` +
-        `C1,Avanzado,76,5.0%,91.0%\n` +
-        `C2,Maestria,31,2.0%,96.8%\n` +
-        `TOTAL,,1520,100%,88.2%`;
-      downloadCSV('reporte_distribucion_niveles_lingualearn.csv', csv);
-    });
 
     // Botón Principal de la Sección: Exportar Reporte Completo en PDF
     document.getElementById('btn-export-consolidated-pdf')?.addEventListener('click', function () {
