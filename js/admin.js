@@ -605,6 +605,19 @@
     activateSection(initialTarget, false);
   }
 
+  // Helper para generar badges de planes con alto contraste y legibilidad óptima
+  function getPlanBadgeHtml(planName) {
+    if (!planName) return '<span class="badge-plan badge-plan-basic">Sin Plan</span>';
+    const p = planName.toLowerCase();
+    let badgeType = 'basic';
+    if (p.includes('premium')) {
+      badgeType = 'premium';
+    } else if (p.includes('empresarial') || p.includes('vitalicio')) {
+      badgeType = 'enterprise';
+    }
+    return `<span class="badge-plan badge-plan-${badgeType}">${planName}</span>`;
+  }
+
   // =========================================================================
   // 5. GESTIÓN DE ESTUDIANTES (CRUD Y FICHA DETALLADA)
   // =========================================================================
@@ -659,7 +672,7 @@
             <span class="small fw-semibold">${st.progress}%</span>
           </div>
         </td>
-        <td><span class="badge bg-light text-dark border">${st.plan}</span></td>
+        <td>${getPlanBadgeHtml(st.plan)}</td>
         <td>${statusBadge}</td>
         <td class="text-end">
           <div class="btn-group btn-group-sm">
@@ -708,7 +721,8 @@
     document.getElementById('detail-student-level').textContent = student.level;
     document.getElementById('detail-student-progress-num').textContent = student.progress + '%';
     document.getElementById('detail-student-progress-bar').style.width = student.progress + '%';
-    document.getElementById('detail-student-plan').textContent = student.plan;
+    const detPlanEl = document.getElementById('detail-student-plan');
+    if (detPlanEl) detPlanEl.innerHTML = getPlanBadgeHtml(student.plan);
     document.getElementById('detail-student-streak').textContent = student.streak + ' días seguidos';
     document.getElementById('detail-student-xp').textContent = student.xp + ' XP';
     document.getElementById('detail-student-status').textContent = student.status;
@@ -803,7 +817,7 @@
         <td class="font-monospace fw-bold text-primary">${sale.id}</td>
         <td class="small text-secondary">${sale.date}</td>
         <td class="fw-bold text-dark">${sale.student}</td>
-        <td><span class="badge bg-light text-dark border small">${sale.plan}</span></td>
+        <td>${getPlanBadgeHtml(sale.plan)}</td>
         <td class="fw-bold text-dark">S/ ${sale.amount.toFixed(2)}</td>
         <td><span class="d-inline-flex align-items-center gap-1 small"><i class="bi ${gatewayIcon}"></i> ${sale.gateway}</span></td>
         <td><span class="${badgeClass}">${sale.status}</span></td>
@@ -1343,7 +1357,7 @@
         <td class="font-monospace small text-secondary">${l.timestamp}</td>
         <td class="fw-bold small text-dark">${l.admin}</td>
         <td class="fw-semibold">${l.action}</td>
-        <td><span class="badge bg-light text-dark border small">${l.module}</span></td>
+        <td><span class="badge-module">${l.module}</span></td>
         <td class="font-monospace small text-secondary">${l.ip}</td>
         <td>${sevBadge}</td>
       `;
