@@ -1611,7 +1611,7 @@
       if (current > 13) document.body.style.fontSize = (current - 1) + 'px';
     });
 
-    // Interacción del Formulario de Captación de Ebook (Landing Promocional con Descarga Directa)
+    // Validación estricta y Descarga Directa del Ebook (Landing Promocional)
     const formPromoEbook = document.getElementById('form-promo-ebook');
     formPromoEbook?.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -1619,15 +1619,98 @@
       const emailInput = document.getElementById('input-ebook-email');
       const btnSubmit = document.getElementById('btn-submit-ebook');
       const feedback = document.getElementById('ebook-feedback-success');
-      const desc = document.getElementById('ebook-success-desc');
+      const titleFeedback = document.getElementById('ebook-success-title');
+      const descFeedback = document.getElementById('ebook-success-desc');
+      const errorName = document.getElementById('error-ebook-name');
+      const errorEmail = document.getElementById('error-ebook-email');
+
+      // Limpiar errores previos
+      nameInput?.classList.remove('is-invalid', 'border-danger');
+      emailInput?.classList.remove('is-invalid', 'border-danger');
+      if (errorName) errorName.classList.add('d-none');
+      if (errorEmail) errorEmail.classList.add('d-none');
 
       const name = nameInput ? nameInput.value.trim() : '';
       const email = emailInput ? emailInput.value.trim() : '';
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      if (!name || !email) return;
+      let isValid = true;
 
+      if (!name) {
+        if (errorName) errorName.classList.remove('d-none');
+        nameInput?.classList.add('is-invalid', 'border-danger');
+        nameInput?.focus();
+        isValid = false;
+      }
+
+      if (!email || !emailRegex.test(email)) {
+        if (errorEmail) errorEmail.classList.remove('d-none');
+        emailInput?.classList.add('is-invalid', 'border-danger');
+        if (isValid) emailInput?.focus();
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      // Guardar lead
       const leads = JSON.parse(localStorage.getItem('lingua_ebook_leads') || '[]');
       leads.push({ name: name, email: email, date: new Date().toISOString() });
+      localStorage.setItem('lingua_ebook_leads', JSON.stringify(leads));
+
+      const pdfUrl = 'assets/ebook_fluidez_lingualearn.pdf';
+      const fileName = 'Guia_Rapida_Fluidez_Idiomas_LinguaLearn.pdf';
+
+      // Disparar descarga directa del archivo PDF
+      fetch(pdfUrl)
+        .then(res => {
+          if (!res.ok) throw new Error('File not accessible');
+          return res.blob();
+        })
+        .then(blob => {
+          const blobUrl = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = blobUrl;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+        })
+        .catch(() => {
+          const a = document.createElement('a');
+          a.href = pdfUrl;
+          a.download = fileName;
+          a.target = '_blank';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        });
+
+      // Notificación visual de éxito en pantalla
+      showAdminToast('¡Tu Ebook se está descargando con éxito!', 'success');
+
+      // Feedback en la modal
+      if (titleFeedback) {
+        titleFeedback.innerHTML = '<i class="bi bi-check-circle-fill text-success me-1"></i> ¡Tu Ebook se está descargando con éxito!';
+      }
+      if (descFeedback) {
+        descFeedback.innerHTML = `¡Hola, <strong>${name}</strong>! Tu <strong>Guía Rápida de 12 Páginas</strong> se ha descargado a tu dispositivo.<br>` +
+          `<div class="mt-2 pt-1">` +
+          `<a href="${pdfUrl}" download="${fileName}" class="btn btn-sm btn-success fw-bold text-white px-3 py-2 rounded-pill shadow-sm d-inline-flex align-items-center gap-2">` +
+          `<i class="bi bi-file-earmark-pdf-fill fs-5"></i><span>Volver a Descargar PDF (12 Págs)</span>` +
+          `</a></div>`;
+      }
+      if (feedback) feedback.classList.remove('d-none');
+
+      if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = '<i class="bi bi-check2-circle fs-5"></i><span>¡Tu Ebook se está descargando con éxito!</span>';
+        btnSubmit.classList.remove('btn-warning');
+        btnSubmit.classList.add('btn-success');
+      }
+
+      addAuditLog(`Descarga Directa Ebook (12 Págs): ${name} (${email})`, 'Promociones', 'Éxito');
+    });
       localStorage.setItem('lingua_ebook_leads', JSON.stringify(leads));
 
       // Disparar descarga real e inmediata del PDF de 12 páginas

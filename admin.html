@@ -1364,20 +1364,22 @@
 
               <div class="col-lg-5">
                 <div class="p-4 rounded-4 shadow" style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.1);">
-                  <form id="form-promo-ebook" class="d-flex flex-column gap-3">
+                  <form id="form-promo-ebook" class="d-flex flex-column gap-3" novalidate>
                     <div>
                       <label for="input-ebook-name" class="form-label small fw-bold text-light mb-1">Tu nombre</label>
-                      <div class="input-group">
+                      <div class="input-group" id="group-ebook-name">
                         <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-person"></i></span>
-                        <input type="text" class="form-control bg-dark border-secondary text-white" id="input-ebook-name" placeholder="Tu nombre" required>
+                        <input type="text" class="form-control bg-dark border-secondary text-white" id="input-ebook-name" placeholder="Tu nombre" autocomplete="name">
                       </div>
+                      <div class="text-danger small mt-1 d-none" id="error-ebook-name"><i class="bi bi-exclamation-circle-fill me-1"></i> Por favor ingresa tu nombre completo.</div>
                     </div>
                     <div>
                       <label for="input-ebook-email" class="form-label small fw-bold text-light mb-1">Tu correo electrónico</label>
-                      <div class="input-group">
+                      <div class="input-group" id="group-ebook-email">
                         <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-envelope"></i></span>
-                        <input type="email" class="form-control bg-dark border-secondary text-white" id="input-ebook-email" placeholder="Tu correo electrónico" required>
+                        <input type="email" class="form-control bg-dark border-secondary text-white" id="input-ebook-email" placeholder="Tu correo electrónico" autocomplete="email">
                       </div>
+                      <div class="text-danger small mt-1 d-none" id="error-ebook-email"><i class="bi bi-exclamation-circle-fill me-1"></i> Por favor ingresa un correo electrónico válido (ejemplo: usuario@dominio.com).</div>
                     </div>
                     <button type="submit" class="btn btn-warning fw-bold text-dark py-3 rounded-pill shadow d-flex align-items-center justify-content-center gap-2 mt-2 promo-btn-pulse" id="btn-submit-ebook">
                       <i class="bi bi-download fs-5"></i>
@@ -1386,8 +1388,8 @@
                   </form>
                   <div id="ebook-feedback-success" class="d-none mt-3 p-3 bg-success bg-opacity-25 border border-success rounded-3 text-center">
                     <i class="bi bi-check-circle-fill text-success fs-3 d-block mb-1"></i>
-                    <div class="fw-bold text-white small" id="ebook-success-title">¡Descarga Solicitada con Éxito!</div>
-                    <div class="text-white-50 small mt-1" id="ebook-success-desc">Hemos enviado tu Ebook a tu correo electrónico.</div>
+                    <div class="fw-bold text-white small" id="ebook-success-title">¡Tu Ebook se está descargando con éxito!</div>
+                    <div class="text-white-50 small mt-1" id="ebook-success-desc">Hemos iniciado la descarga automática de tu Guía Rápida (12 páginas).</div>
                   </div>
                 </div>
               </div>

@@ -1135,7 +1135,29 @@
       }
 
       
-      // Interacción del Formulario de Captación de Ebook con Descarga Directa Real
+            // Función de Notificación Visual Flotante para Descarga
+      function showEbookDownloadToast(message) {
+        let toastContainer = document.getElementById('toast-ebook-container');
+        if (!toastContainer) {
+          toastContainer = document.createElement('div');
+          toastContainer.id = 'toast-ebook-container';
+          toastContainer.style.cssText = 'position: fixed; top: 24px; right: 24px; z-index: 10800; max-width: 380px;';
+          document.body.appendChild(toastContainer);
+        }
+        const toast = document.createElement('div');
+        toast.className = 'alert alert-success shadow-lg border-0 d-flex align-items-center gap-3 py-3 px-4 rounded-4 text-white anim-fade-in mb-2';
+        toast.style.cssText = 'background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 10px 30px rgba(0,0,0,0.45); font-size: 13.5px; border-left: 5px solid #34d399 !important;';
+        toast.innerHTML = `<i class="bi bi-cloud-arrow-down-fill fs-3 text-white"></i><div><strong class="d-block">¡Descarga Iniciada!</strong><div>${message}</div></div>`;
+        toastContainer.appendChild(toast);
+        setTimeout(() => {
+          toast.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(-10px)';
+          setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 400);
+        }, 4500);
+      }
+
+      // Validación estricta y Descarga Directa del Ebook
       const formPromoEbook = document.getElementById('form-promo-ebook');
       formPromoEbook?.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -1143,58 +1165,94 @@
         const emailInput = document.getElementById('input-ebook-email');
         const btnSubmit = document.getElementById('btn-submit-ebook');
         const feedback = document.getElementById('ebook-feedback-success');
-        const desc = document.getElementById('ebook-success-desc');
+        const titleFeedback = document.getElementById('ebook-success-title');
+        const descFeedback = document.getElementById('ebook-success-desc');
+        const errorName = document.getElementById('error-ebook-name');
+        const errorEmail = document.getElementById('error-ebook-email');
+
+        // Limpiar errores previos
+        nameInput?.classList.remove('is-invalid', 'border-danger');
+        emailInput?.classList.remove('is-invalid', 'border-danger');
+        if (errorName) errorName.classList.add('d-none');
+        if (errorEmail) errorEmail.classList.add('d-none');
 
         const name = nameInput ? nameInput.value.trim() : '';
         const email = emailInput ? emailInput.value.trim() : '';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!name || !email) return;
+        let isValid = true;
+
+        if (!name) {
+          if (errorName) errorName.classList.remove('d-none');
+          nameInput?.classList.add('is-invalid', 'border-danger');
+          nameInput?.focus();
+          isValid = false;
+        }
+
+        if (!email || !emailRegex.test(email)) {
+          if (errorEmail) errorEmail.classList.remove('d-none');
+          emailInput?.classList.add('is-invalid', 'border-danger');
+          if (isValid) emailInput?.focus();
+          isValid = false;
+        }
+
+        if (!isValid) return;
 
         // Guardar lead en localStorage
         const leads = JSON.parse(localStorage.getItem('lingua_ebook_leads') || '[]');
         leads.push({ name: name, email: email, date: new Date().toISOString() });
         localStorage.setItem('lingua_ebook_leads', JSON.stringify(leads));
 
-        // Disparar descarga real e inmediata del PDF de 12 páginas
-        const downloadLink = document.createElement('a');
-        downloadLink.href = 'assets/ebook_fluidez_lingualearn.pdf';
-        downloadLink.download = 'Guia_Rapida_Fluidez_Idiomas_LinguaLearn.pdf';
-        downloadLink.style.display = 'none';
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        setTimeout(() => {
-          if (downloadLink.parentNode) downloadLink.parentNode.removeChild(downloadLink);
-        }, 800);
+        const pdfUrl = 'assets/ebook_fluidez_lingualearn.pdf';
+        const fileName = 'Guia_Rapida_Fluidez_Idiomas_LinguaLearn.pdf';
 
-        // Feedback interactivo con botón directo por si el navegador bloquea la descarga automática
-        if (desc) {
-          desc.innerHTML = `¡Excelente, <strong>${name}</strong>! Tu descarga de la <strong>Guía Rápida (12 páginas)</strong> ha comenzado automáticamente.<br>` +
+        // Disparar descarga real e inmediata utilizando Blob y enlace virtual <a> con download
+        fetch(pdfUrl)
+          .then(res => {
+            if (!res.ok) throw new Error('File not accessible');
+            return res.blob();
+          })
+          .then(blob => {
+            const blobUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+          })
+          .catch(() => {
+            // Fallback a enlace virtual directo
+            const a = document.createElement('a');
+            a.href = pdfUrl;
+            a.download = fileName;
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          });
+
+        // Notificación visual flotante de éxito
+        showEbookDownloadToast('¡Tu Ebook se está descargando con éxito!');
+
+        // Notificación visual en la modal
+        if (titleFeedback) {
+          titleFeedback.innerHTML = '<i class="bi bi-check-circle-fill text-success me-1"></i> ¡Tu Ebook se está descargando con éxito!';
+        }
+        if (descFeedback) {
+          descFeedback.innerHTML = `¡Hola, <strong>${name}</strong>! Tu <strong>Guía Rápida de 12 Páginas</strong> se ha descargado a tu dispositivo.<br>` +
             `<div class="mt-2 pt-1">` +
-            `<a href="assets/ebook_fluidez_lingualearn.pdf" download="Guia_Rapida_Fluidez_Idiomas_LinguaLearn.pdf" class="btn btn-sm btn-success fw-bold text-white px-3 py-2 rounded-pill shadow-sm d-inline-flex align-items-center gap-2">` +
-            `<i class="bi bi-file-earmark-pdf-fill fs-5"></i><span>Clic aquí si la descarga no inició (12 Páginas PDF)</span>` +
+            `<a href="${pdfUrl}" download="${fileName}" class="btn btn-sm btn-success fw-bold text-white px-3 py-2 rounded-pill shadow-sm d-inline-flex align-items-center gap-2">` +
+            `<i class="bi bi-file-earmark-pdf-fill fs-5"></i><span>Volver a Descargar PDF (12 Págs)</span>` +
             `</a></div>`;
         }
         if (feedback) feedback.classList.remove('d-none');
+
+        // Estado del botón
         if (btnSubmit) {
           btnSubmit.disabled = true;
-          btnSubmit.innerHTML = '<i class="bi bi-check2-circle fs-5"></i><span>¡Ebook Descargado!</span>';
-          btnSubmit.classList.remove('btn-warning');
-          btnSubmit.classList.add('btn-success');
-        }
-      });
-
-      
-      
-        localStorage.setItem('lingua_ebook_leads', JSON.stringify(leads));
-
-        // Feedback interactivo
-        if (desc) {
-          desc.textContent = `¡Excelente, ${name}! Hemos enviado el enlace de descarga de tu Ebook gratuito a ${email}. Revisa tu bandeja de entrada.`;
-        }
-        if (feedback) feedback.classList.remove('d-none');
-        if (btnSubmit) {
-          btnSubmit.disabled = true;
-          btnSubmit.innerHTML = '<i class="bi bi-check2-circle fs-5"></i><span>¡Ebook Enviado!</span>';
+          btnSubmit.innerHTML = '<i class="bi bi-check2-circle fs-5"></i><span>¡Tu Ebook se está descargando con éxito!</span>';
           btnSubmit.classList.remove('btn-warning');
           btnSubmit.classList.add('btn-success');
         }
@@ -1255,20 +1313,22 @@
 
               <div class="col-lg-5">
                 <div class="p-4 rounded-4 shadow" style="background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(255,255,255,0.1);">
-                  <form id="form-promo-ebook" class="d-flex flex-column gap-3">
+                  <form id="form-promo-ebook" class="d-flex flex-column gap-3" novalidate>
                     <div>
                       <label for="input-ebook-name" class="form-label small fw-bold text-light mb-1">Tu nombre</label>
-                      <div class="input-group">
+                      <div class="input-group" id="group-ebook-name">
                         <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-person"></i></span>
-                        <input type="text" class="form-control bg-dark border-secondary text-white" id="input-ebook-name" placeholder="Tu nombre" required>
+                        <input type="text" class="form-control bg-dark border-secondary text-white" id="input-ebook-name" placeholder="Tu nombre" autocomplete="name">
                       </div>
+                      <div class="text-danger small mt-1 d-none" id="error-ebook-name"><i class="bi bi-exclamation-circle-fill me-1"></i> Por favor ingresa tu nombre completo.</div>
                     </div>
                     <div>
                       <label for="input-ebook-email" class="form-label small fw-bold text-light mb-1">Tu correo electrónico</label>
-                      <div class="input-group">
+                      <div class="input-group" id="group-ebook-email">
                         <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-envelope"></i></span>
-                        <input type="email" class="form-control bg-dark border-secondary text-white" id="input-ebook-email" placeholder="Tu correo electrónico" required>
+                        <input type="email" class="form-control bg-dark border-secondary text-white" id="input-ebook-email" placeholder="Tu correo electrónico" autocomplete="email">
                       </div>
+                      <div class="text-danger small mt-1 d-none" id="error-ebook-email"><i class="bi bi-exclamation-circle-fill me-1"></i> Por favor ingresa un correo electrónico válido (ejemplo: usuario@dominio.com).</div>
                     </div>
                     <button type="submit" class="btn btn-warning fw-bold text-dark py-3 rounded-pill shadow d-flex align-items-center justify-content-center gap-2 mt-2 promo-btn-pulse" id="btn-submit-ebook">
                       <i class="bi bi-download fs-5"></i>
@@ -1277,8 +1337,8 @@
                   </form>
                   <div id="ebook-feedback-success" class="d-none mt-3 p-3 bg-success bg-opacity-25 border border-success rounded-3 text-center">
                     <i class="bi bi-check-circle-fill text-success fs-3 d-block mb-1"></i>
-                    <div class="fw-bold text-white small" id="ebook-success-title">¡Descarga Solicitada con Éxito!</div>
-                    <div class="text-white-50 small mt-1" id="ebook-success-desc">Hemos enviado tu Ebook a tu correo electrónico.</div>
+                    <div class="fw-bold text-white small" id="ebook-success-title">¡Tu Ebook se está descargando con éxito!</div>
+                    <div class="text-white-50 small mt-1" id="ebook-success-desc">Hemos iniciado la descarga automática de tu Guía Rápida (12 páginas).</div>
                   </div>
                 </div>
               </div>
