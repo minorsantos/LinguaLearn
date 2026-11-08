@@ -495,6 +495,7 @@
       'sec-estudiantes': 'Gestión de Estudiantes',
       'sec-ventas': 'Gestión de Ventas y Finanzas',
       'sec-suscripciones': 'Gestión de Suscripciones y Planes',
+      'sec-seguimiento': 'Seguimiento del Aprendizaje',
       'sec-reportes': 'Reportes y Estadísticas',
       'sec-configuracion': 'Configuración y Seguridad'
     };
@@ -1005,20 +1006,11 @@
       downloadCSV('reporte_rendimiento_academico_lingualearn.csv', csv);
     });
 
-    // Botón Principal: Exportar Reporte en PDF
-    document.getElementById('btn-export-consolidated-pdf')?.addEventListener('click', function () {
-      openConsolidatedPDFReport();
-    });
-
-    // Botón de Confirmación dentro del Modal de Vista Previa
-    document.getElementById('btn-confirm-print-pdf')?.addEventListener('click', function () {
-      printDocumentPDF();
-    });
-
-    // Botones Individuales de Impresión / PDF en cada tarjeta de reporte
+    // Botones de Impresión / PDF
     document.querySelectorAll('.btn-print-report').forEach(btn => {
       btn.addEventListener('click', function () {
-        openConsolidatedPDFReport();
+        window.print();
+        addAuditLog('Generación de Reporte para Impresión/PDF', 'Reportes', 'Info');
       });
     });
   }
@@ -1103,7 +1095,8 @@
     renderStudentsTable();
     renderSalesTable();
     renderPlansCards();
-setupReports();
+    renderLearningTracking();
+    setupReports();
     renderAuditLogsTable();
     renderAdminsTable();
 
@@ -1274,7 +1267,12 @@ setupReports();
     statusFilter?.addEventListener('change', () => {
       renderSalesTable(gatewayFilter ? gatewayFilter.value : 'all', statusFilter.value);
     });
-});
+
+    // Filtro de seguimiento (Solo en riesgo)
+    const checkOnlyAlerts = document.getElementById('check-only-alerts');
+    checkOnlyAlerts?.addEventListener('change', function () {
+      renderLearningTracking(this.checked);
+    });
 
     // Buscador en logs de auditoría
     const searchLogs = document.getElementById('input-search-logs');
