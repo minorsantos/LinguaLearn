@@ -1611,7 +1611,7 @@
       if (current > 13) document.body.style.fontSize = (current - 1) + 'px';
     });
 
-    // Interacción del Formulario de Captación de Ebook (Landing Promocional)
+    // Interacción del Formulario de Captación de Ebook (Landing Promocional con Descarga Directa)
     const formPromoEbook = document.getElementById('form-promo-ebook');
     formPromoEbook?.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -1630,17 +1630,32 @@
       leads.push({ name: name, email: email, date: new Date().toISOString() });
       localStorage.setItem('lingua_ebook_leads', JSON.stringify(leads));
 
+      // Disparar descarga real e inmediata del PDF de 12 páginas
+      const downloadLink = document.createElement('a');
+      downloadLink.href = 'assets/ebook_fluidez_lingualearn.pdf';
+      downloadLink.download = 'Guia_Rapida_Fluidez_Idiomas_LinguaLearn.pdf';
+      downloadLink.style.display = 'none';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      setTimeout(() => {
+        if (downloadLink.parentNode) downloadLink.parentNode.removeChild(downloadLink);
+      }, 800);
+
       if (desc) {
-        desc.textContent = `¡Excelente, ${name}! Hemos enviado el enlace de descarga de tu Ebook gratuito a ${email}. Revisa tu bandeja de entrada.`;
+        desc.innerHTML = `¡Excelente, <strong>${name}</strong>! Tu descarga de la <strong>Guía Rápida (12 páginas)</strong> ha comenzado automáticamente.<br>` +
+          `<div class="mt-2 pt-1">` +
+          `<a href="assets/ebook_fluidez_lingualearn.pdf" download="Guia_Rapida_Fluidez_Idiomas_LinguaLearn.pdf" class="btn btn-sm btn-success fw-bold text-white px-3 py-2 rounded-pill shadow-sm d-inline-flex align-items-center gap-2">` +
+          `<i class="bi bi-file-earmark-pdf-fill fs-5"></i><span>Clic aquí si la descarga no inició (12 Páginas PDF)</span>` +
+          `</a></div>`;
       }
       if (feedback) feedback.classList.remove('d-none');
       if (btnSubmit) {
         btnSubmit.disabled = true;
-        btnSubmit.innerHTML = '<i class="bi bi-check2-circle fs-5"></i><span>¡Ebook Enviado!</span>';
+        btnSubmit.innerHTML = '<i class="bi bi-check2-circle fs-5"></i><span>¡Ebook Descargado!</span>';
         btnSubmit.classList.remove('btn-warning');
         btnSubmit.classList.add('btn-success');
       }
-      addAuditLog(`Registro de Ebook Gratuito: ${name} (${email})`, 'Promociones', 'Éxito');
+      addAuditLog(`Descarga de Ebook Gratuito (12 Págs): ${name} (${email})`, 'Promociones', 'Éxito');
     });
 
   });

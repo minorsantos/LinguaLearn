@@ -255,7 +255,7 @@
               <div class="fw-bold text-white fs-6 mb-1">Ebook Oficial LinguaLearn</div>
               <div class="small text-white-50 mb-2">Método Integral de Fluidez</div>
               <div class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 px-2 py-1 small">
-                85 Páginas &bull; PDF Exclusivo
+                12 Páginas &bull; Guía Rápida y Práctica
               </div>
             </div>
           </div>
@@ -1135,7 +1135,7 @@
       }
 
       
-      // Interacción del Formulario de Captación de Ebook
+      // Interacción del Formulario de Captación de Ebook con Descarga Directa Real
       const formPromoEbook = document.getElementById('form-promo-ebook');
       formPromoEbook?.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -1155,14 +1155,29 @@
         leads.push({ name: name, email: email, date: new Date().toISOString() });
         localStorage.setItem('lingua_ebook_leads', JSON.stringify(leads));
 
-        // Feedback interactivo
+        // Disparar descarga real e inmediata del PDF de 12 páginas
+        const downloadLink = document.createElement('a');
+        downloadLink.href = 'assets/ebook_fluidez_lingualearn.pdf';
+        downloadLink.download = 'Guia_Rapida_Fluidez_Idiomas_LinguaLearn.pdf';
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        setTimeout(() => {
+          if (downloadLink.parentNode) downloadLink.parentNode.removeChild(downloadLink);
+        }, 800);
+
+        // Feedback interactivo con botón directo por si el navegador bloquea la descarga automática
         if (desc) {
-          desc.textContent = `¡Excelente, ${name}! Hemos enviado el enlace de descarga de tu Ebook gratuito a ${email}. Revisa tu bandeja de entrada.`;
+          desc.innerHTML = `¡Excelente, <strong>${name}</strong>! Tu descarga de la <strong>Guía Rápida (12 páginas)</strong> ha comenzado automáticamente.<br>` +
+            `<div class="mt-2 pt-1">` +
+            `<a href="assets/ebook_fluidez_lingualearn.pdf" download="Guia_Rapida_Fluidez_Idiomas_LinguaLearn.pdf" class="btn btn-sm btn-success fw-bold text-white px-3 py-2 rounded-pill shadow-sm d-inline-flex align-items-center gap-2">` +
+            `<i class="bi bi-file-earmark-pdf-fill fs-5"></i><span>Clic aquí si la descarga no inició (12 Páginas PDF)</span>` +
+            `</a></div>`;
         }
         if (feedback) feedback.classList.remove('d-none');
         if (btnSubmit) {
           btnSubmit.disabled = true;
-          btnSubmit.innerHTML = '<i class="bi bi-check2-circle fs-5"></i><span>¡Ebook Enviado!</span>';
+          btnSubmit.innerHTML = '<i class="bi bi-check2-circle fs-5"></i><span>¡Ebook Descargado!</span>';
           btnSubmit.classList.remove('btn-warning');
           btnSubmit.classList.add('btn-success');
         }
@@ -1229,12 +1244,12 @@
                 </div>
                 <h2 class="h3 fw-bold text-white mb-3">Obtén tu Ebook Gratis</h2>
                 <p class="text-light opacity-75 mb-4">
-                  Suscríbete a nuestro boletín semanal de aprendizaje acelerado y recibe de inmediato en tu correo electrónico nuestra guía oficial: <em>"El Método Definitivo para la Fluidez en Idiomas"</em>. Aprende las técnicas de memorización espaciada, hábitos diarios y patrones léxicos más usados por hablantes nativos.
+                  Suscríbete a nuestro boletín semanal y descarga de inmediato nuestra <strong>Guía Rápida y Práctica (12 páginas)</strong>: <em>"El Método Definitivo para la Fluidez en Idiomas"</em>. Una lectura ágil de solo 15 minutos, directa al grano, con técnicas comprobadas de memorización espaciada, fonética con IA y hábitos diarios sin relleno innecesario.
                 </p>
                 <div class="d-flex flex-wrap gap-3 text-white-50 small">
-                  <div><i class="bi bi-check2-circle text-warning me-1"></i> Formato PDF de alta calidad</div>
-                  <div><i class="bi bi-check2-circle text-warning me-1"></i> Ejercicios prácticos incluidos</div>
-                  <div><i class="bi bi-check2-circle text-warning me-1"></i> 100% Gratuito y libre de spam</div>
+                  <div><i class="bi bi-check2-circle text-warning me-1"></i> Edición ágil de 12 páginas (Lectura de 15 min)</div>
+                  <div><i class="bi bi-check2-circle text-warning me-1"></i> Descarga directa en PDF e inmediata</div>
+                  <div><i class="bi bi-check2-circle text-warning me-1"></i> Resumen práctico y directo al grano</div>
                 </div>
               </div>
 
