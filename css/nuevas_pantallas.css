@@ -1925,3 +1925,128 @@ body.dark-mode .promo-banner-cta {
 .circle-avatar-100:hover {
   transform: scale(1.06);
 }
+
+
+/* ==========================================================================
+   ESTILOS EXCLUSIVOS LINGUALEARN PRO (PLAN Y BOTÓN ESPECIAL DE NAVBAR)
+   ========================================================================== */
+
+/* Botón Especial de Navbar LinguaLearn PRO */
+.nav-link-pro-special {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  color: #0b0f19 !important;
+  font-weight: 800 !important;
+  border-radius: 9999px !important;
+  padding: 0.45rem 1.15rem !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.55) !important;
+  border: 1.5px solid #fbbf24 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.45rem !important;
+  text-decoration: none !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  animation: pro-nav-glow 2.5s infinite ease-in-out !important;
+}
+
+@keyframes pro-nav-glow {
+  0%, 100% {
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.45);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(245, 158, 11, 0.8), 0 0 35px rgba(245, 158, 11, 0.3);
+    transform: scale(1.04);
+  }
+}
+
+.nav-link-pro-special:hover {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%) !important;
+  color: #000000 !important;
+  transform: translateY(-2px) scale(1.06) !important;
+  box-shadow: 0 4px 28px rgba(245, 158, 11, 0.85) !important;
+}
+
+/* Sección de Ventas PRO */
+.pro-sales-hero-card {
+  background: linear-gradient(145deg, #0d1322 0%, #080c16 50%, #17112a 100%) !important;
+  border: 2px solid rgba(245, 158, 11, 0.4) !important;
+  border-radius: 26px !important;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6), 0 0 30px rgba(245, 158, 11, 0.15) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  color: #f1f5f9 !important;
+}
+
+.pro-sales-hero-card::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pro-benefit-card {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.25rem 1.15rem;
+  transition: all 0.25s ease;
+  height: 100%;
+}
+
+.pro-benefit-card:hover {
+  border-color: rgba(245, 158, 11, 0.45);
+  transform: translateY(-3px);
+  background: rgba(20, 30, 55, 0.85);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.pro-price-tag {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.25) 100%);
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+/* Tabla Comparativa Gratis vs PRO */
+.table-comparison-pro {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  background: rgba(10, 15, 26, 0.85);
+}
+
+.table-comparison-pro th {
+  padding: 1rem 1.25rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-bottom: 2px solid rgba(245, 158, 11, 0.3);
+}
+
+.table-comparison-pro td {
+  padding: 0.95rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 0.88rem;
+  vertical-align: middle;
+}
+
+.table-comparison-pro tr:last-child td {
+  border-bottom: none;
+}
+
+.table-comparison-pro .col-pro {
+  background: rgba(245, 158, 11, 0.07);
+  border-left: 1.5px solid rgba(245, 158, 11, 0.35);
+  border-right: 1.5px solid rgba(245, 158, 11, 0.35);
+}
+
+.table-comparison-pro th.col-pro {
+  background: rgba(245, 158, 11, 0.18);
+  color: #facc15;
+}

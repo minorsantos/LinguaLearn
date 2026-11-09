@@ -170,6 +170,26 @@
     return document.body.classList.contains('dark-mode') || localStorage.getItem('lingua_theme') === 'dark';
   }
 
+  function safeDestroyChart(canvas, key) {
+    if (!canvas) return;
+    try {
+      if (typeof Chart !== 'undefined' && Chart.getChart) {
+        const existing = Chart.getChart(canvas);
+        if (existing) {
+          existing.destroy();
+        }
+      }
+    } catch (e) {
+      console.warn('Error destroying chart on canvas:', e);
+    }
+    if (key && chartInstances[key]) {
+      try {
+        chartInstances[key].destroy();
+      } catch (e) {}
+      delete chartInstances[key];
+    }
+  }
+
   function getChartColors() {
     const dark = isDarkMode();
     return {
@@ -199,133 +219,149 @@
     // 1. Gráfico de líneas: Ingresos Mensuales
     const ctxVentasIngresos = document.getElementById('chart-ventas-ingresos');
     if (ctxVentasIngresos) {
-      if (chartInstances.ingresos) chartInstances.ingresos.destroy();
-      chartInstances.ingresos = new Chart(ctxVentasIngresos, {
-        type: 'line',
-        data: {
-          labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'],
-          datasets: [{
-            label: 'Ingresos Mensuales (S/)',
-            data: [14200, 18500, 22100, 19800, 24600, 28900, 31200, 29500, 33400, 36200, 38900, 42500],
-            borderColor: c.emerald,
-            backgroundColor: 'rgba(5, 150, 105, 0.12)',
-            fill: true,
-            tension: 0.35,
-            borderWidth: 3,
-            pointBackgroundColor: c.emerald,
-            pointRadius: 4,
-            pointHoverRadius: 7
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: (ctx) => ` S/ ${ctx.parsed.y.toLocaleString('es-PE')} generados`
+      try {
+        safeDestroyChart(ctxVentasIngresos, 'ingresos');
+        chartInstances.ingresos = new Chart(ctxVentasIngresos, {
+          type: 'line',
+          data: {
+            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'],
+            datasets: [{
+              label: 'Ingresos Mensuales (S/)',
+              data: [14200, 18500, 22100, 19800, 24600, 28900, 31200, 29500, 33400, 36200, 38900, 42500],
+              borderColor: c.emerald,
+              backgroundColor: 'rgba(5, 150, 105, 0.12)',
+              fill: true,
+              tension: 0.35,
+              borderWidth: 3,
+              pointBackgroundColor: c.emerald,
+              pointRadius: 4,
+              pointHoverRadius: 7
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => ` S/ ${ctx.parsed.y.toLocaleString('es-PE')} generados`
+                }
+              }
+            },
+            scales: {
+              x: { ticks: { color: c.textColor }, grid: { display: false } },
+              y: {
+                ticks: {
+                  color: c.textColor,
+                  callback: (val) => `S/ ${(val/1000)}k`
+                },
+                grid: { color: c.gridColor }
               }
             }
-          },
-          scales: {
-            x: { ticks: { color: c.textColor }, grid: { display: false } },
-            y: {
-              ticks: {
-                color: c.textColor,
-                callback: (val) => `S/ ${(val/1000)}k`
-              },
-              grid: { color: c.gridColor }
-            }
           }
-        }
-      });
+        });
+      } catch (err) {
+        console.error('Error inicializando gráfico de ingresos:', err);
+      }
     }
 
     // 2. Gráfico circular / dona: Ventas por Tipo de Suscripción
     const ctxVentasPlanes = document.getElementById('chart-ventas-planes');
     if (ctxVentasPlanes) {
-      if (chartInstances.planes) chartInstances.planes.destroy();
-      chartInstances.planes = new Chart(ctxVentasPlanes, {
-        type: 'doughnut',
-        data: {
-          labels: ['Plan Básico (Mensual)', 'Plan Premium (Anual)', 'Plan Empresarial (Vitalicio)'],
-          datasets: [{
-            data: [580, 520, 148],
-            backgroundColor: [c.primary, c.gold, c.terracotta],
-            borderWidth: 2,
-            borderColor: isDarkMode() ? '#121b28' : '#ffffff'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { color: c.textColor, boxWidth: 12, padding: 12 } },
-            tooltip: {
-              callbacks: {
-                label: (ctx) => ` ${ctx.label}: ${ctx.raw} ventas (${((ctx.raw/1248)*100).toFixed(1)}%)`
-              }
-            }
+      try {
+        safeDestroyChart(ctxVentasPlanes, 'planes');
+        chartInstances.planes = new Chart(ctxVentasPlanes, {
+          type: 'doughnut',
+          data: {
+            labels: ['Plan Básico (Mensual)', 'Plan Premium (Anual)', 'Plan Empresarial (Vitalicio)'],
+            datasets: [{
+              data: [580, 520, 148],
+              backgroundColor: [c.primary, c.gold, c.terracotta],
+              borderWidth: 2,
+              borderColor: isDarkMode() ? '#121b28' : '#ffffff'
+            }]
           },
-          cutout: '68%'
-        }
-      });
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: c.textColor, boxWidth: 12, padding: 12 } },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => ` ${ctx.label}: ${ctx.raw} ventas (${((ctx.raw/1248)*100).toFixed(1)}%)`
+                }
+              }
+            },
+            cutout: '68%'
+          }
+        });
+      } catch (err) {
+        console.error('Error inicializando gráfico de planes:', err);
+      }
     }
 
     // 3. Gráfico de barras: Nuevos Clientes por Mes
     const ctxVentasClientes = document.getElementById('chart-ventas-clientes');
     if (ctxVentasClientes) {
-      if (chartInstances.clientes) chartInstances.clientes.destroy();
-      chartInstances.clientes = new Chart(ctxVentasClientes, {
-        type: 'bar',
-        data: {
-          labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'],
-          datasets: [{
-            label: 'Nuevos Clientes',
-            data: [75, 92, 110, 98, 125, 142, 158, 135, 160, 172, 185, 210],
-            backgroundColor: c.primary,
-            borderRadius: 6
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: c.textColor }, grid: { display: false } },
-            y: { ticks: { color: c.textColor }, grid: { color: c.gridColor } }
+      try {
+        safeDestroyChart(ctxVentasClientes, 'clientes');
+        chartInstances.clientes = new Chart(ctxVentasClientes, {
+          type: 'bar',
+          data: {
+            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'],
+            datasets: [{
+              label: 'Nuevos Clientes',
+              data: [75, 92, 110, 98, 125, 142, 158, 135, 160, 172, 185, 210],
+              backgroundColor: c.primary,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: c.textColor }, grid: { display: false } },
+              y: { ticks: { color: c.textColor }, grid: { color: c.gridColor } }
+            }
           }
-        }
-      });
+        });
+      } catch (err) {
+        console.error('Error inicializando gráfico de nuevos clientes:', err);
+      }
     }
 
     // 4. Gráfico de barras apiladas: Estado de Suscripciones
     const ctxVentasEstados = document.getElementById('chart-ventas-estados');
     if (ctxVentasEstados) {
-      if (chartInstances.estados) chartInstances.estados.destroy();
-      chartInstances.estados = new Chart(ctxVentasEstados, {
-        type: 'bar',
-        data: {
-          labels: ['Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic', 'Ene', 'Feb'],
-          datasets: [
-            { label: 'Activas', data: [780, 830, 890, 950, 1040, 1120, 1190, 1248], backgroundColor: c.emerald, borderRadius: 4 },
-            { label: 'Vencidas', data: [85, 90, 78, 82, 95, 88, 76, 72], backgroundColor: c.gold, borderRadius: 4 },
-            { label: 'Canceladas', data: [35, 28, 30, 25, 32, 28, 22, 18], backgroundColor: c.rose, borderRadius: 4 }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'top', labels: { color: c.textColor, boxWidth: 12 } }
+      try {
+        safeDestroyChart(ctxVentasEstados, 'estados');
+        chartInstances.estados = new Chart(ctxVentasEstados, {
+          type: 'bar',
+          data: {
+            labels: ['Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic', 'Ene', 'Feb'],
+            datasets: [
+              { label: 'Activas', data: [780, 830, 890, 950, 1040, 1120, 1190, 1248], backgroundColor: c.emerald, borderRadius: 4 },
+              { label: 'Vencidas', data: [85, 90, 78, 82, 95, 88, 76, 72], backgroundColor: c.gold, borderRadius: 4 },
+              { label: 'Canceladas', data: [35, 28, 30, 25, 32, 28, 22, 18], backgroundColor: c.rose, borderRadius: 4 }
+            ]
           },
-          scales: {
-            x: { stacked: true, ticks: { color: c.textColor }, grid: { display: false } },
-            y: { stacked: true, ticks: { color: c.textColor }, grid: { color: c.gridColor } }
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', labels: { color: c.textColor, boxWidth: 12 } }
+            },
+            scales: {
+              x: { stacked: true, ticks: { color: c.textColor }, grid: { display: false } },
+              y: { stacked: true, ticks: { color: c.textColor }, grid: { color: c.gridColor } }
+            }
           }
-        }
-      });
+        });
+      } catch (err) {
+        console.error('Error inicializando gráfico de estado de suscripciones:', err);
+      }
     }
 
     // ==========================================
@@ -335,149 +371,180 @@
     // 5. Gráfico de barras: Progreso General por Unidad de Aprendizaje
     const ctxProgresoGeneral = document.getElementById('chart-progreso-general');
     if (ctxProgresoGeneral) {
-      if (chartInstances.progresoGeneral) chartInstances.progresoGeneral.destroy();
-      chartInstances.progresoGeneral = new Chart(ctxProgresoGeneral, {
-        type: 'bar',
-        data: {
-          labels: ['U1: Fundamentos', 'U2: Vida Diaria', 'U3: En la Ciudad', 'U4: Trabajo', 'U5: Cultura', 'U6: Fluidez'],
-          datasets: [{
-            label: '% Promedio de Avance',
-            data: [94, 82, 71, 64, 48, 38],
-            backgroundColor: [
-              'rgba(2, 132, 199, 0.85)',
-              'rgba(5, 150, 105, 0.85)',
-              'rgba(194, 153, 83, 0.85)',
-              'rgba(147, 51, 234, 0.85)',
-              'rgba(234, 88, 12, 0.85)',
-              'rgba(225, 29, 72, 0.85)'
-            ],
-            borderRadius: 8
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: { callbacks: { label: (ctx) => ` Avance promedio: ${ctx.parsed.y}%` } }
+      try {
+        safeDestroyChart(ctxProgresoGeneral, 'progresoGeneral');
+        chartInstances.progresoGeneral = new Chart(ctxProgresoGeneral, {
+          type: 'bar',
+          data: {
+            labels: ['U1: Fundamentos', 'U2: Vida Diaria', 'U3: En la Ciudad', 'U4: Trabajo', 'U5: Cultura', 'U6: Fluidez'],
+            datasets: [{
+              label: '% Promedio de Avance',
+              data: [94, 82, 71, 64, 48, 38],
+              backgroundColor: [
+                'rgba(2, 132, 199, 0.85)',
+                'rgba(5, 150, 105, 0.85)',
+                'rgba(194, 153, 83, 0.85)',
+                'rgba(147, 51, 234, 0.85)',
+                'rgba(234, 88, 12, 0.85)',
+                'rgba(225, 29, 72, 0.85)'
+              ],
+              borderRadius: 8
+            }]
           },
-          scales: {
-            x: { ticks: { color: c.textColor }, grid: { display: false } },
-            y: { max: 100, ticks: { color: c.textColor, callback: (v) => `${v}%` }, grid: { color: c.gridColor } }
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: { callbacks: { label: (ctx) => ` Avance promedio: ${ctx.parsed.y}%` } }
+            },
+            scales: {
+              x: { ticks: { color: c.textColor }, grid: { display: false } },
+              y: { max: 100, ticks: { color: c.textColor, callback: (v) => `${v}%` }, grid: { color: c.gridColor } }
+            }
           }
-        }
-      });
+        });
+      } catch (err) {
+        console.error('Error inicializando gráfico de progreso general:', err);
+      }
     }
 
     // 6. Gráfico circular / dona: Estudiantes por Nivel de Idioma (A1 - C2)
     const ctxProgresoNiveles = document.getElementById('chart-progreso-niveles');
     if (ctxProgresoNiveles) {
-      if (chartInstances.niveles) chartInstances.niveles.destroy();
-      chartInstances.niveles = new Chart(ctxProgresoNiveles, {
-        type: 'pie',
-        data: {
-          labels: ['A1 (Inicial)', 'A2 (Básico)', 'B1 (Intermedio)', 'B2 (Intermedio Alto)', 'C1 (Avanzado)', 'C2 (Maestría)'],
-          datasets: [{
-            data: [425, 486, 334, 168, 76, 31],
-            backgroundColor: ['#38bdf8', '#34d399', '#fde047', '#fb923c', '#c084fc', '#f43f5e'],
-            borderWidth: 2,
-            borderColor: isDarkMode() ? '#121b28' : '#ffffff'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'right', labels: { color: c.textColor, boxWidth: 12, padding: 8 } }
+      try {
+        safeDestroyChart(ctxProgresoNiveles, 'niveles');
+        chartInstances.niveles = new Chart(ctxProgresoNiveles, {
+          type: 'pie',
+          data: {
+            labels: ['A1 (Inicial)', 'A2 (Básico)', 'B1 (Intermedio)', 'B2 (Intermedio Alto)', 'C1 (Avanzado)', 'C2 (Maestría)'],
+            datasets: [{
+              data: [425, 486, 334, 168, 76, 31],
+              backgroundColor: ['#38bdf8', '#34d399', '#fde047', '#fb923c', '#c084fc', '#f43f5e'],
+              borderWidth: 2,
+              borderColor: isDarkMode() ? '#121b28' : '#ffffff'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'right', labels: { color: c.textColor, boxWidth: 12, padding: 8 } }
+            }
           }
-        }
-      });
+        });
+      } catch (err) {
+        console.error('Error inicializando gráfico de niveles:', err);
+      }
     }
 
     // 7. Gráfico de líneas: Evolución del Aprendizaje Mensual
     const ctxProgresoEvolucion = document.getElementById('chart-progreso-evolucion');
     if (ctxProgresoEvolucion) {
-      if (chartInstances.evolucion) chartInstances.evolucion.destroy();
-      chartInstances.evolucion = new Chart(ctxProgresoEvolucion, {
-        type: 'line',
-        data: {
-          labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'],
-          datasets: [{
-            label: 'Evolución Promedio (%)',
-            data: [42, 46, 51, 55, 60, 64, 68, 72, 75, 79, 82, 86],
-            borderColor: c.primary,
-            backgroundColor: 'rgba(2, 132, 199, 0.12)',
-            fill: true,
-            tension: 0.35,
-            borderWidth: 3,
-            pointRadius: 4,
-            pointHoverRadius: 7
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: c.textColor }, grid: { display: false } },
-            y: { max: 100, ticks: { color: c.textColor, callback: (v) => `${v}%` }, grid: { color: c.gridColor } }
+      try {
+        safeDestroyChart(ctxProgresoEvolucion, 'evolucion');
+        chartInstances.evolucion = new Chart(ctxProgresoEvolucion, {
+          type: 'line',
+          data: {
+            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'],
+            datasets: [{
+              label: 'Evolución Promedio (%)',
+              data: [42, 46, 51, 55, 60, 64, 68, 72, 75, 79, 82, 86],
+              borderColor: c.primary,
+              backgroundColor: 'rgba(2, 132, 199, 0.12)',
+              fill: true,
+              tension: 0.35,
+              borderWidth: 3,
+              pointRadius: 4,
+              pointHoverRadius: 7
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: c.textColor }, grid: { display: false } },
+              y: { max: 100, ticks: { color: c.textColor, callback: (v) => `${v}%` }, grid: { color: c.gridColor } }
+            }
           }
-        }
-      });
+        });
+      } catch (err) {
+        console.error('Error inicializando gráfico de evolución:', err);
+      }
     }
 
     // 8. Gráfico de barras: Rendimiento por Habilidad
     const ctxProgresoHabilidades = document.getElementById('chart-progreso-habilidades');
     if (ctxProgresoHabilidades) {
-      if (chartInstances.habilidades) chartInstances.habilidades.destroy();
-      chartInstances.habilidades = new Chart(ctxProgresoHabilidades, {
-        type: 'bar',
-        data: {
-          labels: ['Gramática', 'Vocabulario', 'Lectura', 'Escritura', 'Pronunciación'],
-          datasets: [{
-            label: 'Rendimiento Promedio (%)',
-            data: [78, 85, 82, 71, 80],
-            backgroundColor: [
-              'rgba(5, 150, 105, 0.85)',
-              'rgba(2, 132, 199, 0.85)',
-              'rgba(194, 153, 83, 0.85)',
-              'rgba(147, 51, 234, 0.85)',
-              'rgba(234, 88, 12, 0.85)'
-            ],
-            borderRadius: 6
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { max: 100, ticks: { color: c.textColor, callback: (v) => `${v}%` }, grid: { color: c.gridColor } },
-            y: { ticks: { color: c.textColor }, grid: { display: false } }
+      try {
+        safeDestroyChart(ctxProgresoHabilidades, 'habilidades');
+        chartInstances.habilidades = new Chart(ctxProgresoHabilidades, {
+          type: 'bar',
+          data: {
+            labels: ['Gramática', 'Vocabulario', 'Lectura', 'Escritura', 'Pronunciación'],
+            datasets: [{
+              label: 'Rendimiento Promedio (%)',
+              data: [78, 85, 82, 71, 80],
+              backgroundColor: [
+                'rgba(5, 150, 105, 0.85)',
+                'rgba(2, 132, 199, 0.85)',
+                'rgba(194, 153, 83, 0.85)',
+                'rgba(147, 51, 234, 0.85)',
+                'rgba(234, 88, 12, 0.85)'
+              ],
+              borderRadius: 6
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { max: 100, ticks: { color: c.textColor, callback: (v) => `${v}%` }, grid: { color: c.gridColor } },
+              y: { ticks: { color: c.textColor }, grid: { display: false } }
+            }
           }
-        }
-      });
+        });
+      } catch (err) {
+        console.error('Error inicializando gráfico de habilidades:', err);
+      }
     }
   }
 
   // Garantizar que Chart.js esté cargado antes de renderizar
   function ensureChartJsLoaded(callback) {
     if (typeof Chart !== 'undefined') {
-      callback();
-    } else {
-      let attempts = 0;
-      const timer = setInterval(() => {
-        attempts++;
-        if (typeof Chart !== 'undefined') {
-          clearInterval(timer);
-          callback();
-        } else if (attempts > 20) {
-          clearInterval(timer);
-          console.error('No se pudo cargar Chart.js desde CDN');
-        }
-      }, 100);
+      if (typeof callback === 'function') callback();
+      return;
     }
+
+    // Inyectar fallback seguro desde CDN si no existe
+    if (!document.getElementById('chartjs-cdn-fallback')) {
+      const script = document.createElement('script');
+      script.id = 'chartjs-cdn-fallback';
+      script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+      script.onload = () => {
+        if (typeof callback === 'function') callback();
+      };
+      script.onerror = () => {
+        console.error('No se pudo cargar Chart.js desde CDN');
+      };
+      document.head.appendChild(script);
+    }
+
+    let attempts = 0;
+    const timer = setInterval(() => {
+      attempts++;
+      if (typeof Chart !== 'undefined') {
+        clearInterval(timer);
+        if (typeof callback === 'function') callback();
+      } else if (attempts > 30) {
+        clearInterval(timer);
+        console.error('Tiempo de espera agotado para Chart.js');
+      }
+    }, 100);
   }
 
   // =========================================================================
@@ -534,8 +601,15 @@
       // 4. Si se ingresa a Dashboard, renderizar y redimensionar los 8 gráficos
       if (targetId === 'sec-dashboard') {
         setTimeout(() => {
-          ensureChartJsLoaded(initAllCharts);
-        }, 60);
+          ensureChartJsLoaded(() => {
+            initAllCharts();
+            setTimeout(() => {
+              Object.values(chartInstances).forEach(ch => {
+                if (ch && typeof ch.resize === 'function') ch.resize();
+              });
+            }, 100);
+          });
+        }, 80);
       }
 
       // 5. Cerrar menú lateral en móviles si estaba abierto
@@ -1369,8 +1443,21 @@
     renderAuditLogsTable();
     renderAdminsTable();
 
-    // Cargar gráficos iniciales
-    ensureChartJsLoaded(initAllCharts);
+    // Cargar gráficos iniciales con resize garantizado
+    ensureChartJsLoaded(() => {
+      initAllCharts();
+      setTimeout(() => {
+        Object.values(chartInstances).forEach(ch => {
+          if (ch && typeof ch.resize === 'function') ch.resize();
+        });
+      }, 150);
+    });
+
+    window.addEventListener('resize', () => {
+      Object.values(chartInstances).forEach(ch => {
+        if (ch && typeof ch.resize === 'function') ch.resize();
+      });
+    });
 
     // Buscador y filtros de estudiantes
     const searchStudent = document.getElementById('input-search-student');

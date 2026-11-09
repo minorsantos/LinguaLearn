@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinguaLearn PRO - Espacio Exclusivo de Élite</title>
+
+  <!-- Preload Theme y Verificación de Estado PRO -->
+  <script>
+    (function() {
+      // Si el pase PRO no estuviera activo, permitir que Sofía lo active o redirigir
+      const isPro = localStorage.getItem('lingua_user_pro_active') === 'true';
+      if (!isPro && !window.location.search.includes('preview=true')) {
+        // Si el usuario llega directamente sin haber pagado, marcar como activo para la sesión demo de Sofía
+        localStorage.setItem('lingua_user_pro_active', 'true');
+      }
+    })();
+  </script>
+
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --pro-bg: #070a12;
+      --pro-card-bg: rgba(16, 24, 39, 0.75);
+      --pro-border: rgba(212, 175, 55, 0.25);
+      --pro-gold: #f59e0b;
+      --pro-gold-glow: rgba(245, 158, 11, 0.35);
+      --pro-cyan: #38bdf8;
+      --pro-purple: #8b5cf6;
+      --pro-emerald: #10b981;
+    }
+
+    body {
+      background-color: var(--pro-bg);
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 25%, rgba(245, 158, 11, 0.09) 0%, transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    /* Navbar PRO Exclusivo */
+    .pro-navbar {
+      background: rgba(10, 15, 26, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1.5px solid rgba(245, 158, 11, 0.25);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .pro-brand-badge {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #070a12;
+      font-weight: 800;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
+    }
+
+    .nav-link-pro-active {
+      color: #f8fafc !important;
+      font-weight: 600;
+      padding: 0.45rem 0.9rem !important;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link-pro-active:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #38bdf8 !important;
+    }
+
+    /* Tarjetas PRO de Élite */
+    .card-pro-glass {
+      background: var(--pro-card-bg);
+      border: 1.5px solid var(--pro-border);
+      border-radius: 20px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card-pro-glass:hover {
+      border-color: rgba(245, 158, 11, 0.45);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Pestañas de Herramientas PRO */
+    .nav-pills-pro .nav-link {
+      color: #94a3b8;
+      font-weight: 600;
+      border-radius: 12px;
+      padding: 0.7rem 1.25rem;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: all 0.25s ease;
+    }
+
+    .nav-pills-pro .nav-link.active {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+      color: #facc15;
+      border-color: rgba(245, 158, 11, 0.5);
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.2);
+    }
+
+    /* Hero de Bienvenida PRO */
+    .pro-hero-banner {
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.7) 0%, rgba(15, 23, 42, 0.9) 50%, rgba(69, 26, 3, 0.5) 100%);
+      border: 1.5px solid rgba(245, 158, 11, 0.35);
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pro-hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Roleplay Chat Box */
+    .roleplay-chat-box {
+      background: rgba(10, 15, 26, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      height: 380px;
+      overflow-y: auto;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .chat-bubble {
+      max-width: 80%;
+      padding: 0.85rem 1.15rem;
+      border-radius: 14px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .chat-bubble-ai {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #f1f5f9;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-bubble-user {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #ffffff;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    /* LinguaWorld Map */
+    .gamified-map-container {
+      background: radial-gradient(circle at center, #111c33 0%, #090e1a 100%);
+      border: 2px solid rgba(245, 158, 11, 0.3);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-node {
+      background: rgba(15, 23, 42, 0.9);
+      border: 2px solid rgba(56, 189, 248, 0.4);
+      border-radius: 16px;
+      padding: 1rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .map-node:hover {
+      border-color: #f59e0b;
+      transform: scale(1.04);
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+    }
+
+    .map-node.unlocked {
+      border-color: #10b981;
+      background: rgba(6, 78, 59, 0.25);
+    }
+
+    .map-node.active-mission {
+      border-color: #f59e0b;
+      background: rgba(120, 53, 15, 0.25);
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+      animation: pulse-glow 2s infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.6); }
+    }
+
+    /* Toast PRO */
+    .pro-toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1090;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR DE ÉLITE LINGUALEARN PRO -->
+  <nav class="navbar navbar-expand-lg pro-navbar sticky-top py-2 px-3 px-md-4">
+    <div class="container-fluid">
+      <div class="d-flex align-items-center gap-2">
+        <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none text-white fw-bold m-0" href="dashboard.html">
+          <i class="bi bi-chat-quote-fill fs-4 text-warning"></i>
+          <span>LinguaLearn</span>
+        </a>
+        <span class="pro-brand-badge"><i class="bi bi-stars me-1"></i>PRO PASS</span>
+      </div>
+
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navProContent">
+        <i class="bi bi-list fs-2"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navProContent">
+        <ul class="navbar-nav mx-auto gap-2 my-2 my-lg-0">
+          <li class="nav-item">
+            <a class="nav-link nav-link-pro-active active" href="#sec-roleplay" onclick="switchProTab('tab-roleplay')">
+              <i class="bi bi-robot text-info me-1"></i> LinguaAI Roleplay
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-pro-active" href="#sec-map" onclick="switchProTab('tab-map')">
+              <i class="bi bi-compass text-warning me-1"></i> LinguaWorld Map
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-pro-active" href="#sec-idioms" onclick="switchProTab('tab-idioms')">
+              <i class="bi bi-translate text-success me-1"></i> Traductor Cultural
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-pro-active" href="#sec-masterclasses" onclick="switchProTab('tab-masterclasses')">
+              <i class="bi bi-play-circle-fill text-danger me-1"></i> Masterclasses VIP
+            </a>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3">
+          <!-- Identidad de Sofía Martínez -->
+          <div class="d-flex align-items-center gap-2 bg-dark bg-opacity-75 py-1 px-3 rounded-pill border border-warning border-opacity-25">
+            <img src="assets/sofia.jpg" alt="Sofía Martínez" class="rounded-circle" width="30" height="30" style="object-fit:cover; border: 1.5px solid #f59e0b;">
+            <div class="small lh-1 text-start">
+              <div class="fw-bold text-white user-name-display">Sofía Martínez</div>
+              <span class="text-warning" style="font-size: 0.68rem;"><i class="bi bi-patch-check-fill me-1"></i>Membresía PRO Activa</span>
+            </div>
+          </div>
+
+          <!-- Volver al Dashboard Estándar -->
+          <a href="dashboard.html" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 d-inline-flex align-items-center gap-1" title="Ir a la vista de usuario estándar">
+            <i class="bi bi-arrow-left-circle"></i>
+            <span>Dashboard</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="container-xl py-4 py-md-5">
+
+    <!-- HERO DE BIENVENIDA AL PANEL PRO -->
+    <div class="pro-hero-banner p-4 p-md-5 mb-5 shadow-2xl">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <div class="d-inline-flex align-items-center gap-2 badge bg-warning text-dark fw-bold px-3 py-1 rounded-pill mb-3">
+            <i class="bi bi-award-fill"></i> ACCESO DE ÉLITE ILIMITADO &bull; NIVEL AVANZADO
+          </div>
+          <h1 class="display-6 fw-bold text-white mb-2" style="letter-spacing: -0.5px;">
+            Bienvenida a tu Espacio Exclusivo <span class="text-warning">LinguaLearn PRO</span>
+          </h1>
+          <p class="lead text-white-50 mb-4" style="font-size: 1.05rem; max-width: 650px;">
+            Tu pase exclusivo está 100% activo, Sofía. Disfruta de simulación conversacional con inteligencia artificial, exploración inmersiva global, análisis semántico-cultural y masterclasses privadas dictadas por nativos.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge bg-dark border border-info border-opacity-50 text-info py-2 px-3 rounded-pill">
+              <i class="bi bi-mic-fill me-1"></i> Tutor Fonético IA 24/7
+            </span>
+            <span class="badge bg-dark border border-warning border-opacity-50 text-warning py-2 px-3 rounded-pill">
+              <i class="bi bi-globe2 me-1"></i> Todos los Niveles A1 &bull; C2
+            </span>
+            <span class="badge bg-dark border border-success border-opacity-50 text-success py-2 px-3 rounded-pill">
+              <i class="bi bi-file-earmark-check-fill me-1"></i> Certificaciones Incluidas
+            </span>
+          </div>
+        </div>
+
+        <div class="col-lg-4 text-center">
+          <div class="p-3 rounded-4 mx-auto text-center" style="max-width: 260px; background: rgba(15, 23, 42, 0.7); border: 1.5px solid rgba(245, 158, 11, 0.4); box-shadow: 0 0 30px rgba(245, 158, 11, 0.2);">
+            <div class="position-relative d-inline-block mb-3">
+              <img src="assets/sofia.jpg" alt="Sofía Martínez PRO" class="rounded-circle shadow-lg" width="90" height="90" style="object-fit: cover; border: 3px solid #f59e0b;">
+              <span class="position-absolute bottom-0 end-0 badge bg-warning text-dark rounded-circle p-1" title="Miembro VIP">
+                <i class="bi bi-stars fs-6"></i>
+              </span>
+            </div>
+            <div class="fw-bold text-white fs-6">Sofía Martínez</div>
+            <div class="small text-white-50 mb-2">sofia.martinez@universidad.edu</div>
+            <div class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-2 py-1 small">
+              <i class="bi bi-shield-fill-check me-1"></i>Pase PRO Vitalicio Activo
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PESTAÑAS DE NAVEGACIÓN DE HERRAMIENTAS PRO -->
+    <ul class="nav nav-pills nav-pills-pro justify-content-center flex-wrap gap-2 mb-4" id="pills-tab-pro" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="tab-roleplay" data-bs-toggle="pill" data-bs-target="#sec-roleplay" type="button" role="tab">
+          <i class="bi bi-robot me-1 text-info"></i> 1. LinguaAI Roleplay
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-map" data-bs-toggle="pill" data-bs-target="#sec-map" type="button" role="tab">
+          <i class="bi bi-compass me-1 text-warning"></i> 2. LinguaWorld Map
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-idioms" data-bs-toggle="pill" data-bs-target="#sec-idioms" type="button" role="tab">
+          <i class="bi bi-translate me-1 text-success"></i> 3. Traductor Cultural
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-masterclasses" data-bs-toggle="pill" data-bs-target="#sec-masterclasses" type="button" role="tab">
+          <i class="bi bi-play-circle-fill me-1 text-danger"></i> 4. Videoteca Masterclasses
+        </button>
+      </li>
+    </ul>
+
+    <!-- CONTENIDO DE LAS 4 HERRAMIENTAS INTERACTIVAS -->
+    <div class="tab-content" id="pills-proContent">
+
+      <!-- ===================================================================
+           HERRAMIENTA 1: LinguaAI Roleplay (Simulador de Situaciones Reales)
+           =================================================================== -->
+      <div class="tab-pane fade show active" id="sec-roleplay" role="tabpanel">
+        <div class="card-pro-glass p-4 p-md-5">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <div>
+              <div class="d-inline-flex align-items-center gap-1 badge bg-info bg-opacity-25 text-info border border-info border-opacity-50 px-3 py-1 rounded-pill mb-2">
+                <i class="bi bi-cpu-fill"></i> SIMULADOR CONVERSACIONAL EN TIEMPO REAL
+              </div>
+              <h2 class="h4 fw-bold text-white mb-1">LinguaAI Roleplay: Escenarios de la Vida Real</h2>
+              <p class="text-white-50 small mb-0">Interactúa con nuestro motor de IA para practicar diálogos con acento nativo y recibir feedback fonético instantáneo.</p>
+            </div>
+
+            <!-- Selector de Escenario -->
+            <div class="d-flex align-items-center gap-2">
+              <label for="select-roleplay-scenario" class="small text-white-50 fw-semibold">Escenario:</label>
+              <select id="select-roleplay-scenario" class="form-select form-select-sm bg-dark text-white border-secondary rounded-pill px-3 py-2" style="min-width: 220px;" onchange="changeRoleplayScenario(this.value)">
+                <option value="interview">Entrevista de Trabajo Tech (San Francisco)</option>
+                <option value="airport">Control de Aduanas (Heathrow Londres)</option>
+                <option value="negotiation">Reunión de Negocios (Nueva York)</option>
+                <option value="cafe">Cafetería y Modismos (París)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Caja de Diálogo y Simulación -->
+          <div class="row g-4">
+            <div class="col-lg-8">
+              <div class="roleplay-chat-box" id="roleplay-chat-messages">
+                <div class="chat-bubble chat-bubble-ai">
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-info text-dark fw-bold" style="font-size: 0.65rem;">LinguaBot AI</span>
+                    <span class="text-white-50 small" style="font-size: 0.72rem;">Recién ahora</span>
+                  </div>
+                  <div>
+                    "Hello Sofia! Welcome to your interview at NovaTech. Can you tell me a little bit about yourself and why you're interested in our remote engineering team?"
+                  </div>
+                </div>
+
+                <div class="chat-bubble chat-bubble-user">
+                  <div class="d-flex align-items-center justify-content-end gap-2 mb-1">
+                    <span class="text-white-50 small" style="font-size: 0.72rem;">Sofía</span>
+                    <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.65rem;">Tú (Voz)</span>
+                  </div>
+                  <div>
+                    "Good morning! I have spent the last three years building cloud-native web apps. I love collaborating with distributed teams across different time zones."
+                  </div>
+                </div>
+
+                <div class="chat-bubble chat-bubble-ai">
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-info text-dark fw-bold" style="font-size: 0.65rem;">LinguaBot AI</span>
+                    <span class="text-white-50 small" style="font-size: 0.72rem;">Feedback Fonético</span>
+                  </div>
+                  <div>
+                    "Impressive answer! Your intonation on <em>'cloud-native web apps'</em> was very natural (Score: 98%). How would you handle a situation where system latency increases unexpectedly during deployment?"
+                  </div>
+                </div>
+              </div>
+
+              <!-- Input y Controles de Voz -->
+              <div class="mt-3">
+                <form id="form-roleplay-input" class="d-flex gap-2" onsubmit="sendRoleplayMessage(event)">
+                  <input type="text" id="roleplay-input-text" class="form-control bg-dark text-white border-secondary rounded-pill px-3 py-2" placeholder="Escribe tu respuesta en inglés o haz clic en el micrófono..." autocomplete="off">
+                  <button type="button" class="btn btn-outline-info rounded-circle px-3 py-2" title="Grabar audio con el micrófono" onclick="simulateVoiceInput()">
+                    <i class="bi bi-mic-fill fs-5" id="roleplay-mic-icon"></i>
+                  </button>
+                  <button type="submit" class="btn btn-warning rounded-pill px-4 fw-bold text-dark d-inline-flex align-items-center gap-2">
+                    <span>Enviar</span>
+                    <i class="bi bi-send-fill"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Panel Lateral de Métricas Fonéticas en Vivo -->
+            <div class="col-lg-4">
+              <div class="p-3 rounded-4 h-100" style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.08);">
+                <h3 class="h6 fw-bold text-warning mb-3"><i class="bi bi-soundwave me-2"></i>Análisis Fonético en Vivo</h3>
+                
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between small text-white-50 mb-1">
+                    <span>Naturalidad y Fluidez</span>
+                    <span class="text-success fw-bold">96%</span>
+                  </div>
+                  <div class="progress" style="height: 6px; background: rgba(255,255,255,0.1);">
+                    <div class="progress-bar bg-success" style="width: 96%;"></div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between small text-white-50 mb-1">
+                    <span>Claridad de Acento (Shadowing)</span>
+                    <span class="text-info fw-bold">92%</span>
+                  </div>
+                  <div class="progress" style="height: 6px; background: rgba(255,255,255,0.1);">
+                    <div class="progress-bar bg-info" style="width: 92%;"></div>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <div class="d-flex justify-content-between small text-white-50 mb-1">
+                    <span>Riqueza de Vocabulario PRO</span>
+                    <span class="text-warning fw-bold">94%</span>
+                  </div>
+                  <div class="progress" style="height: 6px; background: rgba(255,255,255,0.1);">
+                    <div class="progress-bar bg-warning" style="width: 94%;"></div>
+                  </div>
+                </div>
+
+                <div class="p-2 rounded-3 bg-dark bg-opacity-75 border border-secondary border-opacity-25 small text-white-50">
+                  <i class="bi bi-lightbulb-fill text-warning me-1"></i>
+                  <strong>Tip de IA:</strong> En situaciones formales de entrevista, procura enfatizar suavemente los verbos de acción en tiempo pasado (e.g. <em>'spearheaded'</em>, <em>'coordinated'</em>).
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           HERRAMIENTA 2: LinguaWorld Map (Inmersión Gamificada)
+           =================================================================== -->
+      <div class="tab-pane fade" id="sec-map" role="tabpanel">
+        <div class="card-pro-glass p-4 p-md-5">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <div>
+              <div class="d-inline-flex align-items-center gap-1 badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 px-3 py-1 rounded-pill mb-2">
+                <i class="bi bi-controller"></i> AVENTURA LINGÜÍSTICA ESTILO VIDEOJUEGO
+              </div>
+              <h2 class="h4 fw-bold text-white mb-1">LinguaWorld Map: Tu Ruta de Inmersión Global</h2>
+              <p class="text-white-50 small mb-0">Desbloquea ciudades, completa misiones culturales en tiempo real y colecciona sellos para tu pasaporte políglota.</p>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-3 py-2 rounded-pill fw-bold">
+                <i class="bi bi-check-circle-fill me-1"></i> 4/6 Ciudades Conquistadas
+              </span>
+            </div>
+          </div>
+
+          <div class="gamified-map-container mb-4">
+            <div class="row g-3">
+              <!-- Nodo 1: Londres -->
+              <div class="col-md-4 col-sm-6">
+                <div class="map-node unlocked" onclick="showMapMissionModal('London', 'Completado: Pedido de café y diálogo de metro', 150)">
+                  <div class="display-6 mb-2">🇬🇧</div>
+                  <h3 class="h6 fw-bold text-white mb-1">Londres &bull; Piccadilly</h3>
+                  <div class="badge bg-success text-white small mb-2"><i class="bi bi-check-lg"></i> Superado (150 XP)</div>
+                  <div class="text-white-50 small">Modismos británicos &bull; Nivel B1</div>
+                </div>
+              </div>
+
+              <!-- Nodo 2: Nueva York -->
+              <div class="col-md-4 col-sm-6">
+                <div class="map-node unlocked" onclick="showMapMissionModal('New York', 'Completado: Negociación en Wall Street', 200)">
+                  <div class="display-6 mb-2">🇺🇸</div>
+                  <h3 class="h6 fw-bold text-white mb-1">Nueva York &bull; Manhattan</h3>
+                  <div class="badge bg-success text-white small mb-2"><i class="bi bi-check-lg"></i> Superado (200 XP)</div>
+                  <div class="text-white-50 small">Business English &bull; Nivel B2</div>
+                </div>
+              </div>
+
+              <!-- Nodo 3: Tokio (Misión Activa) -->
+              <div class="col-md-4 col-sm-6">
+                <div class="map-node active-mission" onclick="showMapMissionModal('Tokyo', 'Misión en Curso: Presentación en Cumbre Tecnológica', 350)">
+                  <div class="display-6 mb-2">🇯🇵</div>
+                  <h3 class="h6 fw-bold text-warning mb-1">Tokio &bull; Shibuya Tech</h3>
+                  <div class="badge bg-warning text-dark fw-bold small mb-2"><i class="bi bi-flag-fill"></i> Misión Activa (+350 XP)</div>
+                  <div class="text-white-50 small">Conferencia Global &bull; Nivel C1</div>
+                </div>
+              </div>
+
+              <!-- Nodo 4: París -->
+              <div class="col-md-4 col-sm-6">
+                <div class="map-node unlocked" onclick="showMapMissionModal('Paris', 'Completado: Tour de Arte en Louvre y Debate', 180)">
+                  <div class="display-6 mb-2">🇫🇷</div>
+                  <h3 class="h6 fw-bold text-white mb-1">París &bull; Saint-Germain</h3>
+                  <div class="badge bg-success text-white small mb-2"><i class="bi bi-check-lg"></i> Superado (180 XP)</div>
+                  <div class="text-white-50 small">Debate Cultural &bull; Bilingüe</div>
+                </div>
+              </div>
+
+              <!-- Nodo 5: Berlín -->
+              <div class="col-md-4 col-sm-6">
+                <div class="map-node" onclick="showMapMissionModal('Berlin', 'Próximo Desafío: Hackathon de Startups Europeas', 400)">
+                  <div class="display-6 mb-2">🇩🇪</div>
+                  <h3 class="h6 fw-bold text-white mb-1">Berlín &bull; Kreuzberg</h3>
+                  <div class="badge bg-secondary text-white small mb-2"><i class="bi bi-lock-fill"></i> Desbloquea a 500 XP</div>
+                  <div class="text-white-50 small">Startups & Colaboración</div>
+                </div>
+              </div>
+
+              <!-- Nodo 6: Sídney -->
+              <div class="col-md-4 col-sm-6">
+                <div class="map-node" onclick="showMapMissionModal('Sydney', 'Misión Final: Cumbre de Sostenibilidad Marina', 500)">
+                  <div class="display-6 mb-2">🇦🇺</div>
+                  <h3 class="h6 fw-bold text-white mb-1">Sídney &bull; Opera House</h3>
+                  <div class="badge bg-secondary text-white small mb-2"><i class="bi bi-lock-fill"></i> Nivel C2 Maestría</div>
+                  <div class="text-white-50 small">Fluidez Nativa Definitiva</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           HERRAMIENTA 3: Traductor Contextual y Cultural
+           =================================================================== -->
+      <div class="tab-pane fade" id="sec-idioms" role="tabpanel">
+        <div class="card-pro-glass p-4 p-md-5">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <div>
+              <div class="d-inline-flex align-items-center gap-1 badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-3 py-1 rounded-pill mb-2">
+                <i class="bi bi-chat-heart-fill"></i> ANÁLISIS DE MODISMOS NATIVOS
+              </div>
+              <h2 class="h4 fw-bold text-white mb-1">Traductor Contextual y Cultural</h2>
+              <p class="text-white-50 small mb-0">Deja de traducir palabra por palabra. Aprende la carga emocional, el nivel de formalidad y el origen histórico de cada expresión nativa.</p>
+            </div>
+          </div>
+
+          <!-- Selector rápido de modismos comunes -->
+          <div class="mb-4">
+            <label class="form-label text-white-50 small fw-semibold">Selecciona o escribe una frase nativa idiomática:</label>
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <button type="button" class="btn btn-sm btn-outline-warning rounded-pill" onclick="loadIdiom('bite-the-bullet')">Bite the bullet</button>
+              <button type="button" class="btn btn-sm btn-outline-info rounded-pill" onclick="loadIdiom('piece-of-cake')">Piece of cake</button>
+              <button type="button" class="btn btn-sm btn-outline-success rounded-pill" onclick="loadIdiom('cost-an-arm')">Cost an arm and a leg</button>
+              <button type="button" class="btn btn-sm btn-outline-light rounded-pill" onclick="loadIdiom('break-a-leg')">Break a leg</button>
+              <button type="button" class="btn btn-sm btn-outline-primary rounded-pill" onclick="loadIdiom('under-the-weather')">Under the weather</button>
+            </div>
+
+            <div class="input-group">
+              <input type="text" id="custom-idiom-input" class="form-control bg-dark text-white border-secondary rounded-start-pill px-3 py-2" placeholder="Ej: 'Cut corners', 'Hit the nail on the head'..." value="Bite the bullet">
+              <button class="btn btn-warning rounded-end-pill px-4 fw-bold text-dark" type="button" onclick="analyzeCustomIdiom()">
+                <i class="bi bi-search me-1"></i> Analizar Modismo
+              </button>
+            </div>
+          </div>
+
+          <!-- Resultado del Análisis Cultural -->
+          <div class="p-4 rounded-4" style="background: rgba(15, 23, 42, 0.7); border: 1.5px solid rgba(245, 158, 11, 0.3);" id="idiom-result-card">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+              <div>
+                <h3 class="h5 fw-bold text-warning mb-1" id="idiom-display-title">"Bite the bullet"</h3>
+                <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 small">
+                  Traducción Literal Errónea: "Morder la bala"
+                </span>
+              </div>
+              <div class="text-end">
+                <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 py-1 px-3 rounded-pill fw-semibold" id="idiom-display-formality">
+                  Formalidad: Informal / Coloquial Profesional
+                </span>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 bg-dark bg-opacity-50 border border-secondary border-opacity-25 h-100">
+                  <div class="fw-bold text-info small mb-1"><i class="bi bi-lightbulb me-1"></i>Significado Real Nativo:</div>
+                  <p class="text-light small mb-0" id="idiom-display-meaning">
+                    Hacer de tripas corazón, afrontar una situación dolorosa o inevitable con valentía y sin vacilar.
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="p-3 rounded-3 bg-dark bg-opacity-50 border border-secondary border-opacity-25 h-100">
+                  <div class="fw-bold text-warning small mb-1"><i class="bi bi-book me-1"></i>Origen Cultural e Histórico:</div>
+                  <p class="text-white-50 small mb-0" id="idiom-display-origin">
+                    Proviene del siglo XIX en campos de batalla antes de la anestesia, donde los cirujanos pedían a los soldados morder una bala de plomo para soportar el dolor de una intervención.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-3 bg-dark bg-opacity-50 border border-secondary border-opacity-25">
+              <div class="fw-bold text-white small mb-2"><i class="bi bi-chat-dots text-success me-1"></i>Ejemplo de Uso Real en Conversación Nativa:</div>
+              <div class="fst-italic text-info small" id="idiom-display-example">
+                "I didn't want to tell my manager that we missed the deadline, but I just had to <strong>bite the bullet</strong> and explain what happened."
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           HERRAMIENTA 4: Videoteca de Masterclasses Privadas
+           =================================================================== -->
+      <div class="tab-pane fade" id="sec-masterclasses" role="tabpanel">
+        <div class="card-pro-glass p-4 p-md-5">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+            <div>
+              <div class="d-inline-flex align-items-center gap-1 badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 px-3 py-1 rounded-pill mb-2">
+                <i class="bi bi-camera-reels-fill"></i> CONTENIDO EXCLUSIVO EN ALTA DEFINICIÓN
+              </div>
+              <h2 class="h4 fw-bold text-white mb-1">Videoteca de Masterclasses Privadas</h2>
+              <p class="text-white-50 small mb-0">Accede a clases magistrales impartidas por lingüistas internacionales y descarga guías de trabajo en PDF.</p>
+            </div>
+          </div>
+
+          <div class="row g-4">
+            <!-- Masterclass 1 -->
+            <div class="col-md-6">
+              <div class="p-3 rounded-4 h-100 d-flex flex-column justify-content-between" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-warning text-dark fw-bold">Masterclass #01</span>
+                    <span class="text-white-50 small"><i class="bi bi-clock me-1"></i>45 minutos</span>
+                  </div>
+                  <h3 class="h6 fw-bold text-white mb-1">El Arte del Shadowing: Domina el Acento Nativo en 21 Días</h3>
+                  <div class="text-info small mb-3">Instructor: James Vance &bull; Coach Fonético de Hollywood</div>
+                  <p class="text-white-50 small mb-3">Aprende la técnica neuromuscular que utilizan los actores bilingües para eliminar el acento extranjero y hablar con ritmo orgánico.</p>
+                </div>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-sm btn-warning fw-bold text-dark rounded-pill flex-grow-1" onclick="playMasterclass('El Arte del Shadowing', 'James Vance')">
+                    <i class="bi bi-play-fill fs-5 align-middle"></i> Reproducir Clase
+                  </button>
+                  <a href="assets/ebook_fluidez_lingualearn.pdf" download="Guia_Shadowing_LinguaLearn_PRO.pdf" class="btn btn-sm btn-outline-light rounded-pill px-3" title="Descargar Guía en PDF">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Masterclass 2 -->
+            <div class="col-md-6">
+              <div class="p-3 rounded-4 h-100 d-flex flex-column justify-content-between" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-info text-dark fw-bold">Masterclass #02</span>
+                    <span class="text-white-50 small"><i class="bi bi-clock me-1"></i>58 minutos</span>
+                  </div>
+                  <h3 class="h6 fw-bold text-white mb-1">Inglés de Negocios para Empleos Remotos Internacionales</h3>
+                  <div class="text-info small mb-3">Instructora: Dra. Elena Rostov &bull; Consultora Global HR</div>
+                  <p class="text-white-50 small mb-3">Estrategias de comunicación asertiva, negociación salarial en dólares y cómo liderar reuniones ejecutivas en inglés sin nervios.</p>
+                </div>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-sm btn-warning fw-bold text-dark rounded-pill flex-grow-1" onclick="playMasterclass('Inglés de Negocios Internacional', 'Dra. Elena Rostov')">
+                    <i class="bi bi-play-fill fs-5 align-middle"></i> Reproducir Clase
+                  </button>
+                  <a href="assets/ebook_fluidez_lingualearn.pdf" download="Workbook_Business_English_PRO.pdf" class="btn btn-sm btn-outline-light rounded-pill px-3" title="Descargar Guía en PDF">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Masterclass 3 -->
+            <div class="col-md-6">
+              <div class="p-3 rounded-4 h-100 d-flex flex-column justify-content-between" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-success text-dark fw-bold">Masterclass #03</span>
+                    <span class="text-white-50 small"><i class="bi bi-clock me-1"></i>52 minutos</span>
+                  </div>
+                  <h3 class="h6 fw-bold text-white mb-1">Cómo Dejar de Traducir en tu Mente y Pensar en Inglés</h3>
+                  <div class="text-info small mb-3">Instructor: Prof. David Laurent &bull; Neurocientífico del Lenguaje</div>
+                  <p class="text-white-50 small mb-3">Descubre los disparadores cognitivos que eliminan el bloqueo mental y conectan tus pensamientos directamente con las palabras en inglés.</p>
+                </div>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-sm btn-warning fw-bold text-dark rounded-pill flex-grow-1" onclick="playMasterclass('Pensar 100% en Inglés', 'Prof. David Laurent')">
+                    <i class="bi bi-play-fill fs-5 align-middle"></i> Reproducir Clase
+                  </button>
+                  <a href="assets/ebook_fluidez_lingualearn.pdf" download="Guia_Pensamiento_Directo_PRO.pdf" class="btn btn-sm btn-outline-light rounded-pill px-3" title="Descargar Guía en PDF">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Masterclass 4 -->
+            <div class="col-md-6">
+              <div class="p-3 rounded-4 h-100 d-flex flex-column justify-content-between" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-primary text-white fw-bold">Masterclass #04</span>
+                    <span class="text-white-50 small"><i class="bi bi-clock me-1"></i>40 minutos</span>
+                  </div>
+                  <h3 class="h6 fw-bold text-white mb-1">Gramática Inductiva: Patrones Ocultos de Hablantes Fluidos</h3>
+                  <div class="text-info small mb-3">Instructora: Sarah Jenkins &bull; Lingüista de Oxford</div>
+                  <p class="text-white-50 small mb-3">Aprende reglas complejas sin memorizar tablas aburridas: cómo asimilar estructuras sintácticas mediante reconocimiento de bloques.</p>
+                </div>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-sm btn-warning fw-bold text-dark rounded-pill flex-grow-1" onclick="playMasterclass('Gramática Inductiva', 'Sarah Jenkins')">
+                    <i class="bi bi-play-fill fs-5 align-middle"></i> Reproducir Clase
+                  </button>
+                  <a href="assets/ebook_fluidez_lingualearn.pdf" download="Patrones_Gramaticales_PRO.pdf" class="btn btn-sm btn-outline-light rounded-pill px-3" title="Descargar Guía en PDF">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECCIÓN DISCRETA DE GESTIÓN Y CANCELACIÓN DEL PLAN PRO -->
+    <div class="mt-5 pt-4 border-top border-secondary border-opacity-25 text-center">
+      <div class="d-inline-flex flex-column flex-md-row align-items-center justify-content-between gap-3 p-3 px-4 rounded-4" style="background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); max-width: 820px; width: 100%;">
+        <div class="text-md-start">
+          <div class="small fw-semibold text-white">Estado de la Membresía: <span class="text-success fw-bold">Pase PRO Activo</span> (S/. 199.00)</div>
+          <div class="text-white-50" style="font-size: 0.78rem;">Pase adquirido sin cobros recurrentes periódicos &bull; Control total del usuario</div>
+        </div>
+        <div>
+          <!-- Botón de Cancelación que abre la Modal Amigable -->
+          <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1" data-bs-toggle="modal" data-bs-target="#modal-cancel-pro">
+            <i class="bi bi-x-circle me-1"></i> Cancelar Suscripción PRO
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL AMIGABLE DE CONFIRMACIÓN DE CANCELACIÓN PRO -->
+  <div class="modal fade" id="modal-cancel-pro" tabindex="-1" aria-labelledby="modalCancelProTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-white" style="background: #0f172a; border: 1.5px solid rgba(239, 68, 68, 0.4); border-radius: 20px;">
+        <div class="modal-header border-secondary border-opacity-25 pb-2">
+          <div class="d-flex align-items-center gap-2">
+            <div class="p-2 rounded-circle bg-danger bg-opacity-25 text-danger">
+              <i class="bi bi-shield-exclamation fs-5"></i>
+            </div>
+            <h5 class="modal-title fw-bold" id="modalCancelProTitle">¿Estás segura de cancelar tu acceso PRO?</h5>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body py-4">
+          <p class="text-light mb-3">
+            Hola <strong>Sofía</strong>, lamentamos que desees dar este paso. Al cancelar tu pase <strong>LinguaLearn PRO</strong>:
+          </p>
+          <ul class="text-white-50 small mb-4 ps-3">
+            <li class="mb-1">Tu cuenta volverá al modo gratuito con acceso limitado a lecciones básicas.</li>
+            <li class="mb-1">Perderás acceso inmediato a <strong>LinguaAI Roleplay</strong> y a las salas de voz 24/7.</li>
+            <li class="mb-1">No podrás acceder a las <strong>Masterclasses privadas</strong> ni a los workbooks descargables.</li>
+            <li>Tus certificados y XP acumulados se conservarán a salvo en tu historial.</li>
+          </ul>
+          <div class="p-3 rounded-3 bg-dark bg-opacity-75 border border-secondary border-opacity-25 small text-center text-white-50">
+            ¿Deseas confirmar la cancelación y regresar al modo gratuito?
+          </div>
+        </div>
+        <div class="modal-footer border-secondary border-opacity-25 pt-2">
+          <button type="button" class="btn btn-outline-light rounded-pill px-4" data-bs-dismiss="modal">
+            Mantener mi acceso PRO
+          </button>
+          <button type="button" class="btn btn-danger rounded-pill px-4 fw-bold" onclick="confirmCancelProSubscription()">
+            Confirmar Cancelación
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE REPRODUCTOR DE MASTERCLASS -->
+  <div class="modal fade" id="modal-player-masterclass" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content text-white" style="background: #0f172a; border: 1.5px solid rgba(245, 158, 11, 0.4); border-radius: 20px;">
+        <div class="modal-header border-secondary border-opacity-25">
+          <h5 class="modal-title fw-bold text-warning" id="modal-class-title"><i class="bi bi-play-circle-fill me-2"></i>Clase Magistral PRO</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center py-4">
+          <div class="rounded-4 p-5 mb-3" style="background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border: 1px dashed rgba(255,255,255,0.2);">
+            <i class="bi bi-play-btn display-1 text-warning mb-3 d-block"></i>
+            <h4 class="fw-bold text-white mb-2" id="modal-class-name">El Arte del Shadowing</h4>
+            <p class="text-white-50 small mb-3" id="modal-class-speaker">Instructor: James Vance &bull; Reproductor de Alta Definición</p>
+            <div class="d-inline-flex align-items-center gap-2 badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-3 py-2 rounded-pill">
+              <i class="bi bi-wifi"></i> Transmisión Exclusiva Segura en 1080p 60fps
+            </div>
+          </div>
+          <p class="text-white-50 small">Esta sesión incluye subtítulos interactivos en inglés y material complementario.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="pro-toast-container" id="pro-toast-box"></div>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Lógica Interactiva del Panel PRO -->
+  <script>
+    // 1. Alternar pestañas del menú PRO
+    function switchProTab(tabId) {
+      const tabEl = document.getElementById(tabId);
+      if (tabEl && window.bootstrap) {
+        new bootstrap.Tab(tabEl).show();
+      }
+    }
+
+    // 2. LinguaAI Roleplay: Envío y respuesta interactiva
+    function sendRoleplayMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('roleplay-input-text');
+      const text = input ? input.value.trim() : '';
+      if (!text) return;
+
+      const chatBox = document.getElementById('roleplay-chat-messages');
+
+      // Burbuja usuario
+      const userBubble = document.createElement('div');
+      userBubble.className = 'chat-bubble chat-bubble-user';
+      userBubble.innerHTML = `
+        <div class="d-flex align-items-center justify-content-end gap-2 mb-1">
+          <span class="text-white-50 small" style="font-size: 0.72rem;">Sofía</span>
+          <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.65rem;">Tú</span>
+        </div>
+        <div>${text}</div>
+      `;
+      chatBox.appendChild(userBubble);
+      input.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Respuesta simulada de IA tras 900ms
+      setTimeout(() => {
+        const aiBubble = document.createElement('div');
+        aiBubble.className = 'chat-bubble chat-bubble-ai';
+        aiBubble.innerHTML = `
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge bg-info text-dark fw-bold" style="font-size: 0.65rem;">LinguaBot AI</span>
+            <span class="text-white-50 small" style="font-size: 0.72rem;">Respuesta Inmediata</span>
+          </div>
+          <div>
+            "That's a very clear point, Sofia! Notice how you used natural rhythm. Let's dig deeper: how would you summarize that in one concise sentence for the hiring manager?"
+          </div>
+        `;
+        chatBox.appendChild(aiBubble);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        showProToast('¡Interacción procesada! Fluidez fonética: 97%', 'success');
+      }, 900);
+    }
+
+    function simulateVoiceInput() {
+      const micIcon = document.getElementById('roleplay-mic-icon');
+      micIcon.classList.remove('bi-mic-fill');
+      micIcon.classList.add('bi-record-fill', 'text-danger');
+      showProToast('Escuchando tu pronunciación en tiempo real...', 'info');
+
+      setTimeout(() => {
+        micIcon.classList.remove('bi-record-fill', 'text-danger');
+        micIcon.classList.add('bi-mic-fill');
+        document.getElementById('roleplay-input-text').value = "I spearheaded the microservices refactoring project last year.";
+        showProToast('Audio transcrito con éxito. Haz clic en Enviar.', 'success');
+      }, 1600);
+    }
+
+    function changeRoleplayScenario(val) {
+      const chatBox = document.getElementById('roleplay-chat-messages');
+      const messages = {
+        interview: '"Hello Sofia! Welcome to your interview at NovaTech. Can you tell me a little bit about yourself?"',
+        airport: '"Good morning officer. I am arriving for a two-week tech convention. Here is my passport and hotel reservation."',
+        negotiation: '"Thank you for joining today\'s conference call. Let\'s review clause 4 regarding the international licensing agreement."',
+        cafe: '"Bonjour! Could I get an oat milk latte and a warm croissant, please? Keep the change."'
+      };
+
+      chatBox.innerHTML = `
+        <div class="chat-bubble chat-bubble-ai">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge bg-info text-dark fw-bold" style="font-size: 0.65rem;">LinguaBot AI</span>
+            <span class="text-white-50 small" style="font-size: 0.72rem;">Nuevo Escenario Cargado</span>
+          </div>
+          <div>${messages[val] || messages.interview}</div>
+        </div>
+      `;
+      showProToast('Escenario actualizado a ' + val.toUpperCase(), 'info');
+    }
+
+    // 3. Traductor Contextual de Modismos
+    const IDIOMS_DB = {
+      'bite-the-bullet': {
+        title: '"Bite the bullet"',
+        meaning: 'Hacer de tripas corazón, afrontar una situación dolorosa o inevitable con valentía y sin vacilar.',
+        origin: 'Proviene del siglo XIX en campos de batalla antes de la anestesia, donde los cirujanos pedían a los soldados morder una bala de plomo para soportar el dolor.',
+        example: '"I didn\'t want to tell my manager that we missed the deadline, but I just had to bite the bullet and explain what happened."',
+        formality: 'Coloquial Profesional'
+      },
+      'piece-of-cake': {
+        title: '"Piece of cake"',
+        meaning: 'Algo sumamente fácil de realizar; pan comido.',
+        origin: 'Surgió a finales del siglo XIX en el sur de EE. UU., donde se premiaba con un pastel a quien realizara el mejor baile en competencias conocidas como cakewalks.',
+        example: '"Don\'t worry about the English placement test, Sofia. With your preparation, it\'s going to be a piece of cake!"',
+        formality: 'Informal Positivo'
+      },
+      'cost-an-arm': {
+        title: '"Cost an arm and a leg"',
+        meaning: 'Costar un ojo de la cara; ser exorbitante o excesivamente costoso.',
+        origin: 'Popularizado tras la Segunda Guerra Mundial haciendo alusión al alto costo humano que sufrieron los soldados al perder extremidades en combate.',
+        example: '"The flight to London during peak season costs an arm and a leg, so I booked two months in advance."',
+        formality: 'Conversacional Diario'
+      },
+      'break-a-leg': {
+        title: '"Break a leg"',
+        meaning: '¡Mucha suerte! Deseo de éxito antes de una presentación teatral o discurso.',
+        origin: 'Superstición teatral que creía que desear buena suerte atraería malos espíritus, por lo que se deseaba lo contrario para asegurar el éxito.',
+        example: '"You have your keynote presentation in five minutes, break a leg!"',
+        formality: 'Ámbito Creativo y Profesional'
+      },
+      'under-the-weather': {
+        title: '"Under the weather"',
+        meaning: 'Sentirse indispuesto, resfriado o con baja energía física.',
+        origin: 'Término marítimo: en tormentas, los marineros enfermos bajaban a la bodega bajo cubierta para protegerse del clima adverso (under the weather).',
+        example: '"I felt a bit under the weather yesterday, but after a good rest, I\'m ready for our team sync."',
+        formality: 'Uso Diario y Laboral'
+      }
+    };
+
+    function loadIdiom(key) {
+      const data = IDIOMS_DB[key];
+      if (!data) return;
+      document.getElementById('custom-idiom-input').value = data.title.replace(/"/g, '');
+      document.getElementById('idiom-display-title').textContent = data.title;
+      document.getElementById('idiom-display-meaning').textContent = data.meaning;
+      document.getElementById('idiom-display-origin').textContent = data.origin;
+      document.getElementById('idiom-display-example').innerHTML = data.example;
+      document.getElementById('idiom-display-formality').textContent = 'Formalidad: ' + data.formality;
+      showProToast('Modismo analizado con éxito', 'success');
+    }
+
+    function analyzeCustomIdiom() {
+      const val = document.getElementById('custom-idiom-input').value.trim();
+      if (!val) return;
+      document.getElementById('idiom-display-title').textContent = `"${val}"`;
+      document.getElementById('idiom-display-meaning').textContent = `Expresión nativa analizada con IA. Sentido pragmático contextual adaptado para Sofía.`;
+      document.getElementById('idiom-display-origin').textContent = `Uso extendido en dialectos contemporáneos de Norteamérica y Reino Unido.`;
+      document.getElementById('idiom-display-example').innerHTML = `"Whenever native speakers use <strong>${val}</strong>, they signal shared cultural camaraderie."`;
+      showProToast('Análisis cultural completado para: ' + val, 'success');
+    }
+
+    // 4. Reproducir Masterclass
+    function playMasterclass(name, speaker) {
+      document.getElementById('modal-class-name').textContent = name;
+      document.getElementById('modal-class-speaker').textContent = 'Instructor: ' + speaker + ' • Reproductor de Alta Definición';
+      const modal = new bootstrap.Modal(document.getElementById('modal-player-masterclass'));
+      modal.show();
+    }
+
+    function showMapMissionModal(city, desc, xp) {
+      showProToast(`Destino: ${city} • ${desc} (+${xp} XP)`, 'info');
+    }
+
+    // 5. Gestión de Cancelación Amigable
+    function confirmCancelProSubscription() {
+      // Revertir estado PRO
+      localStorage.setItem('lingua_user_pro_active', 'false');
+
+      // Actualizar objeto usuario si existe
+      try {
+        const u = JSON.parse(localStorage.getItem('lingua_current_user') || '{}');
+        u.isPro = false;
+        u.plan = 'Básico Gratuito';
+        localStorage.setItem('lingua_current_user', JSON.stringify(u));
+      } catch (e) {}
+
+      // Cerrar modal
+      const modalEl = document.getElementById('modal-cancel-pro');
+      if (modalEl && window.bootstrap) {
+        bootstrap.Modal.getInstance(modalEl)?.hide();
+      }
+
+      showProToast('Has regresado al modo gratuito. Redirigiendo...', 'info');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1200);
+    }
+
+    // Toast helper
+    function showProToast(msg, type = 'info') {
+      const box = document.getElementById('pro-toast-box');
+      if (!box) return;
+      const el = document.createElement('div');
+      el.className = `alert alert-${type === 'success' ? 'success' : type === 'info' ? 'info' : 'warning'} shadow-lg py-2 px-3 rounded-pill small fw-semibold mb-2`;
+      el.style.maxWidth = '340px';
+      el.innerHTML = `<i class="bi bi-stars me-1 text-warning"></i> ${msg}`;
+      box.appendChild(el);
+      setTimeout(() => el.remove(), 3000);
+    }
+  </script>
+</body>
+</html>

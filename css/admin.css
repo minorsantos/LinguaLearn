@@ -515,33 +515,41 @@ body.dark-mode .admin-table tbody tr:hover {
 }
 
 /* Modo Oscuro: Planes (Garantiza contraste óptimo y elimina cajas blancas con letras invisibles) */
-body.dark-mode .badge-plan-basic {
-  background: rgba(148, 163, 184, 0.22) !important;
-  color: #f1f5f9 !important;
-  border: 1.5px solid rgba(148, 163, 184, 0.48) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-body.dark-mode .badge-plan-premium {
-  background: rgba(14, 165, 233, 0.22) !important;
-  color: #38bdf8 !important;
-  border: 1.5px solid rgba(56, 189, 248, 0.55) !important;
-  text-shadow: 0 0 10px rgba(56, 189, 248, 0.35);
-  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.2);
-}
-
-body.dark-mode .badge-plan-enterprise {
-  background: rgba(245, 158, 11, 0.22) !important;
-  color: #fbbf24 !important;
-  border: 1.5px solid rgba(251, 191, 36, 0.55) !important;
-  text-shadow: 0 0 10px rgba(251, 191, 36, 0.35);
-  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
-}
-
-body.dark-mode .badge-plan-default {
-  background: rgba(255, 255, 255, 0.12) !important;
+body.dark-mode .badge-plan-basic,
+[data-theme="dark"] .badge-plan-basic,
+html[data-theme="dark"] .badge-plan-basic {
+  background: rgba(148, 163, 184, 0.28) !important;
   color: #f8fafc !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+  border: 1.5px solid rgba(148, 163, 184, 0.6) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .badge-plan-premium,
+[data-theme="dark"] .badge-plan-premium,
+html[data-theme="dark"] .badge-plan-premium {
+  background: rgba(14, 165, 233, 0.28) !important;
+  color: #38bdf8 !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.7) !important;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.25);
+}
+
+body.dark-mode .badge-plan-enterprise,
+[data-theme="dark"] .badge-plan-enterprise,
+html[data-theme="dark"] .badge-plan-enterprise {
+  background: rgba(245, 158, 11, 0.28) !important;
+  color: #fbbf24 !important;
+  border: 1.5px solid rgba(251, 191, 36, 0.7) !important;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+}
+
+body.dark-mode .badge-plan-default,
+[data-theme="dark"] .badge-plan-default,
+html[data-theme="dark"] .badge-plan-default {
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #ffffff !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
 }
 
 /* 2. Badges de Módulo en Registros de Auditoría */

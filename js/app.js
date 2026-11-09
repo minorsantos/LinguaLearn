@@ -957,6 +957,49 @@
     }
   });
 
+
+  // =========================================================================
+  // GESTIÓN REACTIVA DE ESTADO LINGUALEARN PRO (SOFÍA MARTÍNEZ)
+  // =========================================================================
+  function syncProStatus() {
+    const isPro = localStorage.getItem('lingua_user_pro_active') === 'true';
+
+    // 1. Navbar: Asegurar botón exclusivo PRO con diseño único
+    const navLists = document.querySelectorAll('.navbar-nav');
+    navLists.forEach(ul => {
+      let proItem = ul.querySelector('.pro-nav-item');
+      if (!proItem && isPro) {
+        proItem = document.createElement('li');
+        proItem.className = 'nav-item pro-nav-item';
+        proItem.id = 'nav-item-pro-tab';
+        proItem.innerHTML = `
+          <a class="nav-link nav-link-pro-special" href="panel-pro.html" title="Ingresar a tu espacio exclusivo LinguaLearn PRO">
+            <i class="bi bi-stars"></i> <span>LinguaLearn PRO</span>
+          </a>
+        `;
+        ul.appendChild(proItem);
+      } else if (proItem) {
+        proItem.style.display = isPro ? 'block' : 'none';
+      }
+    });
+
+    // 2. Banner de estado PRO activo en Suscripción
+    const activeBanner = document.getElementById('pro-already-active-banner');
+    if (activeBanner) {
+      activeBanner.style.display = isPro ? 'block' : 'none';
+    }
+
+    // 3. Menú desplegable de perfil de usuario
+    const userRoleBadges = document.querySelectorAll('.user-level-badge');
+    if (isPro) {
+      userRoleBadges.forEach(b => {
+        b.className = 'badge bg-warning text-dark mt-1 user-level-badge fw-bold';
+        b.innerHTML = '<i class="bi bi-stars me-1"></i>Membresía PRO Activa';
+      });
+    }
+  }
+  window.syncProStatus = syncProStatus;
+
   // Inicializar al cargar
   document.addEventListener('DOMContentLoaded', () => {
   // Remover preload-theme despues de la primera carga para permitir transiciones
@@ -970,5 +1013,6 @@
     setupAuthForms();
     setupPageTransitions();
     setupResponsiveNavbar();
+    syncProStatus();
   });
 })();
