@@ -945,10 +945,12 @@ body.dark-mode .modal-content .btn-close {
     z-index: 1080 !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
-    padding: 1.25rem 1.25rem 1.5rem !important;
+    justify-content: flex-start !important;
+    padding: 1.25rem 1.25rem calc(2rem + env(safe-area-inset-bottom, 16px)) !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
     transform: translateY(-100%) !important;
     opacity: 0 !important;
     visibility: hidden !important;
@@ -957,6 +959,8 @@ body.dark-mode .modal-content .btn-close {
                 visibility 0.35s !important;
     border: none !important;
     box-shadow: none !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(194, 153, 83, 0.45) transparent;
   }
 
   .admin-sidebar.show {
@@ -1163,7 +1167,7 @@ body.dark-mode .modal-content .btn-close {
   .admin-sidebar .sidebar-footer {
     padding-top: 0.85rem !important;
     border-top: 1px solid rgba(194, 153, 83, 0.25) !important;
-    margin-top: 0.75rem !important;
+    margin-top: auto !important;
   }
 
   .admin-sidebar .btn-sidebar-logout {
@@ -1219,12 +1223,31 @@ body.dark-mode .modal-content .btn-close {
 @media (max-width: 991.98px) and (orientation: landscape),
        (orientation: landscape) and (max-height: 600px) {
   .admin-sidebar {
-    padding: 0.75rem 1rem 0.85rem !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100vh !important;
+    max-height: 100dvh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    justify-content: flex-start !important;
+    padding: 0.75rem 1.25rem calc(2.25rem + env(safe-area-inset-bottom, 20px)) !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(194, 153, 83, 0.45) transparent;
   }
 
+  /* Cabecera pegajosa en la parte superior del scroll */
   .admin-sidebar .sidebar-brand {
-    padding: 0 0 0.4rem !important;
-    margin-bottom: 0.4rem !important;
+    position: sticky !important;
+    top: -0.75rem !important;
+    z-index: 30 !important;
+    background: rgba(18, 12, 8, 0.95) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    padding: 0.4rem 0 !important;
+    margin-bottom: 0.5rem !important;
+    border-bottom: 1px solid rgba(194, 153, 83, 0.25) !important;
   }
 
   .admin-sidebar .sidebar-brand .brand-title {
@@ -1238,22 +1261,40 @@ body.dark-mode .modal-content .btn-close {
   }
 
   .admin-sidebar .sidebar-user-card {
-    display: none !important; /* Oculta ficha en horizontal para maximizar espacio de los 6 botones */
+    display: none !important; /* Oculta ficha en horizontal para maximizar espacio vertical */
   }
 
-  /* En horizontal: Grid de 3 columnas simétricas (2 filas de 3 botones) */
+  .admin-sidebar .sidebar-nav {
+    flex-grow: 0 !important;
+    width: 100% !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  /* Cuadrícula fluida en horizontal: 3 columnas simétricas */
   .admin-sidebar .sidebar-menu {
+    display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 0.5rem !important;
+    gap: 0.55rem !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  @media (max-width: 680px) {
+    .admin-sidebar .sidebar-menu {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
   }
 
   .admin-sidebar .sidebar-nav-btn {
-    min-height: 72px !important;
-    padding: 0.45rem 0.5rem !important;
+    min-height: 68px !important;
+    padding: 0.45rem 0.6rem !important;
     flex-direction: row !important;
+    align-items: center !important;
     gap: 0.65rem !important;
     justify-content: flex-start !important;
     text-align: left !important;
+    border-radius: 14px !important;
   }
 
   .nav-btn-icon-box {
@@ -1277,14 +1318,20 @@ body.dark-mode .modal-content .btn-close {
     margin-top: 0 !important;
   }
 
+  /* Pie con margen superior y padding inferior generoso para que nunca se corte */
   .admin-sidebar .sidebar-footer {
-    padding-top: 0.5rem !important;
-    margin-top: 0.4rem !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0 !important;
+    margin-top: 0.85rem !important;
+    margin-bottom: 0.5rem !important;
+    border-top: 1px solid rgba(194, 153, 83, 0.25) !important;
+    width: 100% !important;
   }
 
   .admin-sidebar .btn-sidebar-logout {
-    min-height: 40px !important;
-    font-size: 0.84rem !important;
+    min-height: 44px !important;
+    font-size: 0.88rem !important;
+    border-radius: 12px !important;
   }
 }
 
