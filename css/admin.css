@@ -889,13 +889,16 @@ body.dark-mode .modal-content .btn-close {
 /* ==========================================================================
    RESPONSIVIDAD MÓVIL Y MEDIA QUERIES (máx. 991px)
    ========================================================================== */
-@media (max-width: 991px) {
+@media (max-width: 991.98px) {
   .admin-sidebar {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     width: 280px;
+    max-width: 80vw;
+    max-width: 80%;
+    min-width: 0 !important;
     height: 100vh;
     height: 100dvh;
     max-height: 100vh;
@@ -906,11 +909,15 @@ body.dark-mode .modal-content .btn-close {
     overscroll-behavior-y: contain;
     z-index: 1060;
     transform: translateX(-100%);
-    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, visibility 0.3s;
+    box-shadow: none;
+    visibility: hidden;
   }
 
   .admin-sidebar.show {
     transform: translateX(0);
+    visibility: visible;
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.65);
   }
 
   .sidebar-backdrop {
@@ -919,15 +926,26 @@ body.dark-mode .modal-content .btn-close {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     z-index: 1050;
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
+    cursor: pointer;
   }
 
   .sidebar-backdrop.show {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  body.sidebar-open {
+    overflow: hidden !important;
+    touch-action: none;
   }
 
   .admin-topbar {
@@ -1150,8 +1168,8 @@ body.dark-mode .modal-content .btn-close {
    OPTIMIZACIÓN MÓVIL Y MODO HORIZONTAL (LANDSCAPE): GRID 2x2 COMPACTO
    ========================================================================== */
 @media (max-width: 575.98px), 
-       (orientation: landscape) and (max-height: 550px),
-       (orientation: landscape) and (max-width: 991.98px) and (max-height: 600px) {
+       (orientation: landscape) and (max-height: 650px),
+       (orientation: landscape) and (max-width: 991.98px) {
   /* Tarjetas KPI en Grid Simétrico y Compacto */
   .admin-kpi-card {
     padding: 0.75rem 0.7rem !important;
@@ -1233,9 +1251,10 @@ body.dark-mode .modal-content .btn-close {
 
 /* Aplicar integridad de tablas tanto en móvil vertical como en modo horizontal landscape */
 @media (max-width: 991.98px), 
-       (orientation: landscape) and (max-height: 600px) {
+       (orientation: landscape) and (max-height: 650px),
+       (orientation: landscape) and (max-width: 991.98px) {
   .admin-table {
-    min-width: 680px !important; /* Mantiene la integridad de columnas en móvil vertical y horizontal */
+    min-width: 720px !important; /* Preserva la legibilidad total de columnas sin cortes ni saltos */
   }
 
   .admin-table thead th {
@@ -1265,7 +1284,8 @@ body.dark-mode .modal-content .btn-close {
 /* ==========================================================================
    OPTIMIZACIÓN EXCLUSIVA PARA MODO HORIZONTAL (LANDSCAPE) EN MÓVILES
    ========================================================================== */
-@media (orientation: landscape) and (max-height: 600px) {
+@media (orientation: landscape) and (max-height: 650px),
+       (orientation: landscape) and (max-width: 991.98px) {
   /* Reducir márgenes verticales excesivos para ganar altura útil */
   .admin-topbar {
     padding: 0.45rem 1rem !important;

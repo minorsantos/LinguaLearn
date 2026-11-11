@@ -613,12 +613,7 @@
       }
 
       // 5. Cerrar menú lateral en móviles si estaba abierto
-      if (sidebar && sidebar.classList.contains('show')) {
-        sidebar.classList.remove('show');
-      }
-      if (backdrop && backdrop.classList.contains('show')) {
-        backdrop.classList.remove('show');
-      }
+      closeMobileSidebar();
 
       // 6. Actualizar historial de URL para permitir recarga o compartir enlace
       if (updateHash) {
@@ -647,25 +642,60 @@
       });
     });
 
-    // Control del drawer móvil (Hamburguesa y Cerrar)
+        // Funciones de control del Drawer Móvil
+    function closeMobileSidebar() {
+      if (sidebar && sidebar.classList.contains('show')) {
+        sidebar.classList.remove('show');
+      }
+      if (backdrop && backdrop.classList.contains('show')) {
+        backdrop.classList.remove('show');
+      }
+      document.body.classList.remove('sidebar-open');
+    }
+
+    function openMobileSidebar() {
+      sidebar?.classList.add('show');
+      backdrop?.classList.add('show');
+      document.body.classList.add('sidebar-open');
+    }
+
+    // Control del drawer móvil (Hamburguesa, Cerrar y Clic Fuera)
     const toggleBtn = document.getElementById('btn-toggle-sidebar');
     const closeBtn = document.getElementById('btn-close-sidebar');
 
     toggleBtn?.addEventListener('click', function (e) {
       e.preventDefault();
-      sidebar?.classList.add('show');
-      backdrop?.classList.add('show');
+      e.stopPropagation();
+      if (sidebar?.classList.contains('show')) {
+        closeMobileSidebar();
+      } else {
+        openMobileSidebar();
+      }
     });
 
     closeBtn?.addEventListener('click', function (e) {
       e.preventDefault();
-      sidebar?.classList.remove('show');
-      backdrop?.classList.remove('show');
+      closeMobileSidebar();
     });
 
     backdrop?.addEventListener('click', function () {
-      sidebar?.classList.remove('show');
-      backdrop?.classList.remove('show');
+      closeMobileSidebar();
+    });
+
+    // Cerrar al hacer clic fuera del sidebar en móvil
+    document.addEventListener('click', function (e) {
+      if (sidebar && sidebar.classList.contains('show')) {
+        if (!sidebar.contains(e.target) && !toggleBtn?.contains(e.target)) {
+          closeMobileSidebar();
+        }
+      }
+    });
+
+    // Cerrar con tecla Escape
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sidebar && sidebar.classList.contains('show')) {
+        closeMobileSidebar();
+      }
     });
 
     // Carga inicial: evaluar hash de URL o usar Dashboard por defecto
@@ -1043,6 +1073,7 @@
         </div>
       </div>
 
+      <div class="table-responsive">
       <table class="pdf-table">
         <thead>
           <tr>
@@ -1107,6 +1138,7 @@
           </tr>
         </tfoot>
       </table>
+      </div>
     `;
 
     // 2. Sección Ventas por Suscripción
@@ -1177,6 +1209,7 @@
       </table>
 
       <div style="font-size: 11px; font-weight: 700; color: #334155; margin-bottom: 6px; text-transform: uppercase;">Muestra de Transacciones Recientes Auditadas:</div>
+      <div class="table-responsive">
       <table class="pdf-table">
         <thead>
           <tr>
@@ -1193,6 +1226,7 @@
           ${salesRowsHTML}
         </tbody>
       </table>
+      </div>
     `;
 
     // 3. Sección Distribución por Niveles
@@ -1202,6 +1236,7 @@
         Población estudiantil categorizada según el Marco Común Europeo de Referencia para las Lenguas (MCER), cuantificando la distribución porcentual y la tasa media de aprobación en evaluaciones diagnósticas.
       </p>
 
+      <div class="table-responsive">
       <table class="pdf-table">
         <thead>
           <tr>
@@ -1274,6 +1309,7 @@
           </tr>
         </tfoot>
       </table>
+      </div>
     `;
 
     const footerHTML = `
