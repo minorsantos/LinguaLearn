@@ -182,17 +182,56 @@
       background: linear-gradient(90deg, var(--accent-success) 0%, #34d399 100%) !important;
     }
 
-    /* Botones de acción interactivos */
-    .btn-action-course {
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      padding: 0.65rem 1.2rem;
-      transition: all 0.25s ease;
+    /* =========================================================================
+       DISEÑO TÁCTIL AMIGABLE Y ERGONÓMICO (TOUCH-FRIENDLY BUTTONS)
+       ========================================================================= */
+    .btn,
+    .btn-action-course,
+    .dropdown-toggle,
+    .navbar-toggler {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
-    .btn-action-course:hover {
-      transform: translateY(-2px);
+    /* Botones de acción interactivos */
+    .btn-action-course {
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.82rem 1.35rem;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease, filter 0.15s ease;
+    }
+
+    /* Feedback háptico visual inmediato en pantalla táctil */
+    .btn:active,
+    .btn-action-course:active {
+      transform: scale(0.97) !important;
+      filter: brightness(0.92);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn-action-course:hover {
+        transform: translateY(-2px);
+      }
+    }
+
+    /* Botones optimizados para uso con una sola mano (Thumb-friendly) */
+    .btn-touch-mobile {
+      min-height: 48px !important;
+      padding: 0.8rem 1.25rem !important;
+      font-size: 0.95rem !important;
+      border-radius: 14px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.5rem !important;
     }
 
     /* Animación de pulso para botón completado */
@@ -204,6 +243,60 @@
       0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
       70% { box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
       100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* =========================================================================
+       COMPORTAMIENTO EN HORIZONTAL (MOBILE LANDSCAPE ANTI-JUMP)
+       Evita que la pantalla salte a columnas múltiples de escritorio en celulares
+       ========================================================================= */
+    @media (orientation: landscape) and (max-height: 600px) {
+      /* 1. Mantiene el contenedor centrado y óptimo para lectura */
+      .container {
+        max-width: 680px !important;
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+      }
+
+      /* 2. Evita el salto a columnas de escritorio: mantiene apilado vertical (1 columna) */
+      .row > [class*="col-md-"],
+      .row > [class*="col-lg-"],
+      .row > [class*="col-xl-"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+
+      /* 3. Botones de acción al 100% de ancho para fácil pulsación con cualquier pulgar */
+      .btn-action-course,
+      .btn-landscape-full {
+        width: 100% !important;
+        min-height: 50px !important;
+        font-size: 1rem !important;
+      }
+
+      /* 4. Compactar banners decorativos para maximizar espacio vertical útil */
+      .course-banner {
+        height: 85px !important;
+        padding: 0.75rem 1.25rem !important;
+      }
+
+      .card-dark-glass .card-body {
+        padding: 1.25rem !important;
+      }
+
+      /* 5. Menú hamburguesa accesible con scroll independiente en apaisado */
+      .navbar-collapse {
+        max-height: 75vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 1.5rem;
+      }
+
+      /* 6. Espaciado de seguridad para barras del sistema y notch de cámara */
+      body {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+      }
     }
 
     /* Toast Flotante Personalizado */
@@ -280,7 +373,7 @@
 
           <!-- Selector Desplegable de Idioma Activo (Dropdown) -->
           <div class="dropdown">
-            <button class="btn btn-outline-light btn-sm dropdown-toggle rounded-pill px-3 py-1 d-inline-flex align-items-center gap-2" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-outline-light btn-sm dropdown-toggle rounded-pill px-3 py-2 d-inline-flex align-items-center gap-2" style="min-height: 42px;" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <span id="current-lang-flag" class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-30 rounded px-1 me-1 small">EN</span>
               <span id="current-lang-text" class="fw-semibold small">Inglés</span>
             </button>
@@ -550,7 +643,7 @@
           </p>
         </div>
         <div class="col-12 col-lg-4 text-lg-end">
-          <button type="button" class="btn btn-outline-info rounded-pill px-4 py-2 fw-semibold d-inline-flex align-items-center gap-2" onclick="simulateVoiceTest()">
+          <button type="button" class="btn btn-outline-info rounded-pill px-4 py-2 fw-semibold d-inline-flex align-items-center justify-content-center gap-2 btn-touch-mobile w-100 w-lg-auto" onclick="simulateVoiceTest()">
             <i class="bi bi-mic-fill"></i> Iniciar Prueba Fonética
           </button>
         </div>

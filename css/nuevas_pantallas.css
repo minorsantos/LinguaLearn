@@ -2050,3 +2050,97 @@ body.dark-mode .promo-banner-cta {
   background: rgba(245, 158, 11, 0.18);
   color: #facc15;
 }
+
+
+/* ==========================================================================
+   OPTIMIZACIÓN TÁCTIL MÓVIL Y COMPORTAMIENTO LANDSCAPE (ANTI-JUMP)
+   Soporte ergonómico para interacción táctil y giro apaisado en teléfonos
+   ========================================================================== */
+@media (pointer: coarse), (max-width: 991.98px) {
+  /* 1. Área de toque mínima recomendada (48px) y micro-interacción instantánea */
+  .btn,
+  .btn-terracotta,
+  .btn-entrar-metallic,
+  .btn-upgrade-pro,
+  .btn-plan-select,
+  .btn-action-course,
+  .btn-hero-learn,
+  .cloud-option-btn,
+  .navbar-toggler,
+  .btn-touch-mobile {
+    min-height: 48px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Feedback táctil inmediato (sensación háptica visual) */
+  .btn:active,
+  .btn-terracotta:active,
+  .btn-entrar-metallic:active,
+  .btn-upgrade-pro:active,
+  .btn-plan-select:active,
+  .btn-action-course:active,
+  .btn-touch-mobile:active {
+    transform: scale(0.97) !important;
+    filter: brightness(0.92);
+  }
+}
+
+/* 2. Comportamiento en Modo Horizontal (Mobile Landscape Anti-Jump)
+   Evita que el celular salte al diseño de escritorio de 2 o 3 columnas */
+@media (orientation: landscape) and (max-height: 600px) {
+  .container,
+  .container-xl,
+  .container-lg {
+    max-width: 720px !important;
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  /* Mantener apilado en 1 sola columna vertical en teléfonos horizontales */
+  .row > [class*="col-md-"],
+  .row > [class*="col-lg-"],
+  .row > [class*="col-xl-"] {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* Botones anchos y cómodos para presionar con los pulgares */
+  .btn-action-course,
+  .btn-upgrade-pro,
+  .btn-landscape-full,
+  .pro-sales-hero-card .btn {
+    width: 100% !important;
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Compactar altura de elementos decorativos para no ahogar la pantalla de ~350px */
+  .course-banner {
+    height: 85px !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  .pro-sales-hero-card {
+    padding: 1.5rem !important;
+  }
+
+  /* Menú desplegable con scroll interno suave en orientación horizontal */
+  .navbar-collapse {
+    max-height: 75vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 1.5rem;
+  }
+
+  /* Espaciado seguro para marcos y bordes de pantalla redondeados */
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
