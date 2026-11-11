@@ -4673,7 +4673,7 @@ body.dark-mode .header-profile-btn:hover {
   display: none !important;
 }
 
-/* MENÚ DESPLEGABLE HACIA ABAJO CONVENCIONAL (FLOTANTE SIN MOVER EL DISEÑO) */
+/* MENÚ DESPLEGABLE DE PERFIL DE USUARIO (SOFIA MARTINEZ) - SCROLLABLE & PADDED */
 .header-profile-dropdown {
   position: relative !important;
   overflow: visible !important;
@@ -4687,10 +4687,26 @@ body.dark-mode .header-profile-btn:hover {
   float: none !important;
   margin: 0 !important;
   transform: none !important;
-  min-width: 230px !important;
-  max-width: 270px !important;
+  min-width: 240px !important;
+  max-width: 280px !important;
   border-radius: 20px !important;
-  padding: 0.5rem !important;
+  padding: 0.65rem 0.65rem 1.5rem !important; /* Espacio inferior holgado */
+  padding-bottom: 1.5rem !important;
+
+  /* 1. Límite de altura máxima para que no rebase la pantalla del celular */
+  max-height: 75vh !important;
+  max-height: 75dvh !important;
+
+  /* 2. Scroll vertical suave e independiente para alcanzar 'Cerrar Sesión' */
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior-y: contain !important;
+
+  /* Scrollbar estética acorde a la paleta cálida / dorada */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.45) transparent;
+
   z-index: 9999 !important;
   animation: dropdownDeployDown 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
   background: rgba(255, 252, 246, 0.98) !important;
@@ -4698,6 +4714,21 @@ body.dark-mode .header-profile-btn:hover {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.9) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
+}
+
+/* Scrollbar para Webkit (Chrome, Safari, Edge) */
+.header-profile-dropdown .dropdown-menu::-webkit-scrollbar {
+  width: 5px;
+}
+.header-profile-dropdown .dropdown-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+.header-profile-dropdown .dropdown-menu::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.45);
+  border-radius: 4px;
+}
+.header-profile-dropdown .dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.75);
 }
 
 body.dark-mode .header-profile-dropdown .dropdown-menu {
@@ -5701,8 +5732,21 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     position: static !important;
     float: none !important;
     width: 100% !important;
+    max-width: 100% !important;
     transform: none !important;
     margin-top: 0.5rem !important;
+
+    /* Límite de altura y scroll vertical para móviles */
+    max-height: 75vh !important;
+    max-height: 75dvh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    padding-bottom: 1.5rem !important; /* Espacio de relleno para Cerrar Sesión */
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.45) transparent;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
   }
 }
