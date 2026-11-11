@@ -5493,7 +5493,7 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
   color: #ffffff !important;
 }
 
-/* 2. Pantallas de Escritorio y Monitores Grandes (>= 992px y altura > 600px): Navegación horizontal completa */
+/* 2. Pantallas de Escritorio y Monitores Grandes (>= 992px y altura > 600px): Navegación horizontal limpia */
 @media (min-width: 992px) and (min-height: 601px) {
   .hamburger-nav-btn {
     display: none !important;
@@ -5502,23 +5502,69 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     display: flex !important;
     flex-basis: auto !important;
     width: auto !important;
+    position: static !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    overflow: visible !important;
   }
   .main-navbar .navbar-nav {
     display: flex !important;
     flex-direction: row !important;
+    gap: 0.25rem !important;
+    align-items: center !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .main-navbar .navbar-nav .nav-item {
+    width: auto !important;
+  }
+  .navbar-mobile-header,
+  .navbar-mobile-user-card,
+  .navbar-mobile-footer {
+    display: none !important;
+  }
+  .nav-link-icon-box {
+    display: none !important;
+  }
+  .nav-link-desc {
+    display: none !important;
+  }
+  .nav-link-text-box {
+    display: inline !important;
+  }
+  .nav-link-title {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+    line-height: inherit !important;
+    display: inline !important;
   }
 }
 
 /* 3. Dispositivos Móviles y Celulares en Horizontal (Landscape Anti-Overlap):
-   Activa el menú colapsable (hamburguesa) en celulares horizontales (< 992px o altura reducida <= 600px) */
+   Activa el panel de control a pantalla completa en celulares y tablets (< 992px o altura reducida <= 600px) */
 @media (max-width: 991.98px), ((orientation: landscape) and (max-height: 600px)) {
-  /* Mostrar el botón hamburguesa */
+  /* Mostrar el botón hamburguesa táctil */
   .hamburger-nav-btn {
     display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(215, 195, 160, 0.4) !important;
+    color: var(--primary) !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    z-index: 1065 !important;
   }
 
   .main-navbar {
     padding: 0.55rem 0 !important;
+    z-index: 1060 !important;
   }
 
   .main-navbar .navbar {
@@ -5545,12 +5591,12 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     font-size: 1.25rem !important;
   }
 
-  /* Ocultar botones superiores por defecto en celulares */
+  /* Ocultar botones superiores por defecto en celulares cuando el menú esté cerrado */
   .main-navbar #navbarContent.collapse:not(.show):not(.is-open) {
     display: none !important;
   }
 
-  /* 1. Bloqueo estricto del scroll del fondo (body) al abrir el menú móvil */
+  /* Bloqueo estricto del scroll del fondo (body) al abrir el menú móvil */
   body.mobile-menu-open {
     overflow: hidden !important;
     height: 100vh !important;
@@ -5559,33 +5605,29 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     overscroll-behavior: none !important;
   }
 
-  /* 2. Barra de navegación con z-index superior */
-  .main-navbar {
-    z-index: 1060 !important;
-  }
-
-  /* 3. Panel flotante / modal superpuesto fijo (Offcanvas overlay) */
+  /* PANEL DE CONTROL EN PANTALLA COMPLETA (FULL-SCREEN MODAL OVERLAY) */
   .main-navbar #navbarContent.collapse.show,
   .main-navbar #navbarContent.collapse.is-open {
     position: fixed !important;
-    top: 56px !important;
-    left: 12px !important;
-    right: 12px !important;
-    width: auto !important;
-    max-height: 80vh !important;
-    max-height: 80dvh !important;
-    max-height: calc(100vh - 80px) !important;
-    max-height: calc(100dvh - 80px) !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    width: 100dvw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100vh !important;
+    max-height: 100dvh !important;
     margin: 0 !important;
-    padding: 1.15rem 1rem 2rem !important;
-    padding-bottom: max(2rem, env(safe-area-inset-bottom, 24px)) !important;
-    border-radius: 22px !important;
-    background: rgba(254, 250, 242, 0.98) !important;
-    backdrop-filter: blur(24px) !important;
-    -webkit-backdrop-filter: blur(24px) !important;
-    border: 1.5px solid rgba(215, 195, 160, 0.75) !important;
-    /* Efecto Backdrop nativo mediante sombra masiva: oscurece y bloquea el fondo */
-    box-shadow: 0 24px 60px rgba(44, 30, 16, 0.3), 0 0 0 100vmax rgba(0, 0, 0, 0.55) !important;
+    padding: 1.15rem 1.25rem calc(2.25rem + env(safe-area-inset-bottom, 20px)) !important;
+    border-radius: 0 !important;
+    background: radial-gradient(circle at 50% 12%, rgba(254, 250, 244, 0.99) 0%, rgba(245, 237, 224, 0.99) 100%) !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    border: none !important;
+    box-shadow: none !important;
     display: flex !important;
     flex-direction: column !important;
     overflow-y: auto !important;
@@ -5593,171 +5635,591 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior-y: contain !important;
     scrollbar-width: thin;
-    scrollbar-color: rgba(212, 175, 55, 0.4) transparent;
-    z-index: 1055 !important;
-    animation: navbarModalSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    scrollbar-color: rgba(194, 153, 83, 0.45) transparent;
+    z-index: 1080 !important;
+    animation: navbarOverlayFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   }
 
-  @keyframes navbarModalSlideDown {
+  @keyframes navbarOverlayFadeIn {
     0% {
       opacity: 0;
-      transform: translateY(-12px) scale(0.98);
+      transform: scale(0.97) translateY(-8px);
     }
     100% {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: scale(1) translateY(0);
     }
   }
 
   body.dark-mode .main-navbar #navbarContent.collapse.show,
   body.dark-mode .main-navbar #navbarContent.collapse.is-open {
-    background: rgba(14, 22, 34, 0.98) !important;
-    border-color: rgba(212, 175, 55, 0.45) !important;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 0 100vmax rgba(0, 0, 0, 0.68) !important;
+    background: radial-gradient(circle at 50% 15%, #182230 0%, #0c1219 100%) !important;
+    border: none !important;
   }
 
-  /* Lista de navegación vertical con áreas táctiles amplias (mín. 48px) */
-  .main-navbar .navbar-nav {
+  /* 1. Cabecera del Overlay Móvil */
+  .navbar-mobile-header {
     display: flex !important;
-    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-bottom: 0.85rem !important;
+    margin-bottom: 0.85rem !important;
+    border-bottom: 1px solid rgba(215, 195, 160, 0.45) !important;
     width: 100% !important;
-    gap: 0.45rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  body.dark-mode .navbar-mobile-header {
+    border-bottom-color: rgba(212, 175, 55, 0.25) !important;
+  }
+
+  .navbar-mobile-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+  }
+
+  .navbar-mobile-brand-icon {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 10px !important;
+    background: linear-gradient(135deg, #0077ff 0%, #0050b3 100%) !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.15rem !important;
+    box-shadow: 0 4px 12px rgba(0, 119, 255, 0.25) !important;
+  }
+
+  body.dark-mode .navbar-mobile-brand-icon {
+    background: linear-gradient(135deg, #caa873 0%, #915034 100%) !important;
+    color: #120c08 !important;
+    box-shadow: 0 4px 12px rgba(202, 168, 115, 0.25) !important;
+  }
+
+  .navbar-mobile-brand-title {
+    font-size: 1.15rem !important;
+    font-weight: 800 !important;
+    color: #1b2e20 !important;
+    display: block !important;
+    line-height: 1.2 !important;
+  }
+
+  body.dark-mode .navbar-mobile-brand-title {
+    color: #f7dfa5 !important;
+  }
+
+  .navbar-mobile-brand-subtitle {
+    font-size: 0.72rem !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    display: block !important;
+  }
+
+  body.dark-mode .navbar-mobile-brand-subtitle {
+    color: #94a3b8 !important;
+  }
+
+  .navbar-mobile-close-btn {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(215, 195, 160, 0.5) !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+    color: #1b2e20 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.1rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .navbar-mobile-close-btn:active {
+    transform: scale(0.92) !important;
+    background: rgba(0, 0, 0, 0.08) !important;
+  }
+
+  body.dark-mode .navbar-mobile-close-btn {
+    border-color: rgba(212, 175, 55, 0.35) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #f7dfa5 !important;
+  }
+
+  body.dark-mode .navbar-mobile-close-btn:active {
+    background: rgba(255, 255, 255, 0.16) !important;
+  }
+
+  /* 2. Tarjeta de Usuario y Progreso de Sofía */
+  .navbar-mobile-user-card {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0.75rem 0.95rem !important;
+    margin-bottom: 0.95rem !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.75) !important;
+    border: 1px solid rgba(215, 195, 160, 0.6) !important;
+    box-shadow: 0 4px 14px rgba(44, 30, 16, 0.04) !important;
+    flex-shrink: 0 !important;
+  }
+
+  body.dark-mode .navbar-mobile-user-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(212, 175, 55, 0.25) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .mobile-user-avatar {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    border: 2px solid #0077ff !important;
+  }
+
+  body.dark-mode .mobile-user-avatar {
+    border-color: #d4af37 !important;
+  }
+
+  .mobile-user-online-dot {
+    position: absolute !important;
+    bottom: 1px !important;
+    right: 1px !important;
+    width: 11px !important;
+    height: 11px !important;
+    background: #10b981 !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 50% !important;
+  }
+
+  body.dark-mode .mobile-user-online-dot {
+    border-color: #0b1118 !important;
+  }
+
+  .mobile-user-name {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    color: #1b2e20 !important;
+    line-height: 1.2 !important;
+  }
+
+  body.dark-mode .mobile-user-name {
+    color: #f8fafc !important;
+  }
+
+  .mobile-user-info .user-level-badge {
+    font-size: 0.7rem !important;
+    margin-top: 0.2rem !important;
+    font-weight: 600 !important;
+  }
+
+  .mobile-user-stats {
+    display: flex !important;
+    gap: 0.4rem !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+  }
+
+  .mobile-stat-chip {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.3rem !important;
+    padding: 0.3rem 0.6rem !important;
+    border-radius: 10px !important;
+    font-size: 0.76rem !important;
+    font-weight: 700 !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+    border: 1px solid rgba(215, 195, 160, 0.45) !important;
+    color: #2c1e10 !important;
+  }
+
+  body.dark-mode .mobile-stat-chip {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(212, 175, 55, 0.3) !important;
+    color: #f7dfa5 !important;
+  }
+
+  /* 3. Cuadrícula de Opciones (Cards Grid) en Móvil */
+  .main-navbar .navbar-nav.navbar-control-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.65rem !important;
+    width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  .main-navbar .navbar-nav .nav-item {
+  .main-navbar .navbar-control-grid .nav-item {
     width: 100% !important;
+    display: flex !important;
   }
 
-  .main-navbar .nav-link-custom {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
+  .main-navbar .navbar-control-grid .nav-link-custom,
+  .main-navbar .navbar-control-grid .nav-link-pro-special {
     width: 100% !important;
-    min-height: 48px !important;
-    padding: 0.75rem 1.15rem !important;
-    font-size: 1rem !important;
-    font-weight: 600 !important;
-    border-radius: 14px !important;
-    color: #1e3324 !important;
-    background-color: transparent !important;
+    min-height: 72px !important;
+    padding: 0.75rem 0.75rem !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.75) !important;
+    border: 1px solid rgba(215, 195, 160, 0.6) !important;
+    box-shadow: 0 4px 12px rgba(44, 30, 16, 0.04) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 0.35rem !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
     touch-action: manipulation !important;
     -webkit-tap-highlight-color: transparent !important;
     transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
-    text-decoration: none !important;
-    border: 1px solid transparent !important;
   }
 
-  .main-navbar .nav-link-custom:hover,
-  .main-navbar .nav-link-custom:focus {
-    background-color: rgba(0, 98, 210, 0.08) !important;
-    color: #0062d2 !important;
-    transform: translateX(4px);
+  body.dark-mode .main-navbar .navbar-control-grid .nav-link-custom,
+  body.dark-mode .main-navbar .navbar-control-grid .nav-link-pro-special {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.09) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
   }
 
-  .main-navbar .nav-link-custom:active {
-    transform: scale(0.98);
-    background-color: rgba(0, 98, 210, 0.16) !important;
+  .main-navbar .navbar-control-grid .nav-link-custom:active,
+  .main-navbar .navbar-control-grid .nav-link-pro-special:active {
+    transform: scale(0.96) !important;
   }
 
-  .main-navbar .nav-link-custom.active {
-    background-color: #0062d2 !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 14px rgba(0, 98, 210, 0.32) !important;
-    border-color: #0050b3 !important;
+  .main-navbar .navbar-control-grid .nav-link-custom.active {
+    background: rgba(0, 119, 255, 0.09) !important;
+    border-color: #0077ff !important;
+    box-shadow: 0 6px 18px rgba(0, 119, 255, 0.22) !important;
   }
 
-  body.dark-mode .main-navbar .nav-link-custom {
-    color: #ede1cb !important;
+  body.dark-mode .main-navbar .navbar-control-grid .nav-link-custom.active {
+    background: rgba(0, 119, 255, 0.18) !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3) !important;
   }
 
-  body.dark-mode .main-navbar .nav-link-custom:hover,
-  body.dark-mode .main-navbar .nav-link-custom:focus {
-    background-color: rgba(212, 175, 55, 0.15) !important;
-    color: #ffd875 !important;
-  }
-
-  body.dark-mode .main-navbar .nav-link-custom.active {
-    background-color: #0077ff !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 16px rgba(0, 119, 255, 0.45) !important;
-  }
-
-  /* Sección de Estado de Usuario adaptada al menú vertical */
-  .main-navbar .header-user-status-bar {
-    width: 100% !important;
-    margin-top: 0.85rem !important;
-    padding-top: 0.85rem !important;
-    border-top: 1px solid rgba(215, 195, 160, 0.5) !important;
+  /* Icon Box */
+  .nav-link-icon-box {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 11px !important;
     display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 0.65rem !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    margin-left: 0 !important;
-  }
-
-  body.dark-mode .main-navbar .header-user-status-bar {
-    border-top-color: rgba(212, 175, 55, 0.3) !important;
-  }
-
-  .main-navbar .header-user-status-bar .header-stat-pill {
-    flex: 1 1 calc(50% - 0.4rem) !important;
-    min-height: 44px !important;
-    display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 0.5rem 0.75rem !important;
-    border-radius: 12px !important;
-    font-size: 0.9rem !important;
+    font-size: 1.25rem !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.2s ease !important;
   }
 
-  .main-navbar .header-user-status-bar .header-profile-dropdown {
+  .main-navbar .navbar-control-grid .nav-link-custom.active .nav-link-icon-box {
+    transform: scale(1.1) !important;
+  }
+
+  .icon-box-test {
+    background: rgba(14, 165, 233, 0.15) !important;
+    color: #0284c7 !important;
+    border: 1px solid rgba(14, 165, 233, 0.3) !important;
+  }
+  body.dark-mode .icon-box-test {
+    background: rgba(14, 165, 233, 0.25) !important;
+    color: #38bdf8 !important;
+    border-color: rgba(56, 189, 248, 0.4) !important;
+  }
+
+  .icon-box-dashboard {
+    background: rgba(59, 130, 246, 0.15) !important;
+    color: #2563eb !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  }
+  body.dark-mode .icon-box-dashboard {
+    background: rgba(59, 130, 246, 0.25) !important;
+    color: #60a5fa !important;
+    border-color: rgba(96, 165, 250, 0.4) !important;
+  }
+
+  .icon-box-lesson {
+    background: rgba(16, 185, 129, 0.15) !important;
+    color: #059669 !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+  }
+  body.dark-mode .icon-box-lesson {
+    background: rgba(16, 185, 129, 0.25) !important;
+    color: #34d399 !important;
+    border-color: rgba(52, 211, 153, 0.4) !important;
+  }
+
+  .icon-box-pronounce {
+    background: rgba(245, 158, 11, 0.15) !important;
+    color: #d97706 !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+  }
+  body.dark-mode .icon-box-pronounce {
+    background: rgba(245, 158, 11, 0.25) !important;
+    color: #fbbf24 !important;
+    border-color: rgba(251, 191, 36, 0.4) !important;
+  }
+
+  .icon-box-community {
+    background: rgba(147, 51, 234, 0.15) !important;
+    color: #7e22ce !important;
+    border: 1px solid rgba(147, 51, 234, 0.3) !important;
+  }
+  body.dark-mode .icon-box-community {
+    background: rgba(147, 51, 234, 0.25) !important;
+    color: #c084fc !important;
+    border-color: rgba(192, 132, 252, 0.4) !important;
+  }
+
+  .icon-box-subs {
+    background: rgba(212, 175, 55, 0.18) !important;
+    color: #a16207 !important;
+    border: 1px solid rgba(212, 175, 55, 0.35) !important;
+  }
+  body.dark-mode .icon-box-subs {
+    background: rgba(212, 175, 55, 0.25) !important;
+    color: #ffd700 !important;
+    border-color: rgba(255, 215, 0, 0.4) !important;
+  }
+
+  .icon-box-support {
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #dc2626 !important;
+    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  }
+  body.dark-mode .icon-box-support {
+    background: rgba(239, 68, 68, 0.25) !important;
+    color: #f87171 !important;
+    border-color: rgba(248, 113, 113, 0.4) !important;
+  }
+
+  .icon-box-profile {
+    background: rgba(20, 184, 166, 0.15) !important;
+    color: #0d9488 !important;
+    border: 1px solid rgba(20, 184, 166, 0.3) !important;
+  }
+  body.dark-mode .icon-box-profile {
+    background: rgba(20, 184, 166, 0.25) !important;
+    color: #2dd4bf !important;
+    border-color: rgba(45, 212, 191, 0.4) !important;
+  }
+
+  .icon-box-tickets {
+    background: rgba(99, 102, 241, 0.15) !important;
+    color: #4f46e5 !important;
+    border: 1px solid rgba(99, 102, 241, 0.3) !important;
+  }
+  body.dark-mode .icon-box-tickets {
+    background: rgba(99, 102, 241, 0.25) !important;
+    color: #a5b4fc !important;
+    border-color: rgba(165, 180, 252, 0.4) !important;
+  }
+
+  .icon-box-pro {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(245, 158, 11, 0.25)) !important;
+    color: #b45309 !important;
+    border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  }
+  body.dark-mode .icon-box-pro {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(245, 158, 11, 0.3)) !important;
+    color: #ffd700 !important;
+    border-color: rgba(255, 215, 0, 0.5) !important;
+  }
+
+  /* Textos dentro de la tarjeta */
+  .nav-link-text-box {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .nav-link-title {
+    font-size: 0.86rem !important;
+    font-weight: 700 !important;
+    color: #1e3324 !important;
+    line-height: 1.2 !important;
+  }
+
+  body.dark-mode .nav-link-title {
+    color: #f8fafc !important;
+  }
+
+  .main-navbar .navbar-control-grid .nav-link-custom.active .nav-link-title {
+    color: #0077ff !important;
+  }
+
+  body.dark-mode .main-navbar .navbar-control-grid .nav-link-custom.active .nav-link-title {
+    color: #38bdf8 !important;
+  }
+
+  .nav-link-desc {
+    font-size: 0.67rem !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    margin-top: 0.15rem !important;
+    white-space: nowrap !important;
+  }
+
+  body.dark-mode .nav-link-desc {
+    color: #94a3b8 !important;
+  }
+
+  /* 4. Pie del Overlay Móvil: Cerrar Sesión Destacado */
+  .navbar-mobile-footer {
+    margin-top: auto !important;
+    padding-top: 0.95rem !important;
+    border-top: 1px solid rgba(215, 195, 160, 0.45) !important;
     width: 100% !important;
+    flex-shrink: 0 !important;
   }
 
-  .main-navbar .header-user-status-bar .header-profile-btn {
+  body.dark-mode .navbar-mobile-footer {
+    border-top-color: rgba(212, 175, 55, 0.25) !important;
+  }
+
+  .btn-navbar-logout {
     width: 100% !important;
     min-height: 48px !important;
-    padding: 0.65rem 1rem !important;
     border-radius: 14px !important;
-    background: rgba(0, 0, 0, 0.04) !important;
-    border: 1px solid rgba(215, 195, 160, 0.6) !important;
+    background: rgba(220, 38, 38, 0.1) !important;
+    border: 1.5px solid rgba(239, 68, 68, 0.35) !important;
+    color: #dc2626 !important;
+    font-weight: 700 !important;
+    font-size: 0.92rem !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: all 0.2s ease !important;
   }
 
-  body.dark-mode .main-navbar .header-user-status-bar .header-profile-btn {
-    background: rgba(255, 255, 255, 0.06) !important;
-    border-color: rgba(212, 175, 55, 0.35) !important;
-    color: #ede1cb !important;
+  .btn-navbar-logout:active {
+    background: rgba(220, 38, 38, 0.22) !important;
+    transform: scale(0.98) !important;
   }
 
-  .main-navbar .header-user-status-bar .header-profile-dropdown .dropdown-menu {
-    position: static !important;
-    float: none !important;
+  body.dark-mode .btn-navbar-logout {
+    background: rgba(220, 38, 38, 0.18) !important;
+    color: #fca5a5 !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
+  }
+
+  body.dark-mode .btn-navbar-logout:active {
+    background: rgba(220, 38, 38, 0.32) !important;
+  }
+}
+
+/* ==========================================================================
+   ADAPTACIÓN HORIZONTAL (LANDSCAPE) DEL CONTROL CENTER DE ESTUDIANTE
+   ========================================================================== */
+@media (max-width: 991.98px) and (orientation: landscape),
+       (orientation: landscape) and (max-height: 600px) {
+  .main-navbar #navbarContent.collapse.show,
+  .main-navbar #navbarContent.collapse.is-open {
+    padding: 0.65rem 1.25rem calc(2.25rem + env(safe-area-inset-bottom, 20px)) !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Cabecera pegajosa en horizontal */
+  .navbar-mobile-header {
+    position: sticky !important;
+    top: -0.65rem !important;
+    z-index: 30 !important;
+    background: rgba(254, 250, 244, 0.96) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    padding: 0.35rem 0 !important;
+    margin-bottom: 0.45rem !important;
+  }
+
+  body.dark-mode .navbar-mobile-header {
+    background: rgba(14, 22, 34, 0.96) !important;
+  }
+
+  .navbar-mobile-brand-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1rem !important;
+  }
+
+  .navbar-mobile-brand-title {
+    font-size: 1.05rem !important;
+  }
+
+  .navbar-mobile-close-btn {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 1rem !important;
+  }
+
+  /* Ocultar tarjeta de usuario en horizontal para que las opciones tengan máxima altura */
+  .navbar-mobile-user-card {
+    display: none !important;
+  }
+
+  /* Cuadrícula en horizontal: 3 columnas simétricas (o 4 en >= 740px) */
+  .main-navbar .navbar-nav.navbar-control-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+
+  @media (min-width: 740px) {
+    .main-navbar .navbar-nav.navbar-control-grid {
+      grid-template-columns: repeat(4, 1fr) !important;
+    }
+  }
+
+  .main-navbar .navbar-control-grid .nav-link-custom,
+  .main-navbar .navbar-control-grid .nav-link-pro-special {
+    min-height: 60px !important;
+    padding: 0.45rem 0.6rem !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    gap: 0.6rem !important;
+    border-radius: 12px !important;
+  }
+
+  .nav-link-icon-box {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 1.1rem !important;
+  }
+
+  .nav-link-text-box {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .nav-link-title {
+    font-size: 0.82rem !important;
+  }
+
+  .nav-link-desc {
+    font-size: 0.64rem !important;
+    margin-top: 0 !important;
+  }
+
+  .navbar-mobile-footer {
+    margin-top: 0.75rem !important;
+    padding-top: 0.65rem !important;
     width: 100% !important;
-    max-width: 100% !important;
-    transform: none !important;
-    margin-top: 0.5rem !important;
+  }
 
-    /* Límite de altura flexible y scroll vertical en modo vertical y horizontal */
-    max-height: 80vh !important;
-    max-height: 80dvh !important;
-    max-height: calc(100vh - 120px) !important;
-    max-height: calc(100dvh - 120px) !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior-y: contain !important;
-    padding-bottom: 2rem !important;
-    padding-bottom: max(2rem, env(safe-area-inset-bottom, 24px)) !important;
-
-    scrollbar-width: thin;
-    scrollbar-color: rgba(212, 175, 55, 0.45) transparent;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+  .btn-navbar-logout {
+    min-height: 42px !important;
+    font-size: 0.86rem !important;
+    border-radius: 12px !important;
   }
 }
 

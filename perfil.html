@@ -99,38 +99,170 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarContent">
-          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1">
+
+          <!-- 1. CABECERA EXCLUSIVA DEL OVERLAY MÓVIL (PANTALLA COMPLETA) CON BOTÓN DE CIERRE -->
+          <div class="navbar-mobile-header d-lg-none">
+            <div class="navbar-mobile-brand">
+              <div class="navbar-mobile-brand-icon">
+                <i class="bi bi-chat-quote-fill"></i>
+              </div>
+              <div class="navbar-mobile-brand-text">
+                <span class="navbar-mobile-brand-title">LinguaLearn</span>
+                <span class="navbar-mobile-brand-subtitle">Panel de Control del Estudiante</span>
+              </div>
+            </div>
+            <button type="button" class="navbar-mobile-close-btn" id="btn-close-navbar-modal" aria-label="Cerrar panel de opciones">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
+          <!-- 2. TARJETA DE PERFIL Y PROGRESO DE SOFÍA (CABECERA DEL OVERLAY MÓVIL) -->
+          <div class="navbar-mobile-user-card d-lg-none">
+            <div class="d-flex align-items-center gap-3">
+              <div class="position-relative flex-shrink-0">
+                <img src="assets/sofia.jpg" alt="Foto de perfil de Sofia Martinez" class="header-avatar-img mobile-user-avatar">
+                <span class="avatar-online-dot mobile-user-online-dot"></span>
+              </div>
+              <div class="mobile-user-info">
+                <div class="mobile-user-name user-display-name">Sofia Martinez</div>
+                <div class="badge bg-primary-subtle text-primary user-level-badge">Nivel A2 - Básico Activo</div>
+              </div>
+            </div>
+            <div class="mobile-user-stats">
+              <div class="mobile-stat-chip streak" title="Racha activa">
+                <i class="bi bi-fire text-danger"></i> <span class="stat-streak-val">5 días</span>
+              </div>
+              <div class="mobile-stat-chip xp" title="Experiencia acumulada">
+                <i class="bi bi-lightning-charge-fill text-warning"></i> <span class="stat-xp-val">120 XP</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. CUADRÍCULA DE OPCIONES: EN ESCRITORIO ES LA BARRA HORIZONTAL; EN MÓVILES ES EL GRID MODERNO DE TARJETAS TÁCTILES -->
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-1 navbar-control-grid">
             <li class="nav-item">
-              <a class="nav-link nav-link-custom" href="test-diagnostico.html">Test Diagnóstico</a>
+              <a class="nav-link nav-link-custom" href="test-diagnostico.html">
+                <div class="nav-link-icon-box icon-box-test">
+                  <i class="bi bi-clipboard2-check-fill"></i>
+                </div>
+                <div class="nav-link-text-box">
+                  <span class="nav-link-title">Test Diagnóstico</span>
+                  <span class="nav-link-desc">Calibración MCER</span>
+                </div>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-link-custom" href="dashboard.html">Dashboard</a>
+              <a class="nav-link nav-link-custom" href="dashboard.html">
+                <div class="nav-link-icon-box icon-box-dashboard">
+                  <i class="bi bi-grid-1x2-fill"></i>
+                </div>
+                <div class="nav-link-text-box">
+                  <span class="nav-link-title">Dashboard</span>
+                  <span class="nav-link-desc">Ruta y Progreso</span>
+                </div>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-link-custom" href="leccion.html">Lección Activa</a>
+              <a class="nav-link nav-link-custom" href="leccion.html">
+                <div class="nav-link-icon-box icon-box-lesson">
+                  <i class="bi bi-book-half"></i>
+                </div>
+                <div class="nav-link-text-box">
+                  <span class="nav-link-title">Lección Activa</span>
+                  <span class="nav-link-desc">Práctica Diaria</span>
+                </div>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-link-custom" href="pronunciacion.html">Pronunciación</a>
+              <a class="nav-link nav-link-custom" href="pronunciacion.html">
+                <div class="nav-link-icon-box icon-box-pronounce">
+                  <i class="bi bi-mic-fill"></i>
+                </div>
+                <div class="nav-link-text-box">
+                  <span class="nav-link-title">Pronunciación</span>
+                  <span class="nav-link-desc">Tutor Fonético</span>
+                </div>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-link-custom" href="comunidad.html">Comunidad</a>
+              <a class="nav-link nav-link-custom" href="comunidad.html">
+                <div class="nav-link-icon-box icon-box-community">
+                  <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="nav-link-text-box">
+                  <span class="nav-link-title">Comunidad</span>
+                  <span class="nav-link-desc">Salas de Voz</span>
+                </div>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-link-custom" href="suscripcion.html">Suscripción</a>
+              <a class="nav-link nav-link-custom" href="suscripcion.html">
+                <div class="nav-link-icon-box icon-box-subs">
+                  <i class="bi bi-gem"></i>
+                </div>
+                <div class="nav-link-text-box">
+                  <span class="nav-link-title">Suscripción</span>
+                  <span class="nav-link-desc">Planes y Beneficios</span>
+                </div>
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-link-custom" href="soporte.html">Soporte</a>
+              <a class="nav-link nav-link-custom" href="soporte.html">
+                <div class="nav-link-icon-box icon-box-support">
+                  <i class="bi bi-headset"></i>
+                </div>
+                <div class="nav-link-text-box">
+                  <span class="nav-link-title">Soporte</span>
+                  <span class="nav-link-desc">Centro de Ayuda</span>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item d-lg-none">
+              <a class="nav-link nav-link-custom active" aria-current="page" href="perfil.html">
+                <div class="nav-link-icon-box icon-box-profile">
+                  <i class="bi bi-person-circle"></i>
+                </div>
+                <div class="nav-link-text-box">
+                  <span class="nav-link-title">Mi Perfil</span>
+                  <span class="nav-link-desc">Logros y Cuenta</span>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item d-lg-none">
+              <a class="nav-link nav-link-custom" href="tickets.html">
+                <div class="nav-link-icon-box icon-box-tickets">
+                  <i class="bi bi-ticket-detailed"></i>
+                </div>
+                <div class="nav-link-text-box">
+                  <span class="nav-link-title">Mis Tickets</span>
+                  <span class="nav-link-desc">Consultas y Dudas</span>
+                </div>
+              </a>
             </li>
             <!-- PESTAÑA EXCLUSIVA PRO (MOSTRADA SOLO SI SOFÍA TIENE PRO ACTIVO) -->
             <li class="nav-item pro-nav-item" id="nav-item-pro-tab" style="display: none;">
               <a class="nav-link nav-link-pro-special" href="panel-pro.html" title="Ingresar a tu espacio exclusivo LinguaLearn PRO">
-                <i class="bi bi-stars"></i> <span>LinguaLearn PRO</span>
+                <div class="nav-link-icon-box icon-box-pro">
+                  <i class="bi bi-stars"></i>
+                </div>
+                <div class="nav-link-text-box">
+                  <span class="nav-link-title">LinguaLearn PRO</span>
+                  <span class="nav-link-desc">Espacio Exclusivo</span>
+                </div>
               </a>
             </li>
           </ul>
 
-          <!-- BARRA DE ESTADO DE USUARIO: MI PERFIL, RACHA Y XP EN UNA SOLA LÍNEA CON MENÚ HACIA ABAJO -->
-          <div class="header-user-status-bar d-flex align-items-center gap-2 gap-md-3 flex-nowrap ms-lg-3">
+          <!-- 4. PIE DEL OVERLAY MÓVIL: CERRAR SESIÓN DESTACADO DE PANTALLA COMPLETA -->
+          <div class="navbar-mobile-footer d-lg-none">
+            <button type="button" class="btn-navbar-logout btn-global-logout" aria-label="Cerrar Sesión de la Cuenta">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Cerrar Sesión</span>
+            </button>
+          </div>
+
+          <!-- 5. BARRA DE ESTADO DE USUARIO EN ESCRITORIO (SE OCULTA EN MÓVIL PORQUE YA ESTÁ INTEGRADA EN EL CONTROL CENTER) -->
+          <div class="header-user-status-bar d-none d-lg-flex align-items-center gap-2 gap-md-3 flex-nowrap ms-lg-3">
             <div class="header-stat-pill streak flex-shrink-0" title="Racha activa">
               <i class="bi bi-fire"></i> <span class="stat-streak-val">5 días</span>
             </div>
@@ -167,14 +299,12 @@
                     <i class="bi bi-gem text-warning"></i> <span>Suscripciones de estudio</span>
                   </a>
                 </li>
-                
-                  <li>
-                    <a href="tickets.html" class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2">
-                      <i class="bi bi-ticket-detailed fs-6 text-primary"></i> <span>Mis Tickets</span>
-                    </a>
-                  </li>
-                  
-                  <li><hr class="dropdown-divider my-1"></li>
+                <li>
+                  <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="tickets.html">
+                    <i class="bi bi-ticket-detailed fs-6 text-primary"></i> <span>Mis Tickets</span>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider my-1"></li>
                 <li>
                   <button type="button" class="dropdown-item rounded-2 py-2 small text-danger d-flex align-items-center gap-2 btn-global-logout fw-bold">
                     <i class="bi bi-box-arrow-right fs-6"></i> <span>Cerrar Sesión</span>

@@ -823,7 +823,7 @@
   }
 
   // ==========================================================================
-  // CONFIGURACIÓN DEL MENÚ HAMBURGUESA RESPONSIVO (máx. 768px)
+  // CONFIGURACIÓN DEL MENÚ Y CONTROL CENTER DE PANTALLA COMPLETA
   // ==========================================================================
   function setupResponsiveNavbar() {
     const hamburgerBtn = document.getElementById('btn-navbar-hamburger') || document.querySelector('.hamburger-nav-btn');
@@ -848,7 +848,7 @@
         navbarContent.classList.add('show', 'is-open');
         hamburgerBtn.classList.add('is-active');
         hamburgerBtn.setAttribute('aria-expanded', 'true');
-        hamburgerBtn.setAttribute('aria-label', 'Cerrar menú de navegación');
+        hamburgerBtn.setAttribute('aria-label', 'Cerrar panel de opciones');
         document.body.classList.add('mobile-menu-open');
         if (symbolSpan && symbolSpan.classList.contains('hamburger-symbol')) {
           symbolSpan.textContent = '✕';
@@ -857,7 +857,7 @@
         navbarContent.classList.remove('show', 'is-open');
         hamburgerBtn.classList.remove('is-active');
         hamburgerBtn.setAttribute('aria-expanded', 'false');
-        hamburgerBtn.setAttribute('aria-label', 'Abrir menú de navegación');
+        hamburgerBtn.setAttribute('aria-label', 'Abrir panel de opciones');
         document.body.classList.remove('mobile-menu-open');
         if (symbolSpan && symbolSpan.classList.contains('hamburger-symbol')) {
           symbolSpan.textContent = '☰';
@@ -872,8 +872,19 @@
       toggleMenu();
     });
 
-    // Cerrar inmediatamente al hacer clic en cualquier opción del menú en móviles
-    navbarContent.querySelectorAll('a, .nav-link-custom, .dropdown-item, .nav-link').forEach(link => {
+    // Enlazar botón de cierre dentro de la cabecera del overlay móvil
+    const closeBtn = navbarContent.querySelector('.navbar-mobile-close-btn') || document.getElementById('btn-close-navbar-modal');
+    if (closeBtn && closeBtn.dataset.boundClose !== 'true') {
+      closeBtn.dataset.boundClose = 'true';
+      closeBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleMenu(false);
+      });
+    }
+
+    // Cerrar inmediatamente al hacer clic en cualquier opción, enlace o botón del overlay
+    navbarContent.querySelectorAll('a, .nav-link-custom, .dropdown-item, .nav-link, .btn-navbar-logout, .btn-global-logout').forEach(link => {
       link.addEventListener('click', function () {
         if (!this.classList.contains('dropdown-toggle')) {
           toggleMenu(false);
@@ -881,20 +892,18 @@
       });
     });
 
-    // Cerrar al hacer clic fuera del navbar en móviles
+    // Cerrar al hacer clic fuera del panel en móviles
     document.addEventListener('click', function (e) {
-      if (window.innerWidth <= 768) {
-        if (navbarContent.classList.contains('show') || navbarContent.classList.contains('is-open')) {
-          if (!navbarContent.contains(e.target) && !hamburgerBtn.contains(e.target)) {
-            toggleMenu(false);
-          }
+      if (navbarContent.classList.contains('show') || navbarContent.classList.contains('is-open')) {
+        if (!navbarContent.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+          toggleMenu(false);
         }
       }
     });
 
     // Cerrar con tecla Escape
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && window.innerWidth <= 768) {
+      if (e.key === 'Escape') {
         if (navbarContent.classList.contains('show') || navbarContent.classList.contains('is-open')) {
           toggleMenu(false);
           hamburgerBtn.focus();
@@ -904,11 +913,12 @@
 
     // Reajustar al cambiar de orientación o redimensionar a pantalla de escritorio
     window.addEventListener('resize', function () {
-      if (window.innerWidth > 768) {
-        navbarContent.classList.remove('is-open');
+      if (window.innerWidth >= 992 && window.innerHeight > 600) {
+        navbarContent.classList.remove('show', 'is-open');
         hamburgerBtn.classList.remove('is-active');
         hamburgerBtn.setAttribute('aria-expanded', 'false');
-        hamburgerBtn.setAttribute('aria-label', 'Abrir menú de navegación');
+        hamburgerBtn.setAttribute('aria-label', 'Abrir panel de opciones');
+        document.body.classList.remove('mobile-menu-open');
         if (symbolSpan && symbolSpan.classList.contains('hamburger-symbol')) {
           symbolSpan.textContent = '☰';
         }
@@ -976,7 +986,13 @@
         proItem.id = 'nav-item-pro-tab';
         proItem.innerHTML = `
           <a class="nav-link nav-link-pro-special" href="panel-pro.html" title="Ingresar a tu espacio exclusivo LinguaLearn PRO">
-            <i class="bi bi-stars"></i> <span>LinguaLearn PRO</span>
+            <div class="nav-link-icon-box icon-box-pro">
+              <i class="bi bi-stars"></i>
+            </div>
+            <div class="nav-link-text-box">
+              <span class="nav-link-title">LinguaLearn PRO</span>
+              <span class="nav-link-desc">Espacio Exclusivo</span>
+            </div>
           </a>
         `;
         ul.appendChild(proItem);
