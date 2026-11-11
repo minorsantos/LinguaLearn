@@ -873,7 +873,7 @@
     // Cerrar al hacer clic en enlaces dentro del menú en dispositivos móviles
     navbarContent.querySelectorAll('.nav-link-custom, .dropdown-item').forEach(link => {
       link.addEventListener('click', function () {
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= 991 || (window.innerHeight <= 600 && window.innerWidth <= 1024)) {
           toggleMenu(false);
         }
       });

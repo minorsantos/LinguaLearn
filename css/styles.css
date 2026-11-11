@@ -5458,8 +5458,8 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
   color: #ffffff !important;
 }
 
-/* 2. Pantallas de Escritorio (> 768px): Mantener diseño 100% idéntico al actual */
-@media (min-width: 769px) {
+/* 2. Pantallas de Escritorio y Monitores Grandes (>= 992px y altura > 600px): Navegación horizontal completa */
+@media (min-width: 992px) and (min-height: 601px) {
   .hamburger-nav-btn {
     display: none !important;
   }
@@ -5474,8 +5474,9 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
   }
 }
 
-/* 3. Dispositivos Móviles (máx. 768px): Menú colapsable vertical con alta experiencia táctil */
-@media (max-width: 768px) {
+/* 3. Dispositivos Móviles y Celulares en Horizontal (Landscape Anti-Overlap):
+   Activa el menú colapsable (hamburguesa) en celulares horizontales (< 992px o altura reducida <= 600px) */
+@media (max-width: 991.98px), ((orientation: landscape) and (max-height: 600px)) {
   /* Mostrar el botón hamburguesa */
   .hamburger-nav-btn {
     display: inline-flex !important;
@@ -5529,7 +5530,13 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     border: 1.5px solid rgba(215, 195, 160, 0.65) !important;
     box-shadow: 0 16px 36px rgba(44, 30, 16, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05) !important;
     animation: navbarMobileSlideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    overflow: visible !important;
+    max-height: calc(100vh - 65px) !important;
+    max-height: calc(100dvh - 65px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.4) transparent;
   }
 
   body.dark-mode .main-navbar #navbarContent.collapse.show,
@@ -5822,5 +5829,69 @@ body.dark-mode #modal-admin-login .btn-close {
   }
   .btn-admin-portal-link::after {
     content: 'Admin';
+  }
+}
+
+
+/* ==========================================================================
+   OPTIMIZACIÓN DE PÍLDORAS Y BARRAS DE NAVEGACIÓN EN MODO HORIZONTAL (LANDSCAPE)
+   Evita que se rompan, se amontonen o se solapen con el fondo
+   ========================================================================== */
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Barra de accesibilidad ultra-compacta en horizontal */
+  .accessibility-topbar {
+    padding: 0.2rem 0 !important;
+    font-size: 0.72rem !important;
+  }
+
+  .accessibility-topbar .container-xl {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+
+  .accessibility-topbar .container-xl::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Navbar principal compacto para no robar pantalla vertical */
+  .main-navbar {
+    padding: 0.35rem 0 !important;
+  }
+
+  /* Contenedores de píldoras y badges con scroll horizontal fluido y sin rotura */
+  .scenario-selector-bar,
+  .dashboard-pill-row,
+  .nav-pills-scrollable,
+  .header-user-status-bar,
+  .badge-pills-flow {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    gap: 0.5rem !important;
+    padding-bottom: 4px !important;
+  }
+
+  .scenario-selector-bar::-webkit-scrollbar,
+  .dashboard-pill-row::-webkit-scrollbar,
+  .nav-pills-scrollable::-webkit-scrollbar,
+  .header-user-status-bar::-webkit-scrollbar,
+  .badge-pills-flow::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Evitar solapamiento con tarjetas y fondos: márgenes que respiran */
+  .main-navbar + * {
+    margin-top: 0.75rem !important;
+  }
+
+  .dashboard-hero-card,
+  .card-custom,
+  .card-dark-glass {
+    margin-bottom: 1rem !important;
   }
 }
