@@ -849,6 +849,7 @@
         hamburgerBtn.classList.add('is-active');
         hamburgerBtn.setAttribute('aria-expanded', 'true');
         hamburgerBtn.setAttribute('aria-label', 'Cerrar menú de navegación');
+        document.body.classList.add('mobile-menu-open');
         if (symbolSpan && symbolSpan.classList.contains('hamburger-symbol')) {
           symbolSpan.textContent = '✕';
         }
@@ -857,6 +858,7 @@
         hamburgerBtn.classList.remove('is-active');
         hamburgerBtn.setAttribute('aria-expanded', 'false');
         hamburgerBtn.setAttribute('aria-label', 'Abrir menú de navegación');
+        document.body.classList.remove('mobile-menu-open');
         if (symbolSpan && symbolSpan.classList.contains('hamburger-symbol')) {
           symbolSpan.textContent = '☰';
         }
@@ -870,10 +872,10 @@
       toggleMenu();
     });
 
-    // Cerrar al hacer clic en enlaces dentro del menú en dispositivos móviles
-    navbarContent.querySelectorAll('.nav-link-custom, .dropdown-item').forEach(link => {
+    // Cerrar inmediatamente al hacer clic en cualquier opción del menú en móviles
+    navbarContent.querySelectorAll('a, .nav-link-custom, .dropdown-item, .nav-link').forEach(link => {
       link.addEventListener('click', function () {
-        if (window.innerWidth <= 991 || (window.innerHeight <= 600 && window.innerWidth <= 1024)) {
+        if (!this.classList.contains('dropdown-toggle')) {
           toggleMenu(false);
         }
       });

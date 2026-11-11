@@ -315,6 +315,46 @@
       border-radius: 14px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
+  
+    /* Bloqueo de fondo y menú flotante superpuesto en móviles */
+    body.mobile-menu-open {
+      overflow: hidden !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      touch-action: none !important;
+      overscroll-behavior: none !important;
+    }
+
+    @media (max-width: 991.98px), ((orientation: landscape) and (max-height: 600px)) {
+      #navbarMain.collapse.show {
+        position: fixed !important;
+        top: 64px !important;
+        left: 12px !important;
+        right: 12px !important;
+        width: auto !important;
+        max-height: calc(100vh - 80px) !important;
+        max-height: calc(100dvh - 80px) !important;
+        background: rgba(10, 14, 23, 0.98) !important;
+        backdrop-filter: blur(24px) !important;
+        -webkit-backdrop-filter: blur(24px) !important;
+        border: 1px solid rgba(56, 189, 248, 0.4) !important;
+        border-radius: 20px !important;
+        padding: 1.25rem 1rem !important;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 0 100vmax rgba(0, 0, 0, 0.65) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior-y: contain !important;
+        z-index: 1055 !important;
+        animation: navbarModalSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      }
+
+      @keyframes navbarModalSlideDown {
+        0% { opacity: 0; transform: translateY(-12px) scale(0.98); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -806,6 +846,27 @@
         'Escuchando tu pronunciación en tiempo real... Puntuación fonética: 96% de precisión.'
       );
     }
+  
+    // Control de bloqueo de scroll de fondo y cierre táctil en móvil
+    const navbarMainEl = document.getElementById('navbarMain');
+    if (navbarMainEl) {
+      navbarMainEl.addEventListener('show.bs.collapse', () => {
+        document.body.classList.add('mobile-menu-open');
+      });
+      navbarMainEl.addEventListener('hidden.bs.collapse', () => {
+        document.body.classList.remove('mobile-menu-open');
+      });
+      navbarMainEl.querySelectorAll('a, .nav-link, .dropdown-item').forEach(item => {
+        item.addEventListener('click', () => {
+          if (!item.classList.contains('dropdown-toggle')) {
+            const bsCollapse = bootstrap.Collapse.getInstance(navbarMainEl);
+            if (bsCollapse) bsCollapse.hide();
+            document.body.classList.remove('mobile-menu-open');
+          }
+        });
+      });
+    }
+
   </script>
 </body>
 </html>

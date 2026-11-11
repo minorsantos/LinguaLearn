@@ -5515,35 +5515,67 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     display: none !important;
   }
 
-  /* Desplegar verticalmente al hacer clic usando JavaScript */
+  /* 1. Bloqueo estricto del scroll del fondo (body) al abrir el menú móvil */
+  body.mobile-menu-open {
+    overflow: hidden !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    touch-action: none !important;
+    overscroll-behavior: none !important;
+  }
+
+  /* 2. Barra de navegación con z-index superior */
+  .main-navbar {
+    z-index: 1060 !important;
+  }
+
+  /* 3. Panel flotante / modal superpuesto fijo (Offcanvas overlay) */
   .main-navbar #navbarContent.collapse.show,
   .main-navbar #navbarContent.collapse.is-open {
+    position: fixed !important;
+    top: 56px !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    max-height: calc(100vh - 72px) !important;
+    max-height: calc(100dvh - 72px) !important;
+    margin: 0 !important;
+    padding: 1.15rem 1rem !important;
+    border-radius: 22px !important;
+    background: rgba(254, 250, 242, 0.98) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border: 1.5px solid rgba(215, 195, 160, 0.75) !important;
+    /* Efecto Backdrop nativo mediante sombra masiva: oscurece y bloquea el fondo */
+    box-shadow: 0 24px 60px rgba(44, 30, 16, 0.3), 0 0 0 100vmax rgba(0, 0, 0, 0.55) !important;
     display: flex !important;
     flex-direction: column !important;
-    width: 100% !important;
-    margin-top: 0.75rem !important;
-    padding: 1rem 0.85rem !important;
-    border-radius: 20px !important;
-    background: rgba(254, 250, 242, 0.96) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    border: 1.5px solid rgba(215, 195, 160, 0.65) !important;
-    box-shadow: 0 16px 36px rgba(44, 30, 16, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05) !important;
-    animation: navbarMobileSlideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    max-height: calc(100vh - 65px) !important;
-    max-height: calc(100dvh - 65px) !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
     scrollbar-width: thin;
     scrollbar-color: rgba(212, 175, 55, 0.4) transparent;
+    z-index: 1055 !important;
+    animation: navbarModalSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  }
+
+  @keyframes navbarModalSlideDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-12px) scale(0.98);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
   body.dark-mode .main-navbar #navbarContent.collapse.show,
   body.dark-mode .main-navbar #navbarContent.collapse.is-open {
-    background: rgba(15, 23, 36, 0.96) !important;
-    border-color: rgba(212, 175, 55, 0.35) !important;
-    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), 0 0 20px rgba(212, 175, 55, 0.12) !important;
+    background: rgba(14, 22, 34, 0.98) !important;
+    border-color: rgba(212, 175, 55, 0.45) !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 0 100vmax rgba(0, 0, 0, 0.68) !important;
   }
 
   /* Lista de navegación vertical con áreas táctiles amplias (mín. 48px) */
