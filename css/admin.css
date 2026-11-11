@@ -54,10 +54,37 @@ body.dark-mode .admin-layout-wrapper {
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(194, 153, 83, 0.4) rgba(0, 0, 0, 0.15);
   z-index: 1030;
   border-right: 1.5px solid rgba(194, 153, 83, 0.25);
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Barra de desplazamiento estética para el sidebar */
+.admin-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-sidebar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(194, 153, 83, 0.4);
+  border-radius: 4px;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(194, 153, 83, 0.7);
 }
 
 body.dark-mode .admin-sidebar {
@@ -68,6 +95,7 @@ body.dark-mode .admin-sidebar {
 /* Cabecera del Sidebar */
 .sidebar-brand {
   padding: 1.25rem 1.25rem 1rem;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -109,6 +137,7 @@ body.dark-mode .admin-sidebar {
 /* Tarjeta Mini de Usuario Administrador */
 .sidebar-user-card {
   margin: 0.9rem 1rem 0.5rem;
+  flex-shrink: 0;
   padding: 0.75rem 0.9rem;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(194, 153, 83, 0.22);
@@ -228,6 +257,7 @@ body.dark-mode .admin-sidebar {
 .sidebar-footer {
   padding: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
 }
 
 .btn-sidebar-logout {
@@ -819,6 +849,14 @@ body.dark-mode .modal-content .btn-close {
     left: 0;
     bottom: 0;
     width: 280px;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
+    max-height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
     z-index: 1060;
     transform: translateX(-100%);
     box-shadow: 10px 0 35px rgba(0, 0, 0, 0.5);
