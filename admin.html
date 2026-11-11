@@ -494,18 +494,21 @@
         </button>
       </div>
 
-      <!-- Barra de Filtros y Búsqueda -->
+      <!-- Barra de Filtros y Búsqueda Instantánea con Píldoras Horizontales (Mobile-Friendly) -->
       <div class="admin-card-glass p-3 mb-4">
-        <div class="row g-2 align-items-center">
-          <div class="col-md-5">
-            <div class="input-group">
+        <div class="row g-2 align-items-center mb-3">
+          <div class="col-12 col-md-6">
+            <div class="input-group admin-search-group shadow-xs">
               <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-secondary"></i></span>
-              <input type="text" id="input-search-student" class="form-control border-start-0" placeholder="Buscar por nombre, correo o código...">
+              <input type="text" id="input-search-student" class="form-control border-start-0 border-end-0 ps-1" placeholder="Buscar por nombre, correo o código..." autocomplete="off">
+              <button class="btn btn-outline-secondary border-start-0 d-none" type="button" id="btn-clear-search-student" title="Limpiar búsqueda">
+                <i class="bi bi-x-circle-fill"></i>
+              </button>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-7 col-md-3">
             <div class="d-flex align-items-center gap-2">
-              <label for="select-filter-level" class="small fw-semibold text-secondary text-nowrap">Nivel:</label>
+              <label for="select-filter-level" class="small fw-semibold text-secondary text-nowrap mb-0">Nivel:</label>
               <select id="select-filter-level" class="form-select form-select-sm">
                 <option value="all">Todos los Niveles</option>
                 <option value="A1">A1 - Inicial</option>
@@ -517,8 +520,34 @@
               </select>
             </div>
           </div>
-          <div class="col-md-3 text-md-end">
-            <span class="badge bg-light text-secondary border py-2 px-3 small" id="students-count-badge">Cargando...</span>
+          <div class="col-5 col-md-3 text-end">
+            <span class="badge bg-light text-secondary border py-2 px-2 px-md-3 small w-100 text-truncate" id="students-count-badge">Cargando...</span>
+          </div>
+        </div>
+
+        <!-- BLOQUE DE BOTONES DE FILTROS RÁPIDOS EN PÍLDORAS CON SCROLL HORIZONTAL -->
+        <div class="filter-pills-wrapper">
+          <div class="filter-pills-scroll" id="students-status-pills" role="tablist" aria-label="Filtros rápidos por estado del estudiante">
+            <button type="button" class="btn filter-pill-btn active" data-filter-status="all">
+              <i class="bi bi-collection-fill"></i>
+              <span>Todos</span>
+              <span class="filter-pill-badge" id="count-pill-all">10</span>
+            </button>
+            <button type="button" class="btn filter-pill-btn pill-status-active" data-filter-status="Activo">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Activos</span>
+              <span class="filter-pill-badge" id="count-pill-active">7</span>
+            </button>
+            <button type="button" class="btn filter-pill-btn pill-status-pending" data-filter-status="Alerta">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              <span>Pendientes</span>
+              <span class="filter-pill-badge" id="count-pill-pending">2</span>
+            </button>
+            <button type="button" class="btn filter-pill-btn pill-status-expired" data-filter-status="Inactivo">
+              <i class="bi bi-x-circle-fill"></i>
+              <span>Vencidos</span>
+              <span class="filter-pill-badge" id="count-pill-expired">1</span>
+            </button>
           </div>
         </div>
       </div>
@@ -599,37 +628,59 @@
         </div>
       </div>
 
-      <!-- Filtros de Pasarela y Estado -->
+      <!-- Barra de Búsqueda Instantánea y Filtros Rápidos de Ventas (Mobile-Friendly) -->
       <div class="admin-card-glass p-3 mb-4">
-        <div class="row g-2 align-items-center">
-          <div class="col-md-4">
-            <label for="select-filter-gateway" class="small fw-semibold text-secondary">Pasarela de Pago:</label>
-            <select id="select-filter-gateway" class="form-select form-select-sm">
-              <option value="all">Todas las Pasarelas</option>
-              <option value="Yape">Yape</option>
-              <option value="Plin">Plin</option>
-              <option value="Tarjeta">Tarjetas (Visa / Mastercard)</option>
-              <option value="PayPal">PayPal</option>
-              <option value="Transferencia">Transferencia Bancaria</option>
-            </select>
+        <div class="row g-2 align-items-center mb-3">
+          <div class="col-12 col-md-5">
+            <div class="input-group admin-search-group shadow-xs">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-secondary"></i></span>
+              <input type="text" id="input-search-sales" class="form-control border-start-0 border-end-0 ps-1" placeholder="Buscar por TRX, estudiante, plan..." autocomplete="off">
+              <button class="btn btn-outline-secondary border-start-0 d-none" type="button" id="btn-clear-search-sales" title="Limpiar búsqueda">
+                <i class="bi bi-x-circle-fill"></i>
+              </button>
+            </div>
           </div>
-          <div class="col-md-4">
-            <label for="select-filter-sale-status" class="small fw-semibold text-secondary">Estado de Transacción:</label>
-            <select id="select-filter-sale-status" class="form-select form-select-sm">
-              <option value="all">Todos los Estados</option>
-              <option value="completado">Completado</option>
-              <option value="pendiente">Pendiente</option>
-              <option value="reembolsado">Reembolsado</option>
-            </select>
+          <div class="col-6 col-md-3">
+            <div class="d-flex align-items-center gap-2">
+              <label for="select-filter-gateway" class="small fw-semibold text-secondary text-nowrap mb-0">Pasarela:</label>
+              <select id="select-filter-gateway" class="form-select form-select-sm">
+                <option value="all">Todas las Pasarelas</option>
+                <option value="Yape">Yape</option>
+                <option value="Plin">Plin</option>
+                <option value="Tarjeta">Tarjetas (Visa / Mastercard)</option>
+                <option value="PayPal">PayPal</option>
+                <option value="Transferencia">Transferencia Bancaria</option>
+              </select>
+            </div>
           </div>
-          <div class="col-md-4">
-            <label class="small fw-semibold text-secondary">Periodo:</label>
-            <select class="form-select form-select-sm">
-              <option>Todo el Historial</option>
-              <option>Este Mes (Febrero 2024)</option>
-              <option>Últimos 7 Días</option>
-              <option>Hoy</option>
-            </select>
+          <div class="col-6 col-md-4 text-end">
+            <span class="badge bg-light text-secondary border py-2 px-3 small w-100 text-truncate" id="sales-count-badge">Cargando...</span>
+          </div>
+        </div>
+
+        <!-- BLOQUE DE BOTONES DE FILTROS RÁPIDOS EN PÍLDORAS CON SCROLL HORIZONTAL (VENTAS) -->
+        <div class="filter-pills-wrapper">
+          <div class="filter-pills-scroll" id="sales-status-pills" role="tablist" aria-label="Filtros rápidos por estado de venta">
+            <button type="button" class="btn filter-pill-btn active" data-sale-status="all">
+              <i class="bi bi-collection-fill"></i>
+              <span>Todos</span>
+              <span class="filter-pill-badge" id="sales-pill-count-all">10</span>
+            </button>
+            <button type="button" class="btn filter-pill-btn pill-status-active" data-sale-status="Aprobado">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Activos</span>
+              <span class="filter-pill-badge" id="sales-pill-count-active">8</span>
+            </button>
+            <button type="button" class="btn filter-pill-btn pill-status-pending" data-sale-status="Pendiente">
+              <i class="bi bi-clock-history"></i>
+              <span>Pendientes</span>
+              <span class="filter-pill-badge" id="sales-pill-count-pending">1</span>
+            </button>
+            <button type="button" class="btn filter-pill-btn pill-status-expired" data-sale-status="Reembolsado">
+              <i class="bi bi-arrow-counterclockwise"></i>
+              <span>Vencidos</span>
+              <span class="filter-pill-badge" id="sales-pill-count-expired">1</span>
+            </button>
           </div>
         </div>
       </div>

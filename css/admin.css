@@ -1712,3 +1712,210 @@ body.dark-mode .modal-content .btn-close {
     height: 200px !important;
   }
 }
+
+/* ==========================================================================
+   FILTROS RÁPIDOS Y BÚSQUEDA INSTANTÁNEA MOBILE-FRIENDLY (ADMIN)
+   ========================================================================== */
+.admin-search-group {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(194, 153, 83, 0.4);
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-search-group:focus-within {
+  border-color: #c29953;
+  box-shadow: 0 0 0 3px rgba(194, 153, 83, 0.2);
+}
+
+.admin-search-group .form-control {
+  border: none !important;
+  font-size: 0.88rem;
+  padding: 0.55rem 0.75rem;
+}
+
+.admin-search-group .form-control:focus {
+  box-shadow: none !important;
+}
+
+.admin-search-group .input-group-text {
+  background: transparent !important;
+  border: none !important;
+  color: #7a541b;
+  font-size: 0.95rem;
+  padding-left: 0.85rem;
+}
+
+.admin-search-group .btn {
+  border: none !important;
+  color: #94a3b8;
+  padding: 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+.admin-search-group .btn:hover {
+  color: #dc2626;
+  background: transparent !important;
+}
+
+body.dark-mode .admin-search-group {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(212, 175, 55, 0.35) !important;
+}
+
+body.dark-mode .admin-search-group .form-control {
+  background: transparent !important;
+  color: #ede1cb !important;
+}
+
+body.dark-mode .admin-search-group .form-control::placeholder {
+  color: #8b9bb4 !important;
+}
+
+body.dark-mode .admin-search-group .input-group-text {
+  color: #d4af37 !important;
+}
+
+/* Contenedor con scroll horizontal táctil y fluido */
+.filter-pills-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(194, 153, 83, 0.22);
+}
+
+body.dark-mode .filter-pills-wrapper {
+  border-top-color: rgba(212, 175, 55, 0.2);
+}
+
+.filter-pills-scroll {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  padding: 0.2rem 0.2rem 0.45rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(194, 153, 83, 0.4) transparent;
+}
+
+.filter-pills-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.filter-pills-scroll::-webkit-scrollbar-thumb {
+  background: rgba(194, 153, 83, 0.4);
+  border-radius: 4px;
+}
+
+/* Botón individual de filtro rápido en píldora */
+.filter-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 50px;
+  border: 1.5px solid rgba(194, 153, 83, 0.45);
+  background: rgba(255, 255, 255, 0.75);
+  color: #4a3828;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.filter-pill-btn:hover {
+  background: rgba(194, 153, 83, 0.14);
+  border-color: #c29953;
+  color: #7a541b;
+  transform: translateY(-1px);
+}
+
+.filter-pill-btn:active {
+  transform: scale(0.96);
+}
+
+/* Estado activo de la píldora */
+.filter-pill-btn.active {
+  background: linear-gradient(135deg, #c29953 0%, #915034 100%) !important;
+  color: #ffffff !important;
+  border-color: #915034 !important;
+  box-shadow: 0 3px 10px rgba(145, 80, 52, 0.28) !important;
+}
+
+.filter-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.08);
+  color: inherit;
+  min-width: 22px;
+  transition: background 0.2s ease;
+}
+
+.filter-pill-btn.active .filter-pill-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* Variantes sutiles de color para cada estado */
+.filter-pill-btn.pill-status-active:not(.active) {
+  border-color: rgba(16, 185, 129, 0.45);
+  color: #065f46;
+}
+.filter-pill-btn.pill-status-active:not(.active):hover {
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.filter-pill-btn.pill-status-pending:not(.active) {
+  border-color: rgba(245, 158, 11, 0.45);
+  color: #92400e;
+}
+.filter-pill-btn.pill-status-pending:not(.active):hover {
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.filter-pill-btn.pill-status-expired:not(.active) {
+  border-color: rgba(239, 68, 68, 0.45);
+  color: #991b1b;
+}
+.filter-pill-btn.pill-status-expired:not(.active):hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Dark mode para píldoras */
+body.dark-mode .filter-pill-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(212, 175, 55, 0.3);
+  color: #ede1cb;
+}
+
+body.dark-mode .filter-pill-btn:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: #ffd875;
+  color: #ffffff;
+}
+
+body.dark-mode .filter-pill-btn.active {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%) !important;
+  color: #0d131a !important;
+  border-color: #ffd875 !important;
+  box-shadow: 0 3px 12px rgba(212, 175, 55, 0.35) !important;
+}
+
+body.dark-mode .filter-pill-btn.active .filter-pill-badge {
+  background: rgba(0, 0, 0, 0.25);
+  color: #0d131a;
+}

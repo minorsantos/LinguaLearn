@@ -733,24 +733,77 @@
     localStorage.setItem(STUDENTS_KEY, JSON.stringify(data));
   }
 
-  function renderStudentsTable(filterLevel = 'all', search = '') {
+  // Variables de estado persistente para filtros y búsqueda instantánea
+  let studentFilterLevel = 'all';
+  let studentSearchQuery = '';
+  let studentFilterStatus = 'all';
+
+  function renderStudentsTable(filterLevel = null, search = null, filterStatus = null) {
     const tbody = document.getElementById('students-table-body');
     if (!tbody) return;
 
-    let students = getStudents();
+    if (filterLevel !== null) studentFilterLevel = filterLevel;
+    if (search !== null) studentSearchQuery = search;
+    if (filterStatus !== null) studentFilterStatus = filterStatus;
 
-    if (filterLevel !== 'all') {
-      students = students.filter(s => s.level.toLowerCase() === filterLevel.toLowerCase());
+    const allStudents = getStudents();
+
+    // Actualizar contadores numéricos en las píldoras de filtro rápido
+    const countAll = allStudents.length;
+    const countActive = allStudents.filter(s => s.status === 'Activo').length;
+    const countPending = allStudents.filter(s => s.status === 'Alerta' || s.status === 'Pendiente').length;
+    const countExpired = allStudents.filter(s => s.status === 'Inactivo' || s.status === 'Vencido').length;
+
+    const pillAll = document.getElementById('count-pill-all');
+    const pillActive = document.getElementById('count-pill-active');
+    const pillPending = document.getElementById('count-pill-pending');
+    const pillExpired = document.getElementById('count-pill-expired');
+
+    if (pillAll) pillAll.textContent = countAll;
+    if (pillActive) pillActive.textContent = countActive;
+    if (pillPending) pillPending.textContent = countPending;
+    if (pillExpired) pillExpired.textContent = countExpired;
+
+    let students = allStudents;
+
+    // 1. Filtro por píldora de estado (Todos, Activos, Pendientes, Vencidos)
+    if (studentFilterStatus && studentFilterStatus !== 'all') {
+      if (studentFilterStatus === 'Activo') {
+        students = students.filter(s => s.status === 'Activo');
+      } else if (studentFilterStatus === 'Alerta' || studentFilterStatus === 'Pendiente') {
+        students = students.filter(s => s.status === 'Alerta' || s.status === 'Pendiente');
+      } else if (studentFilterStatus === 'Inactivo' || studentFilterStatus === 'Vencido') {
+        students = students.filter(s => s.status === 'Inactivo' || s.status === 'Vencido');
+      } else {
+        students = students.filter(s => s.status.toLowerCase() === studentFilterStatus.toLowerCase());
+      }
     }
 
-    if (search.trim()) {
-      const q = search.toLowerCase().trim();
-      students = students.filter(s => s.name.toLowerCase().includes(q) || s.email.toLowerCase().includes(q) || s.id.toLowerCase().includes(q));
+    // 2. Filtro por nivel MCER
+    if (studentFilterLevel && studentFilterLevel !== 'all') {
+      students = students.filter(s => s.level.toLowerCase() === studentFilterLevel.toLowerCase());
+    }
+
+    // 3. Búsqueda instantánea en tiempo real (nombre, email, id o plan)
+    const q = (studentSearchQuery || '').trim().toLowerCase();
+    if (q) {
+      students = students.filter(s => 
+        (s.name && s.name.toLowerCase().includes(q)) || 
+        (s.email && s.email.toLowerCase().includes(q)) || 
+        (s.id && s.id.toLowerCase().includes(q)) ||
+        (s.plan && s.plan.toLowerCase().includes(q))
+      );
+    }
+
+    // Actualizar badge de conteo dinámico
+    const badge = document.getElementById('students-count-badge');
+    if (badge) {
+      badge.textContent = `${students.length} de ${allStudents.length} Estudiantes`;
     }
 
     tbody.innerHTML = '';
     if (students.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">No se encontraron estudiantes con los filtros seleccionados.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted"><i class="bi bi-search me-1"></i> No se encontraron estudiantes con los filtros seleccionados.</td></tr>`;
       return;
     }
 
@@ -891,46 +944,109 @@
     return JSON.parse(localStorage.getItem(SALES_KEY) || '[]');
   }
 
-  function renderSalesTable(filterGateway = 'all', filterStatus = 'all') {
+  // Variables de estado persistente para ventas
+  let salesFilterGateway = 'all';
+  let salesFilterStatus = 'all';
+  let salesSearchQuery = '';
+
+  function renderSalesTable(filterGateway = null, filterStatus = null, search = null) {
     const tbody = document.getElementById('sales-table-body');
     if (!tbody) return;
 
-    let sales = getSales();
-    if (filterGateway !== 'all') {
-      sales = sales.filter(s => s.gateway.toLowerCase() === filterGateway.toLowerCase());
+    if (filterGateway !== null) salesFilterGateway = filterGateway;
+    if (filterStatus !== null) salesFilterStatus = filterStatus;
+    if (search !== null) salesSearchQuery = search;
+
+    const allSales = getSales();
+
+    // Actualizar contadores numéricos en las píldoras de ventas
+    const countAll = allSales.length;
+    const countApproved = allSales.filter(s => s.status === 'Aprobado' || s.status === 'Completado' || s.status === 'Activo').length;
+    const countPending = allSales.filter(s => s.status === 'Pendiente').length;
+    const countRefunded = allSales.filter(s => s.status === 'Reembolsado' || s.status === 'Vencido' || s.status === 'Inactivo').length;
+
+    const pillAll = document.getElementById('sales-pill-count-all');
+    const pillActive = document.getElementById('sales-pill-count-active');
+    const pillPending = document.getElementById('sales-pill-count-pending');
+    const pillExpired = document.getElementById('sales-pill-count-expired');
+
+    if (pillAll) pillAll.textContent = countAll;
+    if (pillActive) pillActive.textContent = countApproved;
+    if (pillPending) pillPending.textContent = countPending;
+    if (pillExpired) pillExpired.textContent = countRefunded;
+
+    let sales = allSales;
+
+    // 1. Filtro por píldora de estado (Todos, Activos/Aprobados, Pendientes, Vencidos/Reembolsados)
+    if (salesFilterStatus && salesFilterStatus !== 'all') {
+      if (salesFilterStatus === 'Aprobado' || salesFilterStatus === 'Activo' || salesFilterStatus === 'completado') {
+        sales = sales.filter(s => s.status === 'Aprobado' || s.status === 'Completado' || s.status === 'Activo');
+      } else if (salesFilterStatus === 'Pendiente' || salesFilterStatus === 'pendiente') {
+        sales = sales.filter(s => s.status === 'Pendiente');
+      } else if (salesFilterStatus === 'Reembolsado' || salesFilterStatus === 'reembolsado' || salesFilterStatus === 'Vencido') {
+        sales = sales.filter(s => s.status === 'Reembolsado' || s.status === 'Vencido');
+      } else {
+        sales = sales.filter(s => s.status.toLowerCase() === salesFilterStatus.toLowerCase());
+      }
     }
-    if (filterStatus !== 'all') {
-      sales = sales.filter(s => s.status.toLowerCase() === filterStatus.toLowerCase());
+
+    // 2. Filtro por pasarela de pago
+    if (salesFilterGateway && salesFilterGateway !== 'all') {
+      sales = sales.filter(s => s.gateway.toLowerCase() === salesFilterGateway.toLowerCase());
+    }
+
+    // 3. Búsqueda instantánea en tiempo real (TRX, estudiante, plan o pasarela)
+    const q = (salesSearchQuery || '').trim().toLowerCase();
+    if (q) {
+      sales = sales.filter(s => 
+        (s.id && s.id.toLowerCase().includes(q)) ||
+        (s.student && s.student.toLowerCase().includes(q)) ||
+        (s.plan && s.plan.toLowerCase().includes(q)) ||
+        (s.gateway && s.gateway.toLowerCase().includes(q))
+      );
+    }
+
+    // Actualizar badge de conteo de transacciones
+    const badge = document.getElementById('sales-count-badge');
+    if (badge) {
+      badge.textContent = `${sales.length} de ${allSales.length} Transacciones`;
     }
 
     tbody.innerHTML = '';
     let total = 0;
 
-    sales.forEach(sale => {
-      if (sale.status === 'Aprobado') total += sale.amount;
-      const tr = document.createElement('tr');
-      const badgeClass = sale.status === 'Aprobado' ? 'badge-status-active' :
-                          sale.status === 'Reembolsado' ? 'badge-status-inactive' : 'badge-status-alert';
+    if (sales.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted"><i class="bi bi-search me-1"></i> No se encontraron transacciones con los filtros seleccionados.</td></tr>`;
+    } else {
+      sales.forEach(sale => {
+        if (sale.status === 'Aprobado' || sale.status === 'Completado' || sale.status === 'Activo') {
+          total += sale.amount;
+        }
+        const tr = document.createElement('tr');
+        const badgeClass = (sale.status === 'Aprobado' || sale.status === 'Completado' || sale.status === 'Activo') ? 'badge-status-active' :
+                            sale.status === 'Reembolsado' ? 'badge-status-inactive' : 'badge-status-alert';
 
-      const gatewayIcon = sale.gateway === 'Yape' ? 'bi-phone-fill text-purple' :
-                          sale.gateway === 'Plin' ? 'bi-phone text-info' :
-                          sale.gateway === 'Tarjeta' ? 'bi-credit-card-2-front-fill text-primary' :
-                          sale.gateway === 'PayPal' ? 'bi-paypal text-primary' : 'bi-bank2 text-secondary';
+        const gatewayIcon = sale.gateway === 'Yape' ? 'bi-phone-fill text-purple' :
+                            sale.gateway === 'Plin' ? 'bi-phone text-info' :
+                            sale.gateway === 'Tarjeta' ? 'bi-credit-card-2-front-fill text-primary' :
+                            sale.gateway === 'PayPal' ? 'bi-paypal text-primary' : 'bi-bank2 text-secondary';
 
-      tr.innerHTML = `
-        <td class="font-monospace fw-bold text-primary">${sale.id}</td>
-        <td class="small text-secondary">${sale.date}</td>
-        <td class="fw-bold text-dark">${sale.student}</td>
-        <td>${getPlanBadgeHtml(sale.plan)}</td>
-        <td class="fw-bold text-dark">S/ ${sale.amount.toFixed(2)}</td>
-        <td><span class="d-inline-flex align-items-center gap-1 small"><i class="bi ${gatewayIcon}"></i> ${sale.gateway}</span></td>
-        <td><span class="${badgeClass}">${sale.status}</span></td>
-      `;
-      tbody.appendChild(tr);
-    });
+        tr.innerHTML = `
+          <td class="font-monospace fw-bold text-primary">${sale.id}</td>
+          <td class="small text-secondary">${sale.date}</td>
+          <td class="fw-bold text-dark">${sale.student}</td>
+          <td>${getPlanBadgeHtml(sale.plan)}</td>
+          <td class="fw-bold text-dark">S/ ${sale.amount.toFixed(2)}</td>
+          <td><span class="d-inline-flex align-items-center gap-1 small"><i class="bi ${gatewayIcon}"></i> ${sale.gateway}</span></td>
+          <td><span class="${badgeClass}">${sale.status}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
 
-    const totalEl = document.getElementById('sales-filtered-total');
-    if (totalEl) totalEl.textContent = `S/ ${total.toLocaleString('es-PE', { minimumFractionDigits: 2 })}`;
+    // Actualizar KPI de ingresos filtrados en tiempo real
+    const totalEl = document.getElementById('kpi-sales-total-amount');
+    if (totalEl) totalEl.textContent = `S/ ${total.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   }
 
   // =========================================================================
@@ -1495,15 +1611,39 @@
       });
     });
 
-    // Buscador y filtros de estudiantes
+    // 1. Buscador instantáneo y filtros de estudiantes (Mobile-Friendly)
     const searchStudent = document.getElementById('input-search-student');
+    const clearSearchStudent = document.getElementById('btn-clear-search-student');
     const filterLevel = document.getElementById('select-filter-level');
+    const studentStatusPills = document.querySelectorAll('#students-status-pills .filter-pill-btn');
 
-    searchStudent?.addEventListener('input', () => {
-      renderStudentsTable(filterLevel ? filterLevel.value : 'all', searchStudent.value);
+    searchStudent?.addEventListener('input', function () {
+      if (clearSearchStudent) {
+        clearSearchStudent.classList.toggle('d-none', !this.value.trim());
+      }
+      renderStudentsTable(null, this.value, null);
     });
-    filterLevel?.addEventListener('change', () => {
-      renderStudentsTable(filterLevel.value, searchStudent ? searchStudent.value : '');
+
+    clearSearchStudent?.addEventListener('click', function () {
+      if (searchStudent) {
+        searchStudent.value = '';
+        this.classList.add('d-none');
+        searchStudent.focus();
+      }
+      renderStudentsTable(null, '', null);
+    });
+
+    filterLevel?.addEventListener('change', function () {
+      renderStudentsTable(this.value, null, null);
+    });
+
+    studentStatusPills.forEach(pill => {
+      pill.addEventListener('click', function () {
+        studentStatusPills.forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        const status = this.getAttribute('data-filter-status') || 'all';
+        renderStudentsTable(null, null, status);
+      });
     });
 
     // Modal Registrar Estudiante
@@ -1650,14 +1790,39 @@
       if (emailInput) emailInput.value = '';
     });
 
-    // Filtros de ventas
+    // 2. Buscador instantáneo y filtros de ventas (Mobile-Friendly)
+    const searchSales = document.getElementById('input-search-sales');
+    const clearSearchSales = document.getElementById('btn-clear-search-sales');
     const gatewayFilter = document.getElementById('select-filter-gateway');
-    const statusFilter = document.getElementById('select-filter-sale-status');
-    gatewayFilter?.addEventListener('change', () => {
-      renderSalesTable(gatewayFilter.value, statusFilter ? statusFilter.value : 'all');
+    const salesStatusPills = document.querySelectorAll('#sales-status-pills .filter-pill-btn');
+
+    searchSales?.addEventListener('input', function () {
+      if (clearSearchSales) {
+        clearSearchSales.classList.toggle('d-none', !this.value.trim());
+      }
+      renderSalesTable(null, null, this.value);
     });
-    statusFilter?.addEventListener('change', () => {
-      renderSalesTable(gatewayFilter ? gatewayFilter.value : 'all', statusFilter.value);
+
+    clearSearchSales?.addEventListener('click', function () {
+      if (searchSales) {
+        searchSales.value = '';
+        this.classList.add('d-none');
+        searchSales.focus();
+      }
+      renderSalesTable(null, null, '');
+    });
+
+    gatewayFilter?.addEventListener('change', function () {
+      renderSalesTable(this.value, null, null);
+    });
+
+    salesStatusPills.forEach(pill => {
+      pill.addEventListener('click', function () {
+        salesStatusPills.forEach(p => p.classList.remove('active'));
+        this.classList.add('active');
+        const status = this.getAttribute('data-sale-status') || 'all';
+        renderSalesTable(null, status, null);
+      });
     });
 
     // Buscador en logs de auditoría
