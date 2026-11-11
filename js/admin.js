@@ -924,9 +924,9 @@
     plans.forEach(p => {
       const isFeatured = p.id === 'plan-premium';
       const col = document.createElement('div');
-      col.className = 'col-lg-4 col-md-6';
+      col.className = 'col-12 col-sm-6 col-lg-4';
       col.innerHTML = `
-        <div class="plan-pricing-card ${isFeatured ? 'featured' : ''} h-100 d-flex flex-direction-column justify-content-between p-4">
+        <div class="plan-pricing-card ${isFeatured ? 'featured' : ''} h-100 d-flex flex-direction-column justify-content-between p-3 p-md-4">
           <div>
             <div class="d-flex justify-content-between align-items-center mb-3">
               <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill">${p.badge}</span>
