@@ -288,9 +288,9 @@
         });
 
         const menu = document.createElement('ul');
-        menu.className = 'dropdown-menu dropdown-menu-end shadow-lg border-0 card-custom test-card-glass p-2 mt-2';
-        menu.style.minWidth = '250px';
-        menu.style.zIndex = '1080';
+        menu.className = 'dropdown-menu dropdown-menu-end shadow-lg border-0 header-profile-menu p-2';
+        menu.style.width = '280px';
+        menu.style.zIndex = '9999';
 
         menu.innerHTML = `
           <li class="px-3 py-2 border-bottom mb-1">

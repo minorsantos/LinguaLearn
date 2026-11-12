@@ -4644,82 +4644,147 @@ body.dark-mode .header-profile-btn:hover {
   display: none !important;
 }
 
-/* MENÚ DESPLEGABLE DE PERFIL DE USUARIO (SOFIA MARTINEZ) - SCROLLABLE & PADDED */
+/* ==========================================================================
+   MENÚ DESPLEGABLE DE PERFIL DE USUARIO EN ESCRITORIO (SOFIA MARTINEZ)
+   Diseño compacto, flotante con posicionamiento absoluto y estética dark glass
+   ========================================================================== */
 .header-profile-dropdown {
   position: relative !important;
   overflow: visible !important;
 }
 
-.header-profile-dropdown .dropdown-menu {
+.header-profile-dropdown .dropdown-menu,
+.header-profile-menu {
   position: absolute !important;
-  top: calc(100% + 6px) !important;
+  top: 100% !important;
   right: 0 !important;
   left: auto !important;
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
   float: none !important;
-  margin: 0 !important;
   transform: none !important;
-  min-width: 240px !important;
+  width: 280px !important;
+  min-width: 280px !important;
   max-width: 280px !important;
-  border-radius: 20px !important;
-  padding: 0.65rem 0.65rem 1.5rem !important; /* Espacio inferior holgado */
-  padding-bottom: 1.5rem !important;
-
-  /* 1. Límite de altura máxima flexible para pantallas altas (vertical) y cortas (horizontal) */
-  max-height: 80vh !important;
-  max-height: 80dvh !important;
-  max-height: calc(100vh - 120px) !important;
-  max-height: calc(100dvh - 120px) !important;
-
-  /* 2. Scroll vertical suave con inercia táctil e independiente */
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  -webkit-overflow-scrolling: touch !important;
-  overscroll-behavior-y: contain !important;
-  padding-bottom: 2rem !important;
-  padding-bottom: max(2rem, env(safe-area-inset-bottom, 24px)) !important;
-
-  /* Scrollbar estética acorde a la paleta cálida / dorada */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(212, 175, 55, 0.45) transparent;
-
+  border-radius: 14px !important;
+  padding: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  max-height: none !important;
+  background: rgba(13, 19, 32, 0.96) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
   z-index: 9999 !important;
-  animation: dropdownDeployDown 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  background: rgba(255, 252, 246, 0.98) !important;
-  border: 1.5px solid rgba(226, 204, 172, 0.92) !important;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
+  overflow: hidden !important;
+  animation: dropdownDeployDown 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Scrollbar para Webkit (Chrome, Safari, Edge) */
-.header-profile-dropdown .dropdown-menu::-webkit-scrollbar {
-  width: 5px;
-}
-.header-profile-dropdown .dropdown-menu::-webkit-scrollbar-track {
-  background: transparent;
-}
-.header-profile-dropdown .dropdown-menu::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.45);
-  border-radius: 4px;
-}
-.header-profile-dropdown .dropdown-menu::-webkit-scrollbar-thumb:hover {
-  background: rgba(212, 175, 55, 0.75);
+/* Ficha / Cabecera compacta de información de Sofía */
+.header-profile-dropdown .dropdown-user-header,
+.header-profile-menu .dropdown-user-header {
+  padding: 0.55rem 0.65rem 0.55rem !important;
+  margin-bottom: 0.35rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-body.dark-mode .header-profile-dropdown .dropdown-menu {
-  background: rgba(16, 25, 38, 0.98) !important;
-  border-color: rgba(64, 102, 134, 0.75) !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 24px rgba(56, 189, 248, 0.12) !important;
-  color: #f1f5f9 !important;
+.header-profile-dropdown .dropdown-menu .user-display-name,
+.header-profile-menu .user-display-name {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 0.92rem !important;
+  line-height: 1.25 !important;
 }
 
-body.dark-mode .header-profile-dropdown .dropdown-menu .dropdown-item {
-  color: #cbd5e1 !important;
+.header-profile-dropdown .dropdown-menu .user-email,
+.header-profile-menu .user-email {
+  color: #94a3b8 !important;
+  font-size: 0.74rem !important;
+  margin-top: 1px !important;
 }
 
-body.dark-mode .header-profile-dropdown .dropdown-menu .dropdown-item:hover {
-  background: rgba(30, 48, 70, 0.85) !important;
+.header-profile-dropdown .dropdown-menu .user-level-badge,
+.header-profile-menu .user-level-badge {
+  background: rgba(56, 189, 248, 0.15) !important;
   color: #38bdf8 !important;
+  border: 1px solid rgba(56, 189, 248, 0.28) !important;
+  font-size: 0.68rem !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  padding: 0.16rem 0.45rem !important;
+  display: inline-block !important;
+  margin-top: 4px !important;
+}
+
+/* Elementos del Menú Desplegable (Opciones compactas y sin espacios muertos) */
+.header-profile-dropdown .dropdown-item,
+.header-profile-menu .dropdown-item {
+  color: #cbd5e1 !important;
+  border-radius: 8px !important;
+  font-size: 0.84rem !important;
+  font-weight: 500 !important;
+  padding: 0.46rem 0.65rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  transition: all 0.15s ease !important;
+  margin-bottom: 2px !important;
+  line-height: 1.25 !important;
+  background: transparent !important;
+}
+
+.header-profile-dropdown .dropdown-item:hover,
+.header-profile-menu .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  transform: translateX(2px) !important;
+}
+
+.header-profile-dropdown .dropdown-item.active,
+.header-profile-menu .dropdown-item.active {
+  background: rgba(56, 189, 248, 0.16) !important;
+  color: #38bdf8 !important;
+  font-weight: 600 !important;
+}
+
+.header-profile-dropdown .dropdown-item i,
+.header-profile-menu .dropdown-item i {
+  font-size: 0.95rem !important;
+  width: 18px !important;
+  text-align: center !important;
+  flex-shrink: 0 !important;
+}
+
+/* Línea divisoria sutil */
+.header-profile-dropdown .dropdown-divider,
+.header-profile-menu .dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  margin: 0.3rem 0 !important;
+  opacity: 1 !important;
+}
+
+/* Botón de Modo Oscuro / Claro en el Menú */
+.header-profile-dropdown .btn-toggle-darkmode,
+.header-profile-menu .btn-toggle-darkmode {
+  width: 100% !important;
+  cursor: pointer !important;
+}
+
+/* Botón de Cerrar Sesión: compacto, sin altura forzada ni márgenes desproporcionados */
+.header-profile-dropdown .dropdown-item.btn-global-logout,
+.header-profile-menu .dropdown-item.btn-global-logout {
+  color: #ef4444 !important;
+  font-weight: 600 !important;
+  min-height: auto !important;
+  margin: 0 !important;
+  padding: 0.46rem 0.65rem !important;
+  border-radius: 8px !important;
+}
+
+.header-profile-dropdown .dropdown-item.btn-global-logout:hover,
+.header-profile-menu .dropdown-item.btn-global-logout:hover {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #f87171 !important;
 }
 
 /* Evitar que el navbar se deforme o desplace el diseño al abrir el menú */
@@ -5763,16 +5828,32 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
   }
 
   /* Menú Desplegable Clásico de PC para Perfil */
-  .main-navbar .header-profile-dropdown .dropdown-menu {
-    background: rgba(15, 23, 42, 0.96) !important;
-    backdrop-filter: blur(24px) !important;
-    -webkit-backdrop-filter: blur(24px) !important;
+  .main-navbar .header-profile-dropdown {
+    position: relative !important;
+  }
+
+  .main-navbar .header-profile-dropdown .dropdown-menu,
+  .main-navbar .header-profile-menu {
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    left: auto !important;
+    margin-top: 8px !important;
+    margin-bottom: 0 !important;
+    float: none !important;
+    transform: none !important;
+    width: 280px !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
+    background: rgba(13, 19, 32, 0.96) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
     border: 1px solid rgba(255, 255, 255, 0.12) !important;
     border-radius: 14px !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
     padding: 0.5rem !important;
-    margin-top: 0.5rem !important;
-    min-width: 250px !important;
+    padding-bottom: 0.5rem !important;
+    max-height: none !important;
     z-index: 9999 !important;
   }
 
