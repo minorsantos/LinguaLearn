@@ -1540,13 +1540,29 @@ body.dark-mode .modal-content .btn-close {
 @media (max-width: 575.98px), 
        (orientation: landscape) and (max-height: 650px),
        (orientation: landscape) and (max-width: 991.98px) {
+  /* Cuadrícula 2x2 Simétrica y Proporcionada para KPIs de Ventas en Móvil y Horizontal */
+  .sales-kpi-row,
+  #sales-kpi-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+
+  .sales-kpi-row > [class*="col-"],
+  #sales-kpi-container > [class*="col-"],
+  .sales-kpi-col {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    width: 50% !important;
+    display: block !important;
+  }
+
   /* Tarjetas KPI en Grid Simétrico y Compacto */
   .admin-kpi-card {
     padding: 0.75rem 0.7rem !important;
     flex-direction: column !important;
     align-items: flex-start !important;
     justify-content: space-between !important;
-    min-height: 108px !important;
+    min-height: 104px !important;
     gap: 0.3rem !important;
     border-radius: 14px !important;
     position: relative !important;
@@ -1968,19 +1984,37 @@ body.dark-mode .kpi-icon-retention {
 }
 
 /* ==========================================================================
-   REDISEÑO DE TARJETAS KPI EN CUADRÍCULA COMPACTA (TILES 2x2 EN MÓVILES)
+   REDISEÑO DE TARJETAS KPI EN CUADRÍCULA COMPACTA (TILES 2x2 EN MÓVILES Y LANDSCAPE)
    ========================================================================== */
-@media (max-width: 767.98px) {
-  /* En celulares verticales: estructura en bloque compacto tipo 'Tile' */
+@media (max-width: 767.98px),
+       ((orientation: landscape) and (max-height: 650px)),
+       ((orientation: landscape) and (max-width: 991.98px)) {
+  /* En celulares verticales y horizontales: forzar 2 columnas simétricas (col-6) */
+  .sales-kpi-row,
+  #sales-kpi-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+
+  .sales-kpi-row > [class*="col-"],
+  #sales-kpi-container > [class*="col-"],
+  .sales-kpi-col {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    width: 50% !important;
+    display: block !important;
+  }
+
+  /* Estructura en bloque compacto tipo 'Tile' */
   .admin-kpi-card {
-    padding: 0.85rem 0.8rem !important;
+    padding: 0.8rem 0.75rem !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
     justify-content: space-between !important;
-    min-height: 112px !important;
-    gap: 0.35rem !important;
-    border-radius: 16px !important;
+    min-height: 104px !important;
+    gap: 0.3rem !important;
+    border-radius: 14px !important;
     position: relative !important;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
   }
@@ -1993,12 +2027,12 @@ body.dark-mode .kpi-icon-retention {
 
   .admin-kpi-card .admin-kpi-icon {
     position: absolute !important;
-    top: 0.75rem !important;
-    right: 0.75rem !important;
-    width: 34px !important;
-    height: 34px !important;
-    font-size: 1rem !important;
-    border-radius: 10px !important;
+    top: 0.65rem !important;
+    right: 0.65rem !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.95rem !important;
+    border-radius: 9px !important;
     flex-shrink: 0 !important;
   }
 
@@ -2009,7 +2043,7 @@ body.dark-mode .kpi-icon-retention {
     letter-spacing: 0.03em !important;
     color: #64748b !important;
     padding-right: 36px !important; /* Margen para no colisionar con el icono */
-    margin-bottom: 0.15rem !important;
+    margin-bottom: 0.12rem !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -2025,16 +2059,16 @@ body.dark-mode .kpi-icon-retention {
     font-size: 1.25rem !important;
     font-weight: 800 !important;
     line-height: 1.15 !important;
-    margin: 0.1rem 0 !important;
+    margin: 0.08rem 0 !important;
     letter-spacing: -0.02em !important;
   }
 
   .admin-kpi-card .badge,
   .admin-kpi-card .kpi-subtext {
-    font-size: 0.68rem !important;
+    font-size: 0.66rem !important;
     font-weight: 600 !important;
-    padding: 0.2rem 0.45rem !important;
-    border-radius: 8px !important;
+    padding: 0.18rem 0.42rem !important;
+    border-radius: 7px !important;
     max-width: 100% !important;
     text-overflow: ellipsis !important;
     overflow: hidden !important;
@@ -2042,5 +2076,61 @@ body.dark-mode .kpi-icon-retention {
     display: inline-flex !important;
     align-items: center !important;
     gap: 0.25rem !important;
+  }
+}
+
+/* Modo Horizontal (Landscape) Ultra-Compacto para teléfonos:
+   Evita scrolls excesivos manteniendo proporciones ideales */
+@media (orientation: landscape) and (max-height: 600px) {
+  .sales-kpi-row,
+  #sales-kpi-container {
+    row-gap: 0.45rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .sales-kpi-row > [class*="col-"],
+  #sales-kpi-container > [class*="col-"],
+  .sales-kpi-col {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    width: 50% !important;
+  }
+
+  .admin-kpi-card {
+    padding: 0.55rem 0.65rem !important;
+    min-height: 76px !important;
+    max-height: 88px !important;
+    border-radius: 12px !important;
+    gap: 0.15rem !important;
+  }
+
+  .admin-kpi-card .admin-kpi-icon {
+    top: 0.45rem !important;
+    right: 0.55rem !important;
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.85rem !important;
+    border-radius: 8px !important;
+  }
+
+  .kpi-label {
+    font-size: 0.66rem !important;
+    padding-right: 32px !important;
+    margin-bottom: 0.05rem !important;
+    line-height: 1.1 !important;
+  }
+
+  .kpi-val,
+  .admin-kpi-val {
+    font-size: 1.05rem !important;
+    margin: 0.04rem 0 !important;
+    line-height: 1.1 !important;
+  }
+
+  .admin-kpi-card .badge,
+  .admin-kpi-card .kpi-subtext {
+    font-size: 0.6rem !important;
+    padding: 0.1rem 0.35rem !important;
+    border-radius: 5px !important;
   }
 }

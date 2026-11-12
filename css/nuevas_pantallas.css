@@ -2099,13 +2099,23 @@ body.dark-mode .promo-banner-cta {
     padding-right: 1.25rem !important;
   }
 
-  /* Mantener apilado en 1 sola columna vertical en teléfonos horizontales */
-  .row > [class*="col-md-"],
-  .row > [class*="col-lg-"],
-  .row > [class*="col-xl-"] {
+  /* Mantener apilado en 1 sola columna vertical en teléfonos horizontales para cards estándar,
+     pero respetando la cuadrícula de 2 columnas simétricas para tarjetas métricas KPI */
+  .row:not(.sales-kpi-row):not(#sales-kpi-container) > [class*="col-md-"]:not([class*="col-6"]):not(.col-6):not(.sales-kpi-col),
+  .row:not(.sales-kpi-row):not(#sales-kpi-container) > [class*="col-lg-"]:not([class*="col-6"]):not(.col-6):not(.sales-kpi-col),
+  .row:not(.sales-kpi-row):not(#sales-kpi-container) > [class*="col-xl-"]:not([class*="col-6"]):not(.col-6):not(.sales-kpi-col) {
     flex: 0 0 100% !important;
     max-width: 100% !important;
     width: 100% !important;
+  }
+
+  /* Cuadrícula 2x2 garantizada para tarjetas métricas KPI de ventas en teléfonos horizontales */
+  .sales-kpi-row > [class*="col-"],
+  #sales-kpi-container > [class*="col-"],
+  .sales-kpi-col {
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    width: 50% !important;
   }
 
   /* Botones anchos y cómodos para presionar con los pulgares */
