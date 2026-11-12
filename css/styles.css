@@ -157,42 +157,27 @@ p {
 }
 
 /* ==========================================================================
-   BARRA SUPERIOR DE ACCESIBILIDAD
+   ELIMINACIÓN TOTAL DEL HEADER SUPERIOR SECUNDARIO (ACCESIBILIDAD / LENGUAJE / ATAJOS)
    ========================================================================== */
-.accessibility-topbar {
-  background-color: var(--bg-surface);
-  border-bottom: 1px solid var(--border-color);
-  font-size: 0.8125rem;
-  padding: 0.35rem 0;
-  color: var(--text-muted);
-}
-
-.accessibility-topbar a,
-.accessibility-topbar button {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-weight: 500;
-  background: none;
-  border: none;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.accessibility-topbar button:hover,
-.accessibility-topbar a:hover {
-  color: var(--primary);
-  background-color: var(--bg-subtle);
+.accessibility-topbar,
+.canvas-topbar-warm,
+aside[aria-label="Herramientas de accesibilidad"],
+aside[aria-label*="accesibilidad" i] {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
 }
 
 .font-size-control-btn {
-  font-weight: 700;
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
+  display: none !important;
 }
 
 /* ==========================================================================
@@ -2548,7 +2533,6 @@ body.pronunciation-canvas > *:not(#fireflies-canvas),
 body.subscription-canvas > *:not(#fireflies-canvas),
 body.support-canvas > *:not(#fireflies-canvas),
 .main-navbar,
-.accessibility-topbar,
 .footer-accessible,
 main,
 .container,
@@ -2796,20 +2780,7 @@ body.dark-mode .lesson-top-bar {
 
 body.dark-mode .canvas-topbar-warm,
 body.dark-mode .accessibility-topbar {
-  background: rgba(8, 12, 18, 0.88) !important;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
-  color: #94a3b8 !important;
-}
-
-body.dark-mode .accessibility-topbar button,
-body.dark-mode .accessibility-topbar span,
-body.dark-mode .accessibility-topbar a {
-  color: #cbd5e1 !important;
-}
-
-body.dark-mode .accessibility-topbar .btn-toggle-darkmode {
-  color: #facc15 !important;
-  border-color: rgba(212, 175, 55, 0.55) !important;
+  display: none !important;
 }
 
 body.dark-mode .dashboard-footer-warm,
@@ -5353,17 +5324,6 @@ body.dark-mode .form-control::placeholder {
   color: #64748b !important;
 }
 
-/* 10. Accesibilidad topbar en modo oscuro */
-body.dark-mode .accessibility-topbar {
-  background: rgba(10, 17, 26, 0.9) !important;
-  border-bottom: 1px solid rgba(56, 95, 125, 0.4) !important;
-}
-
-body.dark-mode .accessibility-topbar button,
-body.dark-mode .accessibility-topbar span,
-body.dark-mode .accessibility-topbar a {
-  color: #e2e8f0 !important;
-}
 
 
 /* Tarjetas de Selección de Idioma de Aprendizaje en Perfil */
@@ -5493,11 +5453,66 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
   color: #ffffff !important;
 }
 
-/* 2. Pantallas de Escritorio y Monitores Grandes (>= 992px y altura > 600px): Navegación horizontal limpia */
+/* 2. Pantallas de Escritorio y Monitores Grandes (>= 992px y altura > 600px):
+   Barra de navegación fija horizontal moderna con fondo oscuro translúcido y enlaces de texto limpios */
 @media (min-width: 992px) and (min-height: 601px) {
+  /* Ocultar botón hamburguesa de celular en PC */
   .hamburger-nav-btn {
     display: none !important;
   }
+
+  /* Barra de Navegación Superior Fija con Vidrio Esmerilado Oscuro Translúcido */
+  .main-navbar,
+  .main-navbar.canvas-navbar-warm {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1050 !important;
+    background: rgba(13, 19, 32, 0.88) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.32) !important;
+    padding: 0.65rem 0 !important;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+  }
+
+  /* Logotipo LinguaLearn estilizado a la izquierda */
+  .main-navbar .brand-logo-container {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+    text-decoration: none !important;
+    padding: 0.2rem 0 !important;
+    transition: transform 0.2s ease !important;
+  }
+
+  .main-navbar .brand-logo-container:hover {
+    transform: scale(1.02);
+  }
+
+  .main-navbar .brand-icon {
+    width: 36px !important;
+    height: 36px !important;
+    background: linear-gradient(135deg, #0077ff, #00c6ff) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.15rem !important;
+    box-shadow: 0 4px 14px rgba(0, 119, 255, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .main-navbar .brand-name {
+    font-weight: 800 !important;
+    font-size: 1.35rem !important;
+    letter-spacing: -0.025em !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* Contenedor colapsable en PC: distribución horizontal libre y visible */
   .main-navbar .navbar-collapse {
     display: flex !important;
     flex-basis: auto !important;
@@ -5508,38 +5523,304 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     padding: 0 !important;
     overflow: visible !important;
   }
-  .main-navbar .navbar-nav {
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 0.25rem !important;
-    align-items: center !important;
-    width: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  .main-navbar .navbar-nav .nav-item {
-    width: auto !important;
-  }
+
+  /* Ocultar elementos exclusivos del overlay móvil */
   .navbar-mobile-header,
   .navbar-mobile-user-card,
   .navbar-mobile-footer {
     display: none !important;
   }
-  .nav-link-icon-box {
+
+  /* Centro: Enlaces de Navegación Principal organizados como Texto Limpio y Elegante */
+  .main-navbar .navbar-nav,
+  .main-navbar .navbar-nav.navbar-control-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    grid-template-columns: none !important;
+    gap: 0.25rem !important;
+    align-items: center !important;
+    width: auto !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .main-navbar .navbar-nav .nav-item,
+  .main-navbar .navbar-control-grid .nav-item {
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Enlaces de texto sin botones toscos ni bordes pesados */
+  .main-navbar .nav-link-custom,
+  .main-navbar .nav-link-pro-special,
+  .main-navbar .navbar-control-grid .nav-link-custom,
+  .main-navbar .navbar-control-grid .nav-link-pro-special,
+  body.dark-mode .main-navbar .nav-link-custom,
+  body.dark-mode .main-navbar .nav-link-pro-special,
+  body.dark-mode .main-navbar .navbar-control-grid .nav-link-custom,
+  body.dark-mode .main-navbar .navbar-control-grid .nav-link-pro-special {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 6px !important;
+    color: #94a3b8 !important;
+    font-weight: 500 !important;
+    font-size: 0.92rem !important;
+    letter-spacing: -0.01em !important;
+    padding: 0.55rem 0.85rem !important;
+    min-height: auto !important;
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease, background-color 0.2s ease !important;
+    cursor: pointer !important;
+  }
+
+  .main-navbar .nav-link-custom:hover,
+  .main-navbar .nav-link-pro-special:hover,
+  body.dark-mode .main-navbar .nav-link-custom:hover,
+  body.dark-mode .main-navbar .nav-link-pro-special:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #ffffff !important;
+  }
+
+  .main-navbar .nav-link-custom.active,
+  .main-navbar .nav-link-pro-special.active,
+  body.dark-mode .main-navbar .nav-link-custom.active,
+  body.dark-mode .main-navbar .nav-link-pro-special.active {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Línea Indicadora Moderna Inferior (Glow Indicator Bar) */
+  .main-navbar .nav-link-custom::after,
+  .main-navbar .nav-link-pro-special::after,
+  body.dark-mode .main-navbar .nav-link-custom::after,
+  body.dark-mode .main-navbar .nav-link-pro-special::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0px !important;
+    left: 50% !important;
+    right: 50% !important;
+    height: 2.5px !important;
+    background: rgba(255, 255, 255, 0.4) !important;
+    border-radius: 4px !important;
+    transition: left 0.22s cubic-bezier(0.16, 1, 0.3, 1), right 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, background 0.22s ease !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .main-navbar .nav-link-custom:hover::after,
+  .main-navbar .nav-link-pro-special:hover::after,
+  body.dark-mode .main-navbar .nav-link-custom:hover::after,
+  body.dark-mode .main-navbar .nav-link-pro-special:hover::after {
+    left: 0.85rem !important;
+    right: 0.85rem !important;
+    opacity: 0.65 !important;
+  }
+
+  .main-navbar .nav-link-custom.active::after,
+  .main-navbar .nav-link-pro-special.active::after,
+  body.dark-mode .main-navbar .nav-link-custom.active::after,
+  body.dark-mode .main-navbar .nav-link-pro-special.active::after {
+    left: 0.85rem !important;
+    right: 0.85rem !important;
+    opacity: 1 !important;
+    background: linear-gradient(90deg, #38bdf8, #0077ff) !important;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.6) !important;
+  }
+
+  /* En PC ocultamos el icono cuadrado grande y la descripción secundaria de la tarjeta móvil */
+  .main-navbar .nav-link-icon-box {
     display: none !important;
   }
-  .nav-link-desc {
+  .main-navbar .nav-link-desc {
     display: none !important;
   }
-  .nav-link-text-box {
+  .main-navbar .nav-link-text-box {
     display: inline !important;
   }
-  .nav-link-title {
+  .main-navbar .nav-link-title {
     font-size: inherit !important;
     font-weight: inherit !important;
     color: inherit !important;
     line-height: inherit !important;
     display: inline !important;
+  }
+
+  /* A la Derecha: Elementos de Gamificación (Racha y XP) y Perfil de Sofia Martinez */
+  .main-navbar .header-user-status-bar {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+    margin-left: 1rem !important;
+  }
+
+  /* Píldoras de Gamificación */
+  .main-navbar .header-stat-pill {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #f8fafc !important;
+    padding: 0.38rem 0.8rem !important;
+    border-radius: 9999px !important;
+    font-size: 0.825rem !important;
+    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18) !important;
+    transition: all 0.2s ease !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
+  .main-navbar .header-stat-pill:hover {
+    background: rgba(255, 255, 255, 0.14) !important;
+    border-color: rgba(255, 255, 255, 0.24) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .main-navbar .header-stat-pill.streak i {
+    color: #fb923c !important;
+    filter: drop-shadow(0 0 5px rgba(251, 146, 60, 0.5));
+  }
+
+  .main-navbar .header-stat-pill.xp i {
+    color: #facc15 !important;
+    filter: drop-shadow(0 0 5px rgba(250, 204, 21, 0.5));
+  }
+
+  /* Botón de Perfil de Sofía Martínez en PC */
+  .main-navbar .header-profile-btn {
+    background: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    border-radius: 9999px !important;
+    padding: 0.28rem 0.85rem 0.28rem 0.32rem !important;
+    color: #ffffff !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.55rem !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
+  .main-navbar .header-profile-btn:hover,
+  .main-navbar .header-profile-btn[aria-expanded="true"] {
+    background: rgba(255, 255, 255, 0.14) !important;
+    border-color: rgba(56, 189, 248, 0.45) !important;
+    box-shadow: 0 0 14px rgba(56, 189, 248, 0.25) !important;
+  }
+
+  .main-navbar .header-avatar-img {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    border: 1.5px solid #38bdf8 !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+
+  .main-navbar .avatar-online-dot {
+    position: absolute !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    width: 9px !important;
+    height: 9px !important;
+    background-color: #22c55e !important;
+    border: 1.5px solid #0f172a !important;
+    border-radius: 50% !important;
+  }
+
+  .main-navbar .header-profile-name {
+    color: #f8fafc !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  .main-navbar .header-profile-btn .bi-chevron-down {
+    color: #94a3b8 !important;
+    font-size: 0.75rem !important;
+    transition: transform 0.2s ease !important;
+  }
+
+  .main-navbar .header-profile-btn[aria-expanded="true"] .bi-chevron-down {
+    transform: rotate(180deg) !important;
+    color: #38bdf8 !important;
+  }
+
+  /* Menú Desplegable Clásico de PC para Perfil */
+  .main-navbar .header-profile-dropdown .dropdown-menu {
+    background: rgba(15, 23, 42, 0.96) !important;
+    backdrop-filter: blur(24px) !important;
+    -webkit-backdrop-filter: blur(24px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+    padding: 0.5rem !important;
+    margin-top: 0.5rem !important;
+    min-width: 250px !important;
+    z-index: 9999 !important;
+  }
+
+  .main-navbar .header-profile-dropdown .dropdown-menu .border-bottom {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .main-navbar .header-profile-dropdown .dropdown-menu .user-display-name {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+  }
+
+  .main-navbar .header-profile-dropdown .dropdown-menu .text-secondary {
+    color: #94a3b8 !important;
+  }
+
+  .main-navbar .header-profile-dropdown .dropdown-menu .user-level-badge {
+    background: rgba(0, 119, 255, 0.2) !important;
+    color: #60a5fa !important;
+    border: 1px solid rgba(96, 165, 250, 0.3) !important;
+    font-weight: 600 !important;
+    display: inline-block !important;
+  }
+
+  .main-navbar .header-profile-dropdown .dropdown-item {
+    color: #cbd5e1 !important;
+    border-radius: 8px !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    padding: 0.55rem 0.75rem !important;
+    transition: all 0.15s ease !important;
+  }
+
+  .main-navbar .header-profile-dropdown .dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+    transform: translateX(2px) !important;
+  }
+
+  .main-navbar .header-profile-dropdown .dropdown-item.active {
+    background: rgba(56, 189, 248, 0.15) !important;
+    color: #38bdf8 !important;
+    font-weight: 600 !important;
+  }
+
+  .main-navbar .header-profile-dropdown .dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.08) !important;
   }
 }
 
@@ -5555,14 +5836,20 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     height: 44px !important;
     border-radius: 12px !important;
     background: rgba(255, 255, 255, 0.08) !important;
-    border: 1px solid rgba(215, 195, 160, 0.4) !important;
-    color: var(--primary) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    color: #ffffff !important;
     transition: all 0.2s ease !important;
     cursor: pointer !important;
     z-index: 1065 !important;
   }
 
-  .main-navbar {
+  .main-navbar,
+  .main-navbar.canvas-navbar-warm {
+    background: rgba(13, 19, 32, 0.92) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
     padding: 0.55rem 0 !important;
     z-index: 1060 !important;
   }
@@ -5579,16 +5866,27 @@ body.dark-mode .hamburger-nav-btn[aria-expanded="true"] .hamburger-symbol {
     display: flex !important;
     align-items: center !important;
     gap: 0.45rem !important;
+    text-decoration: none !important;
   }
 
   .main-navbar .brand-icon {
     width: 34px !important;
     height: 34px !important;
     font-size: 1.1rem !important;
+    background: linear-gradient(135deg, #0077ff, #00c6ff) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 10px rgba(0, 119, 255, 0.35) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .main-navbar .brand-name {
     font-size: 1.25rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    letter-spacing: -0.025em !important;
   }
 
   /* Ocultar botones superiores por defecto en celulares cuando el menú esté cerrado */
@@ -6386,23 +6684,6 @@ body.dark-mode #modal-admin-login .btn-close {
    Evita que se rompan, se amontonen o se solapen con el fondo
    ========================================================================== */
 @media (orientation: landscape) and (max-height: 600px) {
-  /* Barra de accesibilidad ultra-compacta en horizontal */
-  .accessibility-topbar {
-    padding: 0.2rem 0 !important;
-    font-size: 0.72rem !important;
-  }
-
-  .accessibility-topbar .container-xl {
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none !important;
-  }
-
-  .accessibility-topbar .container-xl::-webkit-scrollbar {
-    display: none !important;
-  }
-
   /* Navbar principal compacto para no robar pantalla vertical */
   .main-navbar {
     padding: 0.35rem 0 !important;

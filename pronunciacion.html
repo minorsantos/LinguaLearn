@@ -47,42 +47,7 @@
     }
   </script>
 
-  <!-- BARRA SUPERIOR DE ACCESIBILIDAD CON VIDRIO ESMERILADO CÁLIDO -->
-  <aside class="accessibility-topbar canvas-topbar-warm anim-cascade-down stagger-1" aria-label="Herramientas de accesibilidad">
-    <div class="container-xl d-flex justify-content-between align-items-center flex-wrap gap-2 py-1">
-      <div class="d-flex align-items-center gap-3">
-        <span class="d-inline-flex align-items-center gap-1 fw-bold" style="color: #243828;">
-          <i class="bi bi-person-wheelchair text-primary"></i> Accesibilidad
-        </span>
-        <span class="opacity-50">|</span>
-        <button type="button" class="btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
-          <i class="bi bi-moon-stars-fill"></i> <span class="darkmode-text">Modo Oscuro</span>
-        </button>
-        <span class="opacity-50">|</span>
-        <div class="btn-group btn-group-sm" role="group" aria-label="Ajuste de tipografía">
-          <button type="button" class="btn-font-decrease font-size-control-btn" style="color: #4a3e30;" aria-label="Disminuir tamaño">A-</button>
-          <button type="button" class="btn-font-increase font-size-control-btn" style="color: #4a3e30;" aria-label="Aumentar tamaño">A+</button>
-        </div>
-      </div>
-      <div class="d-flex align-items-center gap-3">
-        <div class="dropdown">
-          <button class="btn btn-sm btn-link text-decoration-none dropdown-toggle p-0" style="color: #4a3e30;" type="button" data-bs-toggle="dropdown">
-            <i class="bi bi-translate"></i> Español (ES)
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-            <li><a class="dropdown-item active" href="#">Español (ES)</a></li>
-            <li><a class="dropdown-item" href="#">English (US)</a></li>
-          </ul>
-        </div>
-        <span class="opacity-50">|</span>
-        <button type="button" class="btn btn-sm btn-link text-decoration-none p-0" style="color: #4a3e30;" data-bs-toggle="modal" data-bs-target="#modal-shortcuts">
-          <i class="bi bi-keyboard"></i> Atajos [Espacio, R, Enter]
-        </button>
-      </div>
-    </div>
-  </aside>
-
-  <!-- NAVBAR PRINCIPAL CON TONO MARFIL CÁLIDO ESMERILADO -->
+<!-- NAVBAR PRINCIPAL HORIZONTAL (FONDO OSCURO TRANSLÚCIDO EN PC / PANEL DE CONTROL EN MÓVIL) -->
   <header class="main-navbar canvas-navbar-warm sticky-top shadow-sm anim-cascade-down stagger-2">
     <div class="container-xl">
       <nav class="navbar navbar-expand-lg p-0" aria-label="Navegación principal">
@@ -275,7 +240,7 @@
                   <img src="assets/sofia.jpg" alt="Foto de perfil de Sofia Martinez" class="header-avatar-img">
                   <span class="avatar-online-dot"></span>
                 </div>
-                <span class="header-profile-name fw-semibold small user-display-name">Mi Perfil</span>
+                <span class="header-profile-name fw-semibold small user-display-name">Sofia Martinez</span>
                 <i class="bi bi-chevron-down small text-secondary"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 card-custom test-card-glass p-2 mt-2" aria-labelledby="dropdownUserMenu" style="min-width: 240px; z-index: 9999;">
@@ -303,6 +268,14 @@
                   <a class="dropdown-item rounded-2 py-2 small d-flex align-items-center gap-2" href="tickets.html">
                     <i class="bi bi-ticket-detailed fs-6 text-primary"></i> <span>Mis Tickets</span>
                   </a>
+                </li>
+                <li>
+                  <button type="button" class="dropdown-item rounded-2 py-2 small d-flex align-items-center justify-content-between btn-toggle-darkmode" aria-label="Alternar modo oscuro o claro">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-moon-stars-fill text-warning"></i> <span class="darkmode-text">Modo Oscuro</span>
+                    </span>
+                    <span class="badge bg-secondary-subtle text-secondary small">Tema</span>
+                  </button>
                 </li>
                 <li><hr class="dropdown-divider my-1"></li>
                 <li>
