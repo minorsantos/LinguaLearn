@@ -1044,9 +1044,23 @@
       });
     }
 
-    // Actualizar KPI de ingresos filtrados en tiempo real
+    // Actualizar KPIs de ventas en tiempo real
     const totalEl = document.getElementById('kpi-sales-total-amount');
     if (totalEl) totalEl.textContent = `S/ ${total.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+    const avgEl = document.getElementById('kpi-sales-avg-ticket');
+    if (avgEl) {
+      const approvedSales = sales.filter(s => s.status === 'Aprobado' || s.status === 'Completado' || s.status === 'Activo');
+      const avg = approvedSales.length > 0 ? (total / approvedSales.length) : 0;
+      avgEl.textContent = `S/ ${avg.toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    const approvalEl = document.getElementById('kpi-sales-approval-rate');
+    if (approvalEl && sales.length > 0) {
+      const approvedCount = sales.filter(s => s.status === 'Aprobado' || s.status === 'Completado' || s.status === 'Activo').length;
+      const rate = ((approvedCount / sales.length) * 100).toFixed(1);
+      approvalEl.textContent = `${rate}%`;
+    }
   }
 
   // =========================================================================

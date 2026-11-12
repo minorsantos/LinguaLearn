@@ -588,41 +588,68 @@
 
       </div>
 
-      <!-- KPI Ingresos Acumulados (GRID ADAPTADO EN MÓVIL) -->
-      <div class="row g-2 g-md-3 mb-4">
-        <div class="col-6 col-lg-4">
+      <!-- 4 TARJETAS KPI DE VENTAS EN CUADRÍCULA SIMÉTRICA 2x2 EN MÓVIL (COL-6) Y 4 COLUMNAS EN DESKTOP (COL-LG-3) -->
+      <div class="row g-2 g-md-3 mb-4" id="sales-kpi-container">
+        <!-- 1. Ingresos Filtrados -->
+        <div class="col-6 col-lg-3">
           <div class="admin-kpi-card">
             <div class="admin-kpi-info">
-              <span class="kpi-label text-secondary small fw-semibold">Ingresos Filtrados</span>
+              <span class="kpi-label">Ingresos</span>
               <div class="kpi-val admin-kpi-val text-success" id="kpi-sales-total-amount">S/ 0.00</div>
-              <span class="small text-secondary">Recaudación neta</span>
+              <span class="badge bg-success-subtle text-success small kpi-subtext">
+                <i class="bi bi-graph-up-arrow me-1"></i>Recaudación
+              </span>
             </div>
             <div class="admin-kpi-icon kpi-icon-revenue">
               <i class="bi bi-cash-coin"></i>
             </div>
           </div>
         </div>
-        <div class="col-6 col-lg-4">
+
+        <!-- 2. Pasarela Top -->
+        <div class="col-6 col-lg-3">
           <div class="admin-kpi-card">
             <div class="admin-kpi-info">
-              <span class="kpi-label text-secondary small fw-semibold">Pasarela Top</span>
-              <div class="kpi-val admin-kpi-val text-primary">Yape (42%)</div>
-              <span class="small text-secondary">Billetera digital</span>
+              <span class="kpi-label">Pasarela Top</span>
+              <div class="kpi-val admin-kpi-val text-primary" id="kpi-sales-top-gateway">Yape (42%)</div>
+              <span class="badge bg-primary-subtle text-primary small kpi-subtext">
+                <i class="bi bi-wallet2 me-1"></i>Billetera
+              </span>
             </div>
             <div class="admin-kpi-icon kpi-icon-sales">
               <i class="bi bi-qr-code"></i>
             </div>
           </div>
         </div>
-        <div class="col-6 col-lg-4">
+
+        <!-- 3. Tasa de Aprobación -->
+        <div class="col-6 col-lg-3">
           <div class="admin-kpi-card">
             <div class="admin-kpi-info">
-              <span class="kpi-label text-secondary small fw-semibold">Tasa de Aprobación</span>
-              <div class="kpi-val admin-kpi-val text-warning">98.2%</div>
-              <span class="small text-secondary">Transacciones exitosas sin fricción</span>
+              <span class="kpi-label">Aprobación</span>
+              <div class="kpi-val admin-kpi-val text-warning" id="kpi-sales-approval-rate">98.2%</div>
+              <span class="badge bg-warning-subtle text-warning small kpi-subtext">
+                <i class="bi bi-shield-check me-1"></i>Efectividad
+              </span>
             </div>
             <div class="admin-kpi-icon kpi-icon-students">
-              <i class="bi bi-shield-check"></i>
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Ticket Promedio (Garantiza la simetría 2x2 en celulares) -->
+        <div class="col-6 col-lg-3">
+          <div class="admin-kpi-card">
+            <div class="admin-kpi-info">
+              <span class="kpi-label">Ticket Prom.</span>
+              <div class="kpi-val admin-kpi-val text-purple" style="color: #9333ea;" id="kpi-sales-avg-ticket">S/ 148.20</div>
+              <span class="badge bg-purple-subtle text-purple small kpi-subtext" style="background: rgba(147, 51, 234, 0.12); color: #7e22ce;">
+                <i class="bi bi-receipt me-1"></i>Por orden
+              </span>
+            </div>
+            <div class="admin-kpi-icon kpi-icon-retention">
+              <i class="bi bi-tag-fill"></i>
             </div>
           </div>
         </div>
