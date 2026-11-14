@@ -58,6 +58,14 @@
           <span class="brand-name">LinguaLearn</span>
         </a>
 
+        <!-- Botones de accesibilidad para celulares en barra superior -->
+        <div class="d-flex align-items-center gap-2 d-lg-none ms-auto me-2">
+          <div class="btn-group btn-group-sm header-font-controls mobile-header-font-controls" role="group" aria-label="Ajuste de tipografía móvil">
+            <button type="button" class="btn btn-outline-secondary btn-font-decrease font-size-control-btn" aria-label="Disminuir tamaño de fuente" title="Disminuir tamaño (A-)">A-</button>
+            <button type="button" class="btn btn-outline-secondary btn-font-increase font-size-control-btn" aria-label="Aumentar tamaño de fuente" title="Aumentar tamaño (A+)">A+</button>
+          </div>
+        </div>
+
         <!-- Botón de Menú Hamburguesa Responsivo para Celulares (máx. 768px) -->
         <button class="navbar-toggler hamburger-nav-btn border-0 p-0" type="button" id="btn-navbar-hamburger" aria-controls="navbarContent" aria-expanded="false" aria-label="Abrir menú de navegación">
           <span class="hamburger-symbol" aria-hidden="true">☰</span>
@@ -99,6 +107,10 @@
               </div>
               <div class="mobile-stat-chip xp" title="Experiencia acumulada">
                 <i class="bi bi-lightning-charge-fill text-warning"></i> <span class="stat-xp-val">120 XP</span>
+              </div>
+              <div class="btn-group btn-group-sm header-font-controls mobile-header-font-controls ms-auto" role="group" aria-label="Ajuste de tipografía en menú">
+                <button type="button" class="btn btn-outline-secondary btn-font-decrease font-size-control-btn" aria-label="Disminuir tamaño de fuente" title="Disminuir tamaño (A-)">A-</button>
+                <button type="button" class="btn btn-outline-secondary btn-font-increase font-size-control-btn" aria-label="Aumentar tamaño de fuente" title="Aumentar tamaño (A+)">A+</button>
               </div>
             </div>
           </div>
@@ -233,6 +245,11 @@
             </div>
             <div class="header-stat-pill xp flex-shrink-0" title="Experiencia acumulada">
               <i class="bi bi-lightning-charge-fill"></i> <span class="stat-xp-val">120 XP</span>
+            </div>
+            <!-- Botones de accesibilidad para aumentar y disminuir tamaño de fuente -->
+            <div class="btn-group btn-group-sm header-font-controls flex-shrink-0" role="group" aria-label="Ajuste de tipografía">
+              <button type="button" class="btn btn-outline-secondary btn-font-decrease font-size-control-btn" aria-label="Disminuir tamaño de fuente" title="Disminuir tamaño (A-)">A-</button>
+              <button type="button" class="btn btn-outline-secondary btn-font-increase font-size-control-btn" aria-label="Aumentar tamaño de fuente" title="Aumentar tamaño (A+)">A+</button>
             </div>
             <div class="dropdown header-profile-dropdown flex-shrink-0">
               <button class="header-profile-btn dropdown-toggle d-flex align-items-center gap-2" type="button" id="dropdownUserMenu" data-bs-toggle="dropdown" aria-expanded="false" title="Menú de perfil y cerrar sesión">

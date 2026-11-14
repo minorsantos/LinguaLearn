@@ -176,8 +176,107 @@ aside[aria-label*="accesibilidad" i] {
   overflow: hidden !important;
 }
 
-.font-size-control-btn {
-  display: none !important;
+/* ==========================================================================
+   BOTONES DE ACCESIBILIDAD DE TIPOGRAFÍA (A- / A+) EN LA BARRA DE NAVEGACIÓN
+   Estructura limpia con Bootstrap y soporte responsive completo
+   ========================================================================== */
+.header-font-controls {
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+  flex-shrink: 0 !important;
+}
+
+.font-size-control-btn,
+.header-font-controls .btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 700 !important;
+  font-size: 0.82rem !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* En el Navbar Principal de Escritorio (Vidrio Oscuro Translúcido) */
+.main-navbar .header-font-controls {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 9999px !important;
+  padding: 2px !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.main-navbar .header-font-controls .btn,
+.main-navbar .header-font-controls .font-size-control-btn {
+  border: none !important;
+  background: transparent !important;
+  color: #f1f5f9 !important;
+  border-radius: 9999px !important;
+  padding: 0.26rem 0.65rem !important;
+  height: 28px !important;
+  min-width: 30px !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+}
+
+.main-navbar .header-font-controls .btn:hover,
+.main-navbar .header-font-controls .font-size-control-btn:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #38bdf8 !important;
+  transform: translateY(-1px) !important;
+}
+
+.main-navbar .header-font-controls .btn:active,
+.main-navbar .header-font-controls .font-size-control-btn:active {
+  transform: scale(0.94) !important;
+  background: rgba(56, 189, 248, 0.3) !important;
+}
+
+/* Controles de tipografía en el navbar móvil (junto al botón hamburguesa o en el overlay) */
+.main-navbar .mobile-header-font-controls {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(220, 198, 168, 0.6) !important;
+  border-radius: 9999px !important;
+  padding: 2px !important;
+}
+
+body.dark-mode .main-navbar .mobile-header-font-controls {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+.main-navbar .mobile-header-font-controls .btn,
+.main-navbar .mobile-header-font-controls .font-size-control-btn {
+  border: none !important;
+  background: transparent !important;
+  color: #2e261d !important;
+  border-radius: 9999px !important;
+  padding: 0.24rem 0.55rem !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+}
+
+body.dark-mode .main-navbar .mobile-header-font-controls .btn,
+body.dark-mode .main-navbar .mobile-header-font-controls .font-size-control-btn {
+  color: #f1f5f9 !important;
+}
+
+.main-navbar .mobile-header-font-controls .btn:hover,
+.main-navbar .mobile-header-font-controls .font-size-control-btn:hover {
+  background: rgba(0, 98, 210, 0.12) !important;
+  color: #0062d2 !important;
+}
+
+body.dark-mode .main-navbar .mobile-header-font-controls .btn:hover,
+body.dark-mode .main-navbar .mobile-header-font-controls .font-size-control-btn:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #38bdf8 !important;
 }
 
 /* ==========================================================================

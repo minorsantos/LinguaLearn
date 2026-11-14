@@ -1870,15 +1870,48 @@
       }
     });
 
-    // Botones de accesibilidad de fuente
-    document.querySelector('.btn-font-increase')?.addEventListener('click', () => {
-      const current = parseFloat(getComputedStyle(document.body).fontSize) || 16;
-      document.body.style.fontSize = (current + 1) + 'px';
+    // Botones de accesibilidad de fuente en el Panel de Administrador
+    function adjustAdminFont(delta) {
+      if (window.increaseFontSize && delta > 0) {
+        window.increaseFontSize();
+        return;
+      }
+      if (window.decreaseFontSize && delta < 0) {
+        window.decreaseFontSize();
+        return;
+      }
+      const currentScale = parseFloat(localStorage.getItem('lingua_font_scale')) || 1.0;
+      const nextScale = Math.min(Math.max(Math.round((currentScale + delta) * 10) / 10, 0.8), 1.4);
+      localStorage.setItem('lingua_font_scale', nextScale.toFixed(2));
+      document.documentElement.style.setProperty('--font-scale', nextScale.toFixed(2));
+      document.documentElement.style.fontSize = (16 * nextScale) + 'px';
+      document.body.style.setProperty('--bs-body-font-size', (1 * nextScale) + 'rem');
+      document.querySelectorAll('.font-scale-indicator').forEach(ind => {
+        ind.textContent = Math.round(nextScale * 100) + '%';
+      });
+    }
+
+    document.querySelectorAll('.btn-font-increase').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        adjustAdminFont(0.1);
+      });
     });
-    document.querySelector('.btn-font-decrease')?.addEventListener('click', () => {
-      const current = parseFloat(getComputedStyle(document.body).fontSize) || 16;
-      if (current > 13) document.body.style.fontSize = (current - 1) + 'px';
+
+    document.querySelectorAll('.btn-font-decrease').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        adjustAdminFont(-0.1);
+      });
     });
+
+    // Restaurar escala guardada al cargar
+    const savedAdminScale = parseFloat(localStorage.getItem('lingua_font_scale')) || 1.0;
+    if (savedAdminScale !== 1.0) {
+      document.documentElement.style.setProperty('--font-scale', savedAdminScale.toFixed(2));
+      document.documentElement.style.fontSize = (16 * savedAdminScale) + 'px';
+      document.body.style.setProperty('--bs-body-font-size', (1 * savedAdminScale) + 'rem');
+    }
 
 
 

@@ -254,8 +254,12 @@
           </a>
         </div>
 
-        <!-- Acciones de Acceso en Barra Superior -->
+        <!-- Acciones de Acceso y Accesibilidad en Barra Superior -->
         <div class="d-flex align-items-center gap-2" id="nav-guest-actions">
+          <div class="btn-group btn-group-sm header-font-controls me-1" role="group" aria-label="Ajuste de tipografía">
+            <button type="button" class="btn btn-outline-secondary btn-font-decrease font-size-control-btn" aria-label="Disminuir tamaño de fuente" title="Disminuir tamaño (A-)">A-</button>
+            <button type="button" class="btn btn-outline-secondary btn-font-increase font-size-control-btn" aria-label="Aumentar tamaño de fuente" title="Aumentar tamaño (A+)">A+</button>
+          </div>
           <button type="button" class="btn-auth-nav active" id="btn-nav-login" onclick="document.getElementById('hero-user-input')?.focus();">
             <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
           </button>

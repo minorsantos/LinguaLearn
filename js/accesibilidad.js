@@ -77,22 +77,37 @@
     const safeScale = Math.min(Math.max(scale, 0.8), 1.4);
     AccessibilityState.fontScale = safeScale;
     localStorage.setItem('lingua_font_scale', safeScale.toFixed(2));
+
+    // 1. Variable CSS para cálculos calc()
     document.documentElement.style.setProperty('--font-scale', safeScale.toFixed(2));
+    // 2. Escalado nativo directo sobre el elemento raíz <html> (escala de inmediato todos los rem de Bootstrap)
+    document.documentElement.style.fontSize = (16 * safeScale) + 'px';
+    // 3. Variable base de texto en Bootstrap
+    if (document.body) {
+      document.body.style.setProperty('--bs-body-font-size', (1 * safeScale) + 'rem');
+    }
 
     // Actualizar indicador de porcentaje si existe
     const indicators = document.querySelectorAll('.font-scale-indicator');
     indicators.forEach(ind => {
       ind.textContent = Math.round(safeScale * 100) + '%';
     });
+
+    // Notificar cambio
+    window.dispatchEvent(new CustomEvent('lingua:fontscale', { detail: { scale: safeScale } }));
   }
 
   window.increaseFontSize = function () {
-    applyFontScale(AccessibilityState.fontScale + 0.1);
+    const current = AccessibilityState.fontScale || 1.0;
+    const next = Math.round((current + 0.1) * 10) / 10;
+    applyFontScale(next);
     announceAccessibilityChange('Tamaño de fuente aumentado a ' + Math.round(AccessibilityState.fontScale * 100) + ' por ciento');
   };
 
   window.decreaseFontSize = function () {
-    applyFontScale(AccessibilityState.fontScale - 0.1);
+    const current = AccessibilityState.fontScale || 1.0;
+    const next = Math.round((current - 0.1) * 10) / 10;
+    applyFontScale(next);
     announceAccessibilityChange('Tamaño de fuente disminuido a ' + Math.round(AccessibilityState.fontScale * 100) + ' por ciento');
   };
 
@@ -207,26 +222,39 @@
     });
   }
 
-  // 7. Enlazar eventos de botones del Header
+  // 7. Enlazar eventos de botones del Header y Accesibilidad
   function bindHeaderControls() {
     document.querySelectorAll('.btn-toggle-darkmode').forEach(btn => {
       btn.addEventListener('click', () => window.toggleDarkMode());
     });
 
-    document.querySelectorAll('.btn-font-decrease').forEach(btn => {
-      btn.addEventListener('click', () => window.decreaseFontSize());
-    });
-
-    document.querySelectorAll('.btn-font-increase').forEach(btn => {
-      btn.addEventListener('click', () => window.increaseFontSize());
-    });
-
-    document.querySelectorAll('.btn-font-reset').forEach(btn => {
-      btn.addEventListener('click', () => window.resetFontSize());
-    });
-
     document.querySelectorAll('.btn-read-aloud').forEach(btn => {
       btn.addEventListener('click', () => window.leerPaginaEnVozAlta());
+    });
+
+    // Delegación global para botones de tamaño de fuente (A- / A+ / Reset)
+    // Garantiza funcionamiento instantáneo tanto en elementos estáticos como dinámicos
+    document.addEventListener('click', function (e) {
+      const incBtn = e.target.closest('.btn-font-increase');
+      if (incBtn) {
+        e.preventDefault();
+        window.increaseFontSize();
+        return;
+      }
+
+      const decBtn = e.target.closest('.btn-font-decrease');
+      if (decBtn) {
+        e.preventDefault();
+        window.decreaseFontSize();
+        return;
+      }
+
+      const resetBtn = e.target.closest('.btn-font-reset');
+      if (resetBtn) {
+        e.preventDefault();
+        window.resetFontSize();
+        return;
+      }
     });
   }
 
